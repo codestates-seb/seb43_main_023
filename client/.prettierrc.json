@@ -4,5 +4,7 @@
     "semi": true,
     "useTabs": true,
     "printWidth": 80,
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "orderedImports": true
   }
