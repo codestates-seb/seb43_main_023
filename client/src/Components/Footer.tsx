@@ -10,35 +10,68 @@ const Main = styled.div`
 	position: absolute;
 	bottom: 0px;
 	transform: translate3d(0, 0, 0);
-	.wave {
-		opacity: 0.4;
-		position: absolute;
-		top: 3%;
-		background: rgba(0, 0, 0, 0.05);
-		width: 1000px;
-		height: 1000px;
-		margin-top: -100px;
-		transform-origin: 50% 48%;
-		border-radius: 43%;
-		animation: drift 3000ms infinite linear;
-		overflow-y: hidden;
+	div {
+		overflow: hidden;
+	}
+	:root {
+		--gradient-percent: 0%;
 	}
 
-	.wave.-three {
-		animation: drift 5000ms infinite linear;
+	.flex {
+		/*Flexbox for containers*/
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
 	}
-
-	.wave.-two {
-		animation: drift 7000ms infinite linear;
-		opacity: 0.1;
-		background: rgba(0, 0, 0, 0.1);
+	.waves {
+		position: relative;
+		width: 100%;
+		height: 15vh;
+		margin-bottom: -7px;
+		/*Fix for safari gap*/
+		min-height: 100px;
+		max-height: 150px;
 	}
-	@keyframes drift {
-		from {
-			transform: rotate(0deg);
+	/* Animation */
+	.parallax > use {
+		animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+	}
+	.parallax > use:nth-child(1) {
+		animation-delay: -2s;
+		animation-duration: 7s;
+	}
+	.parallax > use:nth-child(2) {
+		animation-delay: -3s;
+		animation-duration: 10s;
+	}
+	.parallax > use:nth-child(3) {
+		animation-delay: -4s;
+		animation-duration: 13s;
+	}
+	.parallax > use:nth-child(4) {
+		animation-delay: -5s;
+		animation-duration: 20s;
+	}
+	@keyframes move-forever {
+		0% {
+			transform: translate3d(-90px, 0, 0);
 		}
-		from {
-			transform: rotate(360deg);
+		100% {
+			transform: translate3d(85px, 0, 0);
+		}
+	}
+	/*Shrinking for mobile*/
+	@media (max-width: 768px) {
+		.waves {
+			height: 40px;
+			min-height: 40px;
+		}
+		.content {
+			height: 30vh;
+		}
+		h1 {
+			font-size: 24px;
 		}
 	}
 `;
@@ -47,8 +80,8 @@ const Content = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	background: rgba(0, 0, 0, 0.05);
-	padding: 30px 100px;
+	background: rgba(0, 0, 0, 0.035);
+	padding: 0px 100px 10px 100px;
 	div {
 		display: flex;
 		flex-direction: column;
@@ -82,16 +115,74 @@ const Content = styled.div`
 			color: rgba(0, 0, 0, 0.5);
 		}
 	}
+	.space {
+		margin-right: 5px;
+	}
+	.teamDivide {
+		display: inline-block;
+		justify-content: center;
+		align-items: center;
+	}
 `;
 function Footer() {
+	const root = document.documentElement;
+
+	window.addEventListener('scroll', () => {
+		const y = 1 + (window.scrollY || window.pageYOffset);
+		root.style.setProperty('--gradient-percent', `${y * 4}px`);
+	});
 	return (
 		<Main>
-			<div className="wave -one" />
-			<div className="wave -two" />
-			<div className="wave -three" />
+			<div>
+				<div>
+					<svg
+						className="waves"
+						xmlns="http://www.w3.org/2000/svg"
+						xmlnsXlink="http://www.w3.org/1999/xlink"
+						viewBox="0 24 150 28"
+						preserveAspectRatio="none"
+						shapeRendering="auto"
+					>
+						<defs>
+							<path
+								id="gentle-wave"
+								d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+							/>
+						</defs>
+						<g className="parallax">
+							<use
+								xlinkHref="#gentle-wave"
+								x="48"
+								y="0"
+								fill="rgba(0,0,0,0.015)"
+							/>
+							<use
+								xlinkHref="#gentle-wave"
+								x="48"
+								y="3"
+								fill="rgba(0,0,0,0.012)"
+							/>
+							<use
+								xlinkHref="#gentle-wave"
+								x="48"
+								y="5"
+								fill="rgba(0,0,0,0.01)"
+							/>
+							<use
+								xlinkHref="#gentle-wave"
+								x="48"
+								y="7"
+								fill="rgba(0,0,0,0.001)"
+							/>
+						</g>
+					</svg>
+				</div>
+			</div>
 			<Content>
 				<div>
-					<img src={logo} alt="" />
+					<Link to="/">
+						<img src={logo} alt="" />
+					</Link>
 					<Link to="https://github.com/codestates-seb/seb43_main_023">
 						Github
 					</Link>
@@ -112,24 +203,30 @@ function Footer() {
 				</div>
 				<div>
 					<span>TEAM</span>
-					<Link to="https://github.com/hihijin">
-						<button>박희진</button>
-					</Link>
-					<Link to="https://github.com/Choalstn">
-						<button>조민수</button>
-					</Link>
-					<Link to="https://github.com/raccoon0814">
-						<button>윤정훈</button>
-					</Link>
-					<Link to="https://github.com/JoDaeUk">
-						<button>조대욱</button>
-					</Link>
-					<Link to="https://github.com/Seulime">
-						<button>임슬범</button>
-					</Link>
-					<Link to="https://github.com/Slothst">
-						<button>최낙주</button>
-					</Link>
+					<div className="teamDivide">
+						<Link to="https://github.com/hihijin">
+							<button className="space">박희진</button>
+						</Link>
+						<Link to="https://github.com/Choalstn">
+							<button>조민수</button>
+						</Link>
+					</div>
+					<div className="teamDivide">
+						<Link to="https://github.com/raccoon0814">
+							<button className="space">윤정훈</button>
+						</Link>
+						<Link to="https://github.com/JoDaeUk">
+							<button>조대욱</button>
+						</Link>
+					</div>
+					<div className="teamDivide">
+						<Link to="https://github.com/Seulime">
+							<button className="space">임슬범</button>
+						</Link>
+						<Link to="https://github.com/Slothst">
+							<button>최낙주</button>
+						</Link>
+					</div>
 				</div>
 			</Content>
 		</Main>

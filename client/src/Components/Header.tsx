@@ -3,6 +3,7 @@ import '../Global.css';
 import { useState } from 'react';
 
 import { AiOutlineSearch } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../Assets/너의 MBTI는.png';
@@ -70,7 +71,9 @@ function Header() {
 	};
 	return (
 		<Content>
-			<img src={logo} alt="" />
+			<Link to="/">
+				<img src={logo} alt="" />
+			</Link>
 			<form onSubmit={(e) => searchSubmit(e)}>
 				<AiOutlineSearch color="rgba(0, 0, 0, 0.3)" />
 				<input
