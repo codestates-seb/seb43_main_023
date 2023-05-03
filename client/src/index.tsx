@@ -1,4 +1,4 @@
-import './index.css';
+import './Global.css';
 
 import React from 'react';
 
