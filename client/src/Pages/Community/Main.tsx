@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import '../../Global.css';
 import SideBar from '../../Components/Community/SideBar';
+import Tags from '../../Components/Community/Tags';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -208,9 +209,8 @@ const PostBtn = styled.div`
 	}
 `;
 
-const Tags = styled.div`
+const TagContainer = styled.div`
 	height: calc(100vh - 400px);
-
 	width: 230px;
 	margin-right: 20px;
 	display: flex;
@@ -221,118 +221,6 @@ const Tags = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-`;
-
-const PlaceTag = styled.div`
-	font-weight: 600;
-	font-size: 15px;
-
-	> h4 {
-		border-radius: 30px;
-		width: 50px;
-		padding: 4px 5px;
-		margin-left: 10px;
-		margin-bottom: 10px;
-		font-size: 13px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: #a3e6ff;
-	}
-
-	> div {
-		margin-top: 5px;
-		display: flex;
-		flex-wrap: wrap;
-		border-bottom: 1px solid rgb(214, 217, 219);
-		padding-bottom: 5px;
-		margin-bottom: 5px;
-	}
-`;
-
-const ThemeTag = styled.div`
-	font-weight: 600;
-	font-size: 15px;
-	margin-top: 10px;
-
-	> h4 {
-		border-radius: 30px;
-		width: 50px;
-		padding: 4px 5px;
-		margin-left: 10px;
-		margin-bottom: 10px;
-		font-size: 13px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: #a3e6ff;
-	}
-
-	> div {
-		margin-top: 5px;
-		display: flex;
-		flex-wrap: wrap;
-		border-bottom: 1px solid rgb(214, 217, 219);
-		padding-bottom: 5px;
-		margin-bottom: 5px;
-	}
-`;
-
-const MBTITags = styled.div`
-	font-weight: 600;
-	font-size: 15px;
-	margin-top: 10px;
-
-	> h4 {
-		border-radius: 30px;
-		width: 50px;
-		padding: 4px 5px;
-		margin-left: 10px;
-		margin-bottom: 10px;
-		font-size: 13px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: #a3e6ff;
-	}
-
-	> div {
-		margin-top: 5px;
-		display: flex;
-		flex-wrap: wrap;
-	}
-`;
-
-const Tag = styled.div`
-	width: max-content;
-	padding: 5px 5px;
-	margin-left: 10px;
-	font-size: 13px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 11px;
-
-	&:hover {
-		color: #0db4f3;
-	}
-`;
-
-const MBTITag = styled.div`
-	border-radius: 30px;
-	width: 30px;
-	padding: 5px 15px;
-	margin-left: 10px;
-
-	font-size: 13px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 11px;
-
-	&:hover {
-		color: #0db4f3;
 	}
 `;
 
@@ -465,53 +353,9 @@ function Main() {
 					<Pagination>페 이 지 네 이 션 자 리</Pagination>
 				</ContentContainer>
 
-				<Tags>
-					<div>
-						<PlaceTag>
-							<h4>장소</h4>
-							<div>
-								<Tag>#전주</Tag>
-								<Tag>#부산</Tag>
-								<Tag>#제주도</Tag>
-								<Tag>#하동</Tag>
-								<Tag>#양떼목장</Tag>
-								<Tag>#해수욕장</Tag>
-							</div>
-						</PlaceTag>
-						<ThemeTag>
-							<h4>테마</h4>
-							<div>
-								<Tag>#전주</Tag>
-								<Tag>#부산</Tag>
-								<Tag>#제주도</Tag>
-								<Tag>#하동</Tag>
-								<Tag>#양떼목장</Tag>
-								<Tag>#해수욕장</Tag>
-							</div>
-						</ThemeTag>
-						<MBTITags>
-							<h4>MBTI</h4>
-							<div>
-								{allMBTI.map((el, index) => (
-									// eslint-disable-next-line react/no-array-index-key
-									<MBTITag key={index}>{`#${el}`}</MBTITag>
-								))}
-							</div>
-						</MBTITags>
-					</div>
-
-					<div>
-						<PostBtn>
-							<button className="cta">
-								<span>작성하러 가기</span>
-								<svg viewBox="0 0 10 10" height="10px" width="15px">
-									<path d="M1,5 L11,5" />
-									<polyline points="8 1 12 5 8 9" />
-								</svg>
-							</button>
-						</PostBtn>
-					</div>
-				</Tags>
+				<TagContainer>
+					<Tags />
+				</TagContainer>
 			</Body>
 		</div>
 	);
