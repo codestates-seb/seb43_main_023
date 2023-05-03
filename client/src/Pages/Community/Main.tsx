@@ -1,12 +1,6 @@
 import styled from 'styled-components';
-import Header from '../../Components/Header';
-import Footer from '../../Components/Footer';
+import '../../Global.css';
 import SideBar from '../../Components/Community/SideBar';
-
-const Container = styled.div`
-	background-color: #fafafa;
-	height: calc(100vh - 85px);
-`;
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -33,13 +27,14 @@ const Explain = styled.div`
 `;
 
 const Body = styled.div`
-	height: calc(100vh - 479px);
+	height: calc(100vh - 470px);
 	display: flex;
 `;
 
 const ContentContainer = styled.div`
-	width: calc(100vw - 470px);
-	margin-right: 50px;
+	height: calc(100vh - 400px);
+	width: calc(100vw - 400px);
+	margin-right: 30px;
 `;
 
 const ContentHeader = styled.div`
@@ -98,7 +93,8 @@ const Contentbody = styled.div`
 	}
 
 	> div:nth-child(2) {
-		width: 700px;
+		width: 750px;
+		margin-right: 50px;
 
 		> p {
 			display: block;
@@ -128,35 +124,104 @@ const Contentbody = styled.div`
 `;
 
 const Pagination = styled.div`
+	background-color: rgb(200, 202, 204);
 	margin-top: 10px;
-
 	height: 32px;
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+`;
 
-	> div:nth-child(1) {
-		width: 900px;
+const PostBtn = styled.div`
+	button {
+		position: relative;
+		margin: auto;
+		padding: 12px 18px;
+		transition: all 0.2s ease;
+		border: none;
+		background: none;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			border-radius: 50px;
+			background: #a3e6ff;
+			width: 35px;
+			height: 35px;
+			transition: all 0.3s ease;
+		}
+
+		&:hover::before {
+			width: 100%;
+			background: #a3e6ff;
+		}
+
+		&:hover {
+			span {
+				color: white;
+			}
+			svg {
+				transform: translateX(0);
+				stroke: white;
+			}
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+
+		span {
+			position: relative;
+			font-family: 'Ubuntu', sans-serif;
+			font-size: 13px;
+			font-weight: 700;
+			letter-spacing: 0.05em;
+			color: #000000;
+
+			&:hover {
+				color: white;
+				stroke: white;
+			}
+		}
+
+		svg {
+			position: relative;
+			top: 0;
+			margin-left: 10px;
+			fill: none;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			stroke: #234567;
+			stroke-width: 2;
+			transform: translateX(-5px);
+			transition: all 0.3s ease;
+
+			&:hover {
+				color: white;
+				stroke: white;
+			}
+		}
+	}
+`;
+
+const Tags = styled.div`
+	height: calc(100vh - 400px);
+
+	width: 230px;
+	margin-right: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	> div:last-child {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
-`;
-
-const PostBtn = styled.div`
-	border-radius: 12px;
-	background-color: #0db4f3;
-	color: white;
-	font-weight: 500;
-	font-size: 14px;
-	width: 70px;
-	height: 27px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const Tags = styled.div`
-	width: 230px;
-	margin-left: -10px;
 `;
 
 const PlaceTag = styled.div`
@@ -283,107 +348,125 @@ function Main() {
 		),
 	);
 	return (
-		<>
-			<Header />
-			<Container>
-				<Explain>
-					<h1>커뮤니티</h1>
+		<div className="main">
+			<Explain>
+				<h1>커뮤니티</h1>
+				<div>
+					나와 같은 MBTI를 가진 사람들은 어떤 여행을 갔는지 궁금한가요? <br />
+					여행메이트가 없으세요? MBTI과몰입러라구요? 여러 잡담을 나누고 싶나요?
+					<br />
+					커뮤니티 각 탭을 누르며 둘러보세요!
+				</div>
+			</Explain>
+
+			<Body>
+				<SideBar />
+
+				<ContentContainer>
+					<ContentHeader>
+						<div>말머리</div>
+						<div>제목</div>
+						<div>닉네임</div>
+						<div>추천</div>
+						<div>작성시간</div>
+					</ContentHeader>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							<p>
+								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+							</p>
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Contentbody>
+						<div>[여행고민]</div>
+						<div>
+							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
+						</div>
+						<div>너구리</div>
+						<div>0</div>
+						<div>16:15</div>
+					</Contentbody>
+					<Pagination>페 이 지 네 이 션 자 리</Pagination>
+				</ContentContainer>
+
+				<Tags>
 					<div>
-						나와 같은 MBTI를 가진 사람들은 어떤 여행을 갔는지 궁금한가요? <br />
-						여행메이트가 없으세요? MBTI과몰입러라구요? 여러 잡담을 나누고
-						싶나요?
-						<br />
-						커뮤니티 각 탭을 누르며 둘러보세요!
-					</div>
-				</Explain>
-
-				<Body>
-					<SideBar />
-
-					<ContentContainer>
-						<ContentHeader>
-							<div>말머리</div>
-							<div>제목</div>
-							<div>닉네임</div>
-							<div>추천</div>
-							<div>작성시간</div>
-						</ContentHeader>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								<p>
-									INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지
-									추천해주세요!INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지
-									추천해주세요!INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지
-									추천해주세요!
-								</p>
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-						<Contentbody>
-							<div>[여행고민]</div>
-							<div>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</div>
-							<div>너구리</div>
-							<div>0</div>
-							<div>16:15</div>
-						</Contentbody>
-
-						<Pagination>
-							<div>페 이 지 네 이 션 자 리 </div>
-							<PostBtn>작성</PostBtn>
-						</Pagination>
-					</ContentContainer>
-
-					<Tags>
 						<PlaceTag>
 							<h4>장소</h4>
 							<div>
@@ -415,12 +498,22 @@ function Main() {
 								))}
 							</div>
 						</MBTITags>
-					</Tags>
-				</Body>
-			</Container>
+					</div>
 
-			<Footer />
-		</>
+					<div>
+						<PostBtn>
+							<button className="cta">
+								<span>작성하러 가기</span>
+								<svg viewBox="0 0 10 10" height="10px" width="15px">
+									<path d="M1,5 L11,5" />
+									<polyline points="8 1 12 5 8 9" />
+								</svg>
+							</button>
+						</PostBtn>
+					</div>
+				</Tags>
+			</Body>
+		</div>
 	);
 }
 
