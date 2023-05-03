@@ -15,6 +15,7 @@ const MainHeaderContainer = styled.div`
 		),
 		url(${img1});
 	background-size: cover;
+	margin-top: 71px;
 `;
 
 const MainText = styled.div`
@@ -25,10 +26,10 @@ const MainText = styled.div`
 		color: #0db4f3;
 	}
 	> div {
-		width: 300px;
+		width: 320px;
 		height: 250px;
 		font-size: 40px;
-		opacity: 75%;
+		margin-top: 20px;
 	}
 `;
 

@@ -1,9 +1,11 @@
 /* eslint-disable react/no-array-index-key */
+import { useState } from 'react';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
+import Footer from '../Components/Footer';
 import MainHeader from '../Components/MainHeader';
-import '../Global.css';
+import UserHeader from '../Components/UserHeader';
 
 const MainContainer = styled.div`
 	width: 100vw;
@@ -11,6 +13,7 @@ const MainContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	background-color: #fafafa;
 `;
 
 const MainTab = styled.div`
@@ -32,6 +35,7 @@ const MainTabButton = styled.span`
 	&:hover {
 		color: rgb(250, 250, 250);
 		background-color: #0db4f3;
+		transition: all 0.3s linear;
 	}
 `;
 
@@ -47,38 +51,24 @@ const MainContentsContainer = styled.div`
 	padding-top: 50px;
 `;
 
-const TempNav = styled.div`
-	width: 100%;
-	height: 71px;
-	background-color: rgba(250, 250, 250, 1);
-`;
-
-const TempFooter = styled.div`
-	width: 100%;
-	height: 278px;
-	background-color: tomato;
-`;
-
 const SlideContainer = styled.div`
 	width: 90%;
 	height: 270px;
-	border: 1px solid black;
-	padding: 10px;
 `;
 
 const BannerContainer = styled.div`
 	width: 90%;
 	height: 200px;
-	border: 1px solid black;
 	margin: 50px 0;
 	padding: 10px;
 `;
 
 function MainPage() {
+	const [isLogin, setIsLogin] = useState(false);
+
 	return (
 		<MainContainer>
-			<TempNav />
-			<MainHeader />
+			{isLogin ? <UserHeader /> : <MainHeader />}
 			<MainTab>
 				<MainTabButton>지역별 추천 여행 명소</MainTabButton>
 				<MainTabButton>국내 핫한 여행 명소</MainTabButton>
@@ -93,7 +83,7 @@ function MainPage() {
 					<Banner />
 				</BannerContainer>
 			</MainContentsContainer>
-			<TempFooter />
+			<Footer />
 		</MainContainer>
 	);
 }
