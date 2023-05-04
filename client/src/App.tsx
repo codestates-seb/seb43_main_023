@@ -16,6 +16,7 @@ import Login from './Pages/Login';
 import Logout from './Pages/Logout';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
+import UserEdit from './Pages/UserEdit';
 
 function App() {
 	return (
@@ -27,6 +28,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
 				<Route path="/mypage" element={<Mypage />} />
+				<Route path="/useredit" element={<UserEdit />} />
 				<Route path="/tripreview" element={<TripReview />} />
 				<Route path="/tripmate" element={<TripMate />} />
 				<Route path="/mbti" element={<MBTI />} />

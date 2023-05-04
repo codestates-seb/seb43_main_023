@@ -3,7 +3,7 @@ import '../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Main = styled.div`
@@ -87,8 +87,7 @@ const Main = styled.div`
 				}
 			}
 		}
-		.userInfo,
-		.userWrite {
+		.userInfo {
 			font-weight: bold;
 			margin: 30px;
 			padding-bottom: 5px;
@@ -98,55 +97,16 @@ const Main = styled.div`
 			border-bottom: 3px solid #0db4f3;
 		}
 	}
-`;
-
-const UserWriting = styled.div`
-	width: 100%;
-	ul {
-		margin-bottom: 250px;
-	}
-	li {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		padding-bottom: 20px;
-		margin-bottom: 20px;
-		font-weight: bold;
-		color: #2d2d2d;
-		font-size: 13px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	}
-	.writingBody {
-		width: 300px;
-		&:hover {
-			cursor: pointer;
-			color: #0db4f3;
-		}
-	}
-	button {
-		margin: 0 10px;
-		font-size: 12px;
-		color: rgba(0, 0, 0, 0.2);
-		&:hover {
-			cursor: pointer;
-			color: #0db4f3;
+	input {
+		padding: 5px;
+		outline: none;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		border-radius: 5px;
+		&::placeholder {
+			color: rgba(0, 0, 0, 0.3);
 		}
 	}
 `;
-
-interface Ipost {
-	id: number;
-	subject: string;
-	title: string;
-	content?: string;
-	nickname: string;
-	tag?: null;
-	voteCount?: number;
-	viewCount?: number;
-	createdAt?: string;
-	modifiedAt?: string;
-}
 
 interface Iuser {
 	id: number;
@@ -155,40 +115,9 @@ interface Iuser {
 	badge: null;
 }
 
-function Mypage() {
+function UserEdit() {
 	const navigate = useNavigate();
 	const memberId = localStorage.getItem('memberId');
-
-	const [select, setSelect] = useState('btn1');
-	const userInfoClick = () => {
-		const btn1 = document.querySelector('.userInfo');
-		const btn2 = document.querySelector('.userWrite');
-		btn1?.classList.add('blue');
-		btn2?.classList.remove('blue');
-		setSelect('btn1');
-	};
-	const userWriteClick = () => {
-		const btn1 = document.querySelector('.userInfo');
-		const btn2 = document.querySelector('.userWrite');
-		btn2?.classList.add('blue');
-		btn1?.classList.remove('blue');
-		setSelect('btn2');
-	};
-
-	const [posts, setPosts] = useState<Ipost[]>([
-		{
-			id: 0,
-			subject: '',
-			title: '',
-			nickname: '',
-			content: '',
-			tag: null,
-			voteCount: 0,
-			viewCount: 0,
-			createdAt: '',
-			modifiedAt: '',
-		},
-	]);
 
 	const [userInfo, setUserInfo] = useState<Iuser>({
 		id: 0,
@@ -228,24 +157,23 @@ function Mypage() {
 		}
 	};
 
-	useEffect(() => {
-		async function getPost() {
-			const getData = await axios.get('http://localhost:4000/posts');
-			setPosts(
-				getData.data.filter(
-					(v: { nickname: string }) => v.nickname === userInfo.nickname,
-				),
-			);
-		}
-		getPost();
-	}, [userInfo.nickname]);
-
-	const postDeleteClick = async (id: number) => {
+	const [editname, setEditName] = useState<string>('');
+	const [editmbti, setEditMbti] = useState<string>('');
+	const nameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEditName(e.target.value);
+	};
+	const mbtiInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEditMbti(e.target.value);
+	};
+	const userEditClick = async () => {
 		try {
-			await axios.delete(`http://localhost:4000/posts/${id}`);
+			await axios.patch(`http://localhost:4000/members/${memberId}`, {
+				nickname: editname,
+				mbti: editmbti,
+			});
 			// eslint-disable-next-line no-alert
-			alert('글이 삭제되었습니다.');
-			window.location.reload();
+			alert('수정 완료되었습니다.');
+			navigate('/mypage');
 		} catch (error) {
 			navigate('/error');
 		}
@@ -273,54 +201,38 @@ function Mypage() {
 			</div>
 			<div className="content">
 				<div className="menu">
-					<button className="userInfo blue" onClick={userInfoClick}>
-						내정보
-					</button>
-					<button className="userWrite" onClick={userWriteClick}>
-						내가 쓴 글
-					</button>
+					<button className="userInfo blue">내정보</button>
 				</div>
 				<div className="menuContent">
-					{select === 'btn1' ? (
-						<div className="userInformation">
-							<div>DisplayName</div>
-							<div className="myInfo myDisplayName">{userInfo.nickname}</div>
-
-							<div>MBTI</div>
-							<div className="myInfo myMbti">{userInfo.mbti}</div>
-
-							<div>Badge</div>
-							<div className="myInfo">{userInfo.badge}</div>
-							<Link to="/useredit">
-								<button className="memberEdit">내정보 수정하기</button>
-							</Link>
+					<div className="userInformation">
+						<div>DisplayName</div>
+						<div className="myInfo myDisplayName">
+							<input
+								onChange={(e) => nameInputChange(e)}
+								placeholder="displayName"
+								type="text"
+							/>
 						</div>
-					) : (
-						<UserWriting>
-							<ul>
-								{posts.map((post) => {
-									return (
-										<li key={post.id}>
-											<div className="writingHead">[{post.subject}]</div>
-											<div className="writingBody">{post.title}</div>
-											<div>
-												<button>Edit</button>
-												<button onClick={() => postDeleteClick(post.id)}>
-													Delete
-												</button>
-											</div>
-										</li>
-									);
-								})}
-							</ul>
-						</UserWriting>
-					)}
+
+						<div>MBTI</div>
+						<div className="myInfo myMbti">
+							<input
+								onChange={(e) => mbtiInputChange(e)}
+								placeholder="mbti"
+								type="text"
+							/>
+						</div>
+
+						<div>Badge</div>
+						<div className="myInfo">{userInfo.badge}</div>
+						<button onClick={userEditClick} className="memberEdit">
+							내정보 저장하기
+						</button>
+					</div>
 				</div>
 			</div>
 		</Main>
 	);
 }
 
-export default Mypage;
-
-// 작성한 글을 닉네임말고 이메일로 필터링하기
+export default UserEdit;

@@ -2,18 +2,55 @@
   "posts": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "nickname": "testnick",
+      "subject": "말머리",
+      "title": "제목",
+      "content": "내용",
+      "tag": null,
+      "voteCount": 0,
+      "viewCount": 1,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
+    },
+    {
+      "id": 2,
+      "nickname": "hihijin",
+      "subject": "여행고민",
+      "title": "저는 ISTJ인데, ENFP여행메이트 구...",
+      "content": "post body",
+      "tag": null,
+      "voteCount": 0,
+      "viewCount": 1,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
     }
   ],
-  "comments": [
+  "members": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "email": "test@gmail.com",
+      "password": "1234",
+      "nickname": "testnick",
+      "mbti": "INFP",
+      "img": "https://bantax.co.kr/common/img/default_profile.png",
+      "role": "USER",
+      "memberStatus": "MEMBER_ACTIVE",
+      "badge": null,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
+    },
+    {
+      "id": 2,
+      "email": "test2@gmail.com",
+      "password": "1234",
+      "nickname": "hihijin",
+      "mbti": "ISTJ",
+      "img": "https://bantax.co.kr/common/img/default_profile.png",
+      "role": "USER",
+      "memberStatus": "MEMBER_ACTIVE",
+      "badge": null,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
