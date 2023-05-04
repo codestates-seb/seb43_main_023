@@ -31,6 +31,19 @@ public class PostDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
+    @Getter
+    @Setter
+    public static class postsResponseDto{
+        private long postId;
+        private long memberId;
+        private String nickname;
+        private String subject;
+        private String title;
+        private long viewCount;
+        private long voteCount;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+    }
 
     @Getter
     @Setter

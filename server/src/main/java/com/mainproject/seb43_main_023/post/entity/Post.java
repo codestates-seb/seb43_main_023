@@ -1,16 +1,17 @@
 package com.mainproject.seb43_main_023.post.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -27,4 +28,6 @@ public class Post {
     private LocalDateTime modifiedAt = LocalDateTime.now();
     private Long memberId;
     private String nickname;
+    @ElementCollection
+    private List<Long> voteList = new ArrayList<>();
 }

@@ -50,6 +50,21 @@ public class PostService {
         post.setViewCount(post.getViewCount()+1);
         return postRepository.save(post);
     }
+    public Page<Post> findPosts(int page){
+        return postRepository.findAll(PageRequest.of(page,10,Sort.by("postId").descending()));
+    }
+    public Post votePost(long postId, long memberId){
+        Post post = verifyPost(postId);
+        if(post.getVoteList().contains(memberId)){
+            post.setVoteCount(post.getVoteCount()-1);
+            post.getVoteList().remove(memberId);
+        }
+        else {
+            post.setVoteCount(post.getVoteCount()+1);
+            post.getVoteList().add(memberId);
+        }
+        return postRepository.save(post);
+    }
     public Post verifyPost(long postId){
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));

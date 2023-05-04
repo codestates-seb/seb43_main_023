@@ -5,12 +5,15 @@ import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.mapper.PostMapper;
 import com.mainproject.seb43_main_023.post.service.PostService;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -51,5 +54,17 @@ public class PostController {
         postService.removePost(postId,memberId);
         return new ResponseEntity(HttpStatus.OK);
     }
+    @GetMapping// 게시글 목록 조회
+    public ResponseEntity getPosts(@Positive @RequestParam(defaultValue = "1") int page) {
+        Page<Post> posts = postService.findPosts(page-1);
+        List<Post> content = posts.getContent();
 
+        return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
+    }
+    @PatchMapping("/{post-id}/vote/{member-id}")// 게시글 추천 (한번누르면 추천 다시누르면 추천취소)(member-id 임시로사용)
+    public ResponseEntity votePost(@PathVariable("post-id") long postId,
+                                   @PathVariable("member-id") long memberId){
+        Post post = postService.votePost(postId,memberId);
+        return new ResponseEntity(mapper.postToPostResponse(post),HttpStatus.OK);
+    }
 }
