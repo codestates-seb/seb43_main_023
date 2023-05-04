@@ -17,6 +17,7 @@ import Join from './Pages/Join';
 import Login from './Pages/Login';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
+import RegionDetail from './Pages/RegionDetail';
 import RegionRec from './Pages/RegionRecommend';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
 				<Route path="/regionrec" element={<RegionRec />} />
+				<Route path="/regiondetail" element={<RegionDetail />} />
 			</Routes>
 			<Footer />
 		</div>
