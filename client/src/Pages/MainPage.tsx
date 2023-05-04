@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
@@ -15,7 +16,7 @@ const MainContainer = styled.div`
 `;
 
 const MainTab = styled.div`
-	width: 100%;
+	width: 90%;
 	height: 70px;
 	display: flex;
 	justify-content: space-between;
@@ -23,10 +24,9 @@ const MainTab = styled.div`
 	padding: 20px;
 `;
 
-const MainTabButton = styled.span`
-	width: 25%;
+const MainTabButton = styled.div`
 	text-align: center;
-	font-size: 30px;
+	font-size: 24px;
 	padding: 10px;
 	border-radius: 15px;
 	margin-top: 20px;
@@ -52,6 +52,11 @@ const MainContentsContainer = styled.div`
 const SlideContainer = styled.div`
 	width: 90%;
 	height: 270px;
+	text-align: end;
+	font-weight: 600;
+	> span {
+		color: #0db4f3;
+	}
 `;
 
 const BannerContainer = styled.div`
@@ -71,11 +76,14 @@ function MainPage() {
 				<MainTabButton>지역별 추천 여행 명소</MainTabButton>
 				<MainTabButton>국내 핫한 여행 명소</MainTabButton>
 				<MainTabButton>인기 여행 리뷰글</MainTabButton>
-				<MainTabButton>커뮤니티</MainTabButton>
+				<Link to="/community">
+					<MainTabButton>커뮤니티</MainTabButton>
+				</Link>
 			</MainTab>
 			<MainContentsContainer>
 				<SlideContainer>
 					<Carousel />
+					<span>전체보기</span>
 				</SlideContainer>
 				<BannerContainer>
 					<Banner />
