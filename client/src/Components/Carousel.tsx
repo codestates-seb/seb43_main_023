@@ -20,6 +20,9 @@ const SlideContainer = styled(Slider)`
 	.slick-next::before {
 		color: #0db4f3;
 	}
+	.slick-slide {
+		padding: 0 30px;
+	}
 `;
 
 const SlideItem = styled.div<SlideItemProps>`

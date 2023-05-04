@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
 import CarouselHotPlace from '../Components/CarouselHotPlace';
+import CarouselReview from '../Components/CarouselReview';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
 
@@ -51,9 +52,8 @@ const MainContentsContainer = styled.div`
 `;
 
 const SlideContainer = styled.div`
-	width: 90%;
-	height: 270px;
-	text-align: end;
+	width: 85%;
+	text-align: right;
 	font-weight: 600;
 	> span {
 		color: #0db4f3;
@@ -61,10 +61,10 @@ const SlideContainer = styled.div`
 `;
 
 const BannerContainer = styled.div`
-	width: 90%;
+	width: 85.5%;
 	height: 200px;
 	margin: 50px 0;
-	padding: 10px;
+	padding: 0px;
 `;
 
 function MainPage() {
@@ -84,7 +84,7 @@ function MainPage() {
 			case 1:
 				return <CarouselHotPlace />;
 			case 2:
-				return <CarouselHotPlace />;
+				return <CarouselReview />;
 			default:
 				return <Carousel />;
 		}
