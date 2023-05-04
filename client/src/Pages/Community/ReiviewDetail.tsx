@@ -253,6 +253,29 @@ function ReviewDetail() {
 						<MapApi />
 					</Map>
 				</MapContainer>
+
+				<AnswerContainer>
+					<AnswerInput placeholder="댓글을 남겨주세요" />
+					<Answer>
+						<div />
+
+						<div>
+							<div>조베기</div>
+							<div>
+								<span>
+									배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
+									~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
+									~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
+									~~배고프다 ~~
+								</span>
+								<div>
+									<BsPencilSquare />
+									<BsTrash />
+								</div>
+							</div>
+						</div>
+					</Answer>
+				</AnswerContainer>
 			</ReviewContainer>
 		</div>
 	);
