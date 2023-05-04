@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
-import Footer from '../Components/Footer';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -12,7 +11,6 @@ const backgroundImg =
 const HotPlaceContainer = styled.div`
 	width: 100vw;
 	height: 100%;
-	background-color: #fafafa;
 	margin-top: 71px;
 `;
 
@@ -170,7 +168,6 @@ function HotPlace() {
 					</HotPlaceInfo>
 				</HotPlaceItem>
 			</HotPlaceItemContainer>
-			<Footer />
 		</HotPlaceContainer>
 	);
 }

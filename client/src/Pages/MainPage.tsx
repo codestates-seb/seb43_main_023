@@ -3,7 +3,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
-import Footer from '../Components/Footer';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
 
@@ -13,7 +12,6 @@ const MainContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: #fafafa;
 `;
 
 const MainTab = styled.div`
@@ -83,7 +81,6 @@ function MainPage() {
 					<Banner />
 				</BannerContainer>
 			</MainContentsContainer>
-			<Footer />
 		</MainContainer>
 	);
 }
