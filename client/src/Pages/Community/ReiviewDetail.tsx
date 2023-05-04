@@ -14,26 +14,32 @@ const ReviewContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	margin-top: 170px;
 `;
 
 const ReviewBody = styled.div`
-	margin-top: 60px;
 	padding-top: 20px;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	height: 65%;
+	height: fit-content;
+	margin-bottom: 60px;
+
+	> div {
+		display: flex;
+	}
 `;
 
 const ImgContainer = styled.div`
 	height: 100%;
-	width: calc(100vw - 1100px);
+	width: 25.3vw;
 `;
 
 const ContentContainer = styled.div`
 	margin-left: 30px;
 	height: 100%;
-	width: calc(100vw - 600px);
+	width: 56.5vw;
 `;
 
 const Writer = styled.div`
@@ -113,8 +119,8 @@ const Tag = styled.div`
 `;
 
 const MapContainer = styled.div`
-	padding-top: 40px;
-	height: 500px;
+	margin-top: 20px;
+	height: fit-content;
 	display: flex;
 	justify-content: center;
 `;
@@ -124,8 +130,8 @@ const Map = styled.div`
 `;
 
 const AnswerContainer = styled.div`
-	margin-top: 20px;
-	height: 500px;
+	margin-top: 30px;
+	height: fit-content;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -209,7 +215,7 @@ function ReviewDetail() {
 				<ReviewBody>
 					{review &&
 						review.map((el) => (
-							<>
+							<div>
 								<ImgContainer>
 									<ReviewCarousel />
 								</ImgContainer>
@@ -245,37 +251,37 @@ function ReviewDetail() {
 										</div>
 									</TagContainer>
 								</ContentContainer>
-							</>
+							</div>
 						))}
-				</ReviewBody>
-				<MapContainer>
-					<Map>
-						<MapApi />
-					</Map>
-				</MapContainer>
+					<MapContainer>
+						<Map>
+							<MapApi />
+						</Map>
+					</MapContainer>
 
-				<AnswerContainer>
-					<AnswerInput placeholder="댓글을 남겨주세요" />
-					<Answer>
-						<div />
+					<AnswerContainer>
+						<AnswerInput placeholder="댓글을 남겨주세요" />
+						<Answer>
+							<div />
 
-						<div>
-							<div>조베기</div>
 							<div>
-								<span>
-									배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
-									~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
-									~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
-									~~배고프다 ~~
-								</span>
+								<div>조베기</div>
 								<div>
-									<BsPencilSquare />
-									<BsTrash />
+									<span>
+										배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
+										~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
+										~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
+										~~배고프다 ~~
+									</span>
+									<div>
+										<BsPencilSquare />
+										<BsTrash />
+									</div>
 								</div>
 							</div>
-						</div>
-					</Answer>
-				</AnswerContainer>
+						</Answer>
+					</AnswerContainer>
+				</ReviewBody>
 			</ReviewContainer>
 		</div>
 	);
