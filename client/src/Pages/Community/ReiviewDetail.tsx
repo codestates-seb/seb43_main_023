@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
+import MapApi from '../../Components/Community/MapApi';
 
 const ReviewContainer = styled.div`
-	border: 1px solid red;
 	height: 100vh;
 	width: 100vw;
 	display: flex;
@@ -17,7 +17,7 @@ const ReviewContainer = styled.div`
 `;
 
 const ReviewBody = styled.div`
-	margin-top: 30px;
+	margin-top: 60px;
 	padding-top: 20px;
 	display: flex;
 	align-items: center;
@@ -26,13 +26,11 @@ const ReviewBody = styled.div`
 `;
 
 const ImgContainer = styled.div`
-	border: 1px solid blue;
 	height: 100%;
 	width: calc(100vw - 1100px);
 `;
 
 const ContentContainer = styled.div`
-	border: 1px solid blue;
 	margin-left: 30px;
 	height: 100%;
 	width: calc(100vw - 600px);
@@ -59,6 +57,7 @@ const Title = styled.h3`
 const Content = styled.div`
 	min-height: 285px;
 	padding: 20px;
+	overflow: scroll;
 `;
 
 const Vote = styled.div`
@@ -114,15 +113,74 @@ const Tag = styled.div`
 `;
 
 const MapContainer = styled.div`
-	border: 1px solid orange;
+	padding-top: 40px;
 	height: 500px;
 	display: flex;
 	justify-content: center;
 `;
 
 const Map = styled.div`
-	border: 1px solid red;
 	width: calc(100vw - 229px);
+`;
+
+const AnswerContainer = styled.div`
+	margin-top: 20px;
+	height: 500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
+
+const AnswerInput = styled.input`
+	width: calc(100vw - 229px);
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	background-color: #fafafa;
+	border: 1px solid #c7c7c7;
+	border-radius: 6px;
+	padding-left: 20px;
+`;
+
+const Answer = styled.div`
+	margin-top: 15px;
+	border-bottom: 1px solid #c7c7c7;
+	width: calc(100vw - 229px);
+	display: flex;
+	align-items: center;
+	padding: 10px;
+
+	> div:nth-child(1) {
+		width: 45px;
+		height: 45px;
+		background-color: aquamarine;
+		border-radius: 50%;
+	}
+
+	> div:nth-child(2) {
+		margin-left: 15px;
+
+		> div:nth-child(1) {
+		}
+
+		> div:nth-child(2) {
+			margin-top: 5px;
+			display: flex;
+			width: calc(100vw - 310px);
+			justify-content: space-between;
+
+			> span {
+				padding-right: 20px;
+			}
+
+			> div {
+				display: flex;
+				width: 50px;
+				justify-content: space-around;
+			}
+		}
+	}
 `;
 
 function ReviewDetail() {
@@ -191,7 +249,9 @@ function ReviewDetail() {
 						))}
 				</ReviewBody>
 				<MapContainer>
-					<Map>지 도 자 리</Map>
+					<Map>
+						<MapApi />
+					</Map>
 				</MapContainer>
 			</ReviewContainer>
 		</div>
