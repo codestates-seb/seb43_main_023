@@ -3,12 +3,10 @@ import '../Global.css';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../Assets/너의 MBTI는.png';
+import logo from '../Assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;
-	position: absolute;
-	bottom: 0px;
 	transform: translate3d(0, 0, 0);
 	div {
 		overflow: hidden;
