@@ -13,11 +13,15 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;
 	display: flex;
+	margin-bottom: 20px;
 	.slick-prev::before {
 		color: #0db4f3;
 	}
 	.slick-next::before {
 		color: #0db4f3;
+	}
+	.slick-slide {
+		padding: 0 30px;
 	}
 `;
 

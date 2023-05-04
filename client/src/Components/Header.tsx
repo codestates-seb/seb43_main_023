@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import logo from '../Assets/logo.png';
 
 const Content = styled.div`
+	z-index: 1;
 	background: #fafafa;
 	width: 100%;
 	position: fixed;

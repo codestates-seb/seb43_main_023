@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { AiFillHeart } from 'react-icons/ai';
-import img from '../../Assets/전주.jpg';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import img from '../../Assets/jeonju.jpg';
 
 const Container = styled.div`
 	margin-top: 50px;
@@ -9,6 +12,11 @@ const Container = styled.div`
 	display: flex;
 	overflow: scroll;
 	flex-wrap: wrap;
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
 `;
 
 const ReviewBox = styled.div`
@@ -67,6 +75,7 @@ const Writer = styled.div`
 		align-items: center;
 
 		> p {
+			padding-top: 2px;
 			margin-left: 4px;
 		}
 	}
@@ -83,167 +92,53 @@ const Pagination = styled.div`
 `;
 
 function Review() {
+	interface ReviewInter {
+		id: number;
+		subject: string;
+		title: string;
+		nickName: string;
+		voteCount: number;
+		createdAt: string;
+		tag: string;
+		img: string[];
+	}
+
+	// eslint-disable-next-line prefer-const
+	let [reviews, setReviews] = useState<ReviewInter[]>([]);
+	useEffect(() => {
+		axios
+			.get('http://localhost:4000/posts')
+			.then((res) => setReviews(res.data));
+	}, []);
+
+	reviews = reviews.filter((el) => el.subject === '여행리뷰');
+
 	return (
 		<Container>
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
+			{reviews &&
+				reviews.map((el) => (
+					<Link to={`/tripreview/${el.id}`}>
+						<ReviewBox>
+							<div>
+								<img src={el.img[0]} alt="여행리뷰사진" />
+							</div>
+							<div>{el.title}</div>
+							<Writer>
+								<div>
+									<div>
+										<img src={img} alt="유저프로필사진" />
+									</div>
+									<div>{el.nickName}</div>
+								</div>
 
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
-
-			<ReviewBox>
-				<div>
-					<img src={img} alt="여행리뷰사진" />
-				</div>
-				<div>재미따 ~</div>
-				<Writer>
-					<div>
-						<div>
-							<img src={img} alt="유저프로필사진" />
-						</div>
-						<div>너구리</div>
-					</div>
-
-					<div>
-						<AiFillHeart color="#F24F1F" size={17} />
-						<p>5</p>
-					</div>
-				</Writer>
-			</ReviewBox>
+								<div>
+									<AiFillHeart color="#F24F1F" size={17} />
+									<p>{el.voteCount}</p>
+								</div>
+							</Writer>
+						</ReviewBox>
+					</Link>
+				))}
 
 			<Pagination> 페 이 지 네 이 션 자 리</Pagination>
 		</Container>

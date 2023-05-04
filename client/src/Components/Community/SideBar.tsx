@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Container = styled.ul`
 	width: 170px;
@@ -16,10 +17,21 @@ const Container = styled.ul`
 		display: flex;
 		justify-content: center;
 		border-radius: 30px;
+		color: black;
 
 		&:hover {
 			background-color: #0db4f3;
 			color: white;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+
+			&:hover {
+				background-color: #0db4f3;
+				color: white;
+			}
 		}
 	}
 `;
@@ -27,11 +39,22 @@ const Container = styled.ul`
 function SideBar() {
 	return (
 		<Container>
-			<li>여행리뷰</li>
-			<li>여행고민</li>
-			<li>같이가요</li>
-			<li>MBTI</li>
-			<li>잡담</li>
+			<li>
+				<Link to="/tripreview">여행리뷰 </Link>
+			</li>
+
+			<li>
+				<Link to="/community">여행고민</Link>
+			</li>
+			<li>
+				<Link to="/tripmate">같이가요</Link>
+			</li>
+			<li>
+				<Link to="/mbti">MBTI</Link>
+			</li>
+			<li>
+				<Link to="/etctalk">잡담</Link>
+			</li>
 		</Container>
 	);
 }

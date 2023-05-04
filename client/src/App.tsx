@@ -7,6 +7,8 @@ import Header from './Components/Header';
 import EtcTalk from './Pages/Community/EtcTalk';
 import Main from './Pages/Community/Main';
 import MBTI from './Pages/Community/MBTI';
+import PostDetail from './Pages/Community/PostDetail';
+import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
 import HotPlace from './Pages/HotPlace';
@@ -30,9 +32,11 @@ function App() {
 				<Route path="/mypage" element={<Mypage />} />
 				<Route path="/useredit" element={<UserEdit />} />
 				<Route path="/tripreview" element={<TripReview />} />
+				<Route path="/tripreview/:id" element={<ReviewDetail />} />
 				<Route path="/tripmate" element={<TripMate />} />
 				<Route path="/mbti" element={<MBTI />} />
 				<Route path="/community" element={<Main />} />
+				<Route path="/community/:id" element={<PostDetail />} />
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
