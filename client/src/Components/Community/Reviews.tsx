@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { AiFillHeart } from 'react-icons/ai';
-import img from '../../Assets/전주.jpg';
+import img from '../../Assets/전주.jpg';
 
 const Container = styled.div`
 	margin-top: 50px;
