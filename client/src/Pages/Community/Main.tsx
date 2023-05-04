@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import '../../Global.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
 
@@ -30,6 +33,11 @@ const Explain = styled.div`
 const Body = styled.div`
 	height: calc(100vh - 470px);
 	display: flex;
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
 `;
 
 const ContentContainer = styled.div`
@@ -134,81 +142,6 @@ const Pagination = styled.div`
 	width: 100%;
 `;
 
-const PostBtn = styled.div`
-	button {
-		position: relative;
-		margin: auto;
-		padding: 12px 18px;
-		transition: all 0.2s ease;
-		border: none;
-		background: none;
-
-		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			display: block;
-			border-radius: 50px;
-			background: #a3e6ff;
-			width: 35px;
-			height: 35px;
-			transition: all 0.3s ease;
-		}
-
-		&:hover::before {
-			width: 100%;
-			background: #a3e6ff;
-		}
-
-		&:hover {
-			span {
-				color: white;
-			}
-			svg {
-				transform: translateX(0);
-				stroke: white;
-			}
-		}
-
-		&:active {
-			transform: scale(0.95);
-		}
-
-		span {
-			position: relative;
-			font-family: 'Ubuntu', sans-serif;
-			font-size: 13px;
-			font-weight: 700;
-			letter-spacing: 0.05em;
-			color: #000000;
-
-			&:hover {
-				color: white;
-				stroke: white;
-			}
-		}
-
-		svg {
-			position: relative;
-			top: 0;
-			margin-left: 10px;
-			fill: none;
-			stroke-linecap: round;
-			stroke-linejoin: round;
-			stroke: #234567;
-			stroke-width: 2;
-			transform: translateX(-5px);
-			transition: all 0.3s ease;
-
-			&:hover {
-				color: white;
-				stroke: white;
-			}
-		}
-	}
-`;
-
 const TagContainer = styled.div`
 	height: calc(100vh - 400px);
 	width: 230px;
@@ -225,16 +158,23 @@ const TagContainer = styled.div`
 `;
 
 function Main() {
-	const first = ['E', 'I'];
-	const second = ['S', 'N'];
-	const third = ['F', 'T'];
-	const fourth = ['J', 'P'];
+	interface Post {
+		id: number;
+		subject: string;
+		title: string;
+		nickName: string;
+		voteCount: number;
+		createdAt: string;
+	}
 
-	const allMBTI = first.flatMap((f) =>
-		second.flatMap((s) =>
-			third.flatMap((t) => fourth.map((fth) => `${f}${s}${t}${fth}`)),
-		),
-	);
+	// eslint-disable-next-line prefer-const
+	let [posts, setPosts] = useState<Post[]>([]);
+	useEffect(() => {
+		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
+	}, []);
+
+	posts = posts.filter((el) => el.subject === '여행고민');
+
 	return (
 		<div className="main">
 			<Explain>
@@ -258,98 +198,20 @@ function Main() {
 						<div>추천</div>
 						<div>작성시간</div>
 					</ContentHeader>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							<p>
-								INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-							</p>
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-					<Contentbody>
-						<div>[여행고민]</div>
-						<div>
-							INFP / ENTJ / ENFP 친구들끼리 여행가는데 여행지 추천해주세요!
-						</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
+
+					{posts &&
+						posts.map((el) => (
+							<Link to={`/community/${el.id}`}>
+								<Contentbody>
+									<div>{`[${el.subject}]`}</div>
+									<div>{el.title}</div>
+									<div>{el.nickName}</div>
+									<div>{el.voteCount}</div>
+									<div>16:15</div>
+								</Contentbody>
+							</Link>
+						))}
+
 					<Pagination>페 이 지 네 이 션 자 리</Pagination>
 				</ContentContainer>
 
