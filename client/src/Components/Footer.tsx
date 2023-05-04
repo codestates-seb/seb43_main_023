@@ -3,7 +3,7 @@ import '../Global.css';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../Assets/너의 MBTI는.png';
+import logo from '../Assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;
