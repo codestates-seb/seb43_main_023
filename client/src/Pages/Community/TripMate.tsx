@@ -1,11 +1,19 @@
 import styled from 'styled-components';
+import '../../Global.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
-import '../../Global.css';
 
 const TripMateContainer = styled.div`
 	height: calc(100vh - 300px);
 	display: flex;
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
 `;
 
 const TripMateBody = styled.div`
@@ -127,6 +135,22 @@ const Pagination = styled.div`
 `;
 
 function TripMate() {
+	interface Post {
+		id: number;
+		subject: string;
+		title: string;
+		nickName: string;
+		voteCount: number;
+		createdAt: string;
+	}
+	// eslint-disable-next-line prefer-const
+	let [posts, setPosts] = useState<Post[]>([]);
+	useEffect(() => {
+		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
+	}, []);
+
+	posts = posts.filter((el) => el.subject === '같이가요');
+
 	return (
 		<div className="main">
 			<TripMateContainer>
@@ -140,117 +164,18 @@ function TripMate() {
 						<div>작성시간</div>
 					</ContentHeader>
 
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
-
-					<Contentbody>
-						<div>[같이가요]</div>
-						<div>ENFP, ISFJ 랑 같이 경주 가실 분 ~~~~~</div>
-						<div>너구리</div>
-						<div>0</div>
-						<div>16:15</div>
-					</Contentbody>
+					{posts &&
+						posts.map((el) => (
+							<Link to={`/community/${el.id}`}>
+								<Contentbody>
+									<div>{`[${el.subject}]`}</div>
+									<div>{el.title}</div>
+									<div>{el.nickName}</div>
+									<div>{el.voteCount}</div>
+									<div>16:15</div>
+								</Contentbody>
+							</Link>
+						))}
 
 					<Pagination>페 이 지 네 이 션 자 리</Pagination>
 				</TripMateBody>

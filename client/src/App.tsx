@@ -15,6 +15,8 @@ import Join from './Pages/Join';
 import Login from './Pages/Login';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
+import PostDetail from './Pages/Community/PostDetail';
+import ReviewDetail from './Pages/Community/ReiviewDetail';
 
 function App() {
 	return (
@@ -26,9 +28,11 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/mypage" element={<Mypage />} />
 				<Route path="/tripreview" element={<TripReview />} />
+				<Route path="/tripreview/:id" element={<ReviewDetail />} />
 				<Route path="/tripmate" element={<TripMate />} />
 				<Route path="/mbti" element={<MBTI />} />
 				<Route path="/community" element={<Main />} />
+				<Route path="/community/:id" element={<PostDetail />} />
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
