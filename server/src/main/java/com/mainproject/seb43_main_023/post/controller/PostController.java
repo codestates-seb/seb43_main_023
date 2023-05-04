@@ -4,6 +4,7 @@ import com.mainproject.seb43_main_023.post.dto.PostDto;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.mapper.PostMapper;
 import com.mainproject.seb43_main_023.post.service.PostService;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,10 +30,26 @@ public class PostController {
         Post createdPost = postService.createPost(post,memberId);
         return new ResponseEntity((mapper.postToPostResponse(createdPost)), HttpStatus.CREATED);
     }
-//    @PatchMapping("/{post-id}")
-//    public ResponseEntity patchPost(@RequestBody @Valid PostDto.postPatchDto postPatchDto,
-//                                    @PathVariable("post-id") long postId){
-//        Post post = mapper.postPatchToPost(postPatchDto);
-//        post.
-//    }
+    @PatchMapping("/{post-id}/{member-id}")//게시글 수정(member-id 임시로사용)
+    public ResponseEntity patchPost(@RequestBody @Valid PostDto.postPatchDto postPatchDto,
+                                    @PathVariable("post-id") long postId,
+                                    @PathVariable("member-id") long memberId){
+        Post post = mapper.postPatchToPost(postPatchDto);
+        post.setPostId(postId);
+        Post updatedPost = postService.updatePost(post,memberId);
+
+        return new ResponseEntity((mapper.postToPostResponse(updatedPost)),HttpStatus.OK);
+    }
+    @GetMapping("/{post-id}")// 게시글 조회
+    public ResponseEntity getPost(@PathVariable("post-id") long postId){
+        Post findPost = postService.findPost(postId);
+        return new ResponseEntity((mapper.postToPostResponse(findPost)),HttpStatus.OK);
+    }
+    @DeleteMapping("/{post-id}/{member-id}")// 게시글삭제(member-id 임시로사용)
+    public ResponseEntity deletePost(@PathVariable("post-id") long postId,
+                                     @PathVariable("member-id") long memberId){
+        postService.removePost(postId,memberId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }
