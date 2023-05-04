@@ -1,10 +1,9 @@
 import '../Global.css';
 
-import { useState } from 'react';
-
+import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import airplane from '../Assets/airplane.png';
@@ -106,25 +105,35 @@ const Content = styled.div`
 	}
 `;
 
-interface userInfo {
-	email: string;
-	password: string;
-}
-
 function Login() {
-	const [value, setValue] = useState<userInfo>({
-		email: '',
-		password: '',
-	});
-	const joinSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const navigate = useNavigate();
+	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
-		setValue({
-			email: el.email.value,
-			password: el.password.value,
-		});
+		try {
+			const userInfo = await axios.get('http://localhost:4000/members/1');
+			if (
+				el.email.value !== userInfo.data.email ||
+				el.password.value !== userInfo.data.password
+			) {
+				// eslint-disable-next-line no-alert
+				alert('아이디 or 비밀번호가 다릅니다.');
+				window.location.reload();
+			} else {
+				// eslint-disable-next-line no-alert
+				alert('로그인 되었습니다.');
+				localStorage.setItem('accessToken', 'token');
+				localStorage.setItem('displayName', userInfo.data.nickname);
+				localStorage.setItem('mbti', userInfo.data.mbti);
+				localStorage.setItem('img', userInfo.data.img);
+				localStorage.setItem('memberId', userInfo.data.id);
+				navigate('/');
+			}
+		} catch (error) {
+			navigate('/error');
+		}
 	};
-	console.log(value);
+
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
