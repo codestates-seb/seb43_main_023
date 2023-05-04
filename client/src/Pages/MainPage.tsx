@@ -58,7 +58,6 @@ const SlideContainer = styled.div`
 	> span {
 		color: #0db4f3;
 	}
-	z-index: -1;
 `;
 
 const BannerContainer = styled.div`

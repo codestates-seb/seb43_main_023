@@ -6,7 +6,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const backgroundImg =
-	'https://images.unsplash.com/photo-1618237586696-d3690dad22e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80';
+	'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80';
 
 const HotPlaceContainer = styled.div`
 	width: 100vw;
