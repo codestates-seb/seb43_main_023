@@ -65,7 +65,6 @@ const BannerContainer = styled.div`
 	height: 200px;
 	margin: 50px 0;
 	padding: 0px;
-	z-index: -1;
 `;
 
 function MainPage() {
@@ -95,7 +94,7 @@ function MainPage() {
 		switch (currentTab) {
 			case 0:
 				return (
-					<Link to="/">
+					<Link to="/regionrec">
 						<span>전체보기</span>
 					</Link>
 				);

@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick.css';
 
 import { AiFillHeart } from 'react-icons/ai';
 import styled from 'styled-components';
-import img from '../Assets/전주.jpg';
+import img from '../Assets/jeonju.jpg';
 
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;
