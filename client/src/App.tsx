@@ -13,6 +13,7 @@ import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
 import Join from './Pages/Join';
 import Login from './Pages/Login';
+import Logout from './Pages/Logout';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
 
@@ -24,6 +25,7 @@ function App() {
 				<Route path="/" element={<MainPage />} />
 				<Route path="/join" element={<Join />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/logout" element={<Logout />} />
 				<Route path="/mypage" element={<Mypage />} />
 				<Route path="/tripreview" element={<TripReview />} />
 				<Route path="/tripmate" element={<TripMate />} />
