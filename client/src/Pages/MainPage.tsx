@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
+import CarouselHotPlace from '../Components/CarouselHotPlace';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
 
@@ -68,22 +69,73 @@ const BannerContainer = styled.div`
 
 function MainPage() {
 	const [isLogin, setIsLogin] = useState(false);
+	const [currentTab, setCurrentTab] = useState(0);
+
+	console.log(currentTab);
+
+	const handleTabClick = (index: number) => {
+		setCurrentTab(index);
+	};
+
+	const renderCarousel = () => {
+		switch (currentTab) {
+			case 0:
+				return <Carousel />;
+			case 1:
+				return <CarouselHotPlace />;
+			case 2:
+				return <CarouselHotPlace />;
+			default:
+				return <Carousel />;
+		}
+	};
+
+	const moveToPage = () => {
+		switch (currentTab) {
+			case 0:
+				return (
+					<Link to="/">
+						<span>전체보기</span>
+					</Link>
+				);
+			case 1:
+				return (
+					<Link to="/hotplace">
+						<span>전체보기</span>
+					</Link>
+				);
+			case 2:
+				return (
+					<Link to="/hotreview">
+						<span>전체보기</span>
+					</Link>
+				);
+			default:
+				return <span>전체보기</span>;
+		}
+	};
 
 	return (
 		<MainContainer>
 			{isLogin ? <UserHeader /> : <MainHeader />}
 			<MainTab>
-				<MainTabButton>지역별 추천 여행 명소</MainTabButton>
-				<MainTabButton>국내 핫한 여행 명소</MainTabButton>
-				<MainTabButton>인기 여행 리뷰글</MainTabButton>
+				<MainTabButton onClick={() => handleTabClick(0)}>
+					지역별 추천 여행 명소
+				</MainTabButton>
+				<MainTabButton onClick={() => handleTabClick(1)}>
+					국내 핫한 여행 명소
+				</MainTabButton>
+				<MainTabButton onClick={() => handleTabClick(2)}>
+					인기 여행 리뷰글
+				</MainTabButton>
 				<Link to="/community">
 					<MainTabButton>커뮤니티</MainTabButton>
 				</Link>
 			</MainTab>
 			<MainContentsContainer>
 				<SlideContainer>
-					<Carousel />
-					<span>전체보기</span>
+					{renderCarousel()}
+					{moveToPage()}
 				</SlideContainer>
 				<BannerContainer>
 					<Banner />
