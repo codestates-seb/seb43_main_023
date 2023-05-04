@@ -58,6 +58,7 @@ const SlideContainer = styled.div`
 	> span {
 		color: #0db4f3;
 	}
+	z-index: -1;
 `;
 
 const BannerContainer = styled.div`
@@ -65,6 +66,7 @@ const BannerContainer = styled.div`
 	height: 200px;
 	margin: 50px 0;
 	padding: 0px;
+	z-index: -1;
 `;
 
 function MainPage() {
