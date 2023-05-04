@@ -1,6 +1,6 @@
 import '../Global.css';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../Assets/logo.png';
@@ -123,6 +123,11 @@ const Content = styled.div`
 	}
 `;
 function Footer() {
+	const locationNow = useLocation();
+	if (locationNow.pathname === '/logout') return null;
+	if (locationNow.pathname === '/login') return null;
+	if (locationNow.pathname === '/join') return null;
+
 	const root = document.documentElement;
 
 	window.addEventListener('scroll', () => {

@@ -1,9 +1,7 @@
 import '../Global.css';
 
-import { useState } from 'react';
-
 import { AiOutlineSearch } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../Assets/logo.png';
@@ -63,13 +61,18 @@ const Content = styled.div`
 	}
 `;
 function Header() {
-	const [value, setValue] = useState('');
-	const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setValue(e.target.value);
-	};
+	const locationNow = useLocation();
+	if (locationNow.pathname === '/logout') return null;
+	if (locationNow.pathname === '/login') return null;
+	if (locationNow.pathname === '/join') return null;
+
+	const token = localStorage.getItem('accessToken');
+
 	const searchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(value);
+		const el = e.target as HTMLFormElement;
+		// eslint-disable-next-line no-console
+		console.log(el.search.value);
 	};
 	return (
 		<Content>
@@ -78,16 +81,28 @@ function Header() {
 			</Link>
 			<form onSubmit={(e) => searchSubmit(e)}>
 				<AiOutlineSearch color="rgba(0, 0, 0, 0.3)" />
-				<input
-					onChange={(e) => searchChange(e)}
-					type="text"
-					placeholder="여행지를 검색해보세요"
-				/>
+				<input name="search" type="text" placeholder="여행지를 검색해보세요" />
 				<button type="submit">찾기</button>
 			</form>
 			<div>
-				<button>마이페이지</button>
-				<button>로그아웃</button>
+				{token ? (
+					<Link to="/mypage">
+						<button>마이페이지</button>
+					</Link>
+				) : (
+					<Link to="/join">
+						<button>회원가입</button>
+					</Link>
+				)}
+				{token ? (
+					<Link to="/logout">
+						<button>로그아웃</button>
+					</Link>
+				) : (
+					<Link to="/login">
+						<button>로그인</button>
+					</Link>
+				)}
 			</div>
 		</Content>
 	);
