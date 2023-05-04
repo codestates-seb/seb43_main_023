@@ -30,6 +30,7 @@ const Content = styled.div`
 		align-items: center;
 		position: relative;
 		input {
+			background: none;
 			width: 70%;
 			border: none;
 			margin-left: 10px;

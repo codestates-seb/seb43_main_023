@@ -1,12 +1,13 @@
 import Footer from './Components/Footer';
 import Header from './Components/Header';
-import EtcTalk from './Pages/Community/EtcTalk';
+import './Global.css';
+import MainPage from './Pages/MainPage';
 
 function App() {
 	return (
 		<div className="App">
 			<Header />
-			<EtcTalk />
+			<MainPage />
 			<Footer />
 		</div>
 	);
