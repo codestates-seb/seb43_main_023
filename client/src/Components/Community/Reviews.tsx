@@ -3,7 +3,7 @@ import { AiFillHeart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import img from '../../Assets/전주.jpg';
+import img from '../../Assets/jeonju.jpg';
 
 const Container = styled.div`
 	margin-top: 50px;
