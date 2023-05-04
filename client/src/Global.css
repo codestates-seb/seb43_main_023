@@ -5,6 +5,7 @@
 }
 button{
   border: none;
+  background: none;
 }
 button:hover{
   cursor: pointer;
@@ -12,4 +13,13 @@ button:hover{
 ul{
   list-style: none;
 }
-
+body{
+  background-color: #fafafa;
+}
+.main{
+  width: 100%;
+	min-height: 100%;
+	padding-bottom: 50px;
+	height: 100%;
+	margin-top: 90px;
+}
