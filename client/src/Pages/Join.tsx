@@ -1,10 +1,9 @@
 import '../Global.css';
 
-import { useState } from 'react';
-
+import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import airplane from '../Assets/airplane.png';
@@ -106,31 +105,29 @@ const Content = styled.div`
 	}
 `;
 
-interface userInfo {
-	displayName: string;
-	mbti: string;
-	email: string;
-	password: string;
-}
-
 function Join() {
-	const [value, setValue] = useState<userInfo>({
-		displayName: '',
-		mbti: '',
-		email: '',
-		password: '',
-	});
-	const joinSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const navigate = useNavigate();
+	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
-		setValue({
-			displayName: el.displayName.value,
-			mbti: el.mbti.value,
-			email: el.email.value,
-			password: el.password.value,
-		});
+		const id = Math.random();
+		try {
+			await axios.post('http://localhost:4000/members', {
+				id,
+				nickname: el.displayName.value,
+				mbti: el.mbti.value,
+				email: el.email.value,
+				password: el.password.value,
+				badge: null,
+			});
+			// eslint-disable-next-line no-alert
+			alert('회원가입이 완료되었습니다.');
+			navigate('/login');
+		} catch (error) {
+			navigate('/error');
+		}
 	};
-	console.log(value);
+
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />

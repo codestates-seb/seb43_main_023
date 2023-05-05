@@ -7,16 +7,18 @@ import Header from './Components/Header';
 import EtcTalk from './Pages/Community/EtcTalk';
 import Main from './Pages/Community/Main';
 import MBTI from './Pages/Community/MBTI';
+import PostDetail from './Pages/Community/PostDetail';
+import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
 import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
 import Join from './Pages/Join';
 import Login from './Pages/Login';
+import Logout from './Pages/Logout';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
-import PostDetail from './Pages/Community/PostDetail';
-import ReviewDetail from './Pages/Community/ReiviewDetail';
+import UserEdit from './Pages/UserEdit';
 
 function App() {
 	return (
@@ -26,7 +28,9 @@ function App() {
 				<Route path="/" element={<MainPage />} />
 				<Route path="/join" element={<Join />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/logout" element={<Logout />} />
 				<Route path="/mypage" element={<Mypage />} />
+				<Route path="/useredit" element={<UserEdit />} />
 				<Route path="/tripreview" element={<TripReview />} />
 				<Route path="/tripreview/:id" element={<ReviewDetail />} />
 				<Route path="/tripmate" element={<TripMate />} />

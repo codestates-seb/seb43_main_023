@@ -1,11 +1,12 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import { AiFillHeart } from 'react-icons/ai';
+/* eslint-disable react/jsx-props-no-spreading */
+import Slider from 'react-slick';
 import styled from 'styled-components';
-import img from '../Assets/전주.jpg';
+
+import img from '../Assets/jeonju.jpg';
 
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;

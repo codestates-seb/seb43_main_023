@@ -8,6 +8,7 @@
       "plugin:prettier/recommended"
     ],
     "rules":{
+      "prettier/prettier": ["error", {"printWidth": 80}],
       "react/button-has-type": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-filename-extension":["warn",{"extensions":[".tsx"]}],
