@@ -210,6 +210,44 @@ function PostUpload() {
 							value={tag}
 						/>
 					</TagContainer>
+
+					<ImgContainer>
+						<div>
+							<label htmlFor="img1">
+								<div className="btnStart">Image 1 첨부하기</div>
+							</label>
+
+							<input
+								id="img1"
+								type="file"
+								accept="image/*"
+								ref={imgUploadInput}
+								onChange={onImageChange}
+							/>
+						</div>
+						<div>
+							<label htmlFor="img1">
+								<div className="btnStart">Image 2 첨부하기</div>
+							</label>
+							<input
+								type="file"
+								accept="image/*"
+								ref={imgUploadInput}
+								onChange={onImageChange}
+							/>
+						</div>
+						<div>
+							<label htmlFor="img1">
+								<div className="btnStart">Image 3 첨부하기</div>
+							</label>
+							<input
+								type="file"
+								accept="image/*"
+								ref={imgUploadInput}
+								onChange={onImageChange}
+							/>
+						</div>
+					</ImgContainer>
 				</Body>
 			</Container>
 
