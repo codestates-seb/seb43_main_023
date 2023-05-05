@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
+import '../../Global.css';
 
 const PlaceTag = styled.div`
 	font-weight: 600;
@@ -200,6 +202,32 @@ function Tags() {
 			third.flatMap((t) => fourth.map((fth) => `${f}${s}${t}${fth}`)),
 		),
 	);
+
+	const token = localStorage.getItem('accessToken');
+
+	const handleBtn = () => {
+		if (!token) {
+			const Toast = Swal.mixin({
+				toast: true,
+				position: 'top',
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				didOpen: (toast: {
+					addEventListener: (arg0: string, arg1: any) => void;
+				}) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer);
+					toast.addEventListener('mouseleave', Swal.resumeTimer);
+				},
+			});
+
+			Toast.fire({
+				icon: 'warning',
+				title: '로그인 상태가 아닙니다',
+			});
+		}
+	};
+
 	return (
 		<>
 			<div>
@@ -237,7 +265,7 @@ function Tags() {
 			</div>
 			<div>
 				<PostBtn>
-					<button className="cta">
+					<button className="cta" onClick={handleBtn}>
 						<span>리뷰 남기러 가기</span>
 						<svg viewBox="0 0 10 10" height="10px" width="15px">
 							<path d="M1,5 L11,5" />
