@@ -171,6 +171,10 @@ function UserEdit() {
 				nickname: editname,
 				mbti: editmbti,
 			});
+			localStorage.removeItem('displayName');
+			localStorage.removeItem('mbti');
+			localStorage.setItem('displayName', editname);
+			localStorage.setItem('mbti', editmbti);
 			// eslint-disable-next-line no-alert
 			alert('수정 완료되었습니다.');
 			navigate('/mypage');

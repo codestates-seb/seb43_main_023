@@ -112,12 +112,16 @@ function Join() {
 		const el = e.target as HTMLFormElement;
 		const id = Math.random();
 		try {
+			const mbtiImg = await axios.get('http://localhost:4000/mbti');
 			await axios.post('http://localhost:4000/members', {
 				id,
 				nickname: el.displayName.value,
 				mbti: el.mbti.value,
 				email: el.email.value,
 				password: el.password.value,
+				img: mbtiImg.data.find(
+					(v: { mbti: string }) => v.mbti === el.mbti.value,
+				).img,
 				badge: null,
 			});
 			// eslint-disable-next-line no-alert
