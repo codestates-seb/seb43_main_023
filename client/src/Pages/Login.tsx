@@ -111,7 +111,18 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			const userInfo = await axios.get('http://localhost:4000/members/1');
+			/* const loginData = await axios.post('http://localhost:4000/auth/login', {
+				email: el.email.value,
+				password: el.password.value
+			});
+			const memberId = loginData.response.headers.memberId;
+			const accessToken = loginData.response.headers.authorization;
+			*/
+			const memberId = 1;
+			const accessToken = 'token';
+			const userInfo = await axios.get(
+				`http://localhost:4000/members/${memberId}`,
+			);
 			if (
 				el.email.value !== userInfo.data.email ||
 				el.password.value !== userInfo.data.password
@@ -122,7 +133,7 @@ function Login() {
 			} else {
 				// eslint-disable-next-line no-alert
 				alert('로그인 되었습니다.');
-				localStorage.setItem('accessToken', 'token');
+				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('displayName', userInfo.data.nickname);
 				localStorage.setItem('mbti', userInfo.data.mbti);
 				localStorage.setItem('img', userInfo.data.img);
