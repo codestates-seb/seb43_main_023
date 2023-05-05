@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import '../../Global.css';
+import { Link } from 'react-router-dom';
 
 const PlaceTag = styled.div`
 	font-weight: 600;
@@ -206,26 +207,24 @@ function Tags() {
 	const token = localStorage.getItem('accessToken');
 
 	const handleBtn = () => {
-		if (!token) {
-			const Toast = Swal.mixin({
-				toast: true,
-				position: 'top',
-				showConfirmButton: false,
-				timer: 3000,
-				timerProgressBar: true,
-				didOpen: (toast: {
-					addEventListener: (arg0: string, arg1: any) => void;
-				}) => {
-					toast.addEventListener('mouseenter', Swal.stopTimer);
-					toast.addEventListener('mouseleave', Swal.resumeTimer);
-				},
-			});
+		const Toast = Swal.mixin({
+			toast: true,
+			position: 'top',
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast: {
+				addEventListener: (arg0: string, arg1: any) => void;
+			}) => {
+				toast.addEventListener('mouseenter', Swal.stopTimer);
+				toast.addEventListener('mouseleave', Swal.resumeTimer);
+			},
+		});
 
-			Toast.fire({
-				icon: 'warning',
-				title: '로그인 상태가 아닙니다',
-			});
-		}
+		Toast.fire({
+			icon: 'warning',
+			title: '로그인 상태가 아닙니다',
+		});
 	};
 
 	return (
@@ -265,13 +264,25 @@ function Tags() {
 			</div>
 			<div>
 				<PostBtn>
-					<button className="cta" onClick={handleBtn}>
-						<span>리뷰 남기러 가기</span>
-						<svg viewBox="0 0 10 10" height="10px" width="15px">
-							<path d="M1,5 L11,5" />
-							<polyline points="8 1 12 5 8 9" />
-						</svg>
-					</button>
+					{token ? (
+						<Link to="/community/create">
+							<button className="cta">
+								<span>리뷰 남기러 가기</span>
+								<svg viewBox="0 0 10 10" height="10px" width="15px">
+									<path d="M1,5 L11,5" />
+									<polyline points="8 1 12 5 8 9" />
+								</svg>
+							</button>
+						</Link>
+					) : (
+						<button className="cta" onClick={handleBtn}>
+							<span>리뷰 남기러 가기</span>
+							<svg viewBox="0 0 10 10" height="10px" width="15px">
+								<path d="M1,5 L11,5" />
+								<polyline points="8 1 12 5 8 9" />
+							</svg>
+						</button>
+					)}
 				</PostBtn>
 			</div>
 		</>
