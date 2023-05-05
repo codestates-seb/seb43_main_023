@@ -19,6 +19,7 @@ import Logout from './Pages/Logout';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
 import UserEdit from './Pages/UserEdit';
+import PostUpload from './Pages/Community/PostUpload';
 
 function App() {
 	return (
@@ -37,6 +38,7 @@ function App() {
 				<Route path="/mbti" element={<MBTI />} />
 				<Route path="/community" element={<Main />} />
 				<Route path="/community/:id" element={<PostDetail />} />
+				<Route path="/community/create" element={<PostUpload />} />
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
