@@ -98,6 +98,13 @@ const Main = styled.div`
 			border-bottom: 3px solid #0db4f3;
 		}
 	}
+	.test {
+		width: 100%;
+		text-align: right;
+		text-decoration: none;
+		padding: 0 50px;
+		margin-top: 30px;
+	}
 `;
 
 const UserWriting = styled.div`
@@ -141,6 +148,7 @@ interface Ipost {
 	title: string;
 	content?: string;
 	nickname: string;
+	email: string;
 	tag?: null;
 	voteCount?: number;
 	viewCount?: number;
@@ -151,6 +159,7 @@ interface Ipost {
 interface Iuser {
 	id: number;
 	nickname: string;
+	email: string;
 	mbti: string;
 	badge: null;
 }
@@ -181,6 +190,7 @@ function Mypage() {
 			subject: '',
 			title: '',
 			nickname: '',
+			email: '',
 			content: '',
 			tag: null,
 			voteCount: 0,
@@ -193,18 +203,22 @@ function Mypage() {
 	const [userInfo, setUserInfo] = useState<Iuser>({
 		id: 0,
 		nickname: '',
+		email: '',
 		mbti: '',
 		badge: null,
 	});
 
 	useEffect(() => {
 		async function getData() {
-			const data = await axios.get(`http://localhost:4000/members/${memberId}`);
+			const userData = await axios.get(
+				`http://localhost:4000/members/${memberId}`,
+			);
 			setUserInfo({
-				id: data.data.id,
-				nickname: data.data.nickname,
-				mbti: data.data.mbti,
-				badge: data.data.badge,
+				id: userData.data.id,
+				nickname: userData.data.nickname,
+				email: userData.data.email,
+				mbti: userData.data.mbti,
+				badge: userData.data.badge,
 			});
 		}
 		getData();
@@ -233,12 +247,12 @@ function Mypage() {
 			const getData = await axios.get('http://localhost:4000/posts');
 			setPosts(
 				getData.data.filter(
-					(v: { nickname: string }) => v.nickname === userInfo.nickname,
+					(v: { email: string }) => v.email === userInfo.email,
 				),
 			);
 		}
 		getPost();
-	}, [userInfo.nickname]);
+	}, [userInfo.email]);
 
 	const postDeleteClick = async (id: number) => {
 		try {
@@ -294,6 +308,12 @@ function Mypage() {
 							<Link to="/useredit">
 								<button className="memberEdit">내정보 수정하기</button>
 							</Link>
+							<Link
+								className="memberEdit test"
+								to="https://www.16personalities.com/ko/%EB%AC%B4%EB%A3%8C-%EC%84%B1%EA%B2%A9-%EC%9C%A0%ED%98%95-%EA%B2%80%EC%82%AC"
+							>
+								MBTI 검사하러가기
+							</Link>
 						</div>
 					) : (
 						<UserWriting>
@@ -322,5 +342,3 @@ function Mypage() {
 }
 
 export default Mypage;
-
-// 작성한 글을 닉네임말고 이메일로 필터링하기
