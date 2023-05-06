@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+import Swal from 'sweetalert2';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -35,6 +37,19 @@ const Title = styled.div`
 		color: gray;
 
 		> div {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			> span {
+				margin-right: 20px;
+			}
+
+			> div {
+				width: 35px;
+				display: flex;
+				justify-content: space-between;
+			}
 		}
 	}
 `;
@@ -74,6 +89,28 @@ function PostDetail() {
 	}
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
+	const displayName = localStorage.getItem('displayName');
+
+	const deletePost = () => {
+		Swal.fire({
+			title: '정말로 삭제하시겠습니까 ?',
+			text: '다신 되돌릴 수 없습니다',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#0db4f3',
+			cancelButtonColor: '#f37676',
+			confirmButtonText: 'Delete',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				axios
+					.delete(`http://localhost:4000/posts/${id}`)
+					.then(() => Swal.fire('Deleted!', '삭제되었습니다', 'success'))
+					// eslint-disable-next-line no-return-assign
+					.then(() => (document.location.href = '/community'));
+			}
+		});
+	};
+
 	useEffect(() => {
 		axios
 			.get(`http://localhost:4000/posts/${id}`)
@@ -93,7 +130,16 @@ function PostDetail() {
 										<div>
 											{el.nickName}@infp {el.createdAt}
 											<div>
-												추천 {el.voteCount} | 조회 {el.viewCount} | 댓글 수
+												<span>
+													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글 수
+												</span>
+
+												{displayName === el.nickName ? (
+													<div>
+														<BsPencilSquare />
+														<BsTrash onClick={deletePost} />
+													</div>
+												) : null}
 											</div>
 										</div>
 									</Title>
