@@ -101,6 +101,19 @@
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000"
+    },
+    {
+      "id": 9,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "kklkl",
+      "content": "klklklkl",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
     }
   ],
   "members": [

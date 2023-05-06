@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -136,7 +136,9 @@ function PostDetail() {
 
 												{displayName === el.nickName ? (
 													<div>
-														<BsPencilSquare />
+														<Link to={`/community/${id}/update`}>
+															<BsPencilSquare color="gray" />
+														</Link>
 														<BsTrash onClick={deletePost} />
 													</div>
 												) : null}

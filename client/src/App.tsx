@@ -20,6 +20,7 @@ import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
 import UserEdit from './Pages/UserEdit';
 import PostUpload from './Pages/Community/PostUpload';
+import PostUpdate from './Pages/Community/PostUpdate';
 
 function App() {
 	return (
@@ -39,6 +40,7 @@ function App() {
 				<Route path="/community" element={<Main />} />
 				<Route path="/community/:id" element={<PostDetail />} />
 				<Route path="/community/create" element={<PostUpload />} />
+				<Route path="/community/:id/update" element={<PostUpdate />} />
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
