@@ -20,6 +20,17 @@ const Container = styled.div`
 
 const Body = styled.div`
 	width: 950px;
+
+	> h2 {
+		padding-bottom: 10px;
+	}
+
+	> p {
+		color: gray;
+		font-size: 13px;
+		line-height: 30px;
+		padding-bottom: 10px;
+	}
 `;
 
 const StyledEditor = styled(Editor)`
@@ -60,9 +71,18 @@ const Hash = styled.div`
 	padding: 0 10px;
 	margin: 10px;
 	height: 20px;
+	width: auto;
 	background-color: #ebebeb;
+
+	> div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: max-content;
+	}
 `;
 const HashName = styled.p`
+	width: auto;
 	margin-right: 10px;
 	font-size: 13px;
 `;
@@ -120,11 +140,21 @@ const ImgContainer = styled.div`
 	}
 `;
 
+const PostBtn = styled.button`
+	margin-top: 15px;
+	width: 100%;
+	background-color: #0db4f3;
+	padding: 12px;
+	border-radius: 2px;
+	color: white;
+	font-weight: 600;
+	font-size: 15px;
+`;
+
 function PostUpload() {
 	const editorRef = useRef<Editor | null>(null);
 
 	const imgUploadInput = useRef<HTMLInputElement | null>(null);
-	const [inputValue, setInputValue] = useState<string>('');
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [Images, setImages] = useState<string[]>([]);
@@ -169,7 +199,11 @@ function PostUpload() {
 		<div className="main">
 			<Container>
 				<Body>
-					<h3> 글쓰기 </h3>
+					<h2> 글쓰기 </h2>
+					<p>
+						자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
+						사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
+					</p>
 					<hr />
 					<DropDownContainer>
 						<SubjectDropdown />
@@ -196,10 +230,12 @@ function PostUpload() {
 						{tags.map((e, i) => (
 							// eslint-disable-next-line react/no-array-index-key
 							<Hash key={i}>
-								<HashName>{e}</HashName>
-								<HashBtn onClick={() => removeTag(i)}>
-									<FiDelete />
-								</HashBtn>
+								<div>
+									<HashName>{e}</HashName>
+									<HashBtn onClick={() => removeTag(i)}>
+										<FiDelete />
+									</HashBtn>
+								</div>
 							</Hash>
 						))}
 
@@ -248,10 +284,10 @@ function PostUpload() {
 							/>
 						</div>
 					</ImgContainer>
+
+					<PostBtn onClick={handleBtn}> 작성하기 </PostBtn>
 				</Body>
 			</Container>
-
-			<button onClick={handleBtn}> 작성하기 </button>
 		</div>
 	);
 }
