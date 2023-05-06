@@ -8,6 +8,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FiDelete } from 'react-icons/fi';
+import axios from 'axios';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 
 const Container = styled.div`
@@ -158,6 +159,11 @@ function PostUpload() {
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [Images, setImages] = useState<string[]>([]);
+	const [posts, setPosts] = useState([]);
+	const [subject, setSubject] = useState<string>('');
+	const [title, setTitle] = useState<string>('');
+
+	const displayName = localStorage.getItem('displayName');
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -184,17 +190,41 @@ function PostUpload() {
 		}
 	};
 
+	const handleSubject = (sub: string) => {
+		setSubject(sub);
+	};
+
+	const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setTitle(event.target.value);
+	};
+
 	const handleBtn = () => {
 		if (editorRef.current) {
 			const instance = editorRef.current.getInstance();
 			const content = instance.getMarkdown();
 
-			console.log(content);
-			console.log('dsd', Images);
-		} else {
-			console.log('dd');
+			// json-server용 api 요청
+			axios.post('http://localhost:4000/posts', {
+				id: posts.length + 1,
+				nickName: displayName,
+				subject,
+				title,
+				content,
+				tag: tags,
+				img: Images,
+				voteCount: 0,
+				viewCount: 0,
+				createdAt: '23-05-01T000000',
+				modifiedAt: '23-05-01T000000',
+			});
+
+			document.location.href = `/community/${posts.length + 1}`;
 		}
 	};
+
+	useEffect(() => {
+		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
+	}, []);
 	return (
 		<div className="main">
 			<Container>
@@ -206,9 +236,12 @@ function PostUpload() {
 					</p>
 					<hr />
 					<DropDownContainer>
-						<SubjectDropdown />
+						<SubjectDropdown handleSubject={handleSubject} />
 					</DropDownContainer>
-					<TitleInput placeholder="제목을 입력해주세요" />
+					<TitleInput
+						placeholder="제목을 입력해주세요"
+						onChange={handleTitle}
+					/>
 					<StyledEditor
 						ref={editorRef} // ref 연결
 						placeholder="내용을 입력해주세요."

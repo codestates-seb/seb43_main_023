@@ -45,7 +45,11 @@ const Container = styled.div`
 	border-top: none;
 `;
 
-function SubjectDropdown() {
+interface SubjectDropdownProps {
+	handleSubject: (selectedOption: string) => void;
+}
+
+function SubjectDropdown({ handleSubject }: SubjectDropdownProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [selected, setSelected] = useState<string>('');
 
@@ -55,6 +59,7 @@ function SubjectDropdown() {
 
 	const handleSelected = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const selectedOption = event.currentTarget.innerText;
+		handleSubject(selectedOption);
 		setSelected(selectedOption);
 		setIsOpen(false);
 	};
