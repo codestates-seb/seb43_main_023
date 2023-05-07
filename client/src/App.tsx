@@ -15,10 +15,12 @@ import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
 import Join from './Pages/Join';
 import Login from './Pages/Login';
+import Logout from './Pages/Logout';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
 import RegionDetail from './Pages/RegionDetail';
 import RegionRec from './Pages/RegionRecommend';
+import UserEdit from './Pages/UserEdit';
 
 function App() {
 	return (
@@ -28,7 +30,9 @@ function App() {
 				<Route path="/" element={<MainPage />} />
 				<Route path="/join" element={<Join />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/logout" element={<Logout />} />
 				<Route path="/mypage" element={<Mypage />} />
+				<Route path="/useredit" element={<UserEdit />} />
 				<Route path="/tripreview" element={<TripReview />} />
 				<Route path="/tripreview/:id" element={<ReviewDetail />} />
 				<Route path="/tripmate" element={<TripMate />} />

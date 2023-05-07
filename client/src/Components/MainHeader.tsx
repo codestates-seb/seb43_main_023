@@ -7,7 +7,6 @@ const img1 =
 const MainHeaderContainer = styled.div`
 	width: 100%;
 	height: 600px;
-	background-color: rgba(255, 255, 255, 0.5);
 	padding: 100px;
 	background-image: linear-gradient(
 			rgba(255, 255, 255, 0.5),

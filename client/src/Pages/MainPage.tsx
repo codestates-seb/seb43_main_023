@@ -68,10 +68,8 @@ const BannerContainer = styled.div`
 `;
 
 function MainPage() {
-	const [isLogin, setIsLogin] = useState(false);
+	const token = localStorage.getItem('accessToken');
 	const [currentTab, setCurrentTab] = useState(0);
-
-	console.log(currentTab);
 
 	const handleTabClick = (index: number) => {
 		setCurrentTab(index);
@@ -117,7 +115,7 @@ function MainPage() {
 
 	return (
 		<MainContainer>
-			{isLogin ? <UserHeader /> : <MainHeader />}
+			{token ? <UserHeader /> : <MainHeader />}
 			<MainTab>
 				<MainTabButton onClick={() => handleTabClick(0)}>
 					지역별 추천 여행 명소
