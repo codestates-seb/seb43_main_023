@@ -1,5 +1,7 @@
 import './Global.css';
 
+import { lazy, Suspense } from 'react';
+
 import { Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
@@ -15,36 +17,39 @@ import Error from './Pages/Error';
 import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
 import Loading from './Pages/Loading';
-import MainPage from './Pages/MainPage';
 import Join from './Pages/member/Join';
 import Login from './Pages/member/Login';
 import Logout from './Pages/member/Logout';
-import Mypage from './Pages/member/Mypage';
 import UserEdit from './Pages/member/UserEdit';
+
+const MainPage = lazy(() => import('./Pages/MainPage'));
+const Mypage = lazy(() => import('./Pages/member/Mypage'));
 
 function App() {
 	return (
-		<div className="App">
+		<div>
 			<Header />
-			<Routes>
-				<Route path="/" element={<MainPage />} />
-				<Route path="/join" element={<Join />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/logout" element={<Logout />} />
-				<Route path="/mypage" element={<Mypage />} />
-				<Route path="/useredit" element={<UserEdit />} />
-				<Route path="/tripreview" element={<TripReview />} />
-				<Route path="/tripreview/:id" element={<ReviewDetail />} />
-				<Route path="/tripmate" element={<TripMate />} />
-				<Route path="/mbti" element={<MBTI />} />
-				<Route path="/community" element={<Main />} />
-				<Route path="/community/:id" element={<PostDetail />} />
-				<Route path="/etctalk" element={<EtcTalk />} />
-				<Route path="/hotplace" element={<HotPlace />} />
-				<Route path="/hotreview" element={<HotReview />} />
-				<Route path="/error" element={<Error />} />
-				<Route path="/loading" element={<Loading />} />
-			</Routes>
+			<Suspense fallback={<Loading />}>
+				<Routes>
+					<Route path="/" element={<MainPage />} />
+					<Route path="/join" element={<Join />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/logout" element={<Logout />} />
+					<Route path="/mypage" element={<Mypage />} />
+					<Route path="/useredit" element={<UserEdit />} />
+					<Route path="/tripreview" element={<TripReview />} />
+					<Route path="/tripreview/:id" element={<ReviewDetail />} />
+					<Route path="/tripmate" element={<TripMate />} />
+					<Route path="/mbti" element={<MBTI />} />
+					<Route path="/community" element={<Main />} />
+					<Route path="/community/:id" element={<PostDetail />} />
+					<Route path="/etctalk" element={<EtcTalk />} />
+					<Route path="/hotplace" element={<HotPlace />} />
+					<Route path="/hotreview" element={<HotReview />} />
+					<Route path="/error" element={<Error />} />
+					<Route path="/loading" element={<Loading />} />
+				</Routes>
+			</Suspense>
 			<Footer />
 		</div>
 	);

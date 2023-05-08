@@ -127,6 +127,8 @@ function Footer() {
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
 	if (locationNow.pathname === '/join') return null;
+	if (locationNow.pathname === '/error') return null;
+	if (locationNow.pathname === '/loading') return null;
 
 	const root = document.documentElement;
 
