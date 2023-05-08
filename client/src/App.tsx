@@ -5,8 +5,8 @@ import { Route, Routes } from 'react-router-dom';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 import EtcTalk from './Pages/Community/EtcTalk';
-import MBTI from './Pages/Community/MBTI';
 import Main from './Pages/Community/Main';
+import MBTI from './Pages/Community/MBTI';
 import PostDetail from './Pages/Community/PostDetail';
 import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
@@ -18,9 +18,10 @@ import Login from './Pages/Login';
 import Logout from './Pages/Logout';
 import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
+import UserEdit from './Pages/UserEdit';
+import PostUpload from './Pages/Community/PostUpload';
 import RegionDetail from './Pages/RegionDetail';
 import RegionRec from './Pages/RegionRecommend';
-import UserEdit from './Pages/UserEdit';
 
 function App() {
 	return (
@@ -39,6 +40,7 @@ function App() {
 				<Route path="/mbti" element={<MBTI />} />
 				<Route path="/community" element={<Main />} />
 				<Route path="/community/:id" element={<PostDetail />} />
+				<Route path="/community/create" element={<PostUpload />} />
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
