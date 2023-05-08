@@ -11,14 +11,16 @@ import PostDetail from './Pages/Community/PostDetail';
 import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
+import Error from './Pages/Error';
 import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
-import Join from './Pages/Join';
-import Login from './Pages/Login';
-import Logout from './Pages/Logout';
+import Loading from './Pages/Loading';
 import MainPage from './Pages/MainPage';
-import Mypage from './Pages/Mypage';
-import UserEdit from './Pages/UserEdit';
+import Join from './Pages/member/Join';
+import Login from './Pages/member/Login';
+import Logout from './Pages/member/Logout';
+import Mypage from './Pages/member/Mypage';
+import UserEdit from './Pages/member/UserEdit';
 
 function App() {
 	return (
@@ -40,6 +42,8 @@ function App() {
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
+				<Route path="/error" element={<Error />} />
+				<Route path="/loading" element={<Loading />} />
 			</Routes>
 			<Footer />
 		</div>
