@@ -64,7 +64,7 @@ public class PostController {
 
         return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
     }
-    @GetMapping("/search")
+    @GetMapping("/search")// 게시글 검색기능
     public ResponseEntity searchPosts(@Size(min = 1) @RequestParam(value = "title") String title,
                                       @Positive @RequestParam(defaultValue = "1") int page) {
         Page<Post> posts = postService.searchPosts(page-1,title);
