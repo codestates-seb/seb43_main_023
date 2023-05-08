@@ -28,9 +28,9 @@ const SlideContainer = styled(Slider)`
 const SlideItem = styled.div<SlideItemProps>`
 	width: 220px;
 	height: 220px;
-	background-image: url(${(props) => (props.image ? props.image : '')});
-	background-position: center;
-	background-size: cover;
+	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
+		cover no-repeat;
+
 	color: white;
 	font-size: 30px;
 	font-weight: 700;
@@ -80,18 +80,15 @@ function Carousel() {
 				<SlideItem image="http://newsimg.hankookilbo.com/2016/10/21/201610211159329181_1.jpg">
 					<div>대전</div>
 				</SlideItem>
-
 				<SlideItem image="https://images.unsplash.com/photo-1634131431002-8fe857eb64a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80">
 					<div>인천</div>
 				</SlideItem>
 				<SlideItem image="https://images.unsplash.com/photo-1593419522318-81b7c346a3e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2854&q=80">
 					<div>광주</div>
 				</SlideItem>
-
 				<SlideItem image="https://images.unsplash.com/photo-1529528070131-eda9f3e90919?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80">
 					<div>경상남도</div>
 				</SlideItem>
-
 				<SlideItem image="https://images.unsplash.com/photo-1669764372822-3cb8476d4f47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80">
 					<div>경상북도</div>
 				</SlideItem>

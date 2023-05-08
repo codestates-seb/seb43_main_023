@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import '../../Global.css';
-import { Link } from 'react-router-dom';
 
 const PlaceTag = styled.div`
 	font-weight: 600;

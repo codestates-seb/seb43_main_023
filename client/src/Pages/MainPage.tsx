@@ -49,6 +49,9 @@ const MainContentsContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	padding-top: 50px;
+	.linkButton {
+		text-align: end;
+	}
 `;
 
 const SlideContainer = styled.div`
@@ -65,14 +68,17 @@ const BannerContainer = styled.div`
 	height: 200px;
 	margin: 50px 0;
 	padding: 0px;
-	z-index: -1;
+`;
+const ButtonContainer = styled.div`
+	width: 85%;
+	display: flex;
+	padding-right: 50px;
+	justify-content: flex-end;
 `;
 
 function MainPage() {
-	const [isLogin, setIsLogin] = useState(false);
+	const token = localStorage.getItem('accessToken');
 	const [currentTab, setCurrentTab] = useState(0);
-
-	console.log(currentTab);
 
 	const handleTabClick = (index: number) => {
 		setCurrentTab(index);
@@ -95,30 +101,30 @@ function MainPage() {
 		switch (currentTab) {
 			case 0:
 				return (
-					<Link to="/">
-						<span>전체보기</span>
+					<Link to="/regionrec">
+						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			case 1:
 				return (
 					<Link to="/hotplace">
-						<span>전체보기</span>
+						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			case 2:
 				return (
 					<Link to="/hotreview">
-						<span>전체보기</span>
+						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			default:
-				return <span>전체보기</span>;
+				return <div>전체보기</div>;
 		}
 	};
 
 	return (
 		<MainContainer>
-			{isLogin ? <UserHeader /> : <MainHeader />}
+			{token ? <UserHeader /> : <MainHeader />}
 			<MainTab>
 				<MainTabButton onClick={() => handleTabClick(0)}>
 					지역별 추천 여행 명소
@@ -134,10 +140,8 @@ function MainPage() {
 				</Link>
 			</MainTab>
 			<MainContentsContainer>
-				<SlideContainer>
-					{renderCarousel()}
-					{moveToPage()}
-				</SlideContainer>
+				<SlideContainer>{renderCarousel()}</SlideContainer>
+				<ButtonContainer>{moveToPage()}</ButtonContainer>
 				<BannerContainer>
 					<Banner />
 				</BannerContainer>

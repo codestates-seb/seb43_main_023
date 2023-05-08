@@ -20,6 +20,8 @@ import MainPage from './Pages/MainPage';
 import Mypage from './Pages/Mypage';
 import UserEdit from './Pages/UserEdit';
 import PostUpload from './Pages/Community/PostUpload';
+import RegionDetail from './Pages/RegionDetail';
+import RegionRec from './Pages/RegionRecommend';
 
 function App() {
 	return (
@@ -42,6 +44,8 @@ function App() {
 				<Route path="/etctalk" element={<EtcTalk />} />
 				<Route path="/hotplace" element={<HotPlace />} />
 				<Route path="/hotreview" element={<HotReview />} />
+				<Route path="/regionrec" element={<RegionRec />} />
+				<Route path="/regiondetail" element={<RegionDetail />} />
 			</Routes>
 			<Footer />
 		</div>
