@@ -10,6 +10,7 @@ import EtcTalk from './Pages/Community/EtcTalk';
 import Main from './Pages/Community/Main';
 import MBTI from './Pages/Community/MBTI';
 import PostDetail from './Pages/Community/PostDetail';
+import PostUpload from './Pages/Community/PostUpload';
 import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
@@ -21,6 +22,8 @@ import Join from './Pages/member/Join';
 import Login from './Pages/member/Login';
 import Logout from './Pages/member/Logout';
 import UserEdit from './Pages/member/UserEdit';
+import RegionDetail from './Pages/RegionDetail';
+import RegionRec from './Pages/RegionRecommend';
 
 const MainPage = lazy(() => import('./Pages/MainPage'));
 const Mypage = lazy(() => import('./Pages/member/Mypage'));
@@ -43,11 +46,14 @@ function App() {
 					<Route path="/mbti" element={<MBTI />} />
 					<Route path="/community" element={<Main />} />
 					<Route path="/community/:id" element={<PostDetail />} />
+					<Route path="/community/create" element={<PostUpload />} />
 					<Route path="/etctalk" element={<EtcTalk />} />
 					<Route path="/hotplace" element={<HotPlace />} />
 					<Route path="/hotreview" element={<HotReview />} />
 					<Route path="/error" element={<Error />} />
 					<Route path="/loading" element={<Loading />} />
+					<Route path="/regionrec" element={<RegionRec />} />
+					<Route path="/regiondetail" element={<RegionDetail />} />
 				</Routes>
 			</Suspense>
 			<Footer />

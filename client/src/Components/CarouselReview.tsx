@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import img from '../Assets/jeonju.jpg';
 
 const SlideContainer = styled(Slider)`
-	padding: 0 10px;
+	padding: 0 18px;
 	display: flex;
 	margin-bottom: 20px;
 	.slick-prev::before {
