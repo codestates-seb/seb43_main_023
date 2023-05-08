@@ -54,6 +54,9 @@ public class PostService {
     public Page<Post> findPosts(int page){
         return postRepository.findAll(PageRequest.of(page,10,Sort.by("postId").descending()));
     }
+    public Page<Post> searchPosts(int page,String title){
+        return postRepository.findByTitleContaining(title,PageRequest.of(page, 10));
+    }
     public Post votePost(long postId, long memberId){
         Post post = verifyPost(postId);
         if(post.getVoteList().contains(memberId)){

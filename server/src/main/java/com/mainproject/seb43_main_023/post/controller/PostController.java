@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,15 +64,18 @@ public class PostController {
 
         return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
     }
+    @GetMapping("/search")
+    public ResponseEntity searchPosts(@Size(min = 1) @RequestParam(value = "title") String title,
+                                      @Positive @RequestParam(defaultValue = "1") int page) {
+        Page<Post> posts = postService.searchPosts(page-1,title);
+        List<Post> content = posts.getContent();
+
+        return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
+    }
     @PatchMapping("/{post-id}/vote/{member-id}")// 게시글 추천 (한번누르면 추천 다시누르면 추천취소)(member-id 임시로사용)
     public ResponseEntity votePost(@PathVariable("post-id") long postId,
                                    @PathVariable("member-id") long memberId){
         Post post = postService.votePost(postId,memberId);
-        return new ResponseEntity(mapper.postToPostResponse(post),HttpStatus.OK);
-    }
-    @PostMapping("/test/{postName}")
-    public ResponseEntity test(@PathVariable("postName") String postName){
-        Post post = new Post(1L,postName,"제목1","내용1",0,0, LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null);
         return new ResponseEntity(mapper.postToPostResponse(post),HttpStatus.OK);
     }
 }
