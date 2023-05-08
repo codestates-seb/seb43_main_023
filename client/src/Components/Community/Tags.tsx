@@ -119,6 +119,7 @@ const MBTITag = styled.div`
 
 const PostBtn = styled.div`
 	button {
+		z-index: 200;
 		position: relative;
 		margin: auto;
 		padding: 12px 18px;

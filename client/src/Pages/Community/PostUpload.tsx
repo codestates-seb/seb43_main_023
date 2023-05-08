@@ -236,7 +236,7 @@ function PostUpload() {
 					</p>
 					<hr />
 					<DropDownContainer>
-						<SubjectDropdown handleSubject={handleSubject} />
+						<SubjectDropdown handleSubject={handleSubject} from="upload" />
 					</DropDownContainer>
 					<TitleInput
 						placeholder="제목을 입력해주세요"

@@ -114,6 +114,44 @@
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000"
+    },
+    {
+      "id": 10,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "ghjghjghjghjghj",
+      "content": "ghjghjghjghj",
+      "tag": [
+        "ghjghjghj",
+        "ghjgjh]]"
+      ],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
+    },
+    {
+      "id": 11,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "사진 추가 수정",
+      "content": "사진 있음 수정",
+      "tag": [
+        "ㅏㅏ",
+        "ㄴㄴ",
+        "aa",
+        "수정"
+      ],
+      "img": [
+        "blob:http://localhost:3000/50231cd6-a72f-4c08-9d78-1c90430f7367",
+        "blob:http://localhost:3000/c537840f-c0ad-451e-b05b-c965881311af",
+        "blob:http://localhost:3000/93ba0bc7-6762-432c-b272-3beded96f457"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
     }
   ],
   "members": [
