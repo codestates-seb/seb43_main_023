@@ -49,6 +49,9 @@ const MainContentsContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	padding-top: 50px;
+	.linkButton {
+		text-align: end;
+	}
 `;
 
 const SlideContainer = styled.div`
@@ -65,6 +68,12 @@ const BannerContainer = styled.div`
 	height: 200px;
 	margin: 50px 0;
 	padding: 0px;
+`;
+const ButtonContainer = styled.div`
+	width: 85%;
+	display: flex;
+	padding-right: 50px;
+	justify-content: flex-end;
 `;
 
 function MainPage() {
@@ -93,23 +102,23 @@ function MainPage() {
 			case 0:
 				return (
 					<Link to="/regionrec">
-						<span>전체보기</span>
+						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			case 1:
 				return (
 					<Link to="/hotplace">
-						<span>전체보기</span>
+						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			case 2:
 				return (
 					<Link to="/hotreview">
-						<span>전체보기</span>
+						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			default:
-				return <span>전체보기</span>;
+				return <div>전체보기</div>;
 		}
 	};
 
@@ -131,10 +140,8 @@ function MainPage() {
 				</Link>
 			</MainTab>
 			<MainContentsContainer>
-				<SlideContainer>
-					{renderCarousel()}
-					{moveToPage()}
-				</SlideContainer>
+				<SlideContainer>{renderCarousel()}</SlideContainer>
+				<ButtonContainer>{moveToPage()}</ButtonContainer>
 				<BannerContainer>
 					<Banner />
 				</BannerContainer>
