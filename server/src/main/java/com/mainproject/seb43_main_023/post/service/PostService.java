@@ -26,6 +26,7 @@ public class PostService {
         Member member = memberService.findVerifiedMember(memberId);
         post.setMemberId(memberId);
         post.setNickname(member.getNickname());
+        post.setEmail(member.getEmail());
         return postRepository.save(post);
     }
     public Post updatePost(Post post, long memberId){

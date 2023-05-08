@@ -27,19 +27,19 @@ public class DataLoader {
         );
         memberRepository.saveAll(members);
         List<Post> posts = Arrays.asList(
-                new Post(1L,"말머리1","제목1","내용1",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(2L,"말머리2","제목2","내용2",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(3L,"말머리3","제목3","내용3",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(4L,"말머리4","제목4","내용4",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(5L,"말머리5","제목5","내용5",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(6L,"말머리6","제목6","내용6",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(7L,"말머리7","제목7","내용7",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(8L,"말머리8","제목8","내용8",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(9L,"말머리9","제목9","내용9",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(10L,"말머리10","제목10","내용10",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(11L,"말머리11","제목11","내용11",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(12L,"말머리12","제목12","내용12",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"testNick1",null),
-                new Post(13L,"말머리13","제목13","내용13",0,0,LocalDateTime.now(),LocalDateTime.now(),2L,"testNick2",null)
+                new Post(1L,"여행리뷰","제목1","내용1",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(2L,"여행리뷰","제목2","내용2",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(3L,"여행추천","제목3","내용3",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(4L,"여행추천","제목4","내용4",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(5L,"여행추천","제목5","내용5",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(6L,"MBTI","제목6","내용6",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(7L,"MBTI","제목7","내용7",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(8L,"MBTI","제목8","내용8",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(9L,"잡담","제목9","내용9",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(10L,"잡담","제목10","내용10",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(11L,"잡담","제목11","내용11",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(12L,"잡담","제목12","내용12",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null),
+                new Post(13L,"잡담","제목13","내용13",0,0,LocalDateTime.now(),LocalDateTime.now(),2L,"test2@gmail.com","testNick2",null)
         );
         postRepository.saveAll(posts);
     }

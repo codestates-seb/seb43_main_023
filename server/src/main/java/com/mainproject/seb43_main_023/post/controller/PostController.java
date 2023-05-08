@@ -3,6 +3,7 @@ package com.mainproject.seb43_main_023.post.controller;
 import com.mainproject.seb43_main_023.post.dto.PostDto;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.mapper.PostMapper;
+import com.mainproject.seb43_main_023.post.repository.PostRepository;
 import com.mainproject.seb43_main_023.post.service.PostService;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -65,6 +67,11 @@ public class PostController {
     public ResponseEntity votePost(@PathVariable("post-id") long postId,
                                    @PathVariable("member-id") long memberId){
         Post post = postService.votePost(postId,memberId);
+        return new ResponseEntity(mapper.postToPostResponse(post),HttpStatus.OK);
+    }
+    @PostMapping("/test/{postName}")
+    public ResponseEntity test(@PathVariable("postName") String postName){
+        Post post = new Post(1L,postName,"제목1","내용1",0,0, LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null);
         return new ResponseEntity(mapper.postToPostResponse(post),HttpStatus.OK);
     }
 }

@@ -22,6 +22,7 @@ public class PostDto {
     public static class postResponseDto {
         private long postId;
         private long memberId;
+        private String email;
         private String nickname;
         private String subject;
         private String title;
@@ -36,6 +37,7 @@ public class PostDto {
     public static class postsResponseDto{
         private long postId;
         private long memberId;
+        private String  email;
         private String nickname;
         private String subject;
         private String title;

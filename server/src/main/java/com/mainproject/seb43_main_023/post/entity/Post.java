@@ -27,6 +27,7 @@ public class Post {
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime modifiedAt = LocalDateTime.now();
     private Long memberId;
+    private String email;
     private String nickname;
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
