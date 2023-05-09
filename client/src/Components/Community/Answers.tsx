@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Container = styled.div`
 	width: 100%;
@@ -81,6 +82,7 @@ interface Answer {
 	content: string;
 	id: number;
 	vote: number;
+	postId: number;
 }
 
 function Answers() {
@@ -89,7 +91,10 @@ function Answers() {
 
 	const [isLike, setIsLike] = useState<boolean>(false);
 	const [text, setText] = useState<string>('');
-	const [answers, setAnswers] = useState<Answer[]>([]);
+	// eslint-disable-next-line prefer-const
+	let [answers, setAnswers] = useState<Answer[]>([]);
+
+	answers = answers.filter((el) => el.postId === Number(id));
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -97,21 +102,14 @@ function Answers() {
 
 	const handleSubmit = (e: { key: string }) => {
 		if (e.key === 'Enter') {
-			axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
-				const prevComments = res.data.comments;
-
-				const newComment = {
-					id: answers.length + 1,
-					content: text,
-					author: displayName,
-					vote: 0,
-				};
-
-				axios.patch(`http://localhost:4000/posts/${id}`, {
-					comments: [...prevComments, newComment],
-				});
-				document.location.href = `/community/${id}`;
+			axios.post(`http://localhost:4000/comments`, {
+				id: answers.length + 1,
+				postId: Number(id),
+				content: text,
+				author: displayName,
 			});
+
+			document.location.href = `/community/${id}`;
 		}
 	};
 
@@ -132,14 +130,10 @@ function Answers() {
 		// }
 	};
 
-	const handleUpdate = (answerId: number) => {
-		const answerIndex = answers.findIndex((answer) => answer.id === answerId);
-	};
-
 	useEffect(() => {
 		axios
-			.get(`http://localhost:4000/posts/${id}`)
-			.then((res) => setAnswers(res.data.comments));
+			.get(`http://localhost:4000/comments`)
+			.then((res) => setAnswers(res.data));
 	}, [id]);
 
 	return (
