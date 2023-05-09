@@ -107,10 +107,38 @@ function Answers() {
 				postId: Number(id),
 				content: text,
 				author: displayName,
+				vote: 0,
 			});
 
 			document.location.href = `/community/${id}`;
 		}
+	};
+
+	const handleDelete = (answerId: number) => {
+		Swal.fire({
+			title: '정말로 삭제하시겠습니까 ?',
+			text: '다신 되돌릴 수 없습니다',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#0db4f3',
+			cancelButtonColor: '#f37676',
+			confirmButtonText: 'Delete',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				axios
+					.delete(`http://localhost:4000/comments/${answerId}`)
+					.then(() =>
+						Swal.fire({
+							title: 'Deleted!',
+							text: '삭제되었습니다',
+							icon: 'success',
+							confirmButtonColor: '#0db4f3',
+						}),
+					)
+					// eslint-disable-next-line no-return-assign
+					.then(() => (document.location.href = `/community/${id}`));
+			}
+		});
 	};
 
 	const handleLike = (answerId: number) => {
@@ -168,7 +196,7 @@ function Answers() {
 								<span>{el.content}</span>
 								<div>
 									<BsPencilSquare size={14} />
-									<BsTrash size={14} />
+									<BsTrash size={14} onClick={() => handleDelete(idx + 1)} />
 								</div>
 							</div>
 						</div>
