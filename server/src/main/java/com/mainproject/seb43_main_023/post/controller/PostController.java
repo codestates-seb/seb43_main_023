@@ -3,10 +3,7 @@ package com.mainproject.seb43_main_023.post.controller;
 import com.mainproject.seb43_main_023.post.dto.PostDto;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.mapper.PostMapper;
-import com.mainproject.seb43_main_023.post.repository.PostRepository;
 import com.mainproject.seb43_main_023.post.service.PostService;
-import lombok.Getter;
-import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController

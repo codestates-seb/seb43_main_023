@@ -27,8 +27,8 @@ public class DataLoader {
     @PostConstruct
     public void init(){
         List<Member> members = Arrays.asList(
-        new Member(1L,"test1@gmail.com","1234","testNick1","INFP",null,null, Member.MemberStatus.MEMBER_ACTIVE),
-        new Member(2L,"test2@gmail.com","1234","testNick2","INFP",null,null, Member.MemberStatus.MEMBER_ACTIVE)
+        new Member(1L,"test1@gmail.com","1234","testNick1","INFP",null,null,null, Member.MemberStatus.MEMBER_ACTIVE),
+        new Member(2L,"test2@gmail.com","1234","testNick2","INFP",null,null, null,Member.MemberStatus.MEMBER_ACTIVE)
         );
         memberRepository.saveAll(members);
         List<Post> posts = Arrays.asList(
