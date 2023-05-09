@@ -22,8 +22,15 @@ const AnswerInput = styled.input`
 `;
 
 const Answer = styled.div`
-	margin-top: 15px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 5px;
 	border-bottom: 1px solid #c7c7c7;
+`;
+
+const ContentContainer = styled.div`
+	margin-top: 15px;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -91,6 +98,9 @@ function Answers() {
 
 	const [isLike, setIsLike] = useState<boolean>(false);
 	const [text, setText] = useState<string>('');
+	const [edit, setEdit] = useState<boolean>(false);
+	const [clickedId, setClickedId] = useState<number | null>(null);
+
 	// eslint-disable-next-line prefer-const
 	let [answers, setAnswers] = useState<Answer[]>([]);
 
@@ -108,6 +118,16 @@ function Answers() {
 				content: text,
 				author: displayName,
 				vote: 0,
+			});
+
+			document.location.href = `/community/${id}`;
+		}
+	};
+
+	const handleUpdate = (e: { key: string }, answerId: number) => {
+		if (e.key === 'Enter') {
+			axios.patch(`http://localhost:4000/comments/${answerId}`, {
+				content: text,
 			});
 
 			document.location.href = `/community/${id}`;
@@ -140,6 +160,13 @@ function Answers() {
 			}
 		});
 	};
+
+	const handleEdit = (answerId: number) => {
+		setClickedId(answerId);
+		setEdit(!edit);
+	};
+
+	// const handleUpdate = (answerId: number) => {};
 
 	const handleLike = (answerId: number) => {
 		const answerIndex = answers.findIndex((answer) => answer.id === answerId);
@@ -175,31 +202,46 @@ function Answers() {
 			{answers &&
 				answers.map((el, idx) => (
 					<Answer>
-						<Vote>
-							{isLike ? (
-								<AiFillHeart
-									size={18}
-									onClick={() => handleLike(el.id)}
-									color="#fe6464"
-								/>
-							) : (
-								<AiOutlineHeart size={18} onClick={() => handleLike(el.id)} />
-							)}
+						<ContentContainer>
+							<Vote>
+								{isLike ? (
+									<AiFillHeart
+										size={18}
+										onClick={() => handleLike(el.id)}
+										color="#fe6464"
+									/>
+								) : (
+									<AiOutlineHeart size={18} onClick={() => handleLike(el.id)} />
+								)}
 
-							<span>{el.vote}</span>
-						</Vote>
-						<div />
-						<div>
-							<div>{el.author}</div>
-
+								<span>{el.vote}</span>
+							</Vote>
+							<div />
 							<div>
-								<span>{el.content}</span>
+								<div>{el.author}</div>
+
 								<div>
-									<BsPencilSquare size={14} />
-									<BsTrash size={14} onClick={() => handleDelete(idx + 1)} />
+									{edit && clickedId === idx + 1 ? (
+										<AnswerInput
+											placeholder="댓글을 남겨주세요"
+											onChange={(e) => handleInput(e)}
+											onKeyDown={(e) => handleUpdate(e, idx + 1)}
+											defaultValue={el.content}
+										/>
+									) : (
+										<span>{el.content}</span>
+									)}
+
+									<div>
+										<BsPencilSquare
+											size={14}
+											onClick={() => handleEdit(idx + 1)}
+										/>
+										<BsTrash size={14} onClick={() => handleDelete(idx + 1)} />
+									</div>
 								</div>
 							</div>
-						</div>
+						</ContentContainer>
 					</Answer>
 				))}
 		</Container>
