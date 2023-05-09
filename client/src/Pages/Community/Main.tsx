@@ -8,7 +8,6 @@ import Tags from '../../Components/Community/Tags';
 
 const Explain = styled.div`
 	margin-top: 85px;
-	border-bottom: 1px solid rgb(214, 217, 219);
 	height: 130px;
 	display: flex;
 	flex-direction: column;
@@ -26,7 +25,8 @@ const Explain = styled.div`
 	> div {
 		color: #595959;
 		font-size: 14px;
-		padding-bottom: 5px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgb(214, 217, 219);
 	}
 `;
 

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import Swal from 'sweetalert2';
+import Answers from '../../Components/Community/Answers';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -73,8 +74,6 @@ const Content = styled.div`
 	height: 450px;
 	overflow-y: scroll;
 `;
-
-const Answers = styled.div``;
 
 function PostDetail() {
 	interface Post {
@@ -156,10 +155,7 @@ function PostDetail() {
 											명이 좋아합니다.
 										</span>
 									</Vote>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
+									<Answers />
 								</div>
 							</>
 						))}
