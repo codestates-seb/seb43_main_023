@@ -28,9 +28,8 @@ const SlideContainer = styled(Slider)`
 const SlideItem = styled.div<SlideItemProps>`
 	width: 220px;
 	height: 220px;
-	background-image: url(${(props) => (props.image ? props.image : '')});
-	background-position: center;
-	background-size: cover;
+	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
+		cover no-repeat;
 	color: white;
 	font-size: 30px;
 	font-weight: 700;

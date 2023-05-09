@@ -1,21 +1,19 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../Global.css';
 
-const img1 =
-	'https://images.unsplash.com/photo-1598943392629-19ddae99855c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80';
+interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
+	image?: string;
+}
 
-const UserHeaderContainer = styled.div`
+const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 	width: 100%;
 	height: 600px;
-	background-color: rgba(255, 255, 255, 0.5);
 	padding: 100px;
-	background-image: linear-gradient(
-			rgba(255, 255, 255, 0.5),
-			rgba(255, 255, 255, 0.5)
-		),
-		url(${img1});
-	background-size: cover;
+	background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
+		center / cover no-repeat;
 	margin-top: 71px;
 `;
 
@@ -33,7 +31,7 @@ const HeaderText = styled.div`
 `;
 
 type MbtiText = {
-	[key: string]: string; // key는 string, value는 string인 객체
+	[key: string]: string;
 };
 
 const mbtiText: MbtiText = {
@@ -55,14 +53,89 @@ const mbtiText: MbtiText = {
 	entj: '동행 중 리더 격으로 여행을 이끌며 효율적인 여행을 이끌어내는 ENTJ에게 어울리는 서산은 어떠신가요?',
 };
 
+interface IuserInfo {
+	id: number;
+	email: string;
+	password: string;
+	nickname: string;
+	mbti: string;
+	image: string;
+	rold: string;
+	memberStatus: string;
+	badge: null;
+	createdAt: string;
+	modifiedAt: string;
+}
+
+interface IuserMbti {
+	description: string;
+	img: string;
+	mbti: string;
+	place: string;
+	placeImg: string;
+}
+
 function UserHeader() {
-	const [userMbti, setUserMbti] = useState('enfj');
+	const [userInfo, setUserInfo] = useState<IuserInfo>({
+		id: 0,
+		email: '',
+		password: '',
+		nickname: '',
+		mbti: '',
+		image: '',
+		rold: '',
+		memberStatus: '',
+		badge: null,
+		createdAt: '',
+		modifiedAt: '',
+	});
+	const [filterMbti, setFilterMbti] = useState<IuserMbti>({
+		description: '',
+		img: '',
+		mbti: '',
+		place: '',
+		placeImg: '',
+	});
+
+	const memberId = localStorage.getItem('memberId');
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		setTimeout(() => {
+			axios(`http://localhost:4000/members/${memberId}`)
+				.then((response) => {
+					const { data } = response;
+					setUserInfo(data);
+				})
+				.catch((error) => {
+					console.log(error);
+					navigate('/error');
+				});
+		}, 500);
+	}, [memberId, navigate]);
+
+	useEffect(() => {
+		setTimeout(() => {
+			axios('http://localhost:4000/mbti')
+				.then((response) => {
+					const { data } = response;
+					const newData = data.filter(
+						(item: any) => item.mbti === userInfo.mbti,
+					);
+					setFilterMbti(newData[0]);
+				})
+				.catch((error) => {
+					console.log(error);
+					navigate('/error');
+				});
+		}, 500);
+	}, [navigate, userInfo.mbti]);
 
 	return (
-		<UserHeaderContainer>
+		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
 			<HeaderText>
-				<span>너구리</span>님!
-				<div>{mbtiText[userMbti]}</div>
+				<span>{userInfo.nickname}</span>님!
+				<div>{filterMbti ? filterMbti.description : ''}</div>
 			</HeaderText>
 		</UserHeaderContainer>
 	);
