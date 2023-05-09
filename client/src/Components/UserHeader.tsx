@@ -42,10 +42,6 @@ const HeaderText = styled.div`
 	}
 `;
 
-type MbtiText = {
-	[key: string]: string;
-};
-
 interface IuserInfo {
 	id: number;
 	email: string;
@@ -100,8 +96,7 @@ function UserHeader() {
 					const { data } = response;
 					setUserInfo(data);
 				})
-				.catch((error) => {
-					console.log(error);
+				.catch(() => {
 					navigate('/error');
 				});
 		}, 500);
@@ -117,8 +112,7 @@ function UserHeader() {
 					);
 					setFilterMbti(newData[0]);
 				})
-				.catch((error) => {
-					console.log(error);
+				.catch(() => {
 					navigate('/error');
 				});
 		}, 500);

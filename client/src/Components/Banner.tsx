@@ -39,7 +39,6 @@ const SlideItem = styled.div<SlideItemProps>`
 `;
 
 function Banner() {
-	// 옵션
 	const settings = {
 		dots: false,
 		infinite: true,

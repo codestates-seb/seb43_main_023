@@ -53,8 +53,7 @@ function MainHeader() {
 					const { data } = response;
 					setUserCount(data.length);
 				})
-				.catch((error) => {
-					console.log(error);
+				.catch(() => {
 					navigate('/error');
 				});
 		}, 500);
