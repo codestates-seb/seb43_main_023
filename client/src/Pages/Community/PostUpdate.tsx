@@ -7,8 +7,9 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FiDelete } from 'react-icons/fi';
+import { FiDelete, FiAlertCircle } from 'react-icons/fi';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 
 const Container = styled.div`
@@ -105,6 +106,7 @@ const InputBox = styled.input`
 `;
 
 const ImgContainer = styled.div`
+	background-color: #ababab8b;
 	margin-top: 15px;
 	width: 100%;
 
@@ -122,10 +124,6 @@ const ImgContainer = styled.div`
 			font-size: 14px;
 			color: gray;
 			margin-right: 5px;
-
-			&:hover {
-				color: #0db4f3;
-			}
 		}
 
 		input[type='file'] {
@@ -152,18 +150,40 @@ const PostBtn = styled.button`
 	font-size: 15px;
 `;
 
-function PostUpload() {
-	const editorRef = useRef<Editor | null>(null);
+const Alert = styled.div`
+	margin-left: 5px;
+	color: #f37676;
+	font-size: 12px;
+	margin-top: 5px;
+	display: flex;
 
-	const imgUploadInput = useRef<HTMLInputElement | null>(null);
+	> p {
+		font-size: 15px;
+		margin-right: 5px;
+	}
+`;
+
+function PostUpdate() {
+	interface Post {
+		content: string;
+		createdAt: string;
+		id: number;
+		img: string[];
+		modifiedAt: string;
+		nickName: string;
+		subject: string;
+		tag: string[];
+		title: string;
+	}
+	const editorRef = useRef<Editor | null>(null);
+	const { id } = useParams();
+
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
-	const [Images, setImages] = useState<string[]>([]);
-	const [posts, setPosts] = useState([]);
+	const [post, setPost] = useState<Post>();
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
-
-	const displayName = localStorage.getItem('displayName');
+	const [alert, setAlert] = useState<boolean>(false);
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -183,11 +203,8 @@ function PostUpload() {
 		}
 	};
 
-	const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.files) {
-			const newFileURL = URL.createObjectURL(event.target.files[0]);
-			setImages((prevImages) => [...prevImages, newFileURL]);
-		}
+	const handleImg = () => {
+		setAlert(true);
 	};
 
 	const handleSubject = (sub: string) => {
@@ -204,125 +221,114 @@ function PostUpload() {
 			const content = instance.getMarkdown();
 
 			// json-server용 api 요청
-			axios.post('http://localhost:4000/posts', {
-				id: posts.length + 1,
-				nickName: displayName,
-				subject,
-				title,
-				content,
-				tag: tags,
-				img: Images,
-				voteCount: 0,
-				viewCount: 0,
-				createdAt: '23-05-01T000000',
-				modifiedAt: '23-05-01T000000',
-			});
-
-			document.location.href = `/community/${posts.length + 1}`;
+			axios
+				.patch(`http://localhost:4000/posts/${id}`, {
+					title,
+					content,
+					tag: tags,
+				})
+				// eslint-disable-next-line no-return-assign
+				.then(() => (document.location.href = `/community/${id}`));
 		}
 	};
 
 	useEffect(() => {
-		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
-	}, []);
+		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
+			setPost(res.data);
+			setTags(res.data.tag);
+		});
+	}, [id]);
+
 	return (
 		<div className="main">
-			<Container>
-				<Body>
-					<h2> 글쓰기 </h2>
-					<p>
-						자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
-						사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
-					</p>
-					<hr />
-					<DropDownContainer>
-						<SubjectDropdown handleSubject={handleSubject} from="upload" />
-					</DropDownContainer>
-					<TitleInput
-						placeholder="제목을 입력해주세요"
-						onChange={handleTitle}
-					/>
-					<StyledEditor
-						ref={editorRef} // ref 연결
-						placeholder="내용을 입력해주세요."
-						previewStyle="vertical" // 미리보기 스타일 지정
-						height="300px" // 에디터 창 높이
-						initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-						toolbarItems={[
-							// 툴바 옵션 설정
-							['heading', 'bold', 'italic', 'strike'],
-							['hr', 'quote'],
-							['ul', 'ol', 'task', 'indent', 'outdent'],
-							['table', 'link'],
-							['code', 'codeblock'],
-						]}
-						plugins={[colorSyntax]}
-					/>
-
-					<TagContainer>
-						{tags.map((e, i) => (
-							// eslint-disable-next-line react/no-array-index-key
-							<Hash key={i}>
-								<div>
-									<HashName>{e}</HashName>
-									<HashBtn onClick={() => removeTag(i)}>
-										<FiDelete />
-									</HashBtn>
-								</div>
-							</Hash>
-						))}
-
-						<InputBox
-							placeholder="태그를 입력해주세요"
-							onChange={(e) => addTag(e)}
-							onKeyPress={(e) => handleKeyPress(e)}
-							value={tag}
+			{post && (
+				<Container>
+					<Body>
+						<h2> 글쓰기 </h2>
+						<p>
+							자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br />
+							<b>말머리와 사진은 수정이 불가능</b>하니 잘 선택해주세요 😊
+						</p>
+						<hr />
+						<DropDownContainer>
+							<SubjectDropdown handleSubject={handleSubject} from="Update" />
+						</DropDownContainer>
+						<TitleInput
+							placeholder="제목을 입력해주세요"
+							onChange={handleTitle}
+							defaultValue={post.title}
 						/>
-					</TagContainer>
+						<StyledEditor
+							initialValue={post.content}
+							ref={editorRef} // ref 연결
+							placeholder="내용을 입력해주세요."
+							previewStyle="vertical" // 미리보기 스타일 지정
+							height="300px" // 에디터 창 높이
+							initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+							toolbarItems={[
+								// 툴바 옵션 설정
+								['heading', 'bold', 'italic', 'strike'],
+								['hr', 'quote'],
+								['ul', 'ol', 'task', 'indent', 'outdent'],
+								['table', 'link'],
+								['code', 'codeblock'],
+							]}
+							plugins={[colorSyntax]}
+						/>
 
-					<ImgContainer>
-						<div>
-							<label htmlFor="img1">
-								<div className="btnStart">Image 1 첨부하기</div>
-							</label>
+						<TagContainer>
+							{tags.map((e, i) => (
+								// eslint-disable-next-line react/no-array-index-key
+								<Hash key={i}>
+									<div>
+										<HashName>{e}</HashName>
+										<HashBtn onClick={() => removeTag(i)}>
+											<FiDelete />
+										</HashBtn>
+									</div>
+								</Hash>
+							))}
 
-							<input
-								id="img1"
-								type="file"
-								accept="image/*"
-								ref={imgUploadInput}
-								onChange={onImageChange}
+							<InputBox
+								placeholder="태그를 입력해주세요"
+								onChange={(e) => addTag(e)}
+								onKeyPress={(e) => handleKeyPress(e)}
+								value={tag}
 							/>
-						</div>
-						<div>
-							<label htmlFor="img1">
-								<div className="btnStart">Image 2 첨부하기</div>
-							</label>
-							<input
-								type="file"
-								accept="image/*"
-								ref={imgUploadInput}
-								onChange={onImageChange}
-							/>
-						</div>
-						<div>
-							<label htmlFor="img1">
-								<div className="btnStart">Image 3 첨부하기</div>
-							</label>
-							<input
-								type="file"
-								accept="image/*"
-								ref={imgUploadInput}
-								onChange={onImageChange}
-							/>
-						</div>
-					</ImgContainer>
+						</TagContainer>
 
-					<PostBtn onClick={handleBtn}> 작성하기 </PostBtn>
-				</Body>
-			</Container>
+						<ImgContainer onClick={handleImg}>
+							<div>
+								<label htmlFor="img1">
+									<div className="btnStart">Image 1 첨부하기</div>
+								</label>
+							</div>
+							<div>
+								<label htmlFor="img1">
+									<div className="btnStart">Image 2 첨부하기</div>
+								</label>
+							</div>
+							<div>
+								<label htmlFor="img1">
+									<div className="btnStart">Image 3 첨부하기</div>
+								</label>
+							</div>
+						</ImgContainer>
+						{alert ? (
+							<Alert>
+								<p>
+									<FiAlertCircle />
+								</p>
+								사진은 수정 불가능해요
+							</Alert>
+						) : null}
+
+						<PostBtn onClick={handleBtn}> 작성하기 </PostBtn>
+					</Body>
+				</Container>
+			)}
 		</div>
 	);
 }
 
-export default PostUpload;
+export default PostUpdate;

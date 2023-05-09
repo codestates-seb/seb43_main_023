@@ -10,6 +10,7 @@ import EtcTalk from './Pages/Community/EtcTalk';
 import Main from './Pages/Community/Main';
 import MBTI from './Pages/Community/MBTI';
 import PostDetail from './Pages/Community/PostDetail';
+import PostUpdate from './Pages/Community/PostUpdate';
 import PostUpload from './Pages/Community/PostUpload';
 import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
@@ -49,6 +50,7 @@ function App() {
 					<Route path="/community" element={<Main />} />
 					<Route path="/community/:id" element={<PostDetail />} />
 					<Route path="/community/create" element={<PostUpload />} />
+					<Route path="/community/:id/update" element={<PostUpdate />} />
 					<Route path="/etctalk" element={<EtcTalk />} />
 					<Route path="/hotplace" element={<HotPlace />} />
 					<Route path="/hotreview" element={<HotReview />} />
