@@ -8,6 +8,7 @@
       "plugin:prettier/recommended"
     ],
     "rules":{
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
       "prettier/prettier": ["error", {"printWidth": 80}],
       "react/button-has-type": "off",
       "react/react-in-jsx-scope": "off",

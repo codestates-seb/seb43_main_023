@@ -24,6 +24,7 @@
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-spinners": "^0.13.8",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.10",
     "sweetalert2": "^11.7.5",

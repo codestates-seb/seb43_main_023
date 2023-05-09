@@ -1,4 +1,4 @@
-import '../Global.css';
+import '../../Global.css';
 
 import { useEffect, useState } from 'react';
 
@@ -236,7 +236,7 @@ function Mypage() {
 			localStorage.removeItem('mbti');
 			localStorage.removeItem('img');
 			localStorage.removeItem('memberId');
-			navigate('/');
+			navigate('/main');
 		} catch (error) {
 			navigate('/error');
 		}
