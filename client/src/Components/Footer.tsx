@@ -78,7 +78,7 @@ const Content = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	background: rgba(0, 0, 0, 0.035);
+	background: rgba(0, 0, 0, 0.04);
 	padding: 0px 100px 10px 100px;
 	div {
 		display: flex;
@@ -127,6 +127,9 @@ function Footer() {
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
 	if (locationNow.pathname === '/join') return null;
+	if (locationNow.pathname === '/error') return null;
+	if (locationNow.pathname === '/loading') return null;
+	if (locationNow.pathname === '/') return null;
 
 	const root = document.documentElement;
 
@@ -183,7 +186,7 @@ function Footer() {
 			</div>
 			<Content>
 				<div>
-					<Link to="/">
+					<Link to="/main">
 						<img src={logo} alt="" />
 					</Link>
 					<Link to="https://github.com/codestates-seb/seb43_main_023">

@@ -1,4 +1,4 @@
-import '../Global.css';
+import '../../Global.css';
 
 import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
@@ -6,8 +6,8 @@ import { SiNaver } from 'react-icons/si';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import airplane from '../Assets/airplane.png';
-import logo from '../Assets/logo.png';
+import airplane from '../../Assets/airplane.png';
+import logo from '../../Assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;
@@ -105,41 +105,28 @@ const Content = styled.div`
 	}
 `;
 
-function Login() {
+function Join() {
 	const navigate = useNavigate();
 	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
+		const id = Math.random();
 		try {
-			/* const loginData = await axios.post('http://localhost:4000/auth/login', {
+			const mbtiImg = await axios.get('http://localhost:4000/mbti');
+			await axios.post('http://localhost:4000/members', {
+				id,
+				nickname: el.displayName.value,
+				mbti: el.mbti.value,
 				email: el.email.value,
-				password: el.password.value
+				password: el.password.value,
+				img: mbtiImg.data.find(
+					(v: { mbti: string }) => v.mbti === el.mbti.value,
+				).img,
+				badge: null,
 			});
-			const memberId = loginData.response.headers.memberId;
-			const accessToken = loginData.response.headers.authorization;
-			*/
-			const memberId = 1;
-			const accessToken = 'token';
-			const userInfo = await axios.get(
-				`http://localhost:4000/members/${memberId}`,
-			);
-			if (
-				el.email.value !== userInfo.data.email ||
-				el.password.value !== userInfo.data.password
-			) {
-				// eslint-disable-next-line no-alert
-				alert('아이디 or 비밀번호가 다릅니다.');
-				window.location.reload();
-			} else {
-				// eslint-disable-next-line no-alert
-				alert('로그인 되었습니다.');
-				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('displayName', userInfo.data.nickname);
-				localStorage.setItem('mbti', userInfo.data.mbti);
-				localStorage.setItem('img', userInfo.data.img);
-				localStorage.setItem('memberId', userInfo.data.id);
-				navigate('/');
-			}
+			// eslint-disable-next-line no-alert
+			alert('회원가입이 완료되었습니다.');
+			navigate('/login');
 		} catch (error) {
 			navigate('/error');
 		}
@@ -148,19 +135,26 @@ function Login() {
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
-			<Link to="/">
+			<Link to="/main">
 				<img className="logo" src={logo} alt="" />
 			</Link>
 			<Content>
-				<div>Log in</div>
+				<div>Sign Up</div>
 				<form onSubmit={(e) => joinSubmit(e)}>
+					<input
+						name="displayName"
+						type="text"
+						placeholder="Displayname"
+						required
+					/>
+					<input name="mbti" type="text" placeholder="MBTI" required />
 					<input name="email" type="text" placeholder="Email" required />
 					<input name="password" type="text" placeholder="Password" required />
-					<button type="submit">Log in</button>
+					<button type="submit">Sign up</button>
 				</form>
 				<div className="lineBox">
 					<span className="line" />
-					Or Log in with
+					Or Sign up with
 					<span className="line" />
 				</div>
 				<div className="oauthBox">
@@ -178,4 +172,4 @@ function Login() {
 	);
 }
 
-export default Login;
+export default Join;

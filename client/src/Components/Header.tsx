@@ -66,6 +66,7 @@ function Header() {
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
 	if (locationNow.pathname === '/join') return null;
+	if (locationNow.pathname === '/') return null;
 
 	const token = localStorage.getItem('accessToken');
 
@@ -77,7 +78,7 @@ function Header() {
 	};
 	return (
 		<Content>
-			<Link to="/">
+			<Link to="/main">
 				<img src={logo} alt="" />
 			</Link>
 			<form onSubmit={(e) => searchSubmit(e)}>
