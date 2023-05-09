@@ -78,7 +78,7 @@ const Content = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	background: rgba(0, 0, 0, 0.035);
+	background: rgba(0, 0, 0, 0.04);
 	padding: 0px 100px 10px 100px;
 	div {
 		display: flex;
