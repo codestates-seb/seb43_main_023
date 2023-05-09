@@ -86,6 +86,14 @@ function PostDetail() {
 		voteCount: number;
 		createdAt: string;
 	}
+
+	interface Answer {
+		author: string;
+		content: string;
+		id: number;
+		vote: number;
+	}
+
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
 	const displayName = localStorage.getItem('displayName');
@@ -103,7 +111,14 @@ function PostDetail() {
 			if (result.isConfirmed) {
 				axios
 					.delete(`http://localhost:4000/posts/${id}`)
-					.then(() => Swal.fire('Deleted!', '삭제되었습니다', 'success'))
+					.then(() =>
+						Swal.fire({
+							title: 'Deleted!',
+							text: '삭제되었습니다',
+							icon: 'success',
+							confirmButtonColor: '#0db4f3',
+						}),
+					)
 					// eslint-disable-next-line no-return-assign
 					.then(() => (document.location.href = '/community'));
 			}
@@ -111,9 +126,9 @@ function PostDetail() {
 	};
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:4000/posts/${id}`)
-			.then((res) => setPost([res.data]));
+		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
+			setPost([res.data]);
+		});
 	}, [id]);
 
 	return (
