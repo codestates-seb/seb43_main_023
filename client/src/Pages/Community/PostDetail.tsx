@@ -78,7 +78,7 @@ const Content = styled.div`
 
 function PostDetail() {
 	interface Post {
-		postId: number;
+		id: number;
 		subject: string;
 		title: string;
 		content: string;
@@ -90,6 +90,8 @@ function PostDetail() {
 
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
+	const [isLike, setIsLike] = useState<boolean>(false);
+	const [vote, setVote] = useState<number>(0);
 	const displayName = localStorage.getItem('displayName');
 
 	const deletePost = () => {
@@ -119,9 +121,36 @@ function PostDetail() {
 		});
 	};
 
+	const handleLike = () => {
+		setIsLike(!isLike);
+
+		const postVote = post[0].voteCount;
+
+		axios
+			.patch(`http://localhost:4000/posts/${id}`, {
+				voteCount: postVote + 1,
+			})
+			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+			.then((res) => setPost([res.data]));
+	};
+
+	const handleDisLike = () => {
+		setIsLike(!isLike);
+
+		const postVote = post[0].voteCount;
+
+		axios
+			.patch(`http://localhost:4000/posts/${id}`, {
+				voteCount: postVote - 1,
+			})
+			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+			.then((res) => setPost([res.data]));
+	};
+
 	useEffect(() => {
 		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
 			setPost([res.data]);
+			setVote(res.data.voteCount);
 		});
 	}, [id]);
 
@@ -160,7 +189,19 @@ function PostDetail() {
 
 								<div>
 									<Vote>
-										<AiOutlineHeart color="#646464" size={21} />
+										{isLike && el.id === Number(id) ? (
+											<AiFillHeart
+												size={21}
+												onClick={handleDisLike}
+												color="#fe6464"
+											/>
+										) : (
+											<AiOutlineHeart
+												color="#646464"
+												size={21}
+												onClick={handleLike}
+											/>
+										)}
 										<span>
 											{el.voteCount}
 											명이 좋아합니다.
