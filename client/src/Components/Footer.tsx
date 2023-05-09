@@ -129,6 +129,7 @@ function Footer() {
 	if (locationNow.pathname === '/join') return null;
 	if (locationNow.pathname === '/error') return null;
 	if (locationNow.pathname === '/loading') return null;
+	if (locationNow.pathname === '/') return null;
 
 	const root = document.documentElement;
 
@@ -185,7 +186,7 @@ function Footer() {
 			</div>
 			<Content>
 				<div>
-					<Link to="/">
+					<Link to="/main">
 						<img src={logo} alt="" />
 					</Link>
 					<Link to="https://github.com/codestates-seb/seb43_main_023">

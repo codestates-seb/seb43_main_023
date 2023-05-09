@@ -17,6 +17,7 @@ import TripReview from './Pages/Community/TripReview';
 import Error from './Pages/Error';
 import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
+import Landing from './Pages/Landing';
 import Loading from './Pages/Loading';
 import Join from './Pages/member/Join';
 import Login from './Pages/member/Login';
@@ -34,7 +35,8 @@ function App() {
 			<Header />
 			<Suspense fallback={<Loading />}>
 				<Routes>
-					<Route path="/" element={<MainPage />} />
+					<Route path="/" element={<Landing />} />
+					<Route path="/main" element={<MainPage />} />
 					<Route path="/join" element={<Join />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/logout" element={<Logout />} />

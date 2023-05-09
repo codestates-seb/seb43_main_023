@@ -103,6 +103,19 @@ const Content = styled.div`
 			margin-left: 10px;
 		}
 	}
+	.gotoJoin {
+		color: rgba(0, 0, 0, 0.2);
+		margin-top: 20px;
+		font-size: 13px;
+	}
+	.gotoJoinBtn {
+		color: #0db4f3;
+		font-size: 13px;
+		margin-top: 7px;
+		&:hover {
+			color: #4ec9ff;
+		}
+	}
 `;
 
 function Login() {
@@ -138,7 +151,7 @@ function Login() {
 				localStorage.setItem('mbti', userInfo.data.mbti);
 				localStorage.setItem('img', userInfo.data.img);
 				localStorage.setItem('memberId', userInfo.data.id);
-				navigate('/');
+				navigate('/main');
 			}
 		} catch (error) {
 			navigate('/error');
@@ -173,6 +186,10 @@ function Login() {
 						<span>Naver</span>
 					</button>
 				</div>
+				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
+				<Link to="/join">
+					<button className="gotoJoinBtn">Sign up</button>
+				</Link>
 			</Content>
 		</Main>
 	);

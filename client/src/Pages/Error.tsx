@@ -32,7 +32,7 @@ function Error() {
 			<div>
 				페이지를 찾을 수 없습니다. <br />
 				<br /> 메인페이지로 돌아가시려면{' '}
-				<Link className="link" to="/">
+				<Link className="link" to="/main">
 					여기
 				</Link>
 				를 클릭해주세요.

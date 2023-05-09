@@ -61,13 +61,13 @@ function Logout() {
 		localStorage.removeItem('mbti');
 		localStorage.removeItem('img');
 		localStorage.removeItem('memberId');
-		navigate('/');
+		navigate('/main');
 	};
 
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
-			<Link to="/">
+			<Link to="/main">
 				<img className="logo" src={logo} alt="" />
 			</Link>
 			<Content>

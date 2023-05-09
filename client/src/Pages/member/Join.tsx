@@ -135,7 +135,7 @@ function Join() {
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
-			<Link to="/">
+			<Link to="/main">
 				<img className="logo" src={logo} alt="" />
 			</Link>
 			<Content>
