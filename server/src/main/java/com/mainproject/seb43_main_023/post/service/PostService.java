@@ -35,6 +35,7 @@ public class PostService {
             Optional.ofNullable(post.getSubject()).ifPresent(subject -> findPost.setSubject(subject));
             Optional.ofNullable(post.getTitle()).ifPresent(title -> findPost.setTitle(title));
             Optional.ofNullable(post.getContent()).ifPresent(content -> findPost.setContent(content));
+            Optional.ofNullable(post.getImage()).ifPresent(image -> findPost.setImage(image));
             findPost.setModifiedAt(LocalDateTime.now());
             return postRepository.save(findPost);
         }

@@ -67,14 +67,6 @@ public class PostController {
 
         return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
     }
-//    @GetMapping("/subject")
-//    public ResponseEntity subjectPosts(@Size(min = 1) @RequestParam(value = "title") String title,
-//                                      @Positive @RequestParam(defaultValue = "1") int page) {
-//        Page<Post> posts = postService.searchPosts(page-1,title);
-//        List<Post> content = posts.getContent();
-//
-//        return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
-//    }
     @PatchMapping("/{post-id}/vote/{member-id}")// 게시글 추천 (한번누르면 추천 다시누르면 추천취소)(member-id 임시로사용)
     public ResponseEntity votePost(@PathVariable("post-id") long postId,
                                    @PathVariable("member-id") long memberId){

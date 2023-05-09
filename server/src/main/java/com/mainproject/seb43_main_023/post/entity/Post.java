@@ -19,16 +19,24 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
+    @Column(nullable = false)
     private String subject;
+    @Column(nullable = false)
     private String title;
+    @Column(length = 3000,nullable = false)
     private String content;
     private long viewCount = 0;
     private long voteCount = 0;
     private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    private LocalDateTime modifiedAt = createdAt;
+    @Column(nullable = false)
     private Long memberId;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String nickname;
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
+    @ElementCollection
+    private List<String> image = new ArrayList<>();
 }
