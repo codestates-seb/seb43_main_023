@@ -1,12 +1,31 @@
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { AiFillHeart } from 'react-icons/ai';
 /* eslint-disable react/jsx-props-no-spreading */
 import Slider from 'react-slick';
 import styled from 'styled-components';
 
-import img from '../Assets/jeonju.jpg';
+import axios from 'axios';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
+	image?: string;
+}
+
+interface IReview {
+	id: number;
+	nickName: string;
+	subject: string;
+	title: string;
+	content: string;
+	tag?: null;
+	img: string[];
+	voteCount: number;
+	viewCount: number;
+	createdAt: string;
+	modifiedAt: string;
+}
 
 const SlideContainer = styled(Slider)`
 	padding: 0 18px;
@@ -23,195 +42,114 @@ const SlideContainer = styled(Slider)`
 	}
 `;
 
-const ReviewBox = styled.div`
+const ReviewContainer = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	height: 270px;
 	width: 210px;
 	margin-bottom: 20px;
 	margin-right: 45px;
 	background-color: white;
-
-	> div:nth-child(1) {
-		border-bottom: 1px solid rgb(214, 217, 219);
-		height: 200px;
-
-		> img {
-			width: 100%;
-			height: 100%;
-		}
-	}
-
-	> div:nth-child(2) {
-		padding: 5px;
-		font-size: 13px;
-		height: 40px;
-	}
+	text-align: start;
 `;
 
-const Writer = styled.div`
-	height: 30px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+const ReviewImg = styled.div<SlideItemProps>`
+	width: 100%;
+	height: 180px;
+	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
+		cover no-repeat;
+`;
 
-	> div:nth-child(1) {
-		// 작성자 사진, 이름
-		padding: 5px;
-		display: flex;
-		width: fit-content;
-		align-items: center;
-		font-size: 12px;
+const ReviewTextContainer = styled.div`
+	width: 100%;
+	height: 90px;
+	border: 1px solid rgb(214, 217, 219);
+	padding: 10px;
 
-		img {
-			width: 20px;
-			height: 20px;
-			border-radius: 100%;
-			margin-right: 6px;
-		}
+	.title {
+		font-size: 17px;
+		font-weight: 700;
 	}
-
-	> div:nth-child(2) {
-		// 좋아요 부분
-		padding-right: 5px;
-		color: rgb(200, 202, 204);
+	.content {
+		font-size: 14px;
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		margin: 5px 0;
+	}
+	.userInfo {
 		display: flex;
-		font-size: 13px;
-		align-items: center;
-
-		> p {
-			margin-left: 4px;
-		}
+		justify-content: space-between;
+		font-size: 14px;
 	}
 `;
 
 function CarouselReview() {
-	// 옵션
+	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
+	const navigate = useNavigate();
+
+	const reviewCarouselCount = () => {
+		switch (filterdReview.length) {
+			case 0:
+				return 0;
+			case 1:
+				return 1;
+			case 2:
+				return 1;
+			case 3:
+				return 2;
+			default:
+				return 3;
+		}
+	};
+
 	const settings = {
 		dots: false,
 		infinite: true,
 		speed: 100,
 		autoplay: true,
-		slidesToShow: 3,
+		slidesToShow: reviewCarouselCount(),
 		pauseOnHover: true,
 	};
+
+	useEffect(() => {
+		setTimeout(() => {
+			axios(`http://localhost:4000/posts`)
+				.then((response) => {
+					const { data } = response;
+					const newData = data.filter(
+						(item: { subject: string }) => item.subject === '여행리뷰',
+					);
+					newData.sort(
+						(a: { voteCount: number }, b: { voteCount: number }) =>
+							b.voteCount - a.voteCount,
+					);
+					setFilterReview(newData.slice(0, 5));
+				})
+				.catch(() => {
+					navigate('/error');
+				});
+		}, 500);
+	}, [navigate]);
 
 	return (
 		<div>
 			<SlideContainer {...settings}>
-				<ReviewBox>
-					<div>
-						<img src={img} alt="여행리뷰사진" />
-					</div>
-					<div>재미따 ~</div>
-					<Writer>
-						<div>
-							<div>
-								<img src={img} alt="유저프로필사진" />
-							</div>
-							<div>너구리</div>
-						</div>
-
-						<div>
-							<AiFillHeart color="#F24F1F" size={17} />
-							<p>5</p>
-						</div>
-					</Writer>
-				</ReviewBox>
-				<ReviewBox>
-					<div>
-						<img src={img} alt="여행리뷰사진" />
-					</div>
-					<div>재미따 ~</div>
-					<Writer>
-						<div>
-							<div>
-								<img src={img} alt="유저프로필사진" />
-							</div>
-							<div>너구리</div>
-						</div>
-
-						<div>
-							<AiFillHeart color="#F24F1F" size={17} />
-							<p>5</p>
-						</div>
-					</Writer>
-				</ReviewBox>
-				<ReviewBox>
-					<div>
-						<img src={img} alt="여행리뷰사진" />
-					</div>
-					<div>재미따 ~</div>
-					<Writer>
-						<div>
-							<div>
-								<img src={img} alt="유저프로필사진" />
-							</div>
-							<div>너구리</div>
-						</div>
-
-						<div>
-							<AiFillHeart color="#F24F1F" size={17} />
-							<p>5</p>
-						</div>
-					</Writer>
-				</ReviewBox>
-				<ReviewBox>
-					<div>
-						<img src={img} alt="여행리뷰사진" />
-					</div>
-					<div>재미따 ~</div>
-					<Writer>
-						<div>
-							<div>
-								<img src={img} alt="유저프로필사진" />
-							</div>
-							<div>너구리</div>
-						</div>
-
-						<div>
-							<AiFillHeart color="#F24F1F" size={17} />
-							<p>5</p>
-						</div>
-					</Writer>
-				</ReviewBox>
-				<ReviewBox>
-					<div>
-						<img src={img} alt="여행리뷰사진" />
-					</div>
-					<div>재미따 ~</div>
-					<Writer>
-						<div>
-							<div>
-								<img src={img} alt="유저프로필사진" />
-							</div>
-							<div>너구리</div>
-						</div>
-
-						<div>
-							<AiFillHeart color="#F24F1F" size={17} />
-							<p>5</p>
-						</div>
-					</Writer>
-				</ReviewBox>
-				<ReviewBox>
-					<div>
-						<img src={img} alt="여행리뷰사진" />
-					</div>
-					<div>재미따 ~</div>
-					<Writer>
-						<div>
-							<div>
-								<img src={img} alt="유저프로필사진" />
-							</div>
-							<div>너구리</div>
-						</div>
-
-						<div>
-							<AiFillHeart color="#F24F1F" size={17} />
-							<p>5</p>
-						</div>
-					</Writer>
-				</ReviewBox>
+				{filterdReview
+					? filterdReview.map((item) => (
+							<ReviewContainer>
+								<ReviewImg image={item.img[0]} />
+								<ReviewTextContainer>
+									<div className="title">{item.title}</div>
+									<div className="content">{item.content}</div>
+									<div className="userInfo">
+										<span>{item.nickName}</span>
+										<span>💙 {item.voteCount}</span>
+									</div>
+								</ReviewTextContainer>
+							</ReviewContainer>
+					  ))
+					: null}
 			</SlideContainer>
 		</div>
 	);
