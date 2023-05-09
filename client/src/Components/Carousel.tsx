@@ -4,6 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import { HTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -56,9 +57,11 @@ function Carousel() {
 	return (
 		<div>
 			<SlideContainer {...settings}>
-				<SlideItem image="https://a.cdn-hotels.com/gdcs/production117/d150/1049d859-3926-4a0d-8ae2-d7e227f902c2.jpg?impolicy=fcrop&w=800&h=533&q=medium">
-					<div>서울</div>
-				</SlideItem>
+				<Link to="/regiondetail">
+					<SlideItem image="https://a.cdn-hotels.com/gdcs/production117/d150/1049d859-3926-4a0d-8ae2-d7e227f902c2.jpg?impolicy=fcrop&w=800&h=533&q=medium">
+						<div>서울</div>
+					</SlideItem>
+				</Link>
 				<SlideItem image="https://images.unsplash.com/photo-1579169825453-8d4b4653cc2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80">
 					<div>제주</div>
 				</SlideItem>

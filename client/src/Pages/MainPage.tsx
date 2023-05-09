@@ -101,19 +101,19 @@ function MainPage() {
 		switch (currentTab) {
 			case 0:
 				return (
-					<Link to="/regionrec">
+					<Link to="/regionrec" style={{ textDecoration: 'none' }}>
 						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			case 1:
 				return (
-					<Link to="/hotplace">
+					<Link to="/hotplace" style={{ textDecoration: 'none' }}>
 						<div className="linkButton">전체보기</div>
 					</Link>
 				);
 			case 2:
 				return (
-					<Link to="/hotreview">
+					<Link to="/hotreview" style={{ textDecoration: 'none' }}>
 						<div className="linkButton">전체보기</div>
 					</Link>
 				);
@@ -135,7 +135,7 @@ function MainPage() {
 				<MainTabButton onClick={() => handleTabClick(2)}>
 					인기 여행 리뷰글
 				</MainTabButton>
-				<Link to="/community">
+				<Link to="/community" style={{ textDecoration: 'none' }}>
 					<MainTabButton>커뮤니티</MainTabButton>
 				</Link>
 			</MainTab>

@@ -1,7 +1,7 @@
 import '../Global.css';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import PulseLoader from 'react-spinners/PulseLoader';
+import { PulseLoader } from 'react-spinners';
 import styled from 'styled-components';
 
 import loading from '../Assets/loading.png';
