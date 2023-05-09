@@ -254,13 +254,18 @@ function Answers() {
 										<span>{el.content}</span>
 									)}
 
-									<div>
-										<BsPencilSquare
-											size={14}
-											onClick={() => handleEdit(idx + 1)}
-										/>
-										<BsTrash size={14} onClick={() => handleDelete(idx + 1)} />
-									</div>
+									{el.author === displayName ? (
+										<div>
+											<BsPencilSquare
+												size={14}
+												onClick={() => handleEdit(idx + 1)}
+											/>
+											<BsTrash
+												size={14}
+												onClick={() => handleDelete(idx + 1)}
+											/>
+										</div>
+									) : null}
 								</div>
 							</div>
 						</ContentContainer>

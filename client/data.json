@@ -2,7 +2,7 @@
   "posts": [
     {
       "id": 1,
-      "nickname": "testnick",
+      "nickName": "testnick",
       "email": "test@gmail.com",
       "subject": "여행고민",
       "title": "제목",
@@ -108,7 +108,7 @@
     {
       "id": 1,
       "postId": 1,
-      "author": "testNick",
+      "author": "testnick",
       "content": "댓글 수정 ",
       "vote": 1
     },
