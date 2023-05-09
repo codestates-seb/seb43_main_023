@@ -51,11 +51,9 @@ public class PostService {
         post.setViewCount(post.getViewCount()+1);
         return postRepository.save(post);
     }
-    public Page<Post> findPosts(int page){
-        return postRepository.findAll(PageRequest.of(page,10,Sort.by("postId").descending()));
-    }
-    public Page<Post> searchPosts(int page,String title){
-        return postRepository.findByTitleContaining(title,PageRequest.of(page, 10));
+    public Page<Post> searchPosts(int page,String title,String subject){
+        return postRepository.findByTitleContainingAndSubjectContaining
+                (title, subject, PageRequest.of(page, 10,Sort.by("postId").descending()));
     }
     public Post votePost(long postId, long memberId){
         Post post = verifyPost(postId);

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
-    Page<Post> findByTitleContaining(String title, PageRequest pageRequest);
+    Page<Post> findByTitleContainingAndSubjectContaining(String title, String subject, PageRequest pageRequest);
 }

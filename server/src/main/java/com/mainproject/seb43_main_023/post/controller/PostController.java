@@ -6,6 +6,7 @@ import com.mainproject.seb43_main_023.post.mapper.PostMapper;
 import com.mainproject.seb43_main_023.post.repository.PostRepository;
 import com.mainproject.seb43_main_023.post.service.PostService;
 import lombok.Getter;
+import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,21 +58,23 @@ public class PostController {
         postService.removePost(postId,memberId);
         return new ResponseEntity(HttpStatus.OK);
     }
-    @GetMapping// 게시글 목록 조회
-    public ResponseEntity getPosts(@Positive @RequestParam(defaultValue = "1") int page) {
-        Page<Post> posts = postService.findPosts(page-1);
-        List<Post> content = posts.getContent();
-
-        return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
-    }
-    @GetMapping("/search")// 게시글 검색기능
-    public ResponseEntity searchPosts(@Size(min = 1) @RequestParam(value = "title") String title,
+    @GetMapping// 게시글 목록조회 + 게시글 검색기능 추가
+    public ResponseEntity searchPosts(@RequestParam(value = "title",defaultValue = "") String title,
+                                      @RequestParam(value = "subject",defaultValue = "") String subject,
                                       @Positive @RequestParam(defaultValue = "1") int page) {
-        Page<Post> posts = postService.searchPosts(page-1,title);
+        Page<Post> posts = postService.searchPosts(page-1,title,subject);
         List<Post> content = posts.getContent();
 
         return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
     }
+//    @GetMapping("/subject")
+//    public ResponseEntity subjectPosts(@Size(min = 1) @RequestParam(value = "title") String title,
+//                                      @Positive @RequestParam(defaultValue = "1") int page) {
+//        Page<Post> posts = postService.searchPosts(page-1,title);
+//        List<Post> content = posts.getContent();
+//
+//        return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
+//    }
     @PatchMapping("/{post-id}/vote/{member-id}")// 게시글 추천 (한번누르면 추천 다시누르면 추천취소)(member-id 임시로사용)
     public ResponseEntity votePost(@PathVariable("post-id") long postId,
                                    @PathVariable("member-id") long memberId){
