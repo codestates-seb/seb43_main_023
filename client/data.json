@@ -4,7 +4,7 @@
       "id": 1,
       "nickname": "testnick",
       "email": "test@gmail.com",
-      "subject": "말머리",
+      "subject": "여행고민",
       "title": "제목",
       "content": "내용",
       "tag": null,
@@ -102,6 +102,29 @@
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "postId": 1,
+      "author": "testNick",
+      "content": "댓글 수정 ",
+      "vote": 1
+    },
+    {
+      "id": 2,
+      "postId": 1,
+      "author": "너구리",
+      "content": "댓글",
+      "vote": 1
+    },
+    {
+      "id": 3,
+      "postId": 1,
+      "author": "조베기",
+      "content": "댓글",
+      "vote": 0
     }
   ],
   "members": [
