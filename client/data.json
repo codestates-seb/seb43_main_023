@@ -110,14 +110,14 @@
       "postId": 1,
       "author": "testNick",
       "content": "댓글 수정 ",
-      "vote": 0
+      "vote": 1
     },
     {
       "id": 2,
       "postId": 1,
       "author": "너구리",
       "content": "댓글",
-      "vote": 0
+      "vote": 1
     },
     {
       "id": 3,

@@ -166,13 +166,35 @@ function Answers() {
 		setEdit(!edit);
 	};
 
-	// const handleUpdate = (answerId: number) => {};
-
 	const handleLike = (answerId: number) => {
-		const answerIndex = answers.findIndex((answer) => answer.id === answerId);
-		console.log(answerIndex + 1, answerId);
-		if (answerIndex + 1 === answerId) {
-			setIsLike(!isLike);
+		setClickedId(answerId);
+		setIsLike(!isLike);
+
+		const clickedAnswer = answers.find((q) => q.id === answerId);
+
+		if (clickedAnswer) {
+			axios
+				.patch(`http://localhost:4000/comments/${answerId}`, {
+					vote: clickedAnswer.vote + 1,
+				})
+				.then(() => axios.get(`http://localhost:4000/comments`))
+				.then((res) => setAnswers(res.data));
+		}
+	};
+
+	const handleDisLike = (answerId: number) => {
+		setClickedId(answerId);
+		setIsLike(!isLike);
+
+		const clickedAnswer = answers.find((q) => q.id === answerId);
+
+		if (clickedAnswer) {
+			axios
+				.patch(`http://localhost:4000/comments/${answerId}`, {
+					vote: clickedAnswer.vote - 1,
+				})
+				.then(() => axios.get(`http://localhost:4000/comments`))
+				.then((res) => setAnswers(res.data));
 		}
 
 		// if (clickedAnswer) {
@@ -204,10 +226,10 @@ function Answers() {
 					<Answer>
 						<ContentContainer>
 							<Vote>
-								{isLike ? (
+								{isLike && clickedId === idx + 1 ? (
 									<AiFillHeart
 										size={18}
-										onClick={() => handleLike(el.id)}
+										onClick={() => handleDisLike(el.id)}
 										color="#fe6464"
 									/>
 								) : (
