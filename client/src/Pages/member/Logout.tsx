@@ -1,10 +1,10 @@
-import '../Global.css';
+import '../../Global.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import airplane from '../Assets/airplane.png';
-import logo from '../Assets/logo.png';
+import airplane from '../../Assets/airplane.png';
+import logo from '../../Assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;
@@ -61,13 +61,13 @@ function Logout() {
 		localStorage.removeItem('mbti');
 		localStorage.removeItem('img');
 		localStorage.removeItem('memberId');
-		navigate('/');
+		navigate('/main');
 	};
 
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
-			<Link to="/">
+			<Link to="/main">
 				<img className="logo" src={logo} alt="" />
 			</Link>
 			<Content>
