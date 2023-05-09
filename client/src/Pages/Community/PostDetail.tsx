@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import Swal from 'sweetalert2';
+import { Viewer } from '@toast-ui/react-editor';
 import Answers from '../../Components/Community/Answers';
 
 const PostContainer = styled.div`
@@ -87,13 +88,6 @@ function PostDetail() {
 		createdAt: string;
 	}
 
-	interface Answer {
-		author: string;
-		content: string;
-		id: number;
-		vote: number;
-	}
-
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
 	const displayName = localStorage.getItem('displayName');
@@ -159,7 +153,9 @@ function PostDetail() {
 											</div>
 										</div>
 									</Title>
-									<Content>{el.content}</Content>
+									<Content>
+										<Viewer initialValue={el.content || ''} />
+									</Content>
 								</div>
 
 								<div>
