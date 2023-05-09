@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Container = styled.div`
 	width: 100%;
@@ -24,14 +28,15 @@ const Answer = styled.div`
 	align-items: center;
 	padding: 10px;
 
-	> div:nth-child(1) {
+	> div:nth-child(2) {
 		width: 45px;
-		height: 45px;
+		height: 43px;
 		background-color: aquamarine;
 		border-radius: 50%;
 	}
 
-	> div:nth-child(2) {
+	> div:nth-child(3) {
+		width: 100%;
 		margin-left: 15px;
 
 		> div:nth-child(1) {
@@ -45,6 +50,8 @@ const Answer = styled.div`
 
 			> span {
 				padding-right: 20px;
+				font-size: 15px;
+				width: 100%;
 			}
 
 			> div {
@@ -55,28 +62,124 @@ const Answer = styled.div`
 		}
 	}
 `;
+
+const Vote = styled.div`
+	width: 50px;
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	> span {
+		margin-top: 6px;
+	}
+`;
+
+interface Answer {
+	author: string;
+	content: string;
+	id: number;
+	vote: number;
+}
+
 function Answers() {
+	const { id } = useParams();
+	const displayName = localStorage.getItem('displayName');
+
+	const [isLike, setIsLike] = useState<boolean>(false);
+	const [text, setText] = useState<string>('');
+	const [answers, setAnswers] = useState<Answer[]>([]);
+
+	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+		setText(e.target.value);
+	};
+
+	const handleSubmit = (e: { key: string }) => {
+		if (e.key === 'Enter') {
+			axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
+				const prevComments = res.data.comments;
+
+				const newComment = {
+					id: answers.length + 1,
+					content: text,
+					author: displayName,
+					vote: 0,
+				};
+
+				axios.patch(`http://localhost:4000/posts/${id}`, {
+					comments: [...prevComments, newComment],
+				});
+				document.location.href = `/community/${id}`;
+			});
+		}
+	};
+
+	const handleLike = (answerId: number) => {
+		const answerIndex = answers.findIndex((answer) => answer.id === answerId);
+		console.log(answerIndex + 1, answerId);
+		if (answerIndex + 1 === answerId) {
+			setIsLike(!isLike);
+		}
+
+		// if (clickedAnswer) {
+		// 	axios.patch(
+		// 		`http://localhost:4000/posts/${id}/comments/${clickedAnswer}/vote`,
+		// 		{
+		// 			vote: clickedAnswer.vote + 1,
+		// 		},
+		// 	);
+		// }
+	};
+
+	const handleUpdate = (answerId: number) => {
+		const answerIndex = answers.findIndex((answer) => answer.id === answerId);
+	};
+
+	useEffect(() => {
+		axios
+			.get(`http://localhost:4000/posts/${id}`)
+			.then((res) => setAnswers(res.data.comments));
+	}, [id]);
+
 	return (
 		<Container>
-			<AnswerInput placeholder="댓글을 남겨주세요" />
-			<Answer>
-				<div />
+			<AnswerInput
+				placeholder="댓글을 남겨주세요"
+				onChange={(e) => handleInput(e)}
+				onKeyDown={handleSubmit}
+			/>
 
-				<div>
-					<div>조베기</div>
-					<div>
-						<span>
-							배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
-							~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다
-							~~배고프다 ~~배고프다 ~~배고프다 ~~배고프다 ~~
-						</span>
+			{answers &&
+				answers.map((el, idx) => (
+					<Answer>
+						<Vote>
+							{isLike ? (
+								<AiFillHeart
+									size={18}
+									onClick={() => handleLike(el.id)}
+									color="#fe6464"
+								/>
+							) : (
+								<AiOutlineHeart size={18} onClick={() => handleLike(el.id)} />
+							)}
+
+							<span>{el.vote}</span>
+						</Vote>
+						<div />
 						<div>
-							<BsPencilSquare />
-							<BsTrash />
+							<div>{el.author}</div>
+
+							<div>
+								<span>{el.content}</span>
+								<div>
+									<BsPencilSquare size={14} />
+									<BsTrash size={14} />
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</Answer>
+					</Answer>
+				))}
 		</Container>
 	);
 }
