@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
-	isLogin: false,
-	accessToken: '',
-};
-
 export interface Ilogin {
 	isLogin: boolean;
-	accessToken: string;
+	accessToken?: string;
 }
+
+const initialState: Ilogin = {
+	isLogin: false,
+	accessToken: undefined,
+};
 
 const loginSlice = createSlice({
 	name: 'isLogin',
@@ -16,7 +16,7 @@ const loginSlice = createSlice({
 	reducers: {
 		LOGIN: (
 			state: Ilogin,
-			action: PayloadAction<{ accessToken: string }>,
+			action: PayloadAction<{ accessToken?: string }>,
 		): Ilogin => {
 			return { isLogin: true, ...action.payload };
 		},
