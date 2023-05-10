@@ -17,13 +17,11 @@ const MainHeaderContainer = styled.div`
 	scroll-snap-align: start;
 	&::before {
 		background: url(${img1}) center / cover no-repeat;
-		height: 600px;
 		content: '';
 		position: absolute;
-		top: -71px;
 		left: 0;
 		width: 100%;
-		height: 100%;
+		height: 65%;
 		opacity: 0.5;
 		z-index: -1;
 	}

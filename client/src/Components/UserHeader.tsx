@@ -1,8 +1,14 @@
-import axios from 'axios';
+import '../Global.css';
+
 import { HTMLAttributes, useEffect, useState } from 'react';
+
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import '../Global.css';
+
+import { useSelector } from 'react-redux';
+import { Iuser } from '../Reducers/userInfoReducer';
+import { RootState } from '../Store/store';
 
 interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -20,10 +26,9 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 			center / cover no-repeat;
 		content: '';
 		position: absolute;
-		top: -71px;
 		left: 0;
 		width: 100%;
-		height: 100%;
+		height: 65%;
 		opacity: 0.8;
 		z-index: -1;
 	}
@@ -89,8 +94,8 @@ function UserHeader() {
 		place: '',
 		placeImg: '',
 	});
-
-	const memberId = localStorage.getItem('memberId');
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+	const memberId = userInfos.id;
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -108,7 +113,7 @@ function UserHeader() {
 
 	useEffect(() => {
 		setTimeout(() => {
-			axios('http://localhost:4000/mbti')
+			axios('http://localhost:4000/mbtiInfo')
 				.then((response) => {
 					const { data } = response;
 					const newData = data.filter(

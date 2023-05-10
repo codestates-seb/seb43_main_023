@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 import { HTMLAttributes, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -29,7 +29,9 @@ interface IReview {
 
 const SlideContainer = styled(Slider)`
 	padding: 0 18px;
+	width: 100%;
 	display: flex;
+	justify-content: center;
 	margin-bottom: 20px;
 	.slick-prev::before {
 		color: #0db4f3;
@@ -45,9 +47,7 @@ const SlideContainer = styled(Slider)`
 const ReviewContainer = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	height: 270px;
-	width: 210px;
 	margin-bottom: 20px;
-	margin-right: 45px;
 	background-color: white;
 	text-align: start;
 `;
@@ -81,6 +81,16 @@ const ReviewTextContainer = styled.div`
 		display: flex;
 		justify-content: space-between;
 		font-size: 14px;
+	}
+`;
+
+const StyledLink = styled(Link)`
+	color: black;
+	&:link {
+		text-decoration: none;
+	}
+	&:visited {
+		color: black;
 	}
 `;
 
@@ -137,17 +147,22 @@ function CarouselReview() {
 			<SlideContainer {...settings}>
 				{filterdReview
 					? filterdReview.map((item) => (
-							<ReviewContainer>
-								<ReviewImg image={item.img[0]} />
-								<ReviewTextContainer>
-									<div className="title">{item.title}</div>
-									<div className="content">{item.content}</div>
-									<div className="userInfo">
-										<span>{item.nickName}</span>
-										<span>💙 {item.voteCount}</span>
-									</div>
-								</ReviewTextContainer>
-							</ReviewContainer>
+							<StyledLink
+								to={{ pathname: `/tripreview/${item.id}` }}
+								style={{ textDecoration: 'none' }}
+							>
+								<ReviewContainer>
+									<ReviewImg image={item.img[0]} />
+									<ReviewTextContainer>
+										<div className="title">{item.title}</div>
+										<div className="content">{item.content}</div>
+										<div className="userInfo">
+											<span>{item.nickName}</span>
+											<span>💙 {item.voteCount}</span>
+										</div>
+									</ReviewTextContainer>
+								</ReviewContainer>
+							</StyledLink>
 					  ))
 					: null}
 			</SlideContainer>

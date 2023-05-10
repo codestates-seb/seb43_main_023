@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
@@ -8,6 +9,9 @@ import CarouselHotPlace from '../Components/CarouselHotPlace';
 import CarouselReview from '../Components/CarouselReview';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
+
+import { Ilogin } from '../Reducers/loginReducer';
+import { RootState } from '../Store/store';
 
 const MainContainer = styled.div`
 	width: 100vw;
@@ -93,8 +97,8 @@ const StyledLink = styled(Link)`
 `;
 
 function MainPage() {
-	const token = localStorage.getItem('accessToken');
 	const [currentTab, setCurrentTab] = useState(0);
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const handleTabClick = (index: number) => {
 		setCurrentTab(index);
@@ -129,7 +133,7 @@ function MainPage() {
 				);
 			case 2:
 				return (
-					<StyledLink to="/hotreview">
+					<StyledLink to="/hotreview" style={{ textDecoration: 'none' }}>
 						<div className="linkButton">전체보기</div>
 					</StyledLink>
 				);
@@ -140,7 +144,7 @@ function MainPage() {
 
 	return (
 		<MainContainer>
-			{token ? <UserHeader /> : <MainHeader />}
+			{login.isLogin ? <UserHeader /> : <MainHeader />}
 			<MainTab>
 				<MainTabButton onClick={() => handleTabClick(0)}>
 					지역별 추천 여행 명소
