@@ -22,6 +22,7 @@ public interface MemberMapper {
             member.setRoles(findmember.getRoles());
             member.setMemberStatus(findmember.getMemberStatus());
             member.setBadge(findmember.getBadge());
+            member.setImg(findmember.getImg());
             member.setCreatedAt(findmember.getCreatedAt());
             member.setModifiedAt(findmember.getModifiedAt());
             return member;

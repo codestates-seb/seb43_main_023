@@ -1,4 +1,11 @@
 spring:
+#  cache:
+#    type: redis
+#    redis:
+#      time-to-live: 3600 # 데이터 유지 시간(sec)
+#      cache-null-values: true # null 캐싱 여부
+#      host: localhost
+#      port: 6379
   h2:
     console:
       enabled: true
@@ -15,3 +22,11 @@ spring:
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
+mail:
+  address:
+    admin: admin@gmail.com
+
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
