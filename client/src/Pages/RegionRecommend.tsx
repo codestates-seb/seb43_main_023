@@ -118,7 +118,7 @@ function RegionRec() {
 				<RegionRecImg image="https://cdn.imweb.me/thumbnail/20190505/5cce19e7b096e.jpg">
 					<div>충청남도</div>
 				</RegionRecImg>
-				<RegionRecImg image="https://t1.daumcdn.net/cfile/tistory/99FFCA4A5C63A9B50D">
+				<RegionRecImg image="http://noms.templestay.com/images/TiImage/H/L/9569.png">
 					<div>충청북도</div>
 				</RegionRecImg>
 			</RegionRecItemContainer>
