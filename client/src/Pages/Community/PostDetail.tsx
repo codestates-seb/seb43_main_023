@@ -91,7 +91,6 @@ function PostDetail() {
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
-	const [vote, setVote] = useState<number>(0);
 	const displayName = localStorage.getItem('displayName');
 
 	const deletePost = () => {
@@ -150,7 +149,6 @@ function PostDetail() {
 	useEffect(() => {
 		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
 			setPost([res.data]);
-			setVote(res.data.voteCount);
 		});
 	}, [id]);
 

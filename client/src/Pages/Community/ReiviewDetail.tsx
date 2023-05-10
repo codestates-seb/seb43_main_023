@@ -5,6 +5,7 @@ import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+import { Viewer } from '@toast-ui/react-editor';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import MapApi from '../../Components/Community/MapApi';
 import Answers from '../../Components/Community/Answers';
@@ -60,6 +61,8 @@ const Writer = styled.div`
 const Title = styled.h3`
 	min-height: 40px;
 	padding: 10px;
+	padding-bottom: 0;
+	margin-left: 10px;
 `;
 const Content = styled.div`
 	min-height: 285px;
@@ -142,7 +145,7 @@ const AnswerContainer = styled.div`
 
 function ReviewDetail() {
 	interface Review {
-		postId: number;
+		id: number;
 		title: string;
 		content: string;
 		nickName: string;
@@ -153,6 +156,33 @@ function ReviewDetail() {
 	}
 	const { id } = useParams();
 	const [review, setReview] = useState<Review[]>([]);
+	const [isLike, setIsLike] = useState<boolean>(false);
+
+	const handleLike = () => {
+		setIsLike(!isLike);
+
+		const reviewVote = review[0].voteCount;
+
+		axios
+			.patch(`http://localhost:4000/posts/${id}`, {
+				voteCount: reviewVote + 1,
+			})
+			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+			.then((res) => setReview([res.data]));
+	};
+
+	const handleDisLike = () => {
+		setIsLike(!isLike);
+
+		const reviewVote = review[0].voteCount;
+
+		axios
+			.patch(`http://localhost:4000/posts/${id}`, {
+				voteCount: reviewVote - 1,
+			})
+			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+			.then((res) => setReview([res.data]));
+	};
 
 	useEffect(() => {
 		axios
@@ -177,12 +207,27 @@ function ReviewDetail() {
 										{el.nickName}
 									</Writer>
 									<Title>{el.title}</Title>
-									<Content>{el.content}</Content>
+									<Content>
+										{' '}
+										<Viewer initialValue={el.content || ''} />
+									</Content>
 									<Vote>
-										<AiOutlineHeart color="#646464" size={21} />
+										{isLike && el.id === Number(id) ? (
+											<AiFillHeart
+												size={21}
+												onClick={handleDisLike}
+												color="#fe6464"
+											/>
+										) : (
+											<AiOutlineHeart
+												color="#646464"
+												size={21}
+												onClick={handleLike}
+											/>
+										)}
 										<span>
 											{el.voteCount}
-											명이 해당 게시글을 좋아합니다.
+											명이 좋아합니다.
 										</span>
 									</Vote>
 									<TagContainer>
