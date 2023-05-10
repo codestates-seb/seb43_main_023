@@ -1,5 +1,6 @@
 package com.mainproject.seb43_main_023.member.service;
 
+
 import com.mainproject.seb43_main_023.auth.utils.CustomAuthorityUtils;
 import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
@@ -9,7 +10,6 @@ import com.mainproject.seb43_main_023.redis.repository.RefreshTokenRedisReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +22,7 @@ public class MemberService {
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);

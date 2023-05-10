@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
     MEMBER_EXISTS(409, "Member exists"),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND,"게시물을 찾을 수 없습니다."),
     MBTI_NOT_FOUND(HttpStatus.NOT_FOUND,"잘못된 MBTI 입니다."),

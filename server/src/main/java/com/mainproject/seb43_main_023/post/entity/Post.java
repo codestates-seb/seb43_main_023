@@ -1,5 +1,6 @@
 package com.mainproject.seb43_main_023.post.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
