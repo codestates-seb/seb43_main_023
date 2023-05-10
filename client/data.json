@@ -132,7 +132,7 @@
       "id": 1,
       "email": "test@gmail.com",
       "password": "1234",
-      "nickname": "너구리",
+      "nickname": "testnick",
       "mbti": "ISTJ",
       "img": "https://bantax.co.kr/common/img/default_profile.png",
       "role": "USER",
@@ -164,7 +164,7 @@
       "badge": null
     }
   ],
-  "mbti": [
+  "mbtiInfo": [
     {
       "mbti": "ISTP",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTg1/MDAxNjI1NjQzNzIxNDQz.EfMyjRXUfV1VGRgNszd7a5cVwIDZp9WpZHEzyEC5RJEg.MbHWLTvaIE-96grTDv661p7bK-xyaHpaRmdVBLMTIxog.PNG.im_worry/13.png?type=w800",

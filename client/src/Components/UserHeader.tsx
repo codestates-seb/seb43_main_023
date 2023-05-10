@@ -1,8 +1,10 @@
-import axios from 'axios';
+import '../Global.css';
+
 import { HTMLAttributes, useEffect, useState } from 'react';
+
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import '../Global.css';
 
 interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -104,7 +106,7 @@ function UserHeader() {
 
 	useEffect(() => {
 		setTimeout(() => {
-			axios('http://localhost:4000/mbti')
+			axios('http://localhost:4000/mbtiInfo')
 				.then((response) => {
 					const { data } = response;
 					const newData = data.filter(
