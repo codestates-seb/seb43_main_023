@@ -6,13 +6,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { useSelector } from 'react-redux';
+import { Iuser } from '../Reducers/userInfoReducer';
+import { RootState } from '../Store/store';
+
 interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
 }
 
 const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 	width: 100%;
-	height: 600px;
+	height: 640px;
 	padding: 100px;
 	margin-top: 71px;
 	display: flex;
@@ -22,11 +26,10 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 			center / cover no-repeat;
 		content: '';
 		position: absolute;
-		top: -71px;
 		left: 0;
 		width: 100%;
-		height: 100%;
-		opacity: 0.5;
+		height: 65%;
+		opacity: 0.8;
 		z-index: -1;
 	}
 `;
@@ -34,13 +37,17 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 const HeaderText = styled.div`
 	font-size: 50px;
 	font-weight: 900;
-	> span {
+	.nickName {
 		color: #0db4f3;
+	}
+	> span {
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 	> div {
 		font-size: 38px;
 		font-weight: 700;
 		margin-top: 20px;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 `;
 
@@ -87,8 +94,8 @@ function UserHeader() {
 		place: '',
 		placeImg: '',
 	});
-
-	const memberId = localStorage.getItem('memberId');
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+	const memberId = userInfos.id;
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -110,7 +117,7 @@ function UserHeader() {
 				.then((response) => {
 					const { data } = response;
 					const newData = data.filter(
-						(item: any) => item.mbti === userInfo.mbti,
+						(item: IuserMbti) => item.mbti === userInfo.mbti,
 					);
 					setFilterMbti(newData[0]);
 				})
@@ -123,7 +130,9 @@ function UserHeader() {
 	return (
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
 			<HeaderText>
-				<span>{userInfo.nickname}</span>님 어서오세요!
+				<span>
+					<span className="nickName">{userInfo.nickname}</span>님 어서오세요!
+				</span>
 				<div>
 					{filterMbti
 						? filterMbti.description.split('\\n').map((item, key) => (
