@@ -122,7 +122,6 @@ function Join() {
 				img: mbtiImg.data.find(
 					(v: { mbti: string }) => v.mbti === el.mbti.value,
 				).img,
-				badge: null,
 			});
 			// eslint-disable-next-line no-alert
 			alert('회원가입이 완료되었습니다.');

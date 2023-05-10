@@ -1,5 +1,16 @@
-import { HTMLAttributes } from 'react';
-
+/* eslint-disable radix */
+import axios from 'axios';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { BsCloudFog } from 'react-icons/bs';
+import {
+	TiWeatherCloudy,
+	TiWeatherDownpour,
+	TiWeatherShower,
+	TiWeatherSnow,
+	TiWeatherStormy,
+	TiWeatherSunny,
+} from 'react-icons/ti';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -7,7 +18,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const backgroundImg =
-	'https://images.unsplash.com/photo-1562504208-03d85cc8c23e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80';
+	'https://a.cdn-hotels.com/gdcs/production117/d150/1049d859-3926-4a0d-8ae2-d7e227f902c2.jpg?impolicy=fcrop&w=800&h=533&q=medium';
 
 const RegionDetailContainer = styled.div`
 	width: 100vw;
@@ -42,11 +53,23 @@ const RegionDetailImage = styled.div`
 const RegionInfo = styled.div`
 	width: 90%;
 	height: 230px;
-	background-color: rgba(0, 0, 0, 0.2);
 	margin: 70px;
+	display: flex;
 `;
 
-const RegionText = styled.div`
+const RegionInfoImg = styled.div`
+	width: 40%;
+	background: url('https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=22376&fileTy=MEDIA&fileNo=2')
+		no-repeat center / cover;
+`;
+
+const RegionInfoText = styled.div`
+	width: 60%;
+	padding-left: 20px;
+	font-size: 18px;
+`;
+
+const RegionTitle = styled.div`
 	width: 90%;
 	font-size: 20px;
 	font-weight: 700;
@@ -64,7 +87,6 @@ const RegionRecItemContainer = styled.div`
 const RegionRecItem = styled.div`
 	width: 280px;
 	height: 350px;
-	border: 1px solid #adadad;
 	border-radius: 20px 20px 0 0;
 	margin: 20px;
 `;
@@ -74,13 +96,14 @@ const RegionItemImg = styled.div<SlideItemProps>`
 	background-image: url(${(props) => (props.image ? props.image : '')});
 	background-position: center;
 	background-size: cover;
-	border-radius: 15px;
+	border: 1px solid #adadad;
+	border-radius: 15px 15px 0 0;
 `;
 
 const RegionItemText = styled.div`
 	padding: 10px;
 	font-size: 18px;
-	border-top: 1px solid #adadad;
+	border: 1px solid #adadad;
 	color: #adadad;
 	> span {
 		font-size: 20px;
@@ -88,17 +111,119 @@ const RegionItemText = styled.div`
 	}
 `;
 
+const Weather = styled.div`
+	width: 100%;
+	padding: 5px;
+`;
+
+const WeatherTitle = styled.div`
+	display: flex;
+	align-content: center;
+	font-size: 24px;
+	font-weight: 700;
+	> span {
+		color: tomato;
+	}
+`;
+
+const WeatherDetail = styled.div`
+	font-size: 18px;
+	color: #767676;
+	> span {
+		font-size: 20px;
+		font-weight: 700;
+		color: black;
+		margin-right: 5px;
+	}
+`;
+
 function RegionDetail() {
+	const navigate = useNavigate();
+	const [weatherData, setWeatherData] = useState<any>({
+		temp: '',
+		id: 0,
+		temp_max: 0,
+		temp_min: 0,
+	});
+
+	const cityName = 'Seoul';
+	const apiKey = process.env.REACT_APP_WEATHER_KEY;
+	const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+
+	useEffect(() => {
+		setTimeout(() => {
+			axios(url)
+				.then((response) => {
+					const { data } = response;
+					setWeatherData({
+						temp: data.main.temp,
+						id: data.weather[0].id,
+						temp_max: data.main.temp_max,
+						temp_min: data.main.temp_min,
+					});
+				})
+				.catch(() => {
+					navigate('/error');
+				});
+		}, 500);
+	}, [navigate, url]);
+
+	const selectIcon = () => {
+		const iconId =
+			weatherData.id === 800 ? 0 : (parseInt(weatherData.id) / 100).toFixed(0);
+		switch (iconId) {
+			case '0':
+				return <TiWeatherSunny />;
+			case '2':
+				return <TiWeatherStormy />;
+			case '3':
+				return <TiWeatherShower />;
+			case '5':
+				return <TiWeatherDownpour />;
+			case '6':
+				return <TiWeatherSnow />;
+			case '7':
+				return <BsCloudFog />;
+			case '8':
+				return <TiWeatherCloudy />;
+			default:
+				return <TiWeatherSunny />;
+		}
+	};
+
 	return (
 		<RegionDetailContainer>
 			<RegionDetailImage>
-				<span>지역별 추천 여행 명소</span>
+				<span>서울 추천 여행 명소</span>
 			</RegionDetailImage>
-			<RegionInfo>지역 소개 or 날씨</RegionInfo>
-			<RegionText>📍서울의 명소</RegionText>
+			<RegionInfo>
+				<RegionInfoImg />
+				<RegionInfoText>
+					<Weather>
+						<WeatherTitle>
+							서울특별시 <span>{selectIcon()}</span>
+						</WeatherTitle>
+						<WeatherDetail>
+							<span>{(weatherData.temp - 273.15).toFixed(1)}°C</span>
+							최고: {(weatherData.temp_max - 273.15).toFixed(1)}°C / 최저:{' '}
+							{(weatherData.temp_min - 273.15).toFixed(1)}°C
+						</WeatherDetail>
+					</Weather>
+					서울은 대한민국의 수도로서 정치, 경제, 사회, 문화의 중심지이다. 서울의
+					면적은 605㎢로서 도쿄의 23개 특별구와 비슷하며, 싱가포르와 뉴욕시보다
+					다소 작은 크기이다. 서울은 외사산과 내사산에 둘러싸인 분지의 지형이다.
+					그리고 수계로서 청계천, 중랑천, 홍제천, 안양천, 탄천 등의 지천이
+					한강으로 흘러가고 있다. <br /> 20세기 중반 들어 오늘날의 발전을
+					시작하였지만, 20세기 후반 들어 폭발적인 성장을 거듭하여 대도시로
+					성장하였다. 이에 따라, 현재 서울은 대중교통, 도로, 상하수도 등
+					도시기반시설도 상당한 수준에 와 있으며, 최근에는 세계의 각종
+					도시경쟁력 평가에서도 두각을 나타내고 있다.
+				</RegionInfoText>
+			</RegionInfo>
+			<RegionTitle>📍서울의 명소</RegionTitle>
 			<RegionRecItemContainer>
 				<RegionRecItem>
-					<RegionItemImg />
+					<RegionItemImg image="https://images.unsplash.com/photo-1611477623565-aa88aeca8153?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80" />
 					<RegionItemText>
 						<span>경복궁</span>
 						<br />
@@ -106,43 +231,43 @@ function RegionDetail() {
 					</RegionItemText>
 				</RegionRecItem>
 				<RegionRecItem>
-					<RegionItemImg />
+					<RegionItemImg image="https://images.unsplash.com/photo-1578458719181-a9e1184d810b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80" />
 					<RegionItemText>
-						<span>경복궁</span>
+						<span>남산 공원</span>
 						<br />
-						#궁궐 #궁전 #역사 #건축물
+						#도시공원 #데이트 #야경
 					</RegionItemText>
 				</RegionRecItem>
 				<RegionRecItem>
-					<RegionItemImg />
+					<RegionItemImg image="https://images.unsplash.com/photo-1649137529574-fe07b1f6386d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" />
 					<RegionItemText>
-						<span>경복궁</span>
+						<span>63빌딩</span>
 						<br />
-						#궁궐 #궁전 #역사 #건축물
+						#현대건축물 #레스토랑 #아쿠아리움 #전망대
 					</RegionItemText>
 				</RegionRecItem>
 				<RegionRecItem>
-					<RegionItemImg />
+					<RegionItemImg image="https://images.unsplash.com/photo-1537433156662-a467cd381897?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" />
 					<RegionItemText>
-						<span>경복궁</span>
+						<span>코엑스 별마당도서관</span>
 						<br />
-						#궁궐 #궁전 #역사 #건축물
+						#공공도서관 #책 #커피 #문화생활
 					</RegionItemText>
 				</RegionRecItem>
 				<RegionRecItem>
-					<RegionItemImg />
+					<RegionItemImg image="http://dh.aks.ac.kr/Edu/wiki/images/1/13/%EC%98%88%EC%88%A0%EC%9D%98%EC%A0%84%EB%8B%B9.jpg" />
 					<RegionItemText>
-						<span>경복궁</span>
+						<span>예술의전당</span>
 						<br />
-						#궁궐 #궁전 #역사 #건축물
+						#공연 #전시 #음악 #미술 #문화생활
 					</RegionItemText>
 				</RegionRecItem>
 				<RegionRecItem>
-					<RegionItemImg />
+					<RegionItemImg image="https://images.unsplash.com/photo-1677107129846-e55445429b7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" />
 					<RegionItemText>
-						<span>경복궁</span>
+						<span>익선동</span>
 						<br />
-						#궁궐 #궁전 #역사 #건축물
+						#한옥 #맛집 #카페 #데이트
 					</RegionItemText>
 				</RegionRecItem>
 			</RegionRecItemContainer>
