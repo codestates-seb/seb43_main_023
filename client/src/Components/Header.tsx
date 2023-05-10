@@ -90,7 +90,7 @@ function Header() {
 				<button type="submit">찾기</button>
 			</form>
 			<div>
-				{login.accessToken ? (
+				{login.isLogin ? (
 					<Link to="/mypage">
 						<button>마이페이지</button>
 					</Link>
@@ -99,7 +99,7 @@ function Header() {
 						<button>회원가입</button>
 					</Link>
 				)}
-				{login.accessToken ? (
+				{login.isLogin ? (
 					<Link to="/logout">
 						<button>로그아웃</button>
 					</Link>
