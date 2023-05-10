@@ -268,7 +268,7 @@ function Tags() {
 					{token ? (
 						<Link to="/community/create">
 							<button className="cta">
-								<span>리뷰 남기러 가기</span>
+								<span>작성하러 가기</span>
 								<svg viewBox="0 0 10 10" height="10px" width="15px">
 									<path d="M1,5 L11,5" />
 									<polyline points="8 1 12 5 8 9" />
@@ -277,7 +277,7 @@ function Tags() {
 						</Link>
 					) : (
 						<button className="cta" onClick={handleBtn}>
-							<span>리뷰 남기러 가기</span>
+							<span>작성하러 가기</span>
 							<svg viewBox="0 0 10 10" height="10px" width="15px">
 								<path d="M1,5 L11,5" />
 								<polyline points="8 1 12 5 8 9" />

@@ -101,7 +101,22 @@
       "voteCount": 1,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "place": "큰끝등대"
+    },
+    {
+      "id": 9,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "jj",
+      "content": "jj",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "place": ""
     }
   ],
   "comments": [
@@ -110,21 +125,21 @@
       "postId": 1,
       "author": "testnick",
       "content": "댓글 수정 ",
-      "vote": 1
+      "vote": 5
     },
     {
       "id": 2,
       "postId": 1,
       "author": "너구리",
       "content": "댓글",
-      "vote": 1
+      "vote": 6
     },
     {
       "id": 3,
       "postId": 1,
       "author": "조베기",
       "content": "댓글",
-      "vote": 0
+      "vote": 3
     }
   ],
   "members": [
