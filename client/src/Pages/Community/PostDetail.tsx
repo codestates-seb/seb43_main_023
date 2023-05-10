@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import Swal from 'sweetalert2';
+import Answers from '../../Components/Community/Answers';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -74,8 +75,6 @@ const Content = styled.div`
 	overflow-y: scroll;
 `;
 
-const Answers = styled.div``;
-
 function PostDetail() {
 	interface Post {
 		postId: number;
@@ -87,6 +86,14 @@ function PostDetail() {
 		voteCount: number;
 		createdAt: string;
 	}
+
+	interface Answer {
+		author: string;
+		content: string;
+		id: number;
+		vote: number;
+	}
+
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
 	const displayName = localStorage.getItem('displayName');
@@ -104,7 +111,14 @@ function PostDetail() {
 			if (result.isConfirmed) {
 				axios
 					.delete(`http://localhost:4000/posts/${id}`)
-					.then(() => Swal.fire('Deleted!', '삭제되었습니다', 'success'))
+					.then(() =>
+						Swal.fire({
+							title: 'Deleted!',
+							text: '삭제되었습니다',
+							icon: 'success',
+							confirmButtonColor: '#0db4f3',
+						}),
+					)
 					// eslint-disable-next-line no-return-assign
 					.then(() => (document.location.href = '/community'));
 			}
@@ -112,9 +126,9 @@ function PostDetail() {
 	};
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:4000/posts/${id}`)
-			.then((res) => setPost([res.data]));
+		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
+			setPost([res.data]);
+		});
 	}, [id]);
 
 	return (
@@ -156,10 +170,7 @@ function PostDetail() {
 											명이 좋아합니다.
 										</span>
 									</Vote>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
-									<Answers>댓 글 자 리 따 로 컴 포 넌 트 로 뺄 예 정</Answers>
+									<Answers />
 								</div>
 							</>
 						))}
