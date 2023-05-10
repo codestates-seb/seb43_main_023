@@ -1,6 +1,6 @@
 import '../../Global.css';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { LOGOUT } from '../../Reducers/loginReducer';
-import { DELETE, Iuser, UPDATE } from '../../Reducers/userInfoReducer';
+import { DELETE, UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 
 const Main = styled.div`
@@ -118,28 +118,7 @@ function UserEdit() {
 	const memberId = localStorage.getItem('memberId');
 
 	const dispatch = useDispatch();
-	const userInfos = useSelector((state: RootState) => state.userInfoReducer);
-
-	const [userInfo, setUserInfo] = useState<Iuser>({
-		id: 0,
-		nickname: '',
-		mbti: '',
-		badge: null,
-	});
-
-	useEffect(() => {
-		async function getData() {
-			const data = await axios.get(`http://localhost:4000/members/${memberId}`);
-			setUserInfo({
-				id: data.data.id,
-				nickname: data.data.nickname,
-				mbti: data.data.mbti,
-				badge: data.data.badge,
-			});
-		}
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const userInfos = useSelector((state: RootState) => state.user);
 
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
@@ -147,11 +126,6 @@ function UserEdit() {
 			await axios.delete(`http://localhost:4000/members/${memberId}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('displayName');
-			localStorage.removeItem('mbti');
-			localStorage.removeItem('img');
-			localStorage.removeItem('memberId');
 			dispatch(DELETE());
 			dispatch(LOGOUT());
 			navigate('/main');
@@ -174,13 +148,8 @@ function UserEdit() {
 				nickname: editname,
 				mbti: editmbti,
 			});
-			localStorage.removeItem('displayName');
-			localStorage.removeItem('mbti');
-			localStorage.setItem('displayName', editname);
-			localStorage.setItem('mbti', editmbti);
 			const data = await axios.get(`http://localhost:4000/members/${memberId}`);
 			dispatch(UPDATE(data.data));
-
 			// eslint-disable-next-line no-alert
 			alert('수정 완료되었습니다.');
 			navigate('/mypage');

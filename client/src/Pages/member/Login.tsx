@@ -3,7 +3,7 @@ import '../../Global.css';
 import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -11,7 +11,6 @@ import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
 import { LOGIN } from '../../Reducers/loginReducer';
 import { UPDATE } from '../../Reducers/userInfoReducer';
-import { RootState } from '../../Store/store';
 
 const Main = styled.div`
 	width: 100%;
@@ -124,17 +123,14 @@ const Content = styled.div`
 
 function Login() {
 	const dispatch = useDispatch();
-	const userInfos = useSelector((state: RootState) => state.userInfoReducer);
-	const logininfo = useSelector((state: RootState) => state.loginReducer);
-	// eslint-disable-next-line no-console
-	console.log(userInfos, logininfo);
-
 	const navigate = useNavigate();
 	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			/* const loginData = await axios.post('http://localhost:4000/auth/login', {
+			/* 
+			// 서버 연결하면 사용할 코드
+			const loginData = await axios.post('http://localhost:4000/auth/login', {
 				email: el.email.value,
 				password: el.password.value
 			});
@@ -142,7 +138,7 @@ function Login() {
 			const accessToken = loginData.response.headers.authorization;
 			*/
 			const memberId = 1;
-			const accessToken = 'token';
+			const token = { accessToken: 'token' };
 			const userInfo = await axios.get(
 				`http://localhost:4000/members/${memberId}`,
 			);
@@ -156,13 +152,8 @@ function Login() {
 			} else {
 				// eslint-disable-next-line no-alert
 				alert('로그인 되었습니다.');
-				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('displayName', userInfo.data.nickname);
-				localStorage.setItem('mbti', userInfo.data.mbti);
-				localStorage.setItem('img', userInfo.data.img);
-				localStorage.setItem('memberId', userInfo.data.id);
 				dispatch(UPDATE(userInfo.data));
-				dispatch(LOGIN());
+				dispatch(LOGIN(token));
 				navigate('/main');
 			}
 		} catch (error) {

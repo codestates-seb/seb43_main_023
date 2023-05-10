@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Iuser {
 	id?: number;
@@ -14,17 +14,9 @@ export interface Iuser {
 }
 
 const initialState: Iuser = {
-	id:
-		localStorage.getItem('memberId')! === null
-			? 0
-			: Number(localStorage.getItem('memberId')!),
+	id: 0,
 	email: '',
-	nickname:
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		localStorage.getItem('displayName')! === null
-			? ''
-			: // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			  localStorage.getItem('displayName')!,
+	nickname: '',
 	mbti: '',
 	img: '',
 	badge: null,
@@ -38,7 +30,7 @@ const userInfoSlice = createSlice({
 	name: 'changeInfo',
 	initialState,
 	reducers: {
-		UPDATE: (state: Iuser, action: any): Iuser => {
+		UPDATE: (state: Iuser, action: PayloadAction<Iuser>): Iuser => {
 			return { ...state, ...action.payload };
 		},
 		DELETE: (): Iuser => {

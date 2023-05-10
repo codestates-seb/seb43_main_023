@@ -1,18 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
 	isLogin: false,
+	accessToken: '',
 };
+
+export interface Ilogin {
+	isLogin: boolean;
+	accessToken: string;
+}
 
 const loginSlice = createSlice({
 	name: 'isLogin',
 	initialState,
 	reducers: {
-		LOGIN: () => {
-			return { isLogin: true };
+		LOGIN: (
+			state: Ilogin,
+			action: PayloadAction<{ accessToken: string }>,
+		): Ilogin => {
+			return { isLogin: true, ...action.payload };
 		},
-		LOGOUT: () => {
-			return { isLogin: false };
+		LOGOUT: (): Ilogin => {
+			return { ...initialState };
 		},
 	},
 });

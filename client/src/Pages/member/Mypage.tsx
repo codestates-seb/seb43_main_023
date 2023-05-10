@@ -166,8 +166,7 @@ function Mypage() {
 	const memberId = localStorage.getItem('memberId');
 
 	const dispatch = useDispatch();
-	const userInfos = useSelector((state: RootState) => state.userInfoReducer);
-	console.log(userInfos);
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const [select, setSelect] = useState('btn1');
 	const userInfoClick = () => {
@@ -201,42 +200,12 @@ function Mypage() {
 		},
 	]);
 
-	const [userInfo, setUserInfo] = useState<Iuser>({
-		id: 0,
-		nickname: '',
-		email: '',
-		mbti: '',
-		badge: null,
-	});
-
-	useEffect(() => {
-		async function getData() {
-			const userData = await axios.get(
-				`http://localhost:4000/members/${memberId}`,
-			);
-			setUserInfo({
-				id: userData.data.id,
-				nickname: userData.data.nickname,
-				email: userData.data.email,
-				mbti: userData.data.mbti,
-				badge: userData.data.badge,
-			});
-		}
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
 			await axios.delete(`http://localhost:4000/members/${memberId}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('displayName');
-			localStorage.removeItem('mbti');
-			localStorage.removeItem('img');
-			localStorage.removeItem('memberId');
 			dispatch(DELETE());
 			dispatch(LOGOUT());
 			navigate('/main');
@@ -250,12 +219,12 @@ function Mypage() {
 			const getData = await axios.get('http://localhost:4000/posts');
 			setPosts(
 				getData.data.filter(
-					(v: { email: string }) => v.email === userInfo.email,
+					(v: { email: string }) => v.email === userInfos.email,
 				),
 			);
 		}
 		getPost();
-	}, [userInfo.email]);
+	}, [userInfos.email]);
 
 	const postDeleteClick = async (id: number) => {
 		try {
