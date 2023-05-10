@@ -152,7 +152,16 @@ function Login() {
 			} else {
 				// eslint-disable-next-line no-alert
 				alert('로그인 되었습니다.');
-				dispatch(UPDATE(userInfo.data));
+				dispatch(
+					UPDATE({
+						id: userInfo.data.id,
+						email: userInfo.data.email,
+						nickname: userInfo.data.nickname,
+						mbti: userInfo.data.mbti,
+						img: userInfo.data.img,
+						badge: userInfo.data.badge,
+					}),
+				);
 				dispatch(LOGIN(token));
 				navigate('/main');
 			}

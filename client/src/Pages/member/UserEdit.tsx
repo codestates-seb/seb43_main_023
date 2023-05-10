@@ -115,7 +115,6 @@ const Main = styled.div`
 
 function UserEdit() {
 	const navigate = useNavigate();
-	const memberId = localStorage.getItem('memberId');
 
 	const dispatch = useDispatch();
 	const userInfos = useSelector((state: RootState) => state.user);
@@ -123,7 +122,7 @@ function UserEdit() {
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
-			await axios.delete(`http://localhost:4000/members/${memberId}`);
+			await axios.delete(`http://localhost:4000/members/${userInfos.id}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
 			dispatch(DELETE());
@@ -144,12 +143,11 @@ function UserEdit() {
 	};
 	const userEditClick = async () => {
 		try {
-			await axios.patch(`http://localhost:4000/members/${memberId}`, {
+			await axios.patch(`http://localhost:4000/members/${userInfos.id}`, {
 				nickname: editname,
 				mbti: editmbti,
 			});
-			const data = await axios.get(`http://localhost:4000/members/${memberId}`);
-			dispatch(UPDATE(data.data));
+			dispatch(UPDATE({ nickname: editname, mbti: editmbti }));
 			// eslint-disable-next-line no-alert
 			alert('수정 완료되었습니다.');
 			navigate('/mypage');

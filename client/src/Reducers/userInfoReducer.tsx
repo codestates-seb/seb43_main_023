@@ -7,10 +7,6 @@ export interface Iuser {
 	mbti: string;
 	img?: string;
 	badge?: null;
-	role?: string;
-	memberStatus?: string;
-	createdAt?: string;
-	modifiedAt?: string;
 }
 
 const initialState: Iuser = {
@@ -20,10 +16,6 @@ const initialState: Iuser = {
 	mbti: '',
 	img: '',
 	badge: null,
-	role: '',
-	memberStatus: '',
-	createdAt: '',
-	modifiedAt: '',
 };
 
 const userInfoSlice = createSlice({
