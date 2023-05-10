@@ -3,11 +3,15 @@ import '../../Global.css';
 import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
+import { LOGIN } from '../../Reducers/loginReducer';
+import { UPDATE } from '../../Reducers/userInfoReducer';
+import { RootState } from '../../Store/store';
 
 const Main = styled.div`
 	width: 100%;
@@ -119,6 +123,12 @@ const Content = styled.div`
 `;
 
 function Login() {
+	const dispatch = useDispatch();
+	const userInfos = useSelector((state: RootState) => state.userInfoReducer);
+	const logininfo = useSelector((state: RootState) => state.loginReducer);
+	// eslint-disable-next-line no-console
+	console.log(userInfos, logininfo);
+
 	const navigate = useNavigate();
 	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -151,6 +161,8 @@ function Login() {
 				localStorage.setItem('mbti', userInfo.data.mbti);
 				localStorage.setItem('img', userInfo.data.img);
 				localStorage.setItem('memberId', userInfo.data.id);
+				dispatch(UPDATE(userInfo.data));
+				dispatch(LOGIN());
 				navigate('/main');
 			}
 		} catch (error) {
@@ -161,7 +173,7 @@ function Login() {
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
-			<Link to="/">
+			<Link to="/main">
 				<img className="logo" src={logo} alt="" />
 			</Link>
 			<Content>

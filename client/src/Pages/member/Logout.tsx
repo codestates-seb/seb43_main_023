@@ -1,10 +1,12 @@
 import '../../Global.css';
 
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
+import { LOGOUT } from '../../Reducers/loginReducer';
 
 const Main = styled.div`
 	width: 100%;
@@ -52,6 +54,7 @@ const Content = styled.div`
 `;
 
 function Logout() {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const logoutClick = () => {
 		// eslint-disable-next-line no-alert
@@ -61,6 +64,7 @@ function Logout() {
 		localStorage.removeItem('mbti');
 		localStorage.removeItem('img');
 		localStorage.removeItem('memberId');
+		dispatch(LOGOUT());
 		navigate('/main');
 	};
 

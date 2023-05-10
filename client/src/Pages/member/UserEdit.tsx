@@ -3,8 +3,13 @@ import '../../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { LOGOUT } from '../../Reducers/loginReducer';
+import { DELETE, Iuser, UPDATE } from '../../Reducers/userInfoReducer';
+import { RootState } from '../../Store/store';
 
 const Main = styled.div`
 	display: flex;
@@ -108,16 +113,12 @@ const Main = styled.div`
 	}
 `;
 
-interface Iuser {
-	id: number;
-	nickname: string;
-	mbti: string;
-	badge: null;
-}
-
 function UserEdit() {
 	const navigate = useNavigate();
 	const memberId = localStorage.getItem('memberId');
+
+	const dispatch = useDispatch();
+	const userInfos = useSelector((state: RootState) => state.userInfoReducer);
 
 	const [userInfo, setUserInfo] = useState<Iuser>({
 		id: 0,
@@ -151,6 +152,8 @@ function UserEdit() {
 			localStorage.removeItem('mbti');
 			localStorage.removeItem('img');
 			localStorage.removeItem('memberId');
+			dispatch(DELETE());
+			dispatch(LOGOUT());
 			navigate('/main');
 		} catch (error) {
 			navigate('/error');
@@ -175,6 +178,9 @@ function UserEdit() {
 			localStorage.removeItem('mbti');
 			localStorage.setItem('displayName', editname);
 			localStorage.setItem('mbti', editmbti);
+			const data = await axios.get(`http://localhost:4000/members/${memberId}`);
+			dispatch(UPDATE(data.data));
+
 			// eslint-disable-next-line no-alert
 			alert('수정 완료되었습니다.');
 			navigate('/mypage');
@@ -228,7 +234,7 @@ function UserEdit() {
 						</div>
 
 						<div>Badge</div>
-						<div className="myInfo">{userInfo.badge}</div>
+						<div className="myInfo">{userInfos.badge}</div>
 						<button onClick={userEditClick} className="memberEdit">
 							내정보 저장하기
 						</button>

@@ -3,8 +3,13 @@ import '../../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { LOGOUT } from '../../Reducers/loginReducer';
+import { DELETE, Iuser } from '../../Reducers/userInfoReducer';
+import { RootState } from '../../Store/store';
 
 const Main = styled.div`
 	display: flex;
@@ -156,17 +161,13 @@ interface Ipost {
 	modifiedAt?: string;
 }
 
-interface Iuser {
-	id: number;
-	nickname: string;
-	email: string;
-	mbti: string;
-	badge: null;
-}
-
 function Mypage() {
 	const navigate = useNavigate();
 	const memberId = localStorage.getItem('memberId');
+
+	const dispatch = useDispatch();
+	const userInfos = useSelector((state: RootState) => state.userInfoReducer);
+	console.log(userInfos);
 
 	const [select, setSelect] = useState('btn1');
 	const userInfoClick = () => {
@@ -236,6 +237,8 @@ function Mypage() {
 			localStorage.removeItem('mbti');
 			localStorage.removeItem('img');
 			localStorage.removeItem('memberId');
+			dispatch(DELETE());
+			dispatch(LOGOUT());
 			navigate('/main');
 		} catch (error) {
 			navigate('/error');
@@ -298,13 +301,13 @@ function Mypage() {
 					{select === 'btn1' ? (
 						<div className="userInformation">
 							<div>DisplayName</div>
-							<div className="myInfo myDisplayName">{userInfo.nickname}</div>
+							<div className="myInfo myDisplayName">{userInfos.nickname}</div>
 
 							<div>MBTI</div>
-							<div className="myInfo myMbti">{userInfo.mbti}</div>
+							<div className="myInfo myMbti">{userInfos.mbti}</div>
 
 							<div>Badge</div>
-							<div className="myInfo">{userInfo.badge}</div>
+							<div className="myInfo">{userInfos.badge}</div>
 							<Link to="/useredit">
 								<button className="memberEdit">내정보 수정하기</button>
 							</Link>
