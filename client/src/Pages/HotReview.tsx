@@ -13,7 +13,7 @@ interface IReview {
 	subject: string;
 	title: string;
 	content: string;
-	tag?: null;
+	tag?: null | string;
 	img: string[];
 	voteCount: number;
 	viewCount: number;

@@ -24,7 +24,7 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 		left: 0;
 		width: 100%;
 		height: 100%;
-		opacity: 0.5;
+		opacity: 0.8;
 		z-index: -1;
 	}
 `;
@@ -32,13 +32,17 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 const HeaderText = styled.div`
 	font-size: 50px;
 	font-weight: 900;
-	> span {
+	.nickName {
 		color: #0db4f3;
+	}
+	> span {
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 	> div {
 		font-size: 38px;
 		font-weight: 700;
 		margin-top: 20px;
+		background-color: rgba(255, 255, 255, 0.7);
 	}
 `;
 
@@ -108,7 +112,7 @@ function UserHeader() {
 				.then((response) => {
 					const { data } = response;
 					const newData = data.filter(
-						(item: any) => item.mbti === userInfo.mbti,
+						(item: IuserMbti) => item.mbti === userInfo.mbti,
 					);
 					setFilterMbti(newData[0]);
 				})
@@ -121,7 +125,9 @@ function UserHeader() {
 	return (
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
 			<HeaderText>
-				<span>{userInfo.nickname}</span>님 어서오세요!
+				<span>
+					<span className="nickName">{userInfo.nickname}</span>님 어서오세요!
+				</span>
 				<div>
 					{filterMbti
 						? filterMbti.description.split('\\n').map((item, key) => (
