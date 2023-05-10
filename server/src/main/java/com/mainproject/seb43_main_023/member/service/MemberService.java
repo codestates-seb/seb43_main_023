@@ -5,13 +5,12 @@ import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.repository.MemberRepository;
+import com.mainproject.seb43_main_023.redis.repository.RefreshTokenRedisRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
