@@ -64,4 +64,8 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
     }
+    public Long findSecurityContextHolderMemberId() {
+        Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (Long) principal.get("memberId");
+    }
 }

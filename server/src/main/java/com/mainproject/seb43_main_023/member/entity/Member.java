@@ -1,6 +1,7 @@
 package com.mainproject.seb43_main_023.member.entity;
 
 import com.mainproject.seb43_main_023.audit.Auditable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Member extends Auditable {
     @Id
