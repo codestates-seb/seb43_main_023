@@ -38,4 +38,15 @@ public class MemberDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
+
+//    @Getter
+//    @Builder
+//    @AllArgsConstructor
+//    public static class TokenInfo {
+//        private String grantType;
+//        private String accessToken;
+//        private Long accessTokenExpirationTime;
+//        private String refreshToken;
+//        private Long refreshTokenExpirationTime;
+//    }
 }
