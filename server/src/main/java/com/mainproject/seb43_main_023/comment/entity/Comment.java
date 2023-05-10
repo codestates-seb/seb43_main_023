@@ -7,10 +7,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Comment {
     @Id
@@ -18,8 +21,11 @@ public class Comment {
     private long commentId;
     @Column(nullable = false)
     private String content;
+    private long voteCount = 0;
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(nullable = false)
     private LocalDateTime modifiedAt = LocalDateTime.now();
+    @ElementCollection
+    private List<Long> voteList = new ArrayList<>();
 }

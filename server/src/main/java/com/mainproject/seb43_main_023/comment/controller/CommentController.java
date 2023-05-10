@@ -44,4 +44,10 @@ public class CommentController {
         commentService.deleteComment(commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PatchMapping("/{comment-id}/vote/{member-id}")
+    public ResponseEntity voteComment(@PathVariable("comment-id") long commentId,
+                                      @PathVariable("member-id") long memberId){
+        Comment comment = commentService.voteComment(commentId, memberId);
+        return new ResponseEntity(commentMapper.commentToCommentResponseDto(comment),HttpStatus.OK);
+    }
 }

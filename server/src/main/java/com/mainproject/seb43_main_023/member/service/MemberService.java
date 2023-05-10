@@ -6,7 +6,6 @@ import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.repository.MemberRepository;
-import com.mainproject.seb43_main_023.redis.repository.RefreshTokenRedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -63,9 +62,5 @@ public class MemberService {
         if (member.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
-    }
-    public Long findSecurityContextHolderMemberId() {
-        Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (Long) principal.get("memberId");
     }
 }
