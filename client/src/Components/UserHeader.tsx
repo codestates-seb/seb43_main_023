@@ -10,7 +10,7 @@ interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 
 const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 	width: 100%;
-	height: 600px;
+	height: 640px;
 	padding: 100px;
 	margin-top: 71px;
 	display: flex;

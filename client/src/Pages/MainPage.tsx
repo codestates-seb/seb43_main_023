@@ -15,6 +15,14 @@ const MainContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	scroll-behavior: smooth;
+	scroll-snap-type: y mandatory;
+	scroll-padding-top: 10px;
+	overflow-y: scroll;
+	&::-webkit-scrollbar {
+		width: 0;
+		background: transparent;
+	}
 `;
 
 const MainTab = styled.div`
@@ -30,7 +38,7 @@ const MainTabButton = styled.div`
 	text-align: center;
 	font-size: 24px;
 	padding: 10px;
-	border-radius: 15px;
+	border-radius: 50px;
 	margin-top: 20px;
 	&:hover {
 		color: rgb(250, 250, 250);
@@ -74,6 +82,14 @@ const ButtonContainer = styled.div`
 	display: flex;
 	padding-right: 50px;
 	justify-content: flex-end;
+	scroll-snap-align: start;
+`;
+
+const StyledLink = styled(Link)`
+	color: black;
+	&:visited {
+		color: black;
+	}
 `;
 
 function MainPage() {
@@ -101,21 +117,21 @@ function MainPage() {
 		switch (currentTab) {
 			case 0:
 				return (
-					<Link to="/regionrec" style={{ textDecoration: 'none' }}>
+					<StyledLink to="/regionrec" style={{ textDecoration: 'none' }}>
 						<div className="linkButton">전체보기</div>
-					</Link>
+					</StyledLink>
 				);
 			case 1:
 				return (
-					<Link to="/hotplace" style={{ textDecoration: 'none' }}>
+					<StyledLink to="/hotplace" style={{ textDecoration: 'none' }}>
 						<div className="linkButton">전체보기</div>
-					</Link>
+					</StyledLink>
 				);
 			case 2:
 				return (
-					<Link to="/hotreview" style={{ textDecoration: 'none' }}>
+					<StyledLink to="/hotreview">
 						<div className="linkButton">전체보기</div>
-					</Link>
+					</StyledLink>
 				);
 			default:
 				return <div>전체보기</div>;
@@ -135,9 +151,9 @@ function MainPage() {
 				<MainTabButton onClick={() => handleTabClick(2)}>
 					인기 여행 리뷰글
 				</MainTabButton>
-				<Link to="/community" style={{ textDecoration: 'none' }}>
+				<StyledLink to="/community" style={{ textDecoration: 'none' }}>
 					<MainTabButton>커뮤니티</MainTabButton>
-				</Link>
+				</StyledLink>
 			</MainTab>
 			<MainContentsContainer>
 				<SlideContainer>{renderCarousel()}</SlideContainer>
