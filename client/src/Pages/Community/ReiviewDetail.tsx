@@ -153,6 +153,7 @@ function ReviewDetail() {
 		viewCount: number;
 		voteCount: number;
 		createdAt: string;
+		tag: string[];
 	}
 	const { id } = useParams();
 	const [review, setReview] = useState<Review[]>([]);
@@ -190,6 +191,8 @@ function ReviewDetail() {
 			.then((res) => setReview([res.data]));
 	}, [id]);
 
+	console.log(review);
+
 	return (
 		<div className="main">
 			<ReviewContainer>
@@ -208,7 +211,6 @@ function ReviewDetail() {
 									</Writer>
 									<Title>{el.title}</Title>
 									<Content>
-										{' '}
 										<Viewer initialValue={el.content || ''} />
 									</Content>
 									<Vote>
@@ -235,9 +237,9 @@ function ReviewDetail() {
 
 										<div>
 											<div>
-												<Tag>ESFJ</Tag>
-												<Tag>1인</Tag>
-												<Tag>힐링여행</Tag>
+												{el.tag.map((t) => (
+													<Tag>{t}</Tag>
+												))}
 											</div>
 
 											<div>

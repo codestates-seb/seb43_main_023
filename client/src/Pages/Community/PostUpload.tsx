@@ -176,7 +176,6 @@ function PostUpload() {
 	const [posts, setPosts] = useState([]);
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
-	const [place, setPlace] = useState<string>('');
 	const [alert, setAlert] = useState<boolean>(false);
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
@@ -215,10 +214,6 @@ function PostUpload() {
 	const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setTitle(event.target.value);
 	};
-
-	// const handlePlace = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	setPlace(event.target.value);
-	// };
 
 	const handlePlace = (data: any) => {
 		setX(data[0].x);
@@ -278,7 +273,6 @@ function PostUpload() {
 					viewCount: 0,
 					createdAt: '23-05-01T000000',
 					modifiedAt: '23-05-01T000000',
-					place,
 				})
 				.then(
 					// eslint-disable-next-line no-return-assign
