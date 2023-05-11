@@ -33,15 +33,15 @@ public class CommentService {
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
-    public Comment voteComment(long commentId, long memberId){
+    public Comment voteComment(long commentId) {
         Comment comment = findVerifiedComment(commentId);
-        if(comment.getVoteList().contains(memberId)){
-            comment.setVoteCount(comment.getVoteCount()-1);
-            comment.getVoteList().remove(memberId);
+        if(comment.getVoteList().contains(comment.getMemberId())){
+            comment.setVoteCount(comment.getVoteCount() - 1);
+            comment.getVoteList().remove(comment.getMemberId());
         }
         else {
-            comment.setVoteCount(comment.getVoteCount()+1);
-            comment.getVoteList().add(memberId);
+            comment.setVoteCount(comment.getVoteCount() + 1);
+            comment.getVoteList().add(comment.getMemberId());
         }
         return commentRepository.save(comment);
     }

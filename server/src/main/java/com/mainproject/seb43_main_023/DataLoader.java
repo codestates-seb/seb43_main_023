@@ -52,8 +52,8 @@ public class DataLoader {
         );
         postRepository.saveAll(posts);
         List<Comment> comments = Arrays.asList(
-                new Comment(1L,"댓글1",0,LocalDateTime.now(),LocalDateTime.now(),null),
-                new Comment(2L,"댓글2",0,LocalDateTime.now(),LocalDateTime.now(),null)
+                new Comment(1L,"댓글1234",0,LocalDateTime.now(),LocalDateTime.now(),1,1,null),
+                new Comment(2L,"댓글2",0,LocalDateTime.now(),LocalDateTime.now(),2,2,null)
 
         );
         commentRepository.saveAll(comments);
