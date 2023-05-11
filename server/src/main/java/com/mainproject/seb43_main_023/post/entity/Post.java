@@ -32,10 +32,10 @@ public class Post {
     private LocalDateTime modifiedAt = createdAt;
     @Column(nullable = false)
     private Long memberId;
-    @Column(nullable = false)
-    private String email;
-    @Column(nullable = false)
-    private String nickname;
+//    @Column(nullable = false)
+//    private String email;
+//    @Column(nullable = false)
+//    private String nickname;
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
     @ElementCollection

@@ -1,10 +1,11 @@
 package com.mainproject.seb43_main_023.post.dto;
 
+import com.mainproject.seb43_main_023.member.entity.Member;
+import com.mainproject.seb43_main_023.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.ElementCollection;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
