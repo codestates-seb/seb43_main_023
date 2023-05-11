@@ -1,5 +1,7 @@
 package com.mainproject.seb43_main_023;
 
+import com.mainproject.seb43_main_023.comment.entity.Comment;
+import com.mainproject.seb43_main_023.comment.repository.CommentRepository;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.repository.MemberRepository;
 import com.mainproject.seb43_main_023.post.entity.Post;
@@ -23,6 +25,8 @@ public class DataLoader {
     private MemberRepository memberRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     @PostConstruct
     public void init(){
@@ -47,6 +51,12 @@ public class DataLoader {
                 new Post(13L,"잡담","잡담MBTI13","내용13",0,0,LocalDateTime.now(),LocalDateTime.now(),2L,"test2@gmail.com","testNick2",null,null)
         );
         postRepository.saveAll(posts);
+        List<Comment> comments = Arrays.asList(
+                new Comment(1L,"댓글1",0,LocalDateTime.now(),LocalDateTime.now(),null),
+                new Comment(2L,"댓글2",0,LocalDateTime.now(),LocalDateTime.now(),null)
+
+        );
+        commentRepository.saveAll(comments);
     }
 
 }

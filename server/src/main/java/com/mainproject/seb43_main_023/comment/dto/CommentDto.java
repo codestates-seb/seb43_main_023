@@ -32,6 +32,7 @@ public class CommentDto {
     public static class CommentResponseDto {
         private long commentId;
         private String content;
+        private long voteCount;
         private String createdAt;
         private String modifiedAt;
     }
