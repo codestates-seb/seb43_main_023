@@ -88,9 +88,22 @@ function PostDetail() {
 		createdAt: string;
 	}
 
+	interface Answer {
+		author: string;
+		content: string;
+		id: number;
+		vote: number;
+		postId: number;
+	}
+
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
+
+	// eslint-disable-next-line prefer-const
+	let [answers, setAnswers] = useState<Answer[]>([]);
+	answers = answers.filter((el) => el.postId === Number(id));
+
 	const displayName = localStorage.getItem('displayName');
 
 	const deletePost = () => {
@@ -150,6 +163,10 @@ function PostDetail() {
 		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
 			setPost([res.data]);
 		});
+
+		axios.get(`http://localhost:4000/comments`).then((res) => {
+			setAnswers(res.data);
+		});
 	}, [id]);
 
 	return (
@@ -166,7 +183,8 @@ function PostDetail() {
 											{el.nickName}@infp {el.createdAt}
 											<div>
 												<span>
-													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글 수
+													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글{' '}
+													{answers.length}
 												</span>
 
 												{displayName === el.nickName ? (
