@@ -23,9 +23,13 @@ public class Comment extends Auditable {
 
     @Column(nullable = false)
     private String content;
-
+    @Column(nullable = false)
     private long voteCount = 0;
 
+    @Column(nullable = false)
+    private long memberId;
+    @Column(nullable = false)
+    private  long postId;
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
 }

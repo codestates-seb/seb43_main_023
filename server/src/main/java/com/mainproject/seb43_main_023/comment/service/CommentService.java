@@ -38,7 +38,6 @@ public class CommentService {
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
-    @Transactional
     public Comment voteComment(long commentId, long memberId){
         Comment comment = findVerifiedComment(commentId);
         Set<Long> voteList = new HashSet<>(comment.getVoteList());
