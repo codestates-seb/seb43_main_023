@@ -9,22 +9,22 @@ import org.mapstruct.ReportingPolicy;
 public interface MemberMapper {
     Member memberPostDtoToMember(MemberDto.Post memberPostDto);
 
-    default Member memberPatchDtoToMember(MemberDto.Patch memberPatchDto, Member findmember) {
+    default Member memberPatchDtoToMember(MemberDto.Patch memberPatchDto, Member findMember) {
         if (memberPatchDto == null) {
             return null;
         } else {
             Member member = new Member();
-            member.setMemberId(findmember.getMemberId());
-            member.setEmail(findmember.getEmail());
-            member.setPassword(findmember.getPassword());
+            member.setMemberId(findMember.getMemberId());
+            member.setEmail(findMember.getEmail());
+            member.setPassword(findMember.getPassword());
             member.setNickname(memberPatchDto.getNickname());
             member.setMbti(memberPatchDto.getMbti());
-            member.setRoles(findmember.getRoles());
-            member.setMemberStatus(findmember.getMemberStatus());
-            member.setBadge(findmember.getBadge());
-            member.setImg(findmember.getImg());
-            member.setCreatedAt(findmember.getCreatedAt());
-            member.setModifiedAt(findmember.getModifiedAt());
+            member.setRoles(findMember.getRoles());
+            member.setMemberStatus(findMember.getMemberStatus());
+            member.setBadge(findMember.getBadge());
+            member.setImg(findMember.getImg());
+            member.setCreatedAt(findMember.getCreatedAt());
+            member.setModifiedAt(findMember.getModifiedAt());
             return member;
         }
     }
