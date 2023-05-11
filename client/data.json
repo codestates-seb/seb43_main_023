@@ -2,13 +2,17 @@
   "posts": [
     {
       "id": 1,
-      "nickname": "testnick",
+      "nickName": "testnick",
       "email": "test@gmail.com",
       "subject": "여행고민",
       "title": "제목",
       "content": "내용",
-      "tag": null,
-      "voteCount": 0,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
+      "voteCount": 2,
       "viewCount": 1,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000"
@@ -92,14 +96,20 @@
       "subject": "여행리뷰",
       "title": "한라산",
       "content": "제주도 중심부에 솟아 있는 한라산은 해발 약 1,950m의 용암이 분출하여 생긴 독특한 지형과 지질적 가치로 유네스코 세계자연유산으로 등재되어 있는 산입니다. 주변에는 흙붉은 오름, 사라 오름, 성널 오름, 어승생 오름 등 크고 작은 오름들이 많이 분포해있습니다. 한라산은 해발고도에 따라 아열대, 온대, 냉대 등 다양한 식물들이 자라는 곳으로, 한발 한발 내딛는 걸음마다 다채로운 풍경을 즐기실 수 있습니다. 또, 봄에는 철쭉, 진달래와 유채꽃이 펼쳐진 모습, 가을에는 단풍으로 물든 모습, 겨울에는 새하얗게 쌓인 눈과 운해가 만들어내는 모습으로 사계절 내내 사랑받는 산",
-      "tag": null,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
       "img": [
         "https://a.cdn-hotels.com/gdcs/production18/d110/a710493b-da6c-415d-bc2c-f63fc58cfeb0.jpg?impolicy=fcrop&w=800&h=533&q=medium"
       ],
       "voteCount": 6555,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "x": "126.54222094512",
+      "y": "33.3766655632143"
     },
     {
       "id": 9,
@@ -107,14 +117,20 @@
       "subject": "여행리뷰",
       "title": "대구 이월드",
       "content": "아름다운 넓은 공원, 매년 벚꽃 축제에서 다양한 이벤트가 열리고 내부의 조명 야경도 하이라이트가되었습니다. 음악 분수, 다양한 테마의 별빛 정원, 야외 밴드 공연 관람, 역동적인 음악과 함께 춤을 추고 주변에 많은 포장 마차가 있습니다. 배를 만족시킬 수 있고 모양이 매우 귀엽고 83 타워에 올라 탁 트인 전망을 볼 수 있으며 모든 종류의 흥미 진진한 모바일 게임을 시도 할 수 있으며 티켓은 별도로 구입할 수 있으며 여전히 매우 효율적 입니다.",
-      "tag": null,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
       "img": [
         "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/asckwf8sm8ij6bhjxi99/%EB%8C%80%EA%B5%AC%20%EC%9D%B4%EC%9B%94%EB%93%9C%20%EC%9E%90%EC%9C%A0%EC%9D%B4%EC%9A%A9%EA%B6%8C.jpg"
       ],
       "voteCount": 6002,
       "viewCount": 7122,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "x": "128.56658131032162",
+      "y": "35.85322716591636"
     },
     {
       "id": 10,
@@ -122,14 +138,20 @@
       "subject": "여행리뷰",
       "title": "레고랜드",
       "content": "나는 공식 웹 사이트를 통해 2 일 티켓과 1 박 호텔 패키지를 예약했습니다. 크리스마스 정일 가격이 조정될 것이기 때문에 공식 웹 사이트는 2023 년 1 월부터 3 월까지 공원이 휴관 될 것이라고 언급했습니다. 겨울 공원에 들어가는 것이 관련이 있기 때문에 따라서 야외 모바일 게임과 물놀이 시설은 닫혀 있지만 어린이보다 카운터가있는 작은 게임이 있습니다. 레고랜드와 다른 느낌을 느낄 수 있습니다. 좋은 경험입니다. 5-12 어린이가있는 경우 동행, 놀이 시설은 그에게 더 적합해야하며, 전체 Li는 2 일 티켓을 천천히 재생할 수 있다고 말합니다.",
-      "tag": null,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
       "img": [
         "https://newsimg.sedaily.com/2022/06/16/2679NT0CBD_5.jpg"
       ],
       "voteCount": 80,
       "viewCount": 120,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.69639340719563",
+      "y": "37.8822417360533"
     },
     {
       "id": 11,
@@ -137,7 +159,11 @@
       "subject": "여행리뷰",
       "title": "전주 한옥마을",
       "content": "전주 풍남동 일대에 위치한 국내 최대 규모의 전통 한옥촌이자 전국 유일의 도심 한옥군인 전주 한옥마을은 한옥의 고즈넉한 아름다움을 느낄 수 있는 마을입니다. 마을에는 경기전, 오목대, 향교 등 중요 문화재와 20여개의 문화시설, 그리고 한복 체험, 한옥 스테이 등 다양한 체험 공간이 있어 남녀노소 모두가 좋아하는 관광지입니다. 한복을 입고 마을을 거닐다보면 어느새 타임머신을 타고 과거로 와있는 듯한 느낌이 드는 곳이랍니다. 다양한 길거리 음식과 전주를 대표하는 베이커리, 전주 여행 필수 맛집들도 있으니 잊지 말고 꼭 들러보세요.",
-      "tag": null,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
       "img": [
         "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=c491db4e-085f-4ba8-b1de-6e7fad2200f6",
         "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=21205327-352c-4772-89f4-c74af06b31a9",
@@ -146,7 +172,9 @@
       "voteCount": 3888,
       "viewCount": 4000,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.152557091072",
+      "y": "35.8148243087693"
     },
     {
       "id": 12,
@@ -154,7 +182,11 @@
       "subject": "여행리뷰",
       "title": "예술의전당",
       "content": "문화생활",
-      "tag": null,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
       "img": [
         "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=c491db4e-085f-4ba8-b1de-6e7fad2200f6",
         "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=21205327-352c-4772-89f4-c74af06b31a9",
@@ -163,7 +195,9 @@
       "voteCount": 20,
       "viewCount": 300,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.01179198066225",
+      "y": "37.47922106107729"
     },
     {
       "id": 13,
@@ -171,7 +205,11 @@
       "subject": "여행리뷰",
       "title": "여긴 어디",
       "content": "나는 누구",
-      "tag": null,
+      "tag": [
+        "ESFJ",
+        "1인",
+        "힐링"
+      ],
       "img": [
         "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=c491db4e-085f-4ba8-b1de-6e7fad2200f6",
         "https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=21205327-352c-4772-89f4-c74af06b31a9",
@@ -180,30 +218,17 @@
       "voteCount": 12232,
       "viewCount": 122322,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "place": ""
     }
   ],
   "comments": [
-    {
-      "id": 1,
-      "postId": 1,
-      "author": "testNick",
-      "content": "댓글 수정 ",
-      "vote": 1
-    },
-    {
-      "id": 2,
-      "postId": 1,
-      "author": "너구리",
-      "content": "댓글",
-      "vote": 1
-    },
     {
       "id": 3,
       "postId": 1,
       "author": "조베기",
       "content": "댓글",
-      "vote": 0
+      "vote": 3
     }
   ],
   "members": [

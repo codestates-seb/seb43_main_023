@@ -51,6 +51,7 @@ function App() {
 					<Route path="/community/:id" element={<PostDetail />} />
 					<Route path="/community/create" element={<PostUpload />} />
 					<Route path="/community/:id/update" element={<PostUpdate />} />
+					<Route path="/tripreview/:id/update" element={<PostUpdate />} />
 					<Route path="/etctalk" element={<EtcTalk />} />
 					<Route path="/hotplace" element={<HotPlace />} />
 					<Route path="/hotreview" element={<HotReview />} />
