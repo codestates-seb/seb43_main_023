@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { HTMLAttributes, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -88,6 +88,16 @@ const HotReviewInfo = styled.div`
 	}
 `;
 
+const StyledLink = styled(Link)`
+	color: black;
+	&:link {
+		text-decoration: none;
+	}
+	&:visited {
+		color: black;
+	}
+`;
+
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
 	const navigate = useNavigate();
@@ -120,15 +130,20 @@ function HotReview() {
 			<HotReviewItemContainer>
 				{filterdReview
 					? filterdReview.map((item) => (
-							<HotReviewItem key={item.id}>
-								<HotReviewImg image={item.img[0]} />
-								<HotReviewInfo>
-									<span className="hotReviewBold">{item.title}</span>
-									<span className="hotReviewBold">💙 {item.voteCount}</span>
-									<span>{item.content}</span>
-									<span className="hotReviewAuthor">{item.nickName}</span>
-								</HotReviewInfo>
-							</HotReviewItem>
+							<StyledLink
+								to={{ pathname: `/tripreview/${item.id}` }}
+								style={{ textDecoration: 'none' }}
+							>
+								<HotReviewItem key={item.id}>
+									<HotReviewImg image={item.img[0]} />
+									<HotReviewInfo>
+										<span className="hotReviewBold">{item.title}</span>
+										<span className="hotReviewBold">💙 {item.voteCount}</span>
+										<span>{item.content}</span>
+										<span className="hotReviewAuthor">{item.nickName}</span>
+									</HotReviewInfo>
+								</HotReviewItem>
+							</StyledLink>
 					  ))
 					: null}
 			</HotReviewItemContainer>
