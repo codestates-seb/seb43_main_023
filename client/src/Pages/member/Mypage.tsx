@@ -2,7 +2,6 @@ import '../../Global.css';
 
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +9,7 @@ import styled from 'styled-components';
 import { LOGOUT } from '../../Reducers/loginReducer';
 import { DELETE, Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
+import { Api } from '../../Util/customAPI';
 
 const Main = styled.div`
 	display: flex;
@@ -131,6 +131,7 @@ const UserWriting = styled.div`
 	}
 	.writingBody {
 		width: 300px;
+		color: #2d2d2d;
 		&:hover {
 			cursor: pointer;
 			color: #0db4f3;
@@ -163,7 +164,6 @@ interface Ipost {
 
 function Mypage() {
 	const navigate = useNavigate();
-	const memberId = localStorage.getItem('memberId');
 
 	const dispatch = useDispatch();
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
@@ -203,7 +203,7 @@ function Mypage() {
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
-			await axios.delete(`http://localhost:4000/members/${memberId}`);
+			await Api.delete(`/members/${userInfos.id}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
 			dispatch(DELETE());
@@ -216,7 +216,7 @@ function Mypage() {
 
 	useEffect(() => {
 		async function getPost() {
-			const getData = await axios.get('http://localhost:4000/posts');
+			const getData = await Api.get('/posts');
 			setPosts(
 				getData.data.filter(
 					(v: { email: string }) => v.email === userInfos.email,
@@ -228,7 +228,7 @@ function Mypage() {
 
 	const postDeleteClick = async (id: number) => {
 		try {
-			await axios.delete(`http://localhost:4000/posts/${id}`);
+			await Api.delete(`/posts/${id}`);
 			// eslint-disable-next-line no-alert
 			alert('글이 삭제되었습니다.');
 			window.location.reload();
@@ -294,9 +294,19 @@ function Mypage() {
 									return (
 										<li key={post.id}>
 											<div className="writingHead">[{post.subject}]</div>
-											<div className="writingBody">{post.title}</div>
+											<Link
+												to={{ pathname: `/community/${post.id}` }}
+												style={{ textDecoration: 'none' }}
+											>
+												<div className="writingBody">{post.title}</div>
+											</Link>
 											<div>
-												<button>Edit</button>
+												<Link
+													to={{ pathname: `/community/${post.id}/update` }}
+													style={{ textDecoration: 'none' }}
+												>
+													<button>Edit</button>
+												</Link>
 												<button onClick={() => postDeleteClick(post.id)}>
 													Delete
 												</button>

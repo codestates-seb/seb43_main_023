@@ -2,7 +2,6 @@ import '../../Global.css';
 
 import { useState } from 'react';
 
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +9,7 @@ import styled from 'styled-components';
 import { LOGOUT } from '../../Reducers/loginReducer';
 import { DELETE, UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
+import { Api } from '../../Util/customAPI';
 
 const Main = styled.div`
 	display: flex;
@@ -122,7 +122,7 @@ function UserEdit() {
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
-			await axios.delete(`http://localhost:4000/members/${userInfos.id}`);
+			await Api.delete(`/members/${userInfos.id}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
 			dispatch(DELETE());
@@ -143,7 +143,7 @@ function UserEdit() {
 	};
 	const userEditClick = async () => {
 		try {
-			await axios.patch(`http://localhost:4000/members/${userInfos.id}`, {
+			await Api.patch(`/members/${userInfos.id}`, {
 				nickname: editname,
 				mbti: editmbti,
 			});

@@ -181,6 +181,20 @@
       "viewCount": 122322,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000"
+    },
+    {
+      "id": 14,
+      "nickName": "testnick",
+      "email" : "test@gmail.com",
+      "subject": "여행리뷰",
+      "title": "x",
+      "content": "x",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000"
     }
   ],
   "comments": [
@@ -214,11 +228,7 @@
       "nickname": "testnick",
       "mbti": "INFP",
       "img": "https://bantax.co.kr/common/img/default_profile.png",
-      "role": "USER",
-      "memberStatus": "MEMBER_ACTIVE",
-      "badge": null,
-      "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "badge": null
     },
     {
       "id": 2,
@@ -227,11 +237,7 @@
       "nickname": "hihijin",
       "mbti": "ISTJ",
       "img": "https://bantax.co.kr/common/img/default_profile.png",
-      "role": "USER",
-      "memberStatus": "MEMBER_ACTIVE",
-      "badge": null,
-      "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "badge": null
     },
     {
       "id": 0.01771526289487113,
