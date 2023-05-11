@@ -6,7 +6,11 @@ import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import Swal from 'sweetalert2';
+import { Viewer } from '@toast-ui/react-editor';
+import { useSelector } from 'react-redux';
 import Answers from '../../Components/Community/Answers';
+import { RootState } from '../../Store/store';
+import { Iuser } from '../../Reducers/userInfoReducer';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -77,7 +81,7 @@ const Content = styled.div`
 
 function PostDetail() {
 	interface Post {
-		postId: number;
+		id: number;
 		subject: string;
 		title: string;
 		content: string;
@@ -92,11 +96,18 @@ function PostDetail() {
 		content: string;
 		id: number;
 		vote: number;
+		postId: number;
 	}
 
 	const { id } = useParams();
 	const [post, setPost] = useState<Post[]>([]);
-	const displayName = localStorage.getItem('displayName');
+	const [isLike, setIsLike] = useState<boolean>(false);
+
+	// eslint-disable-next-line prefer-const
+	let [answers, setAnswers] = useState<Answer[]>([]);
+	answers = answers.filter((el) => el.postId === Number(id));
+
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const deletePost = () => {
 		Swal.fire({
@@ -125,9 +136,39 @@ function PostDetail() {
 		});
 	};
 
+	const handleLike = () => {
+		setIsLike(!isLike);
+
+		const postVote = post[0].voteCount;
+
+		axios
+			.patch(`http://localhost:4000/posts/${id}`, {
+				voteCount: postVote + 1,
+			})
+			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+			.then((res) => setPost([res.data]));
+	};
+
+	const handleDisLike = () => {
+		setIsLike(!isLike);
+
+		const postVote = post[0].voteCount;
+
+		axios
+			.patch(`http://localhost:4000/posts/${id}`, {
+				voteCount: postVote - 1,
+			})
+			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+			.then((res) => setPost([res.data]));
+	};
+
 	useEffect(() => {
 		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
 			setPost([res.data]);
+		});
+
+		axios.get(`http://localhost:4000/comments`).then((res) => {
+			setAnswers(res.data);
 		});
 	}, [id]);
 
@@ -145,10 +186,11 @@ function PostDetail() {
 											{el.nickName}@infp {el.createdAt}
 											<div>
 												<span>
-													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글 수
+													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글{' '}
+													{answers.length}
 												</span>
 
-												{displayName === el.nickName ? (
+												{userInfos.nickname === el.nickName ? (
 													<div>
 														<Link to={`/community/${id}/update`}>
 															<BsPencilSquare color="gray" />
@@ -159,12 +201,26 @@ function PostDetail() {
 											</div>
 										</div>
 									</Title>
-									<Content>{el.content}</Content>
+									<Content>
+										<Viewer initialValue={el.content || ''} />
+									</Content>
 								</div>
 
 								<div>
 									<Vote>
-										<AiOutlineHeart color="#646464" size={21} />
+										{isLike && el.id === Number(id) ? (
+											<AiFillHeart
+												size={21}
+												onClick={handleDisLike}
+												color="#fe6464"
+											/>
+										) : (
+											<AiOutlineHeart
+												color="#646464"
+												size={21}
+												onClick={handleLike}
+											/>
+										)}
 										<span>
 											{el.voteCount}
 											명이 좋아합니다.
