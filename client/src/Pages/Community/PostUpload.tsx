@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { FiDelete, FiAlertCircle } from 'react-icons/fi';
 import axios from 'axios';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
+import SearchPlace from '../../Components/Community/SearchPlace';
 
 const Container = styled.div`
 	width: 100vw;
@@ -177,7 +178,8 @@ function PostUpload() {
 	const [title, setTitle] = useState<string>('');
 	const [place, setPlace] = useState<string>('');
 	const [alert, setAlert] = useState<boolean>(false);
-	const [clickedBtn, setClickedBtn] = useState<boolean>(false);
+	const [x, setX] = useState<string>('');
+	const [y, setY] = useState<string>('');
 
 	const displayName = localStorage.getItem('displayName');
 
@@ -214,8 +216,13 @@ function PostUpload() {
 		setTitle(event.target.value);
 	};
 
-	const handlePlace = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setPlace(event.target.value);
+	// const handlePlace = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	setPlace(event.target.value);
+	// };
+
+	const handlePlace = (data: any) => {
+		setX(data[0].x);
+		setY(data[0].y);
 	};
 
 	const handleBtn = () => {
@@ -249,7 +256,8 @@ function PostUpload() {
 					viewCount: 0,
 					createdAt: '23-05-01T000000',
 					modifiedAt: '23-05-01T000000',
-					place,
+					x,
+					y,
 				})
 				.then(
 					// eslint-disable-next-line no-return-assign
@@ -300,10 +308,13 @@ function PostUpload() {
 						onChange={handleTitle}
 					/>
 					{subject === '여행리뷰' ? (
-						<TitleInput
-							placeholder="여행하신 장소 또는 지역명을 적어주세요"
-							onChange={handlePlace}
-						/>
+						<>
+							{/* <TitleInput
+								placeholder="여행하신 장소 또는 지역명을 적어주세요"
+								onChange={handlePlace}
+							/> */}
+							<SearchPlace handlePlace={handlePlace} />
+						</>
 					) : null}
 					<StyledEditor
 						ref={editorRef} // ref 연결
