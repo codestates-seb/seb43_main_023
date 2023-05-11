@@ -123,6 +123,25 @@
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
       "place": ""
+    },
+    {
+      "id": 10,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "",
+      "content": "ㅏㅏㅏoouuuu",
+      "tag": [
+        "ㅏㅏㅏ"
+      ],
+      "img": [
+        "blob:http://localhost:3000/8bb048cd-11eb-4380-8416-b10cd8e3bf09"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.805358717558",
+      "y": "34.6604487103373"
     }
   ],
   "comments": [
@@ -132,6 +151,13 @@
       "author": "조베기",
       "content": "댓글",
       "vote": 3
+    },
+    {
+      "id": 2,
+      "postId": 10,
+      "content": "kkk",
+      "author": "testnick",
+      "vote": 0
     }
   ],
   "members": [

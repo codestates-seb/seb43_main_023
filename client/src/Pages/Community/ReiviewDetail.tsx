@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { Viewer } from '@toast-ui/react-editor';
+import Swal from 'sweetalert2';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import MapApi from '../../Components/Community/MapApi';
 import Answers from '../../Components/Community/Answers';
@@ -109,6 +110,10 @@ const TagContainer = styled.div`
 			width: 60px;
 			justify-content: space-evenly;
 			align-items: center;
+
+			> a {
+				margin-top: 4px;
+			}
 		}
 	}
 `;
@@ -185,6 +190,33 @@ function ReviewDetail() {
 			.then((res) => setReview([res.data]));
 	};
 
+	const deletePost = () => {
+		Swal.fire({
+			title: '정말로 삭제하시겠습니까 ?',
+			text: '다신 되돌릴 수 없습니다',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#0db4f3',
+			cancelButtonColor: '#f37676',
+			confirmButtonText: 'Delete',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				axios
+					.delete(`http://localhost:4000/posts/${id}`)
+					.then(() =>
+						Swal.fire({
+							title: 'Deleted!',
+							text: '삭제되었습니다',
+							icon: 'success',
+							confirmButtonColor: '#0db4f3',
+						}),
+					)
+					// eslint-disable-next-line no-return-assign
+					.then(() => (document.location.href = '/community'));
+			}
+		});
+	};
+
 	useEffect(() => {
 		axios
 			.get(`http://localhost:4000/posts/${id}`)
@@ -243,8 +275,10 @@ function ReviewDetail() {
 											</div>
 
 											<div>
-												<BsPencilSquare />
-												<BsTrash />
+												<Link to={`/tripreview/${id}/update`}>
+													<BsPencilSquare color="gray" />
+												</Link>
+												<BsTrash onClick={deletePost} color="gray" />
 											</div>
 										</div>
 									</TagContainer>

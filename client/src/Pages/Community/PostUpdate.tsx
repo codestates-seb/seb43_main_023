@@ -228,7 +228,13 @@ function PostUpdate() {
 					tag: tags,
 				})
 				// eslint-disable-next-line no-return-assign
-				.then(() => (document.location.href = `/community/${id}`));
+				.then(() => {
+					if (post?.subject === '여행리뷰') {
+						document.location.href = `/tripreview/${id}`;
+					} else {
+						document.location.href = `/community/${id}`;
+					}
+				});
 		}
 	};
 
