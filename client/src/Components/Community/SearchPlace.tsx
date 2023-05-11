@@ -82,7 +82,7 @@ function SearchPlace({ handlePlace }: Prop) {
 			} else {
 				setSearchResult([]);
 			}
-		}, 500);
+		}, 10);
 
 		return () => clearTimeout(delayDebounceFn);
 	}, [handlePlace, query]);
