@@ -7,7 +7,10 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import Swal from 'sweetalert2';
 import { Viewer } from '@toast-ui/react-editor';
+import { useSelector } from 'react-redux';
 import Answers from '../../Components/Community/Answers';
+import { RootState } from '../../Store/store';
+import { Iuser } from '../../Reducers/userInfoReducer';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -104,7 +107,7 @@ function PostDetail() {
 	let [answers, setAnswers] = useState<Answer[]>([]);
 	answers = answers.filter((el) => el.postId === Number(id));
 
-	const displayName = localStorage.getItem('displayName');
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const deletePost = () => {
 		Swal.fire({
@@ -187,7 +190,7 @@ function PostDetail() {
 													{answers.length}
 												</span>
 
-												{displayName === el.nickName ? (
+												{userInfos.nickname === el.nickName ? (
 													<div>
 														<Link to={`/community/${id}/update`}>
 															<BsPencilSquare color="gray" />

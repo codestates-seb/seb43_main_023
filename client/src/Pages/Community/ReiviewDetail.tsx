@@ -7,9 +7,12 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { Viewer } from '@toast-ui/react-editor';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import MapApi from '../../Components/Community/MapApi';
 import Answers from '../../Components/Community/Answers';
+import { RootState } from '../../Store/store';
+import { Iuser } from '../../Reducers/userInfoReducer';
 
 const ReviewContainer = styled.div`
 	height: 100vh;
@@ -164,6 +167,8 @@ function ReviewDetail() {
 	const [review, setReview] = useState<Review[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
 
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
 	const handleLike = () => {
 		setIsLike(!isLike);
 
@@ -274,12 +279,14 @@ function ReviewDetail() {
 												))}
 											</div>
 
-											<div>
-												<Link to={`/tripreview/${id}/update`}>
-													<BsPencilSquare color="gray" />
-												</Link>
-												<BsTrash onClick={deletePost} color="gray" />
-											</div>
+											{el.nickName === userInfos.nickname ? (
+												<div>
+													<Link to={`/tripreview/${id}/update`}>
+														<BsPencilSquare color="gray" />
+													</Link>
+													<BsTrash onClick={deletePost} color="gray" />
+												</div>
+											) : null}
 										</div>
 									</TagContainer>
 								</ContentContainer>

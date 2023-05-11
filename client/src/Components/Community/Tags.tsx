@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import '../../Global.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
+import { Ilogin } from '../../Reducers/loginReducer';
 
 const PlaceTag = styled.div`
 	font-weight: 600;
@@ -205,7 +208,7 @@ function Tags() {
 		),
 	);
 
-	const token = localStorage.getItem('accessToken');
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const handleBtn = () => {
 		const Toast = Swal.mixin({
@@ -265,7 +268,7 @@ function Tags() {
 			</div>
 			<div>
 				<PostBtn>
-					{token ? (
+					{login.isLogin ? (
 						<Link to="/community/create">
 							<button className="cta">
 								<span>작성하러 가기</span>

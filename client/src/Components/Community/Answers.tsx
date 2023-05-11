@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
+import { Iuser } from '../../Reducers/userInfoReducer';
 
 const Container = styled.div`
 	width: 100%;
@@ -107,7 +110,6 @@ interface Review {
 
 function Answers() {
 	const { id } = useParams();
-	const displayName = localStorage.getItem('displayName');
 
 	const [isLike, setIsLike] = useState<boolean>(false);
 	const [text, setText] = useState<string>('');
@@ -121,6 +123,8 @@ function Answers() {
 
 	answers = answers.filter((el) => el.postId === Number(id));
 
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
@@ -132,7 +136,7 @@ function Answers() {
 					id: length.length + 1,
 					postId: Number(id),
 					content: text,
-					author: displayName,
+					author: userInfos.nickname,
 					vote: 0,
 				})
 				.then(() => {
@@ -285,7 +289,7 @@ function Answers() {
 										<span>{el.content}</span>
 									)}
 
-									{el.author === displayName ? (
+									{el.author === userInfos.nickname ? (
 										<div>
 											<BsPencilSquare
 												size={14}
