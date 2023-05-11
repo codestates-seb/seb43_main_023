@@ -6,7 +6,6 @@ import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.service.MemberService;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.repository.PostRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +23,10 @@ public class PostService {
         this.memberService = memberService;
     }
     public Post createPost(Post post, long memberId){
-//        Member member = memberService.findVerifiedMember(memberId);
+        Member member = memberService.findVerifiedMember(memberId);
         post.setMemberId(memberId);
-//        post.setNickname(member.getNickname());
-//        post.setEmail(member.getEmail());
+        post.setNickname(member.getNickname());
+        post.setEmail(member.getEmail());
         return postRepository.save(post);
     }
     public Post updatePost(Post post, long memberId){
