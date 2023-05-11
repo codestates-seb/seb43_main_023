@@ -92,6 +92,19 @@ interface Answer {
 	postId: number;
 }
 
+interface Review {
+	id: number;
+	title: string;
+	content: string;
+	nickName: string;
+	subject: string;
+	img: string[];
+	viewCount: number;
+	voteCount: number;
+	createdAt: string;
+	tag: string[];
+}
+
 function Answers() {
 	const { id } = useParams();
 	const displayName = localStorage.getItem('displayName');
@@ -100,9 +113,11 @@ function Answers() {
 	const [text, setText] = useState<string>('');
 	const [edit, setEdit] = useState<boolean>(false);
 	const [clickedId, setClickedId] = useState<number | null>(null);
+	const [review, setReview] = useState<Review[]>([]);
 
 	// eslint-disable-next-line prefer-const
 	let [answers, setAnswers] = useState<Answer[]>([]);
+	const [length, setLenght] = useState<Answer[]>([]);
 
 	answers = answers.filter((el) => el.postId === Number(id));
 
@@ -112,25 +127,37 @@ function Answers() {
 
 	const handleSubmit = (e: { key: string }) => {
 		if (e.key === 'Enter') {
-			axios.post(`http://localhost:4000/comments`, {
-				id: answers.length + 1,
-				postId: Number(id),
-				content: text,
-				author: displayName,
-				vote: 0,
-			});
-
-			document.location.href = `/community/${id}`;
+			axios
+				.post(`http://localhost:4000/comments`, {
+					id: length.length + 1,
+					postId: Number(id),
+					content: text,
+					author: displayName,
+					vote: 0,
+				})
+				.then(() => {
+					if (review[0].subject === '여행리뷰') {
+						document.location.href = `/tripreview/${id}`;
+					} else {
+						document.location.href = `/community/${id}`;
+					}
+				});
 		}
 	};
 
 	const handleUpdate = (e: { key: string }, answerId: number) => {
 		if (e.key === 'Enter') {
-			axios.patch(`http://localhost:4000/comments/${answerId}`, {
-				content: text,
-			});
-
-			document.location.href = `/community/${id}`;
+			axios
+				.patch(`http://localhost:4000/comments/${answerId}`, {
+					content: text,
+				})
+				.then(() => {
+					if (review[0].subject === '여행리뷰') {
+						document.location.href = `/tripreview/${id}`;
+					} else {
+						document.location.href = `/community/${id}`;
+					}
+				});
 		}
 	};
 
@@ -156,7 +183,13 @@ function Answers() {
 						}),
 					)
 					// eslint-disable-next-line no-return-assign
-					.then(() => (document.location.href = `/community/${id}`));
+					.then(() => {
+						if (review[0].subject === '여행리뷰') {
+							document.location.href = `/tripreview/${id}`;
+						} else {
+							document.location.href = `/community/${id}`;
+						}
+					});
 			}
 		});
 	};
@@ -196,21 +229,19 @@ function Answers() {
 				.then(() => axios.get(`http://localhost:4000/comments`))
 				.then((res) => setAnswers(res.data));
 		}
-
-		// if (clickedAnswer) {
-		// 	axios.patch(
-		// 		`http://localhost:4000/posts/${id}/comments/${clickedAnswer}/vote`,
-		// 		{
-		// 			vote: clickedAnswer.vote + 1,
-		// 		},
-		// 	);
-		// }
 	};
 
 	useEffect(() => {
+		axios.get(`http://localhost:4000/comments`).then((res) => {
+			setAnswers(res.data);
+			setLenght(res.data);
+		});
+	}, [id]);
+
+	useEffect(() => {
 		axios
-			.get(`http://localhost:4000/comments`)
-			.then((res) => setAnswers(res.data));
+			.get(`http://localhost:4000/posts/${id}`)
+			.then((res) => setReview([res.data]));
 	}, [id]);
 
 	return (
@@ -243,11 +274,11 @@ function Answers() {
 								<div>{el.author}</div>
 
 								<div>
-									{edit && clickedId === idx + 1 ? (
+									{edit && clickedId === el.id ? (
 										<AnswerInput
 											placeholder="댓글을 남겨주세요"
 											onChange={(e) => handleInput(e)}
-											onKeyDown={(e) => handleUpdate(e, idx + 1)}
+											onKeyDown={(e) => handleUpdate(e, el.id)}
 											defaultValue={el.content}
 										/>
 									) : (
@@ -258,12 +289,9 @@ function Answers() {
 										<div>
 											<BsPencilSquare
 												size={14}
-												onClick={() => handleEdit(idx + 1)}
+												onClick={() => handleEdit(el.id)}
 											/>
-											<BsTrash
-												size={14}
-												onClick={() => handleDelete(idx + 1)}
-											/>
+											<BsTrash size={14} onClick={() => handleDelete(el.id)} />
 										</div>
 									) : null}
 								</div>
