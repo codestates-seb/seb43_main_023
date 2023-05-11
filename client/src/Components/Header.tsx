@@ -1,10 +1,13 @@
 import '../Global.css';
 
 import { AiOutlineSearch } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../Assets/logo.png';
+import { Ilogin } from '../Reducers/loginReducer';
+import { RootState } from '../Store/store';
 
 const Content = styled.div`
 	z-index: 1;
@@ -62,13 +65,13 @@ const Content = styled.div`
 	}
 `;
 function Header() {
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
+
 	const locationNow = useLocation();
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
 	if (locationNow.pathname === '/join') return null;
 	if (locationNow.pathname === '/') return null;
-
-	const token = localStorage.getItem('accessToken');
 
 	const searchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -87,7 +90,7 @@ function Header() {
 				<button type="submit">찾기</button>
 			</form>
 			<div>
-				{token ? (
+				{login.isLogin ? (
 					<Link to="/mypage">
 						<button>마이페이지</button>
 					</Link>
@@ -96,7 +99,7 @@ function Header() {
 						<button>회원가입</button>
 					</Link>
 				)}
-				{token ? (
+				{login.isLogin ? (
 					<Link to="/logout">
 						<button>로그아웃</button>
 					</Link>

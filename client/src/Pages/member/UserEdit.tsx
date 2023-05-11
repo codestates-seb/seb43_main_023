@@ -1,10 +1,15 @@
 import '../../Global.css';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { LOGOUT } from '../../Reducers/loginReducer';
+import { DELETE, UPDATE } from '../../Reducers/userInfoReducer';
+import { RootState } from '../../Store/store';
 
 const Main = styled.div`
 	display: flex;
@@ -108,49 +113,20 @@ const Main = styled.div`
 	}
 `;
 
-interface Iuser {
-	id: number;
-	nickname: string;
-	mbti: string;
-	badge: null;
-}
-
 function UserEdit() {
 	const navigate = useNavigate();
-	const memberId = localStorage.getItem('memberId');
 
-	const [userInfo, setUserInfo] = useState<Iuser>({
-		id: 0,
-		nickname: '',
-		mbti: '',
-		badge: null,
-	});
-
-	useEffect(() => {
-		async function getData() {
-			const data = await axios.get(`http://localhost:4000/members/${memberId}`);
-			setUserInfo({
-				id: data.data.id,
-				nickname: data.data.nickname,
-				mbti: data.data.mbti,
-				badge: data.data.badge,
-			});
-		}
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const dispatch = useDispatch();
+	const userInfos = useSelector((state: RootState) => state.user);
 
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
-			await axios.delete(`http://localhost:4000/members/${memberId}`);
+			await axios.delete(`http://localhost:4000/members/${userInfos.id}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('displayName');
-			localStorage.removeItem('mbti');
-			localStorage.removeItem('img');
-			localStorage.removeItem('memberId');
+			dispatch(DELETE());
+			dispatch(LOGOUT());
 			navigate('/main');
 		} catch (error) {
 			navigate('/error');
@@ -167,14 +143,11 @@ function UserEdit() {
 	};
 	const userEditClick = async () => {
 		try {
-			await axios.patch(`http://localhost:4000/members/${memberId}`, {
+			await axios.patch(`http://localhost:4000/members/${userInfos.id}`, {
 				nickname: editname,
 				mbti: editmbti,
 			});
-			localStorage.removeItem('displayName');
-			localStorage.removeItem('mbti');
-			localStorage.setItem('displayName', editname);
-			localStorage.setItem('mbti', editmbti);
+			dispatch(UPDATE({ nickname: editname, mbti: editmbti }));
 			// eslint-disable-next-line no-alert
 			alert('수정 완료되었습니다.');
 			navigate('/mypage');
@@ -228,7 +201,7 @@ function UserEdit() {
 						</div>
 
 						<div>Badge</div>
-						<div className="myInfo">{userInfo.badge}</div>
+						<div className="myInfo">{userInfos.badge}</div>
 						<button onClick={userEditClick} className="memberEdit">
 							내정보 저장하기
 						</button>

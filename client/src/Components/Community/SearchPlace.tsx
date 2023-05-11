@@ -28,6 +28,12 @@ const Li = styled.li`
 	> button {
 		width: 100%;
 		display: flex;
+		flex-direction: column;
+
+		> p:nth-child(2) {
+			color: gray;
+			margin-top: 10px;
+		}
 
 		&:hover {
 			color: #0db4f3;
@@ -87,6 +93,8 @@ function SearchPlace({ handlePlace }: Prop) {
 		return () => clearTimeout(delayDebounceFn);
 	}, [handlePlace, query]);
 
+	console.log(searchResult);
+
 	return (
 		<div>
 			<TitleInput
@@ -103,6 +111,7 @@ function SearchPlace({ handlePlace }: Prop) {
 						{searchResult.map((result: any) => (
 							<Li>
 								<button onClick={(e) => handleSelected(e)}>
+									<p>{result.place_name}</p>
 									<p>{result.address_name}</p>
 									{/* <p>
 									{result.y} / {result.x}

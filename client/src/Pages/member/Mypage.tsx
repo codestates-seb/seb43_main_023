@@ -3,8 +3,13 @@ import '../../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { LOGOUT } from '../../Reducers/loginReducer';
+import { DELETE, Iuser } from '../../Reducers/userInfoReducer';
+import { RootState } from '../../Store/store';
 
 const Main = styled.div`
 	display: flex;
@@ -156,17 +161,12 @@ interface Ipost {
 	modifiedAt?: string;
 }
 
-interface Iuser {
-	id: number;
-	nickname: string;
-	email: string;
-	mbti: string;
-	badge: null;
-}
-
 function Mypage() {
 	const navigate = useNavigate();
 	const memberId = localStorage.getItem('memberId');
+
+	const dispatch = useDispatch();
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const [select, setSelect] = useState('btn1');
 	const userInfoClick = () => {
@@ -200,42 +200,14 @@ function Mypage() {
 		},
 	]);
 
-	const [userInfo, setUserInfo] = useState<Iuser>({
-		id: 0,
-		nickname: '',
-		email: '',
-		mbti: '',
-		badge: null,
-	});
-
-	useEffect(() => {
-		async function getData() {
-			const userData = await axios.get(
-				`http://localhost:4000/members/${memberId}`,
-			);
-			setUserInfo({
-				id: userData.data.id,
-				nickname: userData.data.nickname,
-				email: userData.data.email,
-				mbti: userData.data.mbti,
-				badge: userData.data.badge,
-			});
-		}
-		getData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
 			await axios.delete(`http://localhost:4000/members/${memberId}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('displayName');
-			localStorage.removeItem('mbti');
-			localStorage.removeItem('img');
-			localStorage.removeItem('memberId');
+			dispatch(DELETE());
+			dispatch(LOGOUT());
 			navigate('/main');
 		} catch (error) {
 			navigate('/error');
@@ -247,12 +219,12 @@ function Mypage() {
 			const getData = await axios.get('http://localhost:4000/posts');
 			setPosts(
 				getData.data.filter(
-					(v: { email: string }) => v.email === userInfo.email,
+					(v: { email: string }) => v.email === userInfos.email,
 				),
 			);
 		}
 		getPost();
-	}, [userInfo.email]);
+	}, [userInfos.email]);
 
 	const postDeleteClick = async (id: number) => {
 		try {
@@ -298,13 +270,13 @@ function Mypage() {
 					{select === 'btn1' ? (
 						<div className="userInformation">
 							<div>DisplayName</div>
-							<div className="myInfo myDisplayName">{userInfo.nickname}</div>
+							<div className="myInfo myDisplayName">{userInfos.nickname}</div>
 
 							<div>MBTI</div>
-							<div className="myInfo myMbti">{userInfo.mbti}</div>
+							<div className="myInfo myMbti">{userInfos.mbti}</div>
 
 							<div>Badge</div>
-							<div className="myInfo">{userInfo.badge}</div>
+							<div className="myInfo">{userInfos.badge}</div>
 							<Link to="/useredit">
 								<button className="memberEdit">내정보 수정하기</button>
 							</Link>

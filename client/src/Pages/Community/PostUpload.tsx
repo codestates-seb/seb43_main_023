@@ -302,13 +302,7 @@ function PostUpload() {
 						onChange={handleTitle}
 					/>
 					{subject === '여행리뷰' ? (
-						<>
-							{/* <TitleInput
-								placeholder="여행하신 장소 또는 지역명을 적어주세요"
-								onChange={handlePlace}
-							/> */}
-							<SearchPlace handlePlace={handlePlace} />
-						</>
+						<SearchPlace handlePlace={handlePlace} />
 					) : null}
 					<StyledEditor
 						ref={editorRef} // ref 연결
