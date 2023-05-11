@@ -1,5 +1,6 @@
 package com.mainproject.seb43_main_023.member.service;
 
+
 import com.mainproject.seb43_main_023.auth.jwt.JwtTokenProvider;
 import com.mainproject.seb43_main_023.auth.lib.Helper;
 import com.mainproject.seb43_main_023.auth.utils.CustomAuthorityUtils;
@@ -21,7 +22,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -116,6 +116,7 @@ public class MemberService {
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
