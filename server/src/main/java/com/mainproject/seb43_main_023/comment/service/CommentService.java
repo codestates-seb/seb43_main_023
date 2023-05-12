@@ -6,9 +6,14 @@ import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,16 +38,20 @@ public class CommentService {
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
+    @Transactional
     public Comment voteComment(long commentId, long memberId){
         Comment comment = findVerifiedComment(commentId);
-        if(comment.getVoteList().contains(memberId)){
-            comment.setVoteCount(comment.getVoteCount()-1);
-            comment.getVoteList().remove(memberId);
+        Set<Long> voteList = new HashSet<>(comment.getVoteList());
+        Long count = comment.getVoteCount();
+        if (voteList.contains(memberId)) {
+            voteList.remove(memberId);
+            count--;
+        } else {
+            voteList.add(memberId);
+            count++;
         }
-        else {
-            comment.setVoteCount(comment.getVoteCount()+1);
-            comment.getVoteList().add(memberId);
-        }
+        comment.setVoteCount(count);
+        comment.setVoteList(new ArrayList<>(voteList));
         return commentRepository.save(comment);
     }
 }

@@ -1,6 +1,7 @@
 package com.mainproject.seb43_main_023.post.entity;
 
 
+import com.mainproject.seb43_main_023.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
