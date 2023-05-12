@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { CookiesProvider } from 'react-cookie';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -18,10 +20,12 @@ const root = ReactDOM.createRoot(
 root.render(
 	<Provider store={store}>
 		<PersistGate loading={null} persistor={persistor}>
-			<BrowserRouter>
-				<ScrollToTop />
-				<App />
-			</BrowserRouter>
+			<CookiesProvider>
+				<BrowserRouter>
+					<ScrollToTop />
+					<App />
+				</BrowserRouter>
+			</CookiesProvider>
 		</PersistGate>
 	</Provider>,
 );

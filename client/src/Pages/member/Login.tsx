@@ -1,6 +1,5 @@
 import '../../Global.css';
 
-import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
 import { useDispatch } from 'react-redux';
@@ -11,6 +10,8 @@ import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
 import { LOGIN } from '../../Reducers/loginReducer';
 import { UPDATE } from '../../Reducers/userInfoReducer';
+import { setCookie } from '../../Util/cookie';
+import { Api } from '../../Util/customAPI';
 
 const Main = styled.div`
 	width: 100%;
@@ -134,14 +135,19 @@ function Login() {
 				email: el.email.value,
 				password: el.password.value
 			});
-			const memberId = loginData.response.headers.memberId;
-			const accessToken = loginData.response.headers.authorization;
+			const memberId = loginData.response.headers.MemberId;
+			const accessToken = loginData.response.headers.Authorization;
+			const refreshToken = loginData.response.headers.Refresh;
+			const empiresAtAccess = loginData.response.headers.AccessTokenExpirationTime;
+			const empiresAtRefresh = loginData.response.headers.RefreshTokenExpirationTime;
+			axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 			*/
 			const memberId = 1;
 			const token = { accessToken: 'token' };
-			const userInfo = await axios.get(
-				`http://localhost:4000/members/${memberId}`,
-			);
+			const accessToken = 'token';
+			const refreshToken = 'token2';
+
+			const userInfo = await Api.get(`/members/${memberId}`);
 			if (
 				el.email.value !== userInfo.data.email ||
 				el.password.value !== userInfo.data.password
@@ -163,6 +169,14 @@ function Login() {
 					}),
 				);
 				dispatch(LOGIN(token));
+				setCookie('refreshToken', refreshToken, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				localStorage.setItem('accessToken', accessToken);
+				localStorage.setItem('empiresAtAccess', '1800000');
+				localStorage.setItem('empiresAtRefresh', '9900000');
 				navigate('/main');
 			}
 		} catch (error) {

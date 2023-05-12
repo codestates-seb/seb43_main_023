@@ -2,14 +2,16 @@ import '../../Global.css';
 
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import MyReview from '../../Components/Member/MyReview';
 import { LOGOUT } from '../../Reducers/loginReducer';
 import { DELETE, Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
+import { Api } from '../../Util/customAPI';
+import useAxios from '../../Util/customAxios';
 
 const Main = styled.div`
 	display: flex;
@@ -90,10 +92,35 @@ const Main = styled.div`
 						color: #0db4f3;
 					}
 				}
+				.badgeAppend{
+					margin-top: -20px;
+				}
+				.badgeHover {
+					&:hover{
+						cursor: pointer;
+					}
+				}
+				.badgeBox {
+					display: flex;
+					flex-direction column;
+					justify-content: center;
+					align-items: center;
+					width: 190px;
+					border: 1px solid rgba(0, 0, 0, 0.07);
+					box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
+					color: #2d2d2d;
+					padding: 0 10px;
+					padding-top: 20px;
+					.badgeEl {
+						font-size: 11px;
+						color: rgba(0, 0, 0, 0.5);
+					}
+				}
 			}
 		}
 		.userInfo,
-		.userWrite {
+		.userWrite,
+		.userReview {
 			font-weight: bold;
 			margin: 30px;
 			padding-bottom: 5px;
@@ -131,6 +158,7 @@ const UserWriting = styled.div`
 	}
 	.writingBody {
 		width: 300px;
+		color: #2d2d2d;
 		&:hover {
 			cursor: pointer;
 			color: #0db4f3;
@@ -163,7 +191,6 @@ interface Ipost {
 
 function Mypage() {
 	const navigate = useNavigate();
-	const memberId = localStorage.getItem('memberId');
 
 	const dispatch = useDispatch();
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
@@ -172,16 +199,29 @@ function Mypage() {
 	const userInfoClick = () => {
 		const btn1 = document.querySelector('.userInfo');
 		const btn2 = document.querySelector('.userWrite');
+		const btn3 = document.querySelector('.userReview');
 		btn1?.classList.add('blue');
 		btn2?.classList.remove('blue');
+		btn3?.classList.remove('blue');
 		setSelect('btn1');
 	};
 	const userWriteClick = () => {
 		const btn1 = document.querySelector('.userInfo');
 		const btn2 = document.querySelector('.userWrite');
-		btn2?.classList.add('blue');
+		const btn3 = document.querySelector('.userReview');
 		btn1?.classList.remove('blue');
+		btn2?.classList.add('blue');
+		btn3?.classList.remove('blue');
 		setSelect('btn2');
+	};
+	const userReviewClick = () => {
+		const btn1 = document.querySelector('.userInfo');
+		const btn2 = document.querySelector('.userWrite');
+		const btn3 = document.querySelector('.userReview');
+		btn1?.classList.remove('blue');
+		btn2?.classList.remove('blue');
+		btn3?.classList.add('blue');
+		setSelect('btn3');
 	};
 
 	const [posts, setPosts] = useState<Ipost[]>([
@@ -203,7 +243,7 @@ function Mypage() {
 	const memberDeleteClick = async () => {
 		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
 		try {
-			await axios.delete(`http://localhost:4000/members/${memberId}`);
+			await Api.delete(`/members/${userInfos.id}`);
 			// eslint-disable-next-line no-alert
 			alert('탈퇴되었습니다.');
 			dispatch(DELETE());
@@ -214,9 +254,21 @@ function Mypage() {
 		}
 	};
 
+	const { response, loading } = useAxios({
+		method: 'get',
+		url: '/posts',
+	});
+
+	useEffect(() => {
+		if (response !== null) {
+			setPosts(response);
+		}
+	}, [response]);
+
+	/*
 	useEffect(() => {
 		async function getPost() {
-			const getData = await axios.get('http://localhost:4000/posts');
+			const getData = await Api.get('/posts');
 			setPosts(
 				getData.data.filter(
 					(v: { email: string }) => v.email === userInfos.email,
@@ -225,16 +277,43 @@ function Mypage() {
 		}
 		getPost();
 	}, [userInfos.email]);
+*/
 
 	const postDeleteClick = async (id: number) => {
 		try {
-			await axios.delete(`http://localhost:4000/posts/${id}`);
+			await Api.delete(`/posts/${id}`);
 			// eslint-disable-next-line no-alert
 			alert('글이 삭제되었습니다.');
 			window.location.reload();
 		} catch (error) {
 			navigate('/error');
 		}
+	};
+	const badgeMouseEnter = () => {
+		const el = document.querySelector('.badgeAppend')!;
+		const badgeBox = document.createElement('div');
+		const badgeBox1 = document.createElement('div');
+		const badgeBox2 = document.createElement('div');
+		const badgeBox3 = document.createElement('div');
+		badgeBox1.textContent = '초보여행자 : 커뮤니티 글 5개 이상 작성';
+		badgeBox2.textContent =
+			'중급여행자 : 커뮤니티 글 20개 이상 작성, 사이트 자체 기준 충족';
+		badgeBox3.textContent =
+			'고급여행자 : 커뮤니티 글 50개 이상 작성, 사이트 자체 기준 충족';
+		badgeBox.classList.add('badgeBox');
+		badgeBox1.classList.add('badgeEl');
+		badgeBox2.classList.add('badgeEl');
+		badgeBox3.classList.add('badgeEl');
+		el.appendChild(badgeBox);
+		badgeBox.appendChild(badgeBox1);
+		badgeBox.appendChild(badgeBox2);
+		badgeBox.appendChild(badgeBox3);
+	};
+
+	const badgeMouseLeave = () => {
+		const badgeBox = document.querySelector('.badgeBox')!;
+		const el = document.querySelector('.badgeAppend')!;
+		el.removeChild(badgeBox);
 	};
 
 	return (
@@ -265,18 +344,26 @@ function Mypage() {
 					<button className="userWrite" onClick={userWriteClick}>
 						내가 쓴 글
 					</button>
+					<button className="userReview" onClick={userReviewClick}>
+						여행 리뷰
+					</button>
 				</div>
 				<div className="menuContent">
-					{select === 'btn1' ? (
+					{select === 'btn1' && (
 						<div className="userInformation">
 							<div>DisplayName</div>
 							<div className="myInfo myDisplayName">{userInfos.nickname}</div>
-
 							<div>MBTI</div>
 							<div className="myInfo myMbti">{userInfos.mbti}</div>
-
-							<div>Badge</div>
+							<div
+								className="badgeHover"
+								onMouseEnter={badgeMouseEnter}
+								onMouseLeave={badgeMouseLeave}
+							>
+								Badge
+							</div>
 							<div className="myInfo">{userInfos.badge}</div>
+							<div className="badgeAppend" />
 							<Link to="/useredit">
 								<button className="memberEdit">내정보 수정하기</button>
 							</Link>
@@ -287,16 +374,27 @@ function Mypage() {
 								MBTI 검사하러가기
 							</Link>
 						</div>
-					) : (
+					)}
+					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
 								{posts.map((post) => {
 									return (
 										<li key={post.id}>
 											<div className="writingHead">[{post.subject}]</div>
-											<div className="writingBody">{post.title}</div>
+											<Link
+												to={{ pathname: `/community/${post.id}` }}
+												style={{ textDecoration: 'none' }}
+											>
+												<div className="writingBody">{post.title}</div>
+											</Link>
 											<div>
-												<button>Edit</button>
+												<Link
+													to={{ pathname: `/community/${post.id}/update` }}
+													style={{ textDecoration: 'none' }}
+												>
+													<button>Edit</button>
+												</Link>
 												<button onClick={() => postDeleteClick(post.id)}>
 													Delete
 												</button>
@@ -307,6 +405,7 @@ function Mypage() {
 							</ul>
 						</UserWriting>
 					)}
+					{select === 'btn3' && <MyReview />}
 				</div>
 			</div>
 		</Main>

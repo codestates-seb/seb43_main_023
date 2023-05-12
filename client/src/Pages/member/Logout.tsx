@@ -1,5 +1,6 @@
 import '../../Global.css';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,6 +8,7 @@ import styled from 'styled-components';
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
 import { LOGOUT } from '../../Reducers/loginReducer';
+import { removeCookie } from '../../Util/cookie';
 
 const Main = styled.div`
 	width: 100%;
@@ -60,11 +62,10 @@ function Logout() {
 		// eslint-disable-next-line no-alert
 		alert('로그아웃 되었습니다.');
 		localStorage.removeItem('accessToken');
-		localStorage.removeItem('displayName');
-		localStorage.removeItem('mbti');
-		localStorage.removeItem('img');
-		localStorage.removeItem('memberId');
+		localStorage.removeItem('empiresAtAccess');
+		localStorage.removeItem('empiresAtRefresh');
 		dispatch(LOGOUT());
+		removeCookie('refreshToken');
 		navigate('/main');
 	};
 
