@@ -44,6 +44,7 @@ const ScrollSnapWrap = styled.div`
 		white-space: nowrap;
 		overflow: hidden;
 		border-right: 3px solid;
+		-webkit-text-stroke: 1px white;
 	}
 	@keyframes typing {
 		from {
@@ -207,12 +208,12 @@ const SnapDiv = styled.div`
 			transform: translateX(0);
 		}
 		100% {
-			transform: translateX(-225.5%);
+			transform: translateX(-230%);
 		}
 	}
 	@keyframes textLoop2 {
 		0% {
-			transform: translateX(-215.5%);
+			transform: translateX(-222%);
 		}
 		100% {
 			transform: translateX(0%);

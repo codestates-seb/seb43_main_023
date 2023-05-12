@@ -1,13 +1,14 @@
 import '../../Global.css';
 
-import axios from 'axios';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
+import { Api } from '../../Util/customAPI';
+import useAxios from '../../Util/customAxios';
 
 const Main = styled.div`
 	width: 100%;
@@ -106,14 +107,28 @@ const Content = styled.div`
 `;
 
 function Join() {
-	const navigate = useNavigate();
-	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	async function joinSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		const id = Math.random();
+		const mbtiImg = await Api.get('/mbtiInfo');
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const { response, loading } = useAxios({
+			method: 'post',
+			url: '/members',
+			body: {
+				id,
+				nickname: el.displayName.value,
+				mbti: el.mbti.value,
+				email: el.email.value,
+				password: el.password.value,
+			},
+		});
+
+		/*
 		try {
-			const mbtiImg = await axios.get('http://localhost:4000/mbtiInfo');
-			await axios.post('http://localhost:4000/members', {
+			const mbtiImg = await Api.get('/mbtiInfo');
+			await Api.post('/members', {
 				id,
 				nickname: el.displayName.value,
 				mbti: el.mbti.value,
@@ -128,8 +143,10 @@ function Join() {
 			navigate('/login');
 		} catch (error) {
 			navigate('/error');
-		}
-	};
+		} 
+		*/
+	}
+
 	/*
 	// 서버 연결하면 바뀔 코드
 	function Join() {
