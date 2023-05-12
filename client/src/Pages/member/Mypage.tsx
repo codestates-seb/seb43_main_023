@@ -90,10 +90,35 @@ const Main = styled.div`
 						color: #0db4f3;
 					}
 				}
+				.badgeAppend{
+					margin-top: -20px;
+				}
+				.badgeHover {
+					&:hover{
+						cursor: pointer;
+					}
+				}
+				.badgeBox {
+					display: flex;
+					flex-direction column;
+					justify-content: center;
+					align-items: center;
+					width: 190px;
+					border: 1px solid rgba(0, 0, 0, 0.07);
+					box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
+					color: #2d2d2d;
+					padding: 0 10px;
+					padding-top: 20px;
+					.badgeEl {
+						font-size: 11px;
+						color: rgba(0, 0, 0, 0.5);
+					}
+				}
 			}
 		}
 		.userInfo,
-		.userWrite {
+		.userWrite,
+		.userReview {
 			font-weight: bold;
 			margin: 30px;
 			padding-bottom: 5px;
@@ -172,15 +197,28 @@ function Mypage() {
 	const userInfoClick = () => {
 		const btn1 = document.querySelector('.userInfo');
 		const btn2 = document.querySelector('.userWrite');
+		const btn3 = document.querySelector('.userReview');
 		btn1?.classList.add('blue');
 		btn2?.classList.remove('blue');
+		btn3?.classList.remove('blue');
 		setSelect('btn1');
 	};
 	const userWriteClick = () => {
 		const btn1 = document.querySelector('.userInfo');
 		const btn2 = document.querySelector('.userWrite');
-		btn2?.classList.add('blue');
+		const btn3 = document.querySelector('.userReview');
 		btn1?.classList.remove('blue');
+		btn2?.classList.add('blue');
+		btn3?.classList.remove('blue');
+		setSelect('btn2');
+	};
+	const userReviewClick = () => {
+		const btn1 = document.querySelector('.userInfo');
+		const btn2 = document.querySelector('.userWrite');
+		const btn3 = document.querySelector('.userReview');
+		btn1?.classList.remove('blue');
+		btn2?.classList.remove('blue');
+		btn3?.classList.add('blue');
 		setSelect('btn2');
 	};
 
@@ -237,6 +275,33 @@ function Mypage() {
 		}
 	};
 
+	const badgeMouseEnter = () => {
+		const el = document.querySelector('.badgeAppend')!;
+		const badgeBox = document.createElement('div');
+		const badgeBox1 = document.createElement('div');
+		const badgeBox2 = document.createElement('div');
+		const badgeBox3 = document.createElement('div');
+		badgeBox1.textContent = '초보여행자 : 커뮤니티 글 5개 이상 작성';
+		badgeBox2.textContent =
+			'중급여행자 : 커뮤니티 글 20개 이상 작성, 사이트 자체 기준 충족';
+		badgeBox3.textContent =
+			'고급여행자 : 커뮤니티 글 50개 이상 작성, 사이트 자체 기준 충족';
+		badgeBox.classList.add('badgeBox');
+		badgeBox1.classList.add('badgeEl');
+		badgeBox2.classList.add('badgeEl');
+		badgeBox3.classList.add('badgeEl');
+		el.appendChild(badgeBox);
+		badgeBox.appendChild(badgeBox1);
+		badgeBox.appendChild(badgeBox2);
+		badgeBox.appendChild(badgeBox3);
+	};
+
+	const badgeMouseLeave = () => {
+		const badgeBox = document.querySelector('.badgeBox')!;
+		const el = document.querySelector('.badgeAppend')!;
+		el.removeChild(badgeBox);
+	};
+
 	return (
 		<Main className="main">
 			<div className="introBox">
@@ -265,18 +330,26 @@ function Mypage() {
 					<button className="userWrite" onClick={userWriteClick}>
 						내가 쓴 글
 					</button>
+					<button className="userReview" onClick={userReviewClick}>
+						여행 리뷰
+					</button>
 				</div>
 				<div className="menuContent">
 					{select === 'btn1' ? (
 						<div className="userInformation">
 							<div>DisplayName</div>
 							<div className="myInfo myDisplayName">{userInfos.nickname}</div>
-
 							<div>MBTI</div>
 							<div className="myInfo myMbti">{userInfos.mbti}</div>
-
-							<div>Badge</div>
+							<div
+								className="badgeHover"
+								onMouseEnter={badgeMouseEnter}
+								onMouseLeave={badgeMouseLeave}
+							>
+								Badge
+							</div>
 							<div className="myInfo">{userInfos.badge}</div>
+							<div className="badgeAppend" />
 							<Link to="/useredit">
 								<button className="memberEdit">내정보 수정하기</button>
 							</Link>
