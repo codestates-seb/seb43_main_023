@@ -7,9 +7,13 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FiDelete } from 'react-icons/fi';
+import { FiDelete, FiAlertCircle } from 'react-icons/fi';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
+import SearchPlace from '../../Components/Community/SearchPlace';
+import { RootState } from '../../Store/store';
+import { Iuser } from '../../Reducers/userInfoReducer';
 
 const Container = styled.div`
 	width: 100vw;
@@ -152,6 +156,19 @@ const PostBtn = styled.button`
 	font-size: 15px;
 `;
 
+const Alert = styled.div`
+	margin-left: 5px;
+	color: #f37676;
+	font-size: 12px;
+	margin-top: 5px;
+	display: flex;
+
+	> p {
+		font-size: 15px;
+		margin-right: 5px;
+	}
+`;
+
 function PostUpload() {
 	const editorRef = useRef<Editor | null>(null);
 
@@ -162,8 +179,11 @@ function PostUpload() {
 	const [posts, setPosts] = useState([]);
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
+	const [alert, setAlert] = useState<boolean>(false);
+	const [x, setX] = useState<string>('');
+	const [y, setY] = useState<string>('');
 
-	const displayName = localStorage.getItem('displayName');
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -198,27 +218,69 @@ function PostUpload() {
 		setTitle(event.target.value);
 	};
 
+	const handlePlace = (data: any) => {
+		setX(data[0].x);
+		setY(data[0].y);
+	};
+
 	const handleBtn = () => {
-		if (editorRef.current) {
-			const instance = editorRef.current.getInstance();
-			const content = instance.getMarkdown();
+		const instance = editorRef.current?.getInstance();
+		const content = instance?.getMarkdown();
 
+		if (
+			(subject === '여행리뷰' && tags.length === 0) ||
+			(subject === '여행리뷰' && Images.length === 0)
+		) {
+			setAlert(true);
+		}
+
+		if (
+			subject === '여행리뷰' &&
+			tags.length > 0 &&
+			Images.length > 0 &&
+			editorRef.current
+		) {
 			// json-server용 api 요청
-			axios.post('http://localhost:4000/posts', {
-				id: posts.length + 1,
-				nickName: displayName,
-				subject,
-				title,
-				content,
-				tag: tags,
-				img: Images,
-				voteCount: 0,
-				viewCount: 0,
-				createdAt: '23-05-01T000000',
-				modifiedAt: '23-05-01T000000',
-			});
-
-			document.location.href = `/community/${posts.length + 1}`;
+			axios
+				.post('http://localhost:4000/posts', {
+					id: posts.length + 1,
+					nickName: userInfos.nickname,
+					subject,
+					title,
+					content,
+					tag: tags,
+					img: Images,
+					voteCount: 0,
+					viewCount: 0,
+					createdAt: '23-05-01T000000',
+					modifiedAt: '23-05-01T000000',
+					x,
+					y,
+				})
+				.then(
+					// eslint-disable-next-line no-return-assign
+					() => (document.location.href = `/tripreview/${posts.length + 1}`),
+				);
+		} else if (subject !== '여행리뷰' && editorRef.current) {
+			// json-server용 api 요청
+			axios
+				.post('http://localhost:4000/posts', {
+					id: posts.length + 1,
+					nickName: userInfos.nickname,
+					subject,
+					title,
+					content,
+					tag: tags,
+					img: Images,
+					voteCount: 0,
+					viewCount: 0,
+					createdAt: '23-05-01T000000',
+					modifiedAt: '23-05-01T000000',
+				})
+				.then(
+					// eslint-disable-next-line no-return-assign
+					() => (document.location.href = `/community/${posts.length + 1}`),
+				);
 		}
 	};
 
@@ -242,6 +304,9 @@ function PostUpload() {
 						placeholder="제목을 입력해주세요"
 						onChange={handleTitle}
 					/>
+					{subject === '여행리뷰' ? (
+						<SearchPlace handlePlace={handlePlace} />
+					) : null}
 					<StyledEditor
 						ref={editorRef} // ref 연결
 						placeholder="내용을 입력해주세요."
@@ -280,6 +345,15 @@ function PostUpload() {
 						/>
 					</TagContainer>
 
+					{alert && tags.length === 0 ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							태그는 필수 사항이예요
+						</Alert>
+					) : null}
+
 					<ImgContainer>
 						<div>
 							<label htmlFor="img1">
@@ -317,6 +391,15 @@ function PostUpload() {
 							/>
 						</div>
 					</ImgContainer>
+
+					{alert && Images.length === 0 ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							사진은 필수 사항이예요
+						</Alert>
+					) : null}
 
 					<PostBtn onClick={handleBtn}> 작성하기 </PostBtn>
 				</Body>
