@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import MyReview from '../../Components/Member/MyReview';
 import { LOGOUT } from '../../Reducers/loginReducer';
 import { DELETE, Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
+import useAxios from '../../Util/customAxios';
 
 const Main = styled.div`
 	display: flex;
@@ -219,7 +221,7 @@ function Mypage() {
 		btn1?.classList.remove('blue');
 		btn2?.classList.remove('blue');
 		btn3?.classList.add('blue');
-		setSelect('btn2');
+		setSelect('btn3');
 	};
 
 	const [posts, setPosts] = useState<Ipost[]>([
@@ -252,6 +254,18 @@ function Mypage() {
 		}
 	};
 
+	const { response, loading } = useAxios({
+		method: 'get',
+		url: '/posts',
+	});
+
+	useEffect(() => {
+		if (response !== null) {
+			setPosts(response);
+		}
+	}, [response]);
+
+	/*
 	useEffect(() => {
 		async function getPost() {
 			const getData = await Api.get('/posts');
@@ -263,6 +277,7 @@ function Mypage() {
 		}
 		getPost();
 	}, [userInfos.email]);
+*/
 
 	const postDeleteClick = async (id: number) => {
 		try {
@@ -274,7 +289,6 @@ function Mypage() {
 			navigate('/error');
 		}
 	};
-
 	const badgeMouseEnter = () => {
 		const el = document.querySelector('.badgeAppend')!;
 		const badgeBox = document.createElement('div');
@@ -335,7 +349,7 @@ function Mypage() {
 					</button>
 				</div>
 				<div className="menuContent">
-					{select === 'btn1' ? (
+					{select === 'btn1' && (
 						<div className="userInformation">
 							<div>DisplayName</div>
 							<div className="myInfo myDisplayName">{userInfos.nickname}</div>
@@ -360,7 +374,8 @@ function Mypage() {
 								MBTI 검사하러가기
 							</Link>
 						</div>
-					) : (
+					)}
+					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
 								{posts.map((post) => {
@@ -390,6 +405,7 @@ function Mypage() {
 							</ul>
 						</UserWriting>
 					)}
+					{select === 'btn3' && <MyReview />}
 				</div>
 			</div>
 		</Main>
