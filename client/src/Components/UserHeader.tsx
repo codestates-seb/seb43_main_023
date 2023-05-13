@@ -27,7 +27,7 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 		position: absolute;
 		left: 0;
 		width: 100%;
-		height: 65%;
+		height: 640px;
 		opacity: 0.8;
 		z-index: -1;
 	}

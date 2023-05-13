@@ -58,7 +58,7 @@ function App() {
 					<Route path="/error" element={<Error />} />
 					<Route path="/loading" element={<Loading />} />
 					<Route path="/regionrec" element={<RegionRec />} />
-					<Route path="/regiondetail" element={<RegionDetail />} />
+					<Route path="/regiondetail/:id" element={<RegionDetail />} />
 				</Routes>
 			</Suspense>
 			<Footer />
