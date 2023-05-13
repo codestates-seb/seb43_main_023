@@ -190,6 +190,21 @@ function RegionDetail() {
 				return <TiWeatherSunny />;
 		}
 	};
+	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
+	const tourUrl = `http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${tourAPIKey}&pageNo=1&numOfRows=6&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=12&areaCode=1&_type=json`;
+
+	const [tripInfo, serTripInfo] = useState([]);
+
+	useEffect(() => {
+		axios(tourUrl)
+			.then((response) => {
+				const { data } = response;
+				serTripInfo(data.response.body.items.item);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	}, [navigate, tourUrl]);
 
 	return (
 		<RegionDetailContainer>
@@ -222,54 +237,18 @@ function RegionDetail() {
 			</RegionInfo>
 			<RegionTitle>📍서울의 명소</RegionTitle>
 			<RegionRecItemContainer>
-				<RegionRecItem>
-					<RegionItemImg image="https://images.unsplash.com/photo-1611477623565-aa88aeca8153?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80" />
-					<RegionItemText>
-						<span>경복궁</span>
-						<br />
-						#궁궐 #궁전 #역사 #건축물
-					</RegionItemText>
-				</RegionRecItem>
-				<RegionRecItem>
-					<RegionItemImg image="https://images.unsplash.com/photo-1578458719181-a9e1184d810b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80" />
-					<RegionItemText>
-						<span>남산 공원</span>
-						<br />
-						#도시공원 #데이트 #야경
-					</RegionItemText>
-				</RegionRecItem>
-				<RegionRecItem>
-					<RegionItemImg image="https://images.unsplash.com/photo-1649137529574-fe07b1f6386d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" />
-					<RegionItemText>
-						<span>63빌딩</span>
-						<br />
-						#현대건축물 #레스토랑 #아쿠아리움 #전망대
-					</RegionItemText>
-				</RegionRecItem>
-				<RegionRecItem>
-					<RegionItemImg image="https://images.unsplash.com/photo-1537433156662-a467cd381897?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" />
-					<RegionItemText>
-						<span>코엑스 별마당도서관</span>
-						<br />
-						#공공도서관 #책 #커피 #문화생활
-					</RegionItemText>
-				</RegionRecItem>
-				<RegionRecItem>
-					<RegionItemImg image="http://dh.aks.ac.kr/Edu/wiki/images/1/13/%EC%98%88%EC%88%A0%EC%9D%98%EC%A0%84%EB%8B%B9.jpg" />
-					<RegionItemText>
-						<span>예술의전당</span>
-						<br />
-						#공연 #전시 #음악 #미술 #문화생활
-					</RegionItemText>
-				</RegionRecItem>
-				<RegionRecItem>
-					<RegionItemImg image="https://images.unsplash.com/photo-1677107129846-e55445429b7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80" />
-					<RegionItemText>
-						<span>익선동</span>
-						<br />
-						#한옥 #맛집 #카페 #데이트
-					</RegionItemText>
-				</RegionRecItem>
+				{tripInfo
+					? tripInfo.map((item: any) => {
+							return (
+								<RegionRecItem key={item.contentid}>
+									<RegionItemImg image={item.firstimage} />
+									<RegionItemText>
+										<span>{item.title}</span>
+									</RegionItemText>
+								</RegionRecItem>
+							);
+					  })
+					: null}
 			</RegionRecItemContainer>
 		</RegionDetailContainer>
 	);
