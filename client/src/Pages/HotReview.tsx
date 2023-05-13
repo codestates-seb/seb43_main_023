@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { HTMLAttributes, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import useAxios from '../Util/customAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -100,27 +100,24 @@ const StyledLink = styled(Link)`
 
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
-	const navigate = useNavigate();
+
+	const res: any = useAxios({
+		method: 'get',
+		url: '/posts',
+	}).response;
 
 	useEffect(() => {
-		setTimeout(() => {
-			axios(`http://localhost:4000/posts`)
-				.then((response) => {
-					const { data } = response;
-					const newData = data.filter(
-						(item: { subject: string }) => item.subject === '여행리뷰',
-					);
-					newData.sort(
-						(a: { voteCount: number }, b: { voteCount: number }) =>
-							b.voteCount - a.voteCount,
-					);
-					setFilterReview(newData.slice(0, 5));
-				})
-				.catch(() => {
-					navigate('/error');
-				});
-		}, 500);
-	}, [navigate]);
+		if (res !== null) {
+			const newData = res.filter(
+				(item: { subject: string }) => item.subject === '여행리뷰',
+			);
+			newData.sort(
+				(a: { voteCount: number }, b: { voteCount: number }) =>
+					b.voteCount - a.voteCount,
+			);
+			setFilterReview(newData.slice(0, 5));
+		}
+	}, [res]);
 
 	return (
 		<HotReviewContainer>

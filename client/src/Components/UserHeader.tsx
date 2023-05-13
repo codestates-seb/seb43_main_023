@@ -2,13 +2,12 @@ import '../Global.css';
 
 import { HTMLAttributes, useEffect, useState } from 'react';
 
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
 import { Iuser } from '../Reducers/userInfoReducer';
 import { RootState } from '../Store/store';
+import useAxios from '../Util/customAxios';
 
 interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -96,36 +95,60 @@ function UserHeader() {
 	});
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 	const memberId = userInfos.id;
-	const navigate = useNavigate();
+
+	const { response } = useAxios({
+		method: 'get',
+		url: `/members/${memberId}`,
+	});
 
 	useEffect(() => {
-		setTimeout(() => {
-			axios(`http://localhost:4000/members/${memberId}`)
-				.then((response) => {
-					const { data } = response;
-					setUserInfo(data);
-				})
-				.catch(() => {
-					navigate('/error');
-				});
-		}, 500);
-	}, [memberId, navigate]);
+		if (response !== null) {
+			setUserInfo(response);
+		}
+	}, [response]);
+
+	const res: any = useAxios({
+		method: 'get',
+		url: '/mbtiInfo',
+	}).response;
 
 	useEffect(() => {
-		setTimeout(() => {
-			axios('http://localhost:4000/mbtiInfo')
-				.then((response) => {
-					const { data } = response;
-					const newData = data.filter(
-						(item: IuserMbti) => item.mbti === userInfo.mbti,
-					);
-					setFilterMbti(newData[0]);
-				})
-				.catch(() => {
-					navigate('/error');
-				});
-		}, 500);
-	}, [navigate, userInfo.mbti]);
+		if (res !== null) {
+			const newData = res.filter(
+				(item: IuserMbti) => item.mbti === userInfo.mbti,
+			);
+			setFilterMbti(newData[0]);
+		}
+	}, [res, userInfo.mbti]);
+
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		axios(`http://localhost:4000/members/${memberId}`)
+	// 			.then((response) => {
+	// 				const { data } = response;
+	// 				setUserInfo(data);
+	// 			})
+	// 			.catch(() => {
+	// 				navigate('/error');
+	// 			});
+	// 	}, 500);
+	// }, [memberId, navigate]);
+
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		axios('http://localhost:4000/mbtiInfo')
+	// 			.then((response) => {
+	// 				const { data } = response;
+	// 				const newData = data.filter(
+	// 					(item: IuserMbti) => item.mbti === userInfo.mbti,
+	// 				);
+	// 				setFilterMbti(newData[0]);
+	// 			})
+	// 			.catch(() => {
+	// 				navigate('/error');
+	// 			});
+	// 	}, 500);
+	// }, [navigate, userInfo.mbti]);
 
 	return (
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
