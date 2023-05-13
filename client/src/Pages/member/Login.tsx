@@ -83,11 +83,25 @@ const Content = styled.div`
 			margin: 0 10px;
 		}
 	}
-	.oauthBox {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	.gotoJoin {
+		color: rgba(0, 0, 0, 0.2);
+		margin-top: 20px;
+		font-size: 13px;
 	}
+	.gotoJoinBtn {
+		color: #0db4f3;
+		font-size: 13px;
+		margin-top: 7px;
+		&:hover {
+			color: #4ec9ff;
+		}
+	}
+`;
+
+const OauthBox = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	.oauth {
 		width: 100px;
 		height: 50px;
@@ -107,19 +121,6 @@ const Content = styled.div`
 			margin-left: 10px;
 		}
 	}
-	.gotoJoin {
-		color: rgba(0, 0, 0, 0.2);
-		margin-top: 20px;
-		font-size: 13px;
-	}
-	.gotoJoinBtn {
-		color: #0db4f3;
-		font-size: 13px;
-		margin-top: 7px;
-		&:hover {
-			color: #4ec9ff;
-		}
-	}
 `;
 
 function Login() {
@@ -131,15 +132,15 @@ function Login() {
 		try {
 			/* 
 			// 서버 연결하면 사용할 코드
-			const loginData = await axios.post('http://localhost:4000/auth/login', {
+			const loginData = await Api.post('http://localhost:4000/auth/login', {
 				email: el.email.value,
 				password: el.password.value
 			});
-			const memberId = loginData.response.headers.MemberId;
-			const accessToken = loginData.response.headers.Authorization;
-			const refreshToken = loginData.response.headers.Refresh;
-			const empiresAtAccess = loginData.response.headers.AccessTokenExpirationTime;
-			const empiresAtRefresh = loginData.response.headers.RefreshTokenExpirationTime;
+			const memberId = loginData.response.data.memberId;
+			const accessToken = loginData.response.data.accessToken
+			const refreshToken = loginData.response.data.refreshToken
+			const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
+			const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
 			axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 			*/
 			const memberId = 1;
@@ -202,7 +203,7 @@ function Login() {
 					Or Log in with
 					<span className="line" />
 				</div>
-				<div className="oauthBox">
+				<OauthBox>
 					<button className="oauth">
 						<AiOutlineGoogle color="#393737" size="20px" />
 						<span>Google</span>
@@ -211,7 +212,7 @@ function Login() {
 						<SiNaver color="#03c157" size="15px" />
 						<span>Naver</span>
 					</button>
-				</div>
+				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
 				<Link to="/join">
 					<button className="gotoJoinBtn">Sign up</button>

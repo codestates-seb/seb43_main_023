@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { LOGOUT } from '../../Reducers/loginReducer';
-import { DELETE, UPDATE } from '../../Reducers/userInfoReducer';
+import IntroBox from '../../Components/Member/IntroBox';
+import { UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
 
@@ -16,91 +16,57 @@ const Main = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	.introBox {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		padding: 20px 50px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+`;
 
-		.intro {
-			width: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: flex-start;
-			.mypage {
-				font-size: 30px;
-				font-weight: bold;
-				margin-bottom: 20px;
-			}
-			.description {
-				font-size: 12px;
-				color: rgba(0, 0, 0, 0.5);
-			}
-		}
-		.memberDelete {
-			width: 100px;
-			font-size: 12px;
-			color: rgba(0, 0, 0, 0.2);
-			font-weight: bold;
-			&:hover {
-				cursor: pointer;
-				color: rgba(0, 0, 0, 0.5);
-			}
-		}
-	}
-	.content {
-		width: 100%;
-		padding: 20px 10px;
+const Content = styled.div`
+	width: 100%;
+	padding: 20px 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	.menu {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		flex-direction: column;
-		.menu {
+	}
+	.menuContent {
+		width: 100%;
+		.userInformation {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-		}
-		.menuContent {
-			width: 100%;
-			.userInformation {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-direction: column;
-				div {
-					margin-bottom: 15px;
-					font-weight: bold;
-					color: #555555;
-					font-size: 20px;
-				}
-				.myInfo {
-					font-size: 15px;
-					font-weight: 400;
-					margin-bottom: 40px;
-				}
-				.memberEdit {
-					font-size: 12px;
-					color: rgba(0, 0, 0, 0.2);
-					font-weight: bold;
-					&:hover {
-						cursor: pointer;
-						color: #0db4f3;
-					}
+			flex-direction: column;
+			div {
+				margin-bottom: 15px;
+				font-weight: bold;
+				color: #555555;
+				font-size: 20px;
+			}
+			.myInfo {
+				font-size: 15px;
+				font-weight: 400;
+				margin-bottom: 40px;
+			}
+			.memberEdit {
+				font-size: 12px;
+				color: rgba(0, 0, 0, 0.2);
+				font-weight: bold;
+				&:hover {
+					cursor: pointer;
+					color: #0db4f3;
 				}
 			}
 		}
-		.userInfo {
-			font-weight: bold;
-			margin: 30px;
-			padding-bottom: 5px;
-		}
-		.blue {
-			color: #0db4f3;
-			border-bottom: 3px solid #0db4f3;
-		}
+	}
+	.userInfo {
+		font-weight: bold;
+		margin: 30px;
+		padding-bottom: 5px;
+	}
+	.blue {
+		color: #0db4f3;
+		border-bottom: 3px solid #0db4f3;
 	}
 	input {
 		padding: 5px;
@@ -115,26 +81,12 @@ const Main = styled.div`
 
 function UserEdit() {
 	const navigate = useNavigate();
-
 	const dispatch = useDispatch();
 	const userInfos = useSelector((state: RootState) => state.user);
 
-	const memberDeleteClick = async () => {
-		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
-		try {
-			await Api.delete(`/members/${userInfos.id}`);
-			// eslint-disable-next-line no-alert
-			alert('탈퇴되었습니다.');
-			dispatch(DELETE());
-			dispatch(LOGOUT());
-			navigate('/main');
-		} catch (error) {
-			navigate('/error');
-		}
-	};
-
 	const [editname, setEditName] = useState<string>('');
 	const [editmbti, setEditMbti] = useState<string>('');
+
 	const nameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEditName(e.target.value);
 	};
@@ -158,25 +110,8 @@ function UserEdit() {
 
 	return (
 		<Main className="main">
-			<div className="introBox">
-				<div className="intro">
-					<div className="mypage">마이페이지</div>
-					<div className="description">
-						MBTI와 닉네임은 수정이 가능해요.
-						<br />
-						MBTI 검사를 원하시면 하단의 링크로 들어가주세요!
-						<br />
-						내가 쓴 글에서 커뮤니티에 작성한 글들을 볼 수 있어요.
-						<br />
-						뱃지는 작성한 여행리뷰의 수와 추천수에 따라 초보여행자, 중급여행자,
-						고급여행자로 나눠집니다.
-					</div>
-				</div>
-				<button onClick={memberDeleteClick} className="memberDelete">
-					회원 탈퇴하기
-				</button>
-			</div>
-			<div className="content">
+			<IntroBox />
+			<Content>
 				<div className="menu">
 					<button className="userInfo blue">내정보</button>
 				</div>
@@ -207,7 +142,7 @@ function UserEdit() {
 						</button>
 					</div>
 				</div>
-			</div>
+			</Content>
 		</Main>
 	);
 }

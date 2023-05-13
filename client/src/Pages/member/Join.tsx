@@ -2,13 +2,12 @@ import '../../Global.css';
 
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
 import { Api } from '../../Util/customAPI';
-import useAxios from '../../Util/customAxios';
 
 const Main = styled.div`
 	width: 100%;
@@ -80,11 +79,12 @@ const Content = styled.div`
 			margin: 0 10px;
 		}
 	}
-	.oauthBox {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+`;
+const OauthBox = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	.oauth {
 		width: 100px;
 		height: 50px;
@@ -107,25 +107,11 @@ const Content = styled.div`
 `;
 
 function Join() {
+	const navigate = useNavigate();
 	async function joinSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		const id = Math.random();
-		const mbtiImg = await Api.get('/mbtiInfo');
-		// eslint-disable-next-line react-hooks/rules-of-hooks
-		const { response, loading } = useAxios({
-			method: 'post',
-			url: '/members',
-			body: {
-				id,
-				nickname: el.displayName.value,
-				mbti: el.mbti.value,
-				email: el.email.value,
-				password: el.password.value,
-			},
-		});
-
-		/*
 		try {
 			const mbtiImg = await Api.get('/mbtiInfo');
 			await Api.post('/members', {
@@ -143,8 +129,7 @@ function Join() {
 			navigate('/login');
 		} catch (error) {
 			navigate('/error');
-		} 
-		*/
+		}
 	}
 
 	/*
@@ -156,8 +141,8 @@ function Join() {
 		const el = e.target as HTMLFormElement;
 		const id = Math.random();
 		try {
-			const mbtiImg = await axios.get(`http://localhost:4000/mbtiInfo/${el.mbti.value}`);
-			await axios.post('http://localhost:4000/members', {
+			const mbtiImg = await Api.get(`http://localhost:4000/mbtiInfo/${el.mbti.value}`);
+			await Api.post('http://localhost:4000/members', {
 				id,
 				nickname: el.displayName.value,
 				mbti: el.mbti.value,
@@ -200,7 +185,7 @@ function Join() {
 					Or Sign up with
 					<span className="line" />
 				</div>
-				<div className="oauthBox">
+				<OauthBox>
 					<button className="oauth">
 						<AiOutlineGoogle color="#393737" size="20px" />
 						<span>Google</span>
@@ -209,7 +194,7 @@ function Join() {
 						<SiNaver color="#03c157" size="15px" />
 						<span>Naver</span>
 					</button>
-				</div>
+				</OauthBox>
 			</Content>
 		</Main>
 	);
