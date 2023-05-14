@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { AiFillHeart } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,6 +8,7 @@ import styled from 'styled-components';
 import img from '../../Assets/jeonju.jpg';
 import { Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
+import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 90%;
@@ -101,9 +101,7 @@ function MyReview() {
 	// eslint-disable-next-line prefer-const
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
 	useEffect(() => {
-		axios
-			.get('http://localhost:4000/posts')
-			.then((res) => setReviews(res.data));
+		Api.get('/posts').then((res) => setReviews(res.data));
 	}, []);
 
 	reviews = reviews.filter(

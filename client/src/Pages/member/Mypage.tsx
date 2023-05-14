@@ -149,7 +149,7 @@ const UserWriting = styled.div`
 `;
 
 interface Ipost {
-	id: number;
+	postId: number;
 	subject: string;
 	title: string;
 	content?: string;
@@ -199,7 +199,7 @@ function Mypage() {
 	// 마이페이지의 내가 쓴 글(get요청 시 필요)
 	const [posts, setPosts] = useState<Ipost[]>([
 		{
-			id: 0,
+			postId: 0,
 			subject: '',
 			title: '',
 			nickname: '',
@@ -341,22 +341,24 @@ function Mypage() {
 									.filter((v: { email: string }) => v.email === userInfos.email)
 									.map((post) => {
 										return (
-											<li key={post.id}>
+											<li key={post.postId}>
 												<div className="writingHead">[{post.subject}]</div>
 												<Link
-													to={{ pathname: `/community/${post.id}` }}
+													to={{ pathname: `/community/${post.postId}` }}
 													style={{ textDecoration: 'none' }}
 												>
 													<div className="writingBody">{post.title}</div>
 												</Link>
 												<div>
 													<Link
-														to={{ pathname: `/community/${post.id}/update` }}
+														to={{
+															pathname: `/community/${post.postId}/update`,
+														}}
 														style={{ textDecoration: 'none' }}
 													>
 														<button>Edit</button>
 													</Link>
-													<button onClick={() => postDeleteClick(post.id)}>
+													<button onClick={() => postDeleteClick(post.postId)}>
 														Delete
 													</button>
 												</div>

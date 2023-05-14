@@ -147,36 +147,46 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			/* 
-			// 서버 연결하면 사용할 코드
 			const loginData = await Api.post('http://localhost:4000/auth/login', {
 				email: el.email.value,
-				password: el.password.value
+				password: el.password.value,
 			});
-			const memberId = loginData.response.data.memberId;
-			const accessToken = loginData.response.data.accessToken
-			const refreshToken = loginData.response.data.refreshToken
-			const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
-			const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
-			axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-			*/
-			const memberId = 1;
-			const token = { accessToken: 'token' };
-			const accessToken = 'token';
-			const refreshToken = 'token2';
+			const {
+				memberId,
+				accessToken,
+				refreshToken,
+				empiresAtAccess,
+				empiresAtRefresh,
+			} = loginData.data;
+			// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+			const token = { accessToken: `${accessToken}` };
 
 			const userInfo = await Api.get(`/members/${memberId}`);
 			if (
 				el.email.value !== userInfo.data.email ||
 				el.password.value !== userInfo.data.password
 			) {
-				// eslint-disable-next-line no-alert
-				alert('아이디 or 비밀번호가 다릅니다.');
-				window.location.reload();
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast: {
+						addEventListener: (arg0: string, arg1: any) => void;
+					}) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer);
+						toast.addEventListener('mouseleave', Swal.resumeTimer);
+					},
+				});
+				Toast.fire({
+					icon: 'warning',
+					title: '아이디/비밀번호가 다릅니다.',
+				});
 			} else {
 				dispatch(
 					UPDATE({
-						id: userInfo.data.id,
+						id: userInfo.data.memberId,
 						email: userInfo.data.email,
 						nickname: userInfo.data.nickname,
 						mbti: userInfo.data.mbti,
@@ -199,7 +209,6 @@ function Login() {
 					text: '메인 페이지로 이동합니다.',
 				}).then((result) => {
 					if (result.isConfirmed) {
-						// 만약 모달창에서 confirm 버튼을 눌렀다면
 						navigate('/main');
 					}
 				});
