@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 100%;
@@ -109,6 +111,7 @@ interface Review {
 }
 
 function Answers() {
+	const navigate = useNavigate();
 	const { id } = useParams();
 
 	const [isLike, setIsLike] = useState<boolean>(false);
@@ -125,43 +128,56 @@ function Answers() {
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
+
+	const answerData = useAxios({
+		method: 'get',
+		url: `/comments`,
+	});
+
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
 
 	const handleSubmit = (e: { key: string }) => {
 		if (e.key === 'Enter') {
-			axios
-				.post(`http://localhost:4000/comments`, {
+			try {
+				Api.post('/comments', {
 					id: length.length + 1,
 					postId: Number(id),
 					content: text,
 					author: userInfos.nickname,
 					vote: 0,
-				})
-				.then(() => {
+				}).then(() => {
 					if (review[0].subject === '여행리뷰') {
 						document.location.href = `/tripreview/${id}`;
 					} else {
 						document.location.href = `/community/${id}`;
 					}
 				});
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
 	const handleUpdate = (e: { key: string }, answerId: number) => {
 		if (e.key === 'Enter') {
-			axios
-				.patch(`http://localhost:4000/comments/${answerId}`, {
+			try {
+				Api.patch(`/comments/${answerId}`, {
 					content: text,
-				})
-				.then(() => {
-					if (review[0].subject === '여행리뷰') {
-						document.location.href = `/tripreview/${id}`;
-					} else {
-						document.location.href = `/community/${id}`;
-					}
 				});
+				if (review[0].subject === '여행리뷰') {
+					document.location.href = `/tripreview/${id}`;
+				} else {
+					document.location.href = `/community/${id}`;
+				}
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
@@ -176,24 +192,27 @@ function Answers() {
 			confirmButtonText: 'Delete',
 		}).then((result) => {
 			if (result.isConfirmed) {
-				axios
-					.delete(`http://localhost:4000/comments/${answerId}`)
-					.then(() =>
-						Swal.fire({
-							title: 'Deleted!',
-							text: '삭제되었습니다',
-							icon: 'success',
-							confirmButtonColor: '#0db4f3',
-						}),
-					)
-					// eslint-disable-next-line no-return-assign
-					.then(() => {
-						if (review[0].subject === '여행리뷰') {
-							document.location.href = `/tripreview/${id}`;
-						} else {
-							document.location.href = `/community/${id}`;
-						}
-					});
+				try {
+					Api.delete(`/comments/${answerId}`)
+						.then(() =>
+							Swal.fire({
+								title: 'Deleted!',
+								text: '삭제되었습니다',
+								icon: 'success',
+								confirmButtonColor: '#0db4f3',
+							}),
+						)
+						// eslint-disable-next-line no-return-assign
+						.then(() => {
+							if (review[0].subject === '여행리뷰') {
+								document.location.href = `/tripreview/${id}`;
+							} else {
+								document.location.href = `/community/${id}`;
+							}
+						});
+				} catch (error) {
+					navigate('/error');
+				}
 			}
 		});
 	};
@@ -210,12 +229,15 @@ function Answers() {
 		const clickedAnswer = answers.find((q) => q.id === answerId);
 
 		if (clickedAnswer) {
-			axios
-				.patch(`http://localhost:4000/comments/${answerId}`, {
+			try {
+				Api.patch(`/comments/${answerId}`, {
 					vote: clickedAnswer.vote + 1,
 				})
-				.then(() => axios.get(`http://localhost:4000/comments`))
-				.then((res) => setAnswers(res.data));
+					.then(() => axios.get(`http://localhost:4000/comments`))
+					.then((res) => setAnswers(res.data));
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
@@ -226,27 +248,28 @@ function Answers() {
 		const clickedAnswer = answers.find((q) => q.id === answerId);
 
 		if (clickedAnswer) {
-			axios
-				.patch(`http://localhost:4000/comments/${answerId}`, {
+			try {
+				Api.patch(`/comments/${answerId}`, {
 					vote: clickedAnswer.vote - 1,
 				})
-				.then(() => axios.get(`http://localhost:4000/comments`))
-				.then((res) => setAnswers(res.data));
+					.then(() => axios.get(`http://localhost:4000/comments`))
+					.then((res) => setAnswers(res.data));
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
 	useEffect(() => {
-		axios.get(`http://localhost:4000/comments`).then((res) => {
-			setAnswers(res.data);
-			setLenght(res.data);
-		});
-	}, [id]);
+		if (answerData.response) {
+			setAnswers(answerData.response);
+			setLenght(answerData.response);
+		}
 
-	useEffect(() => {
-		axios
-			.get(`http://localhost:4000/posts/${id}`)
-			.then((res) => setReview([res.data]));
-	}, [id]);
+		if (postData.response) {
+			setReview([postData.response]);
+		}
+	}, [answerData.response, postData.response]);
 
 	return (
 		<Container>
@@ -261,7 +284,7 @@ function Answers() {
 					<Answer>
 						<ContentContainer>
 							<Vote>
-								{isLike && clickedId === idx + 1 ? (
+								{isLike && clickedId === el.id ? (
 									<AiFillHeart
 										size={18}
 										onClick={() => handleDisLike(el.id)}

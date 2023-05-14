@@ -8,10 +8,11 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FiDelete, FiAlertCircle } from 'react-icons/fi';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import SearchPlace from '../../Components/Community/SearchPlace';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 100vw;
@@ -164,18 +165,26 @@ const Alert = styled.div`
 	}
 `;
 
+interface Post {
+	content: string;
+	createdAt: string;
+	id: number;
+	img: string[];
+	modifiedAt: string;
+	nickName: string;
+	subject: string;
+	tag: string[];
+	title: string;
+}
+
+interface Type {
+	tag: [];
+	subject: string;
+}
+
 function PostUpdate() {
-	interface Post {
-		content: string;
-		createdAt: string;
-		id: number;
-		img: string[];
-		modifiedAt: string;
-		nickName: string;
-		subject: string;
-		tag: string[];
-		title: string;
-	}
+	const navigate = useNavigate();
+
 	const editorRef = useRef<Editor | null>(null);
 	const { id } = useParams();
 
@@ -187,6 +196,11 @@ function PostUpdate() {
 	const [alert, setAlert] = useState<boolean>(false);
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -229,30 +243,33 @@ function PostUpdate() {
 			const content = instance.getMarkdown();
 
 			// json-server용 api 요청
-			axios
-				.patch(`http://localhost:4000/posts/${id}`, {
+			try {
+				Api.patch(`/posts/${id}`, {
 					title,
 					content,
 					tag: tags,
-				})
-				// eslint-disable-next-line no-return-assign
-				.then(() => {
-					if (post?.subject === '여행리뷰') {
-						document.location.href = `/tripreview/${id}`;
-					} else {
-						document.location.href = `/community/${id}`;
-					}
-				});
+				}) // eslint-disable-next-line no-return-assign
+					.then(() => {
+						if (post?.subject === '여행리뷰') {
+							document.location.href = `/tripreview/${id}`;
+						} else {
+							document.location.href = `/community/${id}`;
+						}
+					});
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
 	useEffect(() => {
-		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
-			setPost(res.data);
-			setTags(res.data.tag);
-			setSubject(res.data.subject);
-		});
-	}, [id]);
+		if (postData.response) {
+			const data: Type = postData.response;
+			setPost(postData.response);
+			setTags(data.tag);
+			setSubject(data.subject);
+		}
+	}, [postData.response]);
 
 	return (
 		<div className="main">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,17 +14,18 @@ const useAxios = ({ url, method, body }: AxiosProps) => {
 	const [loading, setloading] = useState(true);
 	const navigate = useNavigate();
 
-	const fetchData = axios[method](`http://localhost:4000${url}`, body);
-	fetchData
-		.then((res) => {
-			setResponse(res.data);
-		})
-		.catch(() => {
-			navigate('/error');
-		})
-		.finally(() => {
-			setloading(false);
-		});
+	useEffect(() => {
+		axios[method](`http://localhost:4000${url}`, body)
+			.then((res) => {
+				setResponse(res.data);
+			})
+			.catch(() => {
+				navigate('/error');
+			})
+			.finally(() => {
+				setloading(false);
+			});
+	}, [body, method, navigate, url]);
 
 	return { response, loading };
 };

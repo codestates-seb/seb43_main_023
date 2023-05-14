@@ -92,17 +92,17 @@ const Main = styled.div`
 						color: #0db4f3;
 					}
 				}
-				.badgeAppend{
+				.badgeAppend {
 					margin-top: -20px;
 				}
 				.badgeHover {
-					&:hover{
+					&:hover {
 						cursor: pointer;
 					}
 				}
 				.badgeBox {
 					display: flex;
-					flex-direction column;
+					flex-direction: column;
 					justify-content: center;
 					align-items: center;
 					width: 190px;

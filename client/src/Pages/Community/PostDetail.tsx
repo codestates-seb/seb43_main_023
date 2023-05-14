@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import Answers from '../../Components/Community/Answers';
 import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -80,6 +82,7 @@ const Content = styled.div`
 `;
 
 function PostDetail() {
+	const navigate = useNavigate();
 	interface Post {
 		id: number;
 		subject: string;
@@ -105,9 +108,20 @@ function PostDetail() {
 
 	// eslint-disable-next-line prefer-const
 	let [answers, setAnswers] = useState<Answer[]>([]);
+
 	answers = answers.filter((el) => el.postId === Number(id));
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
+
+	const answerData = useAxios({
+		method: 'get',
+		url: `/comments`,
+	});
 
 	const deletePost = () => {
 		Swal.fire({
@@ -120,18 +134,20 @@ function PostDetail() {
 			confirmButtonText: 'Delete',
 		}).then((result) => {
 			if (result.isConfirmed) {
-				axios
-					.delete(`http://localhost:4000/posts/${id}`)
-					.then(() =>
-						Swal.fire({
-							title: 'Deleted!',
-							text: '삭제되었습니다',
-							icon: 'success',
-							confirmButtonColor: '#0db4f3',
-						}),
-					)
-					// eslint-disable-next-line no-return-assign
-					.then(() => (document.location.href = '/community'));
+				try {
+					Api.delete(`/posts/${id}`)
+						.then(() =>
+							Swal.fire({
+								title: 'Deleted!',
+								text: '삭제되었습니다',
+								icon: 'success',
+								confirmButtonColor: '#0db4f3',
+							}),
+						) // eslint-disable-next-line no-return-assign
+						.then(() => (document.location.href = '/community'));
+				} catch (error) {
+					navigate('/error');
+				}
 			}
 		});
 	};
@@ -141,12 +157,15 @@ function PostDetail() {
 
 		const postVote = post[0].voteCount;
 
-		axios
-			.patch(`http://localhost:4000/posts/${id}`, {
+		try {
+			Api.patch(`/posts/${id}`, {
 				voteCount: postVote + 1,
 			})
-			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
-			.then((res) => setPost([res.data]));
+				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then((res) => setPost([res.data]));
+		} catch (error) {
+			navigate('/error');
+		}
 	};
 
 	const handleDisLike = () => {
@@ -154,23 +173,28 @@ function PostDetail() {
 
 		const postVote = post[0].voteCount;
 
-		axios
-			.patch(`http://localhost:4000/posts/${id}`, {
+		try {
+			Api.patch(`/posts/${id}`, {
 				voteCount: postVote - 1,
 			})
-			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
-			.then((res) => setPost([res.data]));
+				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then((res) => setPost([res.data]));
+		} catch (error) {
+			navigate('/error');
+		}
 	};
 
 	useEffect(() => {
-		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
-			setPost([res.data]);
-		});
+		if (postData.response) {
+			setPost([postData.response]);
+		}
 
-		axios.get(`http://localhost:4000/comments`).then((res) => {
-			setAnswers(res.data);
-		});
-	}, [id]);
+		if (answerData.response) {
+			setAnswers(answerData.response);
+		} else {
+			setAnswers([]);
+		}
+	}, [answerData.response, postData.response]);
 
 	return (
 		<div className="main">

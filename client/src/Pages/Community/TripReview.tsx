@@ -4,10 +4,6 @@ import Reviews from '../../Components/Community/Reviews';
 import Tags from '../../Components/Community/Tags';
 import '../../Global.css';
 
-// const Container = styled.div`
-// 	background-color: #fafafa;
-// `;
-
 const ReviewContainer = styled.div`
 	height: calc(100vh - 300px);
 	display: flex;

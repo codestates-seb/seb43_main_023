@@ -8,12 +8,14 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FiDelete, FiAlertCircle } from 'react-icons/fi';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import SearchPlace from '../../Components/Community/SearchPlace';
 import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 100vw;
@@ -60,6 +62,7 @@ const TitleInput = styled.input`
 		border-color: rgb(214, 217, 219);
 	}
 `;
+
 const TagContainer = styled.div`
 	margin-top: 15px;
 	display: flex;
@@ -68,6 +71,7 @@ const TagContainer = styled.div`
 	width: 100%;
 	height: 40px;
 `;
+
 const Hash = styled.div`
 	display: flex;
 	justify-content: center;
@@ -86,16 +90,19 @@ const Hash = styled.div`
 		width: max-content;
 	}
 `;
+
 const HashName = styled.p`
 	width: auto;
 	margin-right: 10px;
 	font-size: 13px;
 `;
+
 const HashBtn = styled.button`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 `;
+
 const InputBox = styled.input`
 	width: 100%;
 	border: none;
@@ -170,6 +177,7 @@ const Alert = styled.div`
 `;
 
 function PostUpload() {
+	const navigate = useNavigate();
 	const editorRef = useRef<Editor | null>(null);
 
 	const imgUploadInput = useRef<HTMLInputElement | null>(null);
@@ -184,6 +192,11 @@ function PostUpload() {
 	const [y, setY] = useState<string>('');
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts`,
+	});
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -241,8 +254,8 @@ function PostUpload() {
 			editorRef.current
 		) {
 			// json-server용 api 요청
-			axios
-				.post('http://localhost:4000/posts', {
+			try {
+				Api.post('/posts', {
 					id: posts.length + 1,
 					nickName: userInfos.nickname,
 					subject,
@@ -256,15 +269,15 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					x,
 					y,
-				})
-				.then(
-					// eslint-disable-next-line no-return-assign
-					() => (document.location.href = `/tripreview/${posts.length + 1}`),
-				);
+				});
+				document.location.href = `/tripreview/${posts.length + 1}`;
+			} catch (error) {
+				navigate('/error');
+			}
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
-			axios
-				.post('http://localhost:4000/posts', {
+			try {
+				Api.post('/posts', {
 					id: posts.length + 1,
 					nickName: userInfos.nickname,
 					subject,
@@ -276,17 +289,22 @@ function PostUpload() {
 					viewCount: 0,
 					createdAt: '23-05-01T000000',
 					modifiedAt: '23-05-01T000000',
-				})
-				.then(
-					// eslint-disable-next-line no-return-assign
-					() => (document.location.href = `/community/${posts.length + 1}`),
-				);
+					x,
+					y,
+				});
+				document.location.href = `/tripreview/${posts.length + 1}`;
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
 	useEffect(() => {
-		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
-	}, []);
+		if (postData.response) {
+			setPosts(postData.response);
+		}
+	}, [postData.response]);
+
 	return (
 		<div className="main">
 			<Container>

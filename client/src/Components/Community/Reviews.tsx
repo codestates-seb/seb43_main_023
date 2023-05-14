@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { AiFillHeart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import img from '../../Assets/jeonju.jpg';
+import useAxios from '../../Util/customAxios';
 
 const Container = styled.div`
 	margin-top: 50px;
@@ -105,11 +105,17 @@ function Review() {
 
 	// eslint-disable-next-line prefer-const
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
+
+	const { response } = useAxios({
+		method: 'get',
+		url: '/posts',
+	});
+
 	useEffect(() => {
-		axios
-			.get('http://localhost:4000/posts')
-			.then((res) => setReviews(res.data));
-	}, []);
+		if (response) {
+			setReviews(response);
+		}
+	}, [response]);
 
 	reviews = reviews.filter((el) => el.subject === '여행리뷰');
 
