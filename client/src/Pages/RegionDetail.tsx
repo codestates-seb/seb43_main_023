@@ -89,6 +89,7 @@ const RegionTitle = styled.div`
 	text-align: start;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	.source {
 		font-size: 16px;
 		color: #adadad;
@@ -215,7 +216,7 @@ function RegionDetail() {
 			name: '부산',
 			fullName: '부산광역시',
 			cityName: 'Busan',
-			areaCode: 2,
+			areaCode: 6,
 			header:
 				'https://images.unsplash.com/photo-1638591751482-1a7d27fcea15?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80',
 			thumbnail:
@@ -254,7 +255,7 @@ function RegionDetail() {
 			name: '대전',
 			fullName: '대전광역시',
 			cityName: 'Daejeon',
-			areaCode: 5,
+			areaCode: 3,
 			header:
 				'http://newsimg.hankookilbo.com/2016/10/21/201610211159329181_1.jpg',
 			thumbnail:
@@ -267,7 +268,7 @@ function RegionDetail() {
 			name: '인천',
 			fullName: '인천광역시',
 			cityName: 'Incheon',
-			areaCode: 3,
+			areaCode: 2,
 			header:
 				'https://images.unsplash.com/photo-1634131431002-8fe857eb64a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80',
 			thumbnail:
@@ -280,7 +281,7 @@ function RegionDetail() {
 			name: '광주',
 			fullName: '광주광역시',
 			cityName: 'Gwangju',
-			areaCode: 6,
+			areaCode: 5,
 			header:
 				'https://images.unsplash.com/photo-1593419522318-81b7c346a3e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2854&q=80',
 			thumbnail:
@@ -293,7 +294,7 @@ function RegionDetail() {
 			name: '경남',
 			fullName: '경상남도',
 			cityName: 'Gyeongsangnam-do',
-			areaCode: 38,
+			areaCode: 36,
 			header:
 				'https://images.unsplash.com/photo-1529528070131-eda9f3e90919?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
 			thumbnail:
@@ -306,7 +307,7 @@ function RegionDetail() {
 			name: '경북',
 			fullName: '경상북도',
 			cityName: 'Gyeongsangbuk-do',
-			areaCode: 37,
+			areaCode: 35,
 			header:
 				'https://images.unsplash.com/photo-1669764372822-3cb8476d4f47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80',
 			thumbnail:
@@ -319,7 +320,7 @@ function RegionDetail() {
 			name: '전남',
 			fullName: '전라남도',
 			cityName: 'Jeollanam-do',
-			areaCode: 36,
+			areaCode: 38,
 			header:
 				'https://cdn.gjdream.com/news/photo/202101/605746_205437_2251.jpg',
 			thumbnail:
@@ -332,7 +333,7 @@ function RegionDetail() {
 			name: '전북',
 			fullName: '전라북도',
 			cityName: 'Jeollabuk-do',
-			areaCode: 35,
+			areaCode: 37,
 			header:
 				'https://images.unsplash.com/photo-1653329315898-afe70b1335ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
 			thumbnail:
