@@ -11,13 +11,10 @@ import { Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 
 const Container = styled.div`
-	margin-top: 50px;
+	width: 90%;
 	height: calc(100vh - 280px);
-	margin-left: 35px;
 	display: flex;
-	overflow: scroll;
 	flex-wrap: wrap;
-
 	a {
 		text-decoration: none;
 		color: black;
