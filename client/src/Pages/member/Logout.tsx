@@ -4,6 +4,7 @@ import '../../Global.css';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
@@ -59,14 +60,29 @@ function Logout() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const logoutClick = () => {
-		// eslint-disable-next-line no-alert
-		alert('로그아웃 되었습니다.');
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('empiresAtAccess');
-		localStorage.removeItem('empiresAtRefresh');
-		dispatch(LOGOUT());
-		removeCookie('refreshToken');
-		navigate('/main');
+		Swal.fire({
+			icon: 'warning',
+			title: '로그아웃',
+			text: '로그아웃하시겠습니까?',
+			showCancelButton: true,
+			confirmButtonText: '로그아웃',
+			cancelButtonText: '취소',
+		}).then(async (res) => {
+			if (res.isConfirmed) {
+				try {
+					localStorage.removeItem('accessToken');
+					localStorage.removeItem('empiresAtAccess');
+					localStorage.removeItem('empiresAtRefresh');
+					dispatch(LOGOUT());
+					removeCookie('refreshToken');
+					navigate('/main');
+				} catch (error) {
+					navigate('/error');
+				}
+			} else {
+				navigate('/logout');
+			}
+		});
 	};
 
 	return (
