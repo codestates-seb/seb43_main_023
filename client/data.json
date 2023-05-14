@@ -220,6 +220,41 @@
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
       "place": ""
+    },
+    {
+      "id": 14,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "",
+      "content": "",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/b9/92/a4/b992a46a56cdab3baee7e461ed350cd5.jpg",
+        "https://i.pinimg.com/564x/b9/92/a4/b992a46a56cdab3baee7e461ed350cd5.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.28970651657366",
+      "y": "37.01152307108269",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 15,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "kk",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [

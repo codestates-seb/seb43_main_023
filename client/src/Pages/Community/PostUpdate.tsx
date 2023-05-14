@@ -107,6 +107,40 @@ const InputBox = styled.input`
 	}
 `;
 
+// const ImgContainer = styled.div`
+// 	background-color: #ababab8b;
+// 	margin-top: 15px;
+// 	width: 100%;
+
+// 	display: flex;
+// 	justify-content: space-around;
+
+// 	div {
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
+// 		height: 40px;
+// 		padding-left: 10px;
+
+// 		> label {
+// 			font-size: 14px;
+// 			color: gray;
+// 			margin-right: 5px;
+// 		}
+
+// 		input[type='file'] {
+// 			position: absolute;
+// 			width: 0;
+// 			height: 0;
+// 			padding: 0;
+// 			margin: -1px;
+// 			overflow: hidden;
+// 			clip: rect(0, 0, 0, 0);
+// 			border: 0;
+// 		}
+// 	}
+// `;
+
 const ImgContainer = styled.div`
 	background-color: #ababab8b;
 	margin-top: 15px;
@@ -121,23 +155,7 @@ const ImgContainer = styled.div`
 		align-items: center;
 		height: 40px;
 		padding-left: 10px;
-
-		> label {
-			font-size: 14px;
-			color: gray;
-			margin-right: 5px;
-		}
-
-		input[type='file'] {
-			position: absolute;
-			width: 0;
-			height: 0;
-			padding: 0;
-			margin: -1px;
-			overflow: hidden;
-			clip: rect(0, 0, 0, 0);
-			border: 0;
-		}
+		color: gray;
 	}
 `;
 
@@ -180,6 +198,7 @@ interface Post {
 interface Type {
 	tag: [];
 	subject: string;
+	title: string;
 }
 
 function PostUpdate() {
@@ -188,19 +207,27 @@ function PostUpdate() {
 	const editorRef = useRef<Editor | null>(null);
 	const { id } = useParams();
 
-	const [tags, setTags] = useState<string[]>([]);
-	const [tag, setTag] = useState<string>('');
-	const [post, setPost] = useState<Post>();
-	const [subject, setSubject] = useState<string>('');
-	const [title, setTitle] = useState<string>('');
-	const [alert, setAlert] = useState<boolean>(false);
-	const [x, setX] = useState<string>('');
-	const [y, setY] = useState<string>('');
-
 	const postData = useAxios({
 		method: 'get',
 		url: `/posts/${id}`,
 	});
+
+	let axiosData: Type;
+	let titleData;
+
+	if (postData.response) {
+		axiosData = postData.response;
+		titleData = axiosData.title;
+	}
+
+	const [tags, setTags] = useState<string[]>([]);
+	const [tag, setTag] = useState<string>('');
+	const [post, setPost] = useState<Post>();
+	const [subject, setSubject] = useState<string>('');
+	const [title, setTitle] = useState<string | undefined>(titleData);
+	const [alert, setAlert] = useState<boolean>(false);
+	const [x, setX] = useState<string>('');
+	const [y, setY] = useState<string>('');
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -289,6 +316,7 @@ function PostUpdate() {
 							placeholder="제목을 입력해주세요"
 							onChange={handleTitle}
 							defaultValue={post.title}
+							value={post.title}
 						/>
 
 						{subject === '여행리뷰' ? (
@@ -335,7 +363,7 @@ function PostUpdate() {
 						</TagContainer>
 
 						<ImgContainer onClick={handleImg}>
-							<div>
+							{/* <div>
 								<label htmlFor="img1">
 									<div className="btnStart">Image 1 첨부하기</div>
 								</label>
@@ -349,7 +377,13 @@ function PostUpdate() {
 								<label htmlFor="img1">
 									<div className="btnStart">Image 3 첨부하기</div>
 								</label>
-							</div>
+							</div> */}
+
+							<div>Image 1 링크</div>
+
+							<div>Image 2 링크</div>
+
+							<div>Image 3 링크</div>
 						</ImgContainer>
 						{alert ? (
 							<Alert>

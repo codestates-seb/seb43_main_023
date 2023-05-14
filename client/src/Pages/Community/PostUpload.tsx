@@ -115,39 +115,67 @@ const InputBox = styled.input`
 	}
 `;
 
+// const ImgContainer = styled.div`
+// 	margin-top: 15px;
+// 	width: 100%;
+
+// 	display: flex;
+// 	justify-content: space-around;
+
+// 	div {
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
+// 		height: 40px;
+// 		padding-left: 10px;
+
+// 		> label {
+// 			font-size: 14px;
+// 			color: gray;
+// 			margin-right: 5px;
+
+// 			&:hover {
+// 				color: #0db4f3;
+// 			}
+// 		}
+
+// 		input[type='file'] {
+// 			position: absolute;
+// 			width: 0;
+// 			height: 0;
+// 			padding: 0;
+// 			margin: -1px;
+// 			overflow: hidden;
+// 			clip: rect(0, 0, 0, 0);
+// 			border: 0;
+// 		}
+// 	}
+// `;
+
 const ImgContainer = styled.div`
 	margin-top: 15px;
 	width: 100%;
-
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 
 	div {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 40px;
-		padding-left: 10px;
 
-		> label {
-			font-size: 14px;
-			color: gray;
-			margin-right: 5px;
+		input {
+			width: 300px;
+			padding: 10px;
+			font-size: 13px;
+			border: 1px solid rgb(214, 217, 219);
+			background-color: #fafafa;
+			height: 42px;
 
-			&:hover {
-				color: #0db4f3;
+			&:focus {
+				outline: none !important;
+				border-color: rgb(214, 217, 219);
 			}
-		}
-
-		input[type='file'] {
-			position: absolute;
-			width: 0;
-			height: 0;
-			padding: 0;
-			margin: -1px;
-			overflow: hidden;
-			clip: rect(0, 0, 0, 0);
-			border: 0;
 		}
 	}
 `;
@@ -216,10 +244,18 @@ function PostUpload() {
 		}
 	};
 
+	// 이미지 파일 첨부 코드 ( 사용 여부 보류 )
+	// const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	if (event.target.files) {
+	// 		const newFileURL = URL.createObjectURL(event.target.files[0]);
+	// 		setImages((prevImages) => [...prevImages, newFileURL]);
+	// 	}
+	// };
+
 	const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.files) {
-			const newFileURL = URL.createObjectURL(event.target.files[0]);
-			setImages((prevImages) => [...prevImages, newFileURL]);
+		if (event.target.value) {
+			const newImage = event.target.value;
+			setImages((prevImages) => [...prevImages, newImage]);
 		}
 	};
 
@@ -292,7 +328,7 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					email: userInfos.email,
 				});
-				document.location.href = `/tripreview/${posts.length + 1}`;
+				document.location.href = `/community/${posts.length + 1}`;
 			} catch (error) {
 				navigate('/error');
 			}
@@ -373,7 +409,8 @@ function PostUpload() {
 					) : null}
 
 					<ImgContainer>
-						<div>
+						{/* 이미지 파일 첨부 코드 (사용 여부 보류) */}
+						{/* <div>
 							<label htmlFor="img1">
 								<div className="btnStart">Image 1 첨부하기</div>
 							</label>
@@ -405,6 +442,29 @@ function PostUpload() {
 								type="file"
 								accept="image/*"
 								ref={imgUploadInput}
+								onChange={onImageChange}
+							/>
+						</div> */}
+						<div>
+							<input
+								type="text"
+								placeholder="Image 1 링크"
+								onChange={onImageChange}
+							/>
+						</div>
+
+						<div>
+							<input
+								type="text"
+								placeholder="Image 2 링크"
+								onChange={onImageChange}
+							/>
+						</div>
+
+						<div>
+							<input
+								type="text"
+								placeholder="Image 3 링크"
 								onChange={onImageChange}
 							/>
 						</div>
