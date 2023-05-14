@@ -61,15 +61,11 @@ const HotPlaceInfo = styled.div`
 	flex-direction: column;
 	> span {
 		margin: 10px;
+		font-size: 20px;
 	}
 	.HotPlaceBold {
 		font-size: 28px;
 		font-weight: 700;
-	}
-	.HotPlaceAuthor {
-		font-size: 24px;
-		font-weight: 700;
-		text-align: end;
 	}
 `;
 

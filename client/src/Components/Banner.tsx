@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { HTMLAttributes } from 'react';
+import axios from 'axios';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -35,6 +37,9 @@ const SlideItem = styled.div<SlideItemProps>`
 	justify-content: center;
 	> div {
 		line-height: 180px;
+		> span {
+			font-size: 24px;
+		}
 	}
 `;
 
@@ -48,18 +53,43 @@ function Banner() {
 		slidesToShow: 1,
 	};
 
+	const [eventInfo, serEventInfo] = useState([]);
+	const navigate = useNavigate();
+
+	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=20230501`;
+
+	useEffect(() => {
+		axios(tourUrl)
+			.then((response) => {
+				const { data } = response;
+				serEventInfo(data.response.body.items.item);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	}, [navigate, tourUrl]);
+
+	console.log(eventInfo);
+
 	return (
 		<div>
 			<SlideContainer {...settings}>
-				<SlideItem image="https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1773&q=80">
-					<div>부산 6월 광안리 불꽃축제</div>
-				</SlideItem>
-				<SlideItem image="https://images.unsplash.com/photo-1581938165093-050aeb5ef218?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80">
-					<div>곡성 세계장미축제</div>
-				</SlideItem>
-				<SlideItem image="https://images.unsplash.com/photo-1626903896356-06b7ca2810fd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80">
-					<div>담양 대나무축제</div>
-				</SlideItem>
+				{eventInfo
+					? eventInfo.map((item: any) => {
+							return (
+								<SlideItem image={item.firstimage}>
+									<div>
+										{item.title}
+										<span>
+											({item.eventstartdate.substr(4)} ~{' '}
+											{item.eventenddate.substr(4)})
+										</span>
+									</div>
+								</SlideItem>
+							);
+					  })
+					: null}
 			</SlideContainer>
 		</div>
 	);

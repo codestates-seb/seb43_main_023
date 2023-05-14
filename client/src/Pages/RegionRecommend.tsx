@@ -152,7 +152,7 @@ function RegionRec() {
 		{
 			id: 15,
 			name: '충남',
-			img: 'https://cdn.imweb.me/thumbnail/20190505/5cce19e7b096e.jpg',
+			img: 'https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=3896ab79-c334-4752-b73d-59bc431d0c8a',
 		},
 		{
 			id: 16,
