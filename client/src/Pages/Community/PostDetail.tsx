@@ -64,8 +64,6 @@ const Title = styled.div`
 const Vote = styled.div`
 	margin-top: 50px;
 	padding: 10px;
-	margin-bottom: 30px;
-	border-bottom: 1px solid rgb(214, 217, 219);
 	display: flex;
 	align-items: center;
 
@@ -81,6 +79,52 @@ const Content = styled.div`
 	overflow-y: scroll;
 `;
 
+const TagContainer = styled.div`
+	min-height: 60px;
+	padding: 10px;
+	border-bottom: 1px solid rgb(214, 217, 219);
+	margin-bottom: 30px;
+
+	> span {
+		padding-left: 10px;
+		font-size: 14px;
+		color: gray;
+	}
+
+	> div {
+		margin-top: 10px;
+		display: flex;
+		justify-content: space-between;
+		font-size: 13px;
+
+		> div:nth-child(1) {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		> div:nth-child(2) {
+			display: flex;
+			width: 60px;
+			justify-content: space-evenly;
+			align-items: center;
+
+			> a {
+				margin-top: 4px;
+			}
+		}
+	}
+`;
+
+const Tag = styled.div`
+	width: max-content;
+	padding: 5px 20px;
+	margin: 5px;
+	border-radius: 30px;
+	font-size: 11px;
+	background-color: #fcf0ff;
+`;
+
 function PostDetail() {
 	const navigate = useNavigate();
 	interface Post {
@@ -92,6 +136,7 @@ function PostDetail() {
 		viewCount: number;
 		voteCount: number;
 		createdAt: string;
+		tag: string[];
 	}
 
 	interface Answer {
@@ -250,6 +295,20 @@ function PostDetail() {
 											명이 좋아합니다.
 										</span>
 									</Vote>
+									{el.tag ? (
+										<TagContainer>
+											<span># 태그</span>
+
+											<div>
+												<div>
+													{el.tag.map((t) => (
+														<Tag>{t}</Tag>
+													))}
+												</div>
+											</div>
+										</TagContainer>
+									) : null}
+
 									<Answers />
 								</div>
 							</>
