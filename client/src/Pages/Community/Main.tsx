@@ -181,7 +181,9 @@ function Main() {
 		}
 	}, [response]);
 
-	posts = posts.filter((el) => el.subject === '여행고민');
+	posts = posts
+		.filter((el) => el.subject === '여행고민')
+		.sort((a, b) => b.id - a.id);
 
 	return (
 		<div className="main">
