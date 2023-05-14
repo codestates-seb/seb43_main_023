@@ -203,15 +203,7 @@ function Login() {
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('empiresAtAccess', '1800000');
 				localStorage.setItem('empiresAtRefresh', '9900000');
-				Swal.fire({
-					icon: 'success',
-					title: '로그인되었습니다.',
-					text: '메인 페이지로 이동합니다.',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						navigate('/main');
-					}
-				});
+				navigate('/main');
 			}
 		} catch (error) {
 			navigate('/error');
