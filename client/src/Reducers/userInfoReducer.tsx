@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Iuser {
-	id?: number;
+	memberId?: number;
 	nickname: string;
 	email?: string;
 	mbti: string;
@@ -10,7 +10,7 @@ export interface Iuser {
 }
 
 const initialState: Iuser = {
-	id: 0,
+	memberId: 0,
 	email: '',
 	nickname: '',
 	mbti: '',
