@@ -13,6 +13,9 @@ import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 100%;
+	border-top: 1px solid rgb(214, 217, 219);
+	padding-top: 30px;
+	margin-top: 10px;
 `;
 
 const AnswerInput = styled.input`

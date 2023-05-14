@@ -13,6 +13,7 @@ import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
 import useAxios from '../../Util/customAxios';
 import { Api } from '../../Util/customAPI';
+import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -24,7 +25,6 @@ const PostContainer = styled.div`
 
 const PostBody = styled.div`
 	margin-top: 20px;
-
 	height: max-content;
 	width: 90%;
 	display: flex;
@@ -62,7 +62,7 @@ const Title = styled.div`
 `;
 
 const Vote = styled.div`
-	margin-top: 50px;
+	margin-top: 20px;
 	padding: 10px;
 	display: flex;
 	align-items: center;
@@ -75,15 +75,15 @@ const Vote = styled.div`
 
 const Content = styled.div`
 	margin-top: 30px;
-	height: 450px;
+	max-height: 600px;
+	min-height: 500px;
 	overflow-y: scroll;
+	display: flex;
 `;
 
 const TagContainer = styled.div`
 	min-height: 60px;
 	padding: 10px;
-	border-bottom: 1px solid rgb(214, 217, 219);
-	margin-bottom: 30px;
 
 	> span {
 		padding-left: 10px;
@@ -125,6 +125,20 @@ const Tag = styled.div`
 	background-color: #fcf0ff;
 `;
 
+const ImgContainer = styled.div`
+	height: 100%;
+	width: 25.3vw;
+	margin-left: 25px;
+`;
+
+const ViewerContainer = styled.div`
+	width: 70%;
+	padding: 20px;
+	max-height: 515px;
+	overflow: scroll;
+	margin-left: 24px;
+`;
+
 function PostDetail() {
 	const navigate = useNavigate();
 	interface Post {
@@ -137,6 +151,7 @@ function PostDetail() {
 		voteCount: number;
 		createdAt: string;
 		tag: string[];
+		img: string[];
 	}
 
 	interface Answer {
@@ -271,7 +286,18 @@ function PostDetail() {
 										</div>
 									</Title>
 									<Content>
-										<Viewer initialValue={el.content || ''} />
+										{el.img ? (
+											<>
+												<ImgContainer>
+													<ReviewCarousel />
+												</ImgContainer>
+												<ViewerContainer>
+													<Viewer initialValue={el.content || ''} />
+												</ViewerContainer>
+											</>
+										) : (
+											<Viewer initialValue={el.content || ''} />
+										)}
 									</Content>
 								</div>
 
