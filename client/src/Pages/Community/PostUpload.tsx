@@ -269,6 +269,7 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					x,
 					y,
+					email: userInfos.email,
 				});
 				document.location.href = `/tripreview/${posts.length + 1}`;
 			} catch (error) {
@@ -289,8 +290,7 @@ function PostUpload() {
 					viewCount: 0,
 					createdAt: '23-05-01T000000',
 					modifiedAt: '23-05-01T000000',
-					x,
-					y,
+					email: userInfos.email,
 				});
 				document.location.href = `/tripreview/${posts.length + 1}`;
 			} catch (error) {
