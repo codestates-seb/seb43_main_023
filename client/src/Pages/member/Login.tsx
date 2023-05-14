@@ -1,10 +1,13 @@
 import '../../Global.css';
 
+import { FocusEvent } from 'react';
+
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
@@ -70,6 +73,17 @@ const Content = styled.div`
 			}
 		}
 	}
+	.keyUp {
+		font-size: 12px;
+		width: 98%;
+		color: #0db4f3;
+		text-align: left;
+		margin-top: 12px;
+		margin-bottom: -25px;
+	}
+	.hide {
+		display: none;
+	}
 	.lineBox {
 		color: #393737;
 		display: flex;
@@ -81,30 +95,6 @@ const Content = styled.div`
 			width: 90px;
 			border-top: 1px solid #393737;
 			margin: 0 10px;
-		}
-	}
-	.oauthBox {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.oauth {
-		width: 100px;
-		height: 50px;
-		background: none;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		margin: 0 5px;
-		color: #393737;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 5px;
-		&:hover {
-			background: rgba(0, 0, 0, 0.04);
-			border: none;
-		}
-		span {
-			margin-left: 10px;
 		}
 	}
 	.gotoJoin {
@@ -122,6 +112,34 @@ const Content = styled.div`
 	}
 `;
 
+const OauthBox = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.oauth {
+		width: 80px;
+		height: 40px;
+		background: none;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		margin: 0 5px;
+		color: #393737;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 5px;
+		&:hover {
+			background: rgba(0, 0, 0, 0.04);
+			border: none;
+		}
+		span {
+			margin-left: 10px;
+		}
+		.google {
+			margin-left: 5px;
+		}
+	}
+`;
+
 function Login() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -131,15 +149,15 @@ function Login() {
 		try {
 			/* 
 			// 서버 연결하면 사용할 코드
-			const loginData = await axios.post('http://localhost:4000/auth/login', {
+			const loginData = await Api.post('http://localhost:4000/auth/login', {
 				email: el.email.value,
 				password: el.password.value
 			});
-			const memberId = loginData.response.headers.MemberId;
-			const accessToken = loginData.response.headers.Authorization;
-			const refreshToken = loginData.response.headers.Refresh;
-			const empiresAtAccess = loginData.response.headers.AccessTokenExpirationTime;
-			const empiresAtRefresh = loginData.response.headers.RefreshTokenExpirationTime;
+			const memberId = loginData.response.data.memberId;
+			const accessToken = loginData.response.data.accessToken
+			const refreshToken = loginData.response.data.refreshToken
+			const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
+			const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
 			axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 			*/
 			const memberId = 1;
@@ -156,8 +174,6 @@ function Login() {
 				alert('아이디 or 비밀번호가 다릅니다.');
 				window.location.reload();
 			} else {
-				// eslint-disable-next-line no-alert
-				alert('로그인 되었습니다.');
 				dispatch(
 					UPDATE({
 						id: userInfo.data.id,
@@ -177,11 +193,29 @@ function Login() {
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('empiresAtAccess', '1800000');
 				localStorage.setItem('empiresAtRefresh', '9900000');
-				navigate('/main');
+				Swal.fire({
+					icon: 'success',
+					title: '로그인되었습니다.',
+					text: '메인 페이지로 이동합니다.',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// 만약 모달창에서 confirm 버튼을 눌렀다면
+						navigate('/main');
+					}
+				});
 			}
 		} catch (error) {
 			navigate('/error');
 		}
+	};
+
+	const displayNameKeyFocus = (e: FocusEvent<HTMLInputElement>) => {
+		const keyUp = e.target.previousSibling as HTMLDivElement;
+		keyUp?.classList.remove('hide');
+	};
+	const displayNameKeyBlur = (e: FocusEvent<HTMLInputElement>) => {
+		const keyUp = e.target.previousSibling as HTMLDivElement;
+		keyUp?.classList.add('hide');
 	};
 
 	return (
@@ -193,8 +227,24 @@ function Login() {
 			<Content>
 				<div>Log in</div>
 				<form onSubmit={(e) => joinSubmit(e)}>
-					<input name="email" type="text" placeholder="Email" required />
-					<input name="password" type="text" placeholder="Password" required />
+					<div className="keyUp hide">Email</div>
+					<input
+						onFocus={(e) => displayNameKeyFocus(e)}
+						onBlur={(e) => displayNameKeyBlur(e)}
+						name="email"
+						type="text"
+						placeholder="Email"
+						required
+					/>
+					<div className="keyUp hide">Password</div>
+					<input
+						onFocus={(e) => displayNameKeyFocus(e)}
+						onBlur={(e) => displayNameKeyBlur(e)}
+						name="password"
+						type="text"
+						placeholder="Password"
+						required
+					/>
 					<button type="submit">Log in</button>
 				</form>
 				<div className="lineBox">
@@ -202,16 +252,16 @@ function Login() {
 					Or Log in with
 					<span className="line" />
 				</div>
-				<div className="oauthBox">
+				<OauthBox>
 					<button className="oauth">
 						<AiOutlineGoogle color="#393737" size="20px" />
-						<span>Google</span>
+						<span className="google">Google</span>
 					</button>
 					<button className="oauth">
 						<SiNaver color="#03c157" size="15px" />
 						<span>Naver</span>
 					</button>
-				</div>
+				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
 				<Link to="/join">
 					<button className="gotoJoinBtn">Sign up</button>

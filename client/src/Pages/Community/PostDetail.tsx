@@ -286,7 +286,7 @@ function PostDetail() {
 										</div>
 									</Title>
 									<Content>
-										{el.img ? (
+										{el.img.length > 0 ? (
 											<>
 												<ImgContainer>
 													<ReviewCarousel />

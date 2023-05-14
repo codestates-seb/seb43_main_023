@@ -2,13 +2,14 @@ import '../../Global.css';
 
 import { useEffect, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
+import IntroBox from '../../Components/Member/IntroBox';
 import MyReview from '../../Components/Member/MyReview';
-import { LOGOUT } from '../../Reducers/loginReducer';
-import { DELETE, Iuser } from '../../Reducers/userInfoReducer';
+import { Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
 import useAxios from '../../Util/customAxios';
@@ -18,124 +19,96 @@ const Main = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	.introBox {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		padding: 20px 50px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+`;
 
-		.intro {
-			width: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: flex-start;
-			.mypage {
-				font-size: 30px;
-				font-weight: bold;
-				margin-bottom: 20px;
-			}
-			.description {
-				font-size: 12px;
-				color: rgba(0, 0, 0, 0.5);
-			}
+const Content = styled.div`
+	width: 100%;
+	padding: 20px 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	.menu {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.userInfo,
+	.userWrite,
+	.userReview {
+		font-weight: bold;
+		margin: 30px;
+		padding-bottom: 5px;
+	}
+	.blue {
+		color: #0db4f3;
+		border-bottom: 3px solid #0db4f3;
+	}
+`;
+
+const MenuContent = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 20px;
+	.userInformation {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		div {
+			margin-bottom: 15px;
+			font-weight: bold;
+			color: #555555;
+			font-size: 20px;
 		}
-		.memberDelete {
-			width: 100px;
+		.myInfo {
+			font-size: 15px;
+			font-weight: 400;
+			margin-bottom: 40px;
+		}
+		.memberEdit {
 			font-size: 12px;
 			color: rgba(0, 0, 0, 0.2);
 			font-weight: bold;
 			&:hover {
 				cursor: pointer;
+				color: #0db4f3;
+			}
+		}
+		.badgeAppend{
+			margin-top: -20px;
+		}
+		.badgeHover {
+			&:hover{
+				cursor: pointer;
+			}
+		}
+		.badgeBox {
+			display: flex;
+			flex-direction column;
+			justify-content: center;
+			align-items: center;
+			width: 190px;
+			border: 1px solid rgba(0, 0, 0, 0.07);
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
+			color: #2d2d2d;
+			padding: 0 10px;
+			padding-top: 20px;
+			.badgeEl {
+				font-size: 11px;
 				color: rgba(0, 0, 0, 0.5);
 			}
 		}
 	}
-	.content {
-		width: 100%;
-		padding: 20px 10px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		.menu {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-		.menuContent {
-			width: 100%;
-			.userInformation {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-direction: column;
-				div {
-					margin-bottom: 15px;
-					font-weight: bold;
-					color: #555555;
-					font-size: 20px;
-				}
-				.myInfo {
-					font-size: 15px;
-					font-weight: 400;
-					margin-bottom: 40px;
-				}
-				.memberEdit {
-					font-size: 12px;
-					color: rgba(0, 0, 0, 0.2);
-					font-weight: bold;
-					&:hover {
-						cursor: pointer;
-						color: #0db4f3;
-					}
-				}
-				.badgeAppend {
-					margin-top: -20px;
-				}
-				.badgeHover {
-					&:hover {
-						cursor: pointer;
-					}
-				}
-				.badgeBox {
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: center;
-					width: 190px;
-					border: 1px solid rgba(0, 0, 0, 0.07);
-					box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
-					color: #2d2d2d;
-					padding: 0 10px;
-					padding-top: 20px;
-					.badgeEl {
-						font-size: 11px;
-						color: rgba(0, 0, 0, 0.5);
-					}
-				}
-			}
-		}
-		.userInfo,
-		.userWrite,
-		.userReview {
-			font-weight: bold;
-			margin: 30px;
-			padding-bottom: 5px;
-		}
-		.blue {
-			color: #0db4f3;
-			border-bottom: 3px solid #0db4f3;
-		}
-	}
 	.test {
-		width: 100%;
-		text-align: right;
-		text-decoration: none;
-		padding: 0 50px;
-		margin-top: 30px;
+	width: 100%;
+	text-align: right;
+	text-decoration: none;
+	padding: 0 50px;
+	margin-top: 30px;
 	}
 `;
 
@@ -191,10 +164,9 @@ interface Ipost {
 
 function Mypage() {
 	const navigate = useNavigate();
-
-	const dispatch = useDispatch();
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
+	// 마이페이지 각 항목 선택 시 항목 색 변경, 페이지 다르게 렌더링하는 핸들러
 	const [select, setSelect] = useState('btn1');
 	const userInfoClick = () => {
 		const btn1 = document.querySelector('.userInfo');
@@ -224,6 +196,7 @@ function Mypage() {
 		setSelect('btn3');
 	};
 
+	// 마이페이지의 내가 쓴 글(get요청 시 필요)
 	const [posts, setPosts] = useState<Ipost[]>([
 		{
 			id: 0,
@@ -240,21 +213,8 @@ function Mypage() {
 		},
 	]);
 
-	const memberDeleteClick = async () => {
-		// alert회원탈퇴메세지, 로그아웃시키고, 메인페이지로 이동, 서버의 members에서 삭제하기
-		try {
-			await Api.delete(`/members/${userInfos.id}`);
-			// eslint-disable-next-line no-alert
-			alert('탈퇴되었습니다.');
-			dispatch(DELETE());
-			dispatch(LOGOUT());
-			navigate('/main');
-		} catch (error) {
-			navigate('/error');
-		}
-	};
-
-	const { response, loading } = useAxios({
+	// 커뮤니티 내글 get요청(useAxios 사용)
+	const { response } = useAxios({
 		method: 'get',
 		url: '/posts',
 	});
@@ -266,6 +226,7 @@ function Mypage() {
 	}, [response]);
 
 	/*
+	// 커뮤니티 내글 get요청(커스텀 axios Api 사용)
 	useEffect(() => {
 		async function getPost() {
 			const getData = await Api.get('/posts');
@@ -277,20 +238,34 @@ function Mypage() {
 		}
 		getPost();
 	}, [userInfos.email]);
-*/
+	*/
 
-	const postDeleteClick = async (id: number) => {
-		try {
-			await Api.delete(`/posts/${id}`);
-			// eslint-disable-next-line no-alert
-			alert('글이 삭제되었습니다.');
-			window.location.reload();
-		} catch (error) {
-			navigate('/error');
-		}
+	// 마이페이지 내가 쓴 글 삭제 핸들러
+	const postDeleteClick = (id: number) => {
+		Swal.fire({
+			icon: 'warning',
+			title: '삭제',
+			text: `글을 삭제하시겠습니까?`,
+			showCancelButton: true,
+			confirmButtonText: '삭제',
+			cancelButtonText: '취소',
+		}).then(async (res) => {
+			if (res.isConfirmed) {
+				try {
+					await Api.delete(`/posts/${id}`);
+					window.location.reload();
+				} catch (error) {
+					navigate('/error');
+				}
+			} else {
+				navigate('/mypage');
+			}
+		});
 	};
+
+	// 마이페이지 뱃지 호버 시 뱃지 기준 설명 박스가 나오는 핸들러
 	const badgeMouseEnter = () => {
-		const el = document.querySelector('.badgeAppend')!;
+		const el = document.querySelector('.badgeAppend');
 		const badgeBox = document.createElement('div');
 		const badgeBox1 = document.createElement('div');
 		const badgeBox2 = document.createElement('div');
@@ -304,39 +279,23 @@ function Mypage() {
 		badgeBox1.classList.add('badgeEl');
 		badgeBox2.classList.add('badgeEl');
 		badgeBox3.classList.add('badgeEl');
-		el.appendChild(badgeBox);
+		el?.appendChild(badgeBox);
 		badgeBox.appendChild(badgeBox1);
 		badgeBox.appendChild(badgeBox2);
 		badgeBox.appendChild(badgeBox3);
 	};
 
+	// 마이페이지 뱃지 호버했다가 떼면 뱃지 기준 설명 박스가 사라지는 핸들러
 	const badgeMouseLeave = () => {
-		const badgeBox = document.querySelector('.badgeBox')!;
-		const el = document.querySelector('.badgeAppend')!;
-		el.removeChild(badgeBox);
+		const badgeBox = document.querySelector('.badgeBox');
+		const el = document.querySelector('.badgeAppend');
+		el?.removeChild(badgeBox as Element);
 	};
 
 	return (
 		<Main className="main">
-			<div className="introBox">
-				<div className="intro">
-					<div className="mypage">마이페이지</div>
-					<div className="description">
-						MBTI와 닉네임은 수정이 가능해요.
-						<br />
-						MBTI 검사를 원하시면 하단의 링크로 들어가주세요!
-						<br />
-						내가 쓴 글에서 커뮤니티에 작성한 글들을 볼 수 있어요.
-						<br />
-						뱃지는 작성한 여행리뷰의 수와 추천수에 따라 초보여행자, 중급여행자,
-						고급여행자로 나눠집니다.
-					</div>
-				</div>
-				<button onClick={memberDeleteClick} className="memberDelete">
-					회원 탈퇴하기
-				</button>
-			</div>
-			<div className="content">
+			<IntroBox />
+			<Content>
 				<div className="menu">
 					<button className="userInfo blue" onClick={userInfoClick}>
 						내정보
@@ -348,7 +307,7 @@ function Mypage() {
 						여행 리뷰
 					</button>
 				</div>
-				<div className="menuContent">
+				<MenuContent>
 					{select === 'btn1' && (
 						<div className="userInformation">
 							<div>DisplayName</div>
@@ -378,36 +337,38 @@ function Mypage() {
 					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
-								{posts.map((post) => {
-									return (
-										<li key={post.id}>
-											<div className="writingHead">[{post.subject}]</div>
-											<Link
-												to={{ pathname: `/community/${post.id}` }}
-												style={{ textDecoration: 'none' }}
-											>
-												<div className="writingBody">{post.title}</div>
-											</Link>
-											<div>
+								{posts
+									.filter((v: { email: string }) => v.email === userInfos.email)
+									.map((post) => {
+										return (
+											<li key={post.id}>
+												<div className="writingHead">[{post.subject}]</div>
 												<Link
-													to={{ pathname: `/community/${post.id}/update` }}
+													to={{ pathname: `/community/${post.id}` }}
 													style={{ textDecoration: 'none' }}
 												>
-													<button>Edit</button>
+													<div className="writingBody">{post.title}</div>
 												</Link>
-												<button onClick={() => postDeleteClick(post.id)}>
-													Delete
-												</button>
-											</div>
-										</li>
-									);
-								})}
+												<div>
+													<Link
+														to={{ pathname: `/community/${post.id}/update` }}
+														style={{ textDecoration: 'none' }}
+													>
+														<button>Edit</button>
+													</Link>
+													<button onClick={() => postDeleteClick(post.id)}>
+														Delete
+													</button>
+												</div>
+											</li>
+										);
+									})}
 							</ul>
 						</UserWriting>
 					)}
 					{select === 'btn3' && <MyReview />}
-				</div>
-			</div>
+				</MenuContent>
+			</Content>
 		</Main>
 	);
 }
