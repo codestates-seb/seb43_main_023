@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import { LOGOUT } from '../../Reducers/loginReducer';
 import { DELETE } from '../../Reducers/userInfoReducer';
@@ -49,17 +50,28 @@ function IntroBox() {
 	const userInfos = useSelector((state: RootState) => state.user);
 
 	// 회원 탈퇴 핸들러
-	const memberDeleteClick = async () => {
-		try {
-			await Api.delete(`/members/${userInfos.id}`);
-			// eslint-disable-next-line no-alert
-			alert('탈퇴되었습니다.');
-			dispatch(DELETE());
-			dispatch(LOGOUT());
-			navigate('/main');
-		} catch (error) {
-			navigate('/error');
-		}
+	const memberDeleteClick = () => {
+		Swal.fire({
+			icon: 'warning',
+			title: '삭제',
+			text: `[${userInfos.nickname}]님 회원 탈퇴하시겠습니까?`,
+			showCancelButton: true,
+			confirmButtonText: '삭제',
+			cancelButtonText: '취소',
+		}).then(async (res) => {
+			if (res.isConfirmed) {
+				try {
+					await Api.delete(`/members/${userInfos.id}`);
+					dispatch(DELETE());
+					dispatch(LOGOUT());
+					navigate('/main');
+				} catch (error) {
+					navigate('/error');
+				}
+			} else {
+				navigate('/mypage');
+			}
+		});
 	};
 	return (
 		<Main>

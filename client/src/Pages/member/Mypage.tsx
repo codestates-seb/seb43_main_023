@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import IntroBox from '../../Components/Member/IntroBox';
 import MyReview from '../../Components/Member/MyReview';
@@ -21,92 +22,93 @@ const Main = styled.div`
 `;
 
 const Content = styled.div`
-width: 100%;
-		padding: 20px 10px;
+	width: 100%;
+	padding: 20px 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	.menu {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.userInfo,
+	.userWrite,
+	.userReview {
+		font-weight: bold;
+		margin: 30px;
+		padding-bottom: 5px;
+	}
+	.blue {
+		color: #0db4f3;
+		border-bottom: 3px solid #0db4f3;
+	}
+`;
+
+const MenuContent = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 20px;
+	.userInformation {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		.menu {
-			display: flex;
-			justify-content: center;
-			align-items: center;
+		div {
+			margin-bottom: 15px;
+			font-weight: bold;
+			color: #555555;
+			font-size: 20px;
 		}
-		.menuContent {
-			width: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-			margin-top: 20px;
-			.userInformation {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-direction: column;
-				div {
-					margin-bottom: 15px;
-					font-weight: bold;
-					color: #555555;
-					font-size: 20px;
-				}
-				.myInfo {
-					font-size: 15px;
-					font-weight: 400;
-					margin-bottom: 40px;
-				}
-				.memberEdit {
-					font-size: 12px;
-					color: rgba(0, 0, 0, 0.2);
-					font-weight: bold;
-					&:hover {
-						cursor: pointer;
-						color: #0db4f3;
-					}
-				}
-				.badgeAppend{
-					margin-top: -20px;
-				}
-				.badgeHover {
-					&:hover{
-						cursor: pointer;
-					}
-				}
-				.badgeBox {
-					display: flex;
-					flex-direction column;
-					justify-content: center;
-					align-items: center;
-					width: 190px;
-					border: 1px solid rgba(0, 0, 0, 0.07);
-					box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
-					color: #2d2d2d;
-					padding: 0 10px;
-					padding-top: 20px;
-					.badgeEl {
-						font-size: 11px;
-						color: rgba(0, 0, 0, 0.5);
-					}
-				}
+		.myInfo {
+			font-size: 15px;
+			font-weight: 400;
+			margin-bottom: 40px;
+		}
+		.memberEdit {
+			font-size: 12px;
+			color: rgba(0, 0, 0, 0.2);
+			font-weight: bold;
+			&:hover {
+				cursor: pointer;
+				color: #0db4f3;
 			}
 		}
-		.userInfo,
-		.userWrite,
-		.userReview {
-			font-weight: bold;
-			margin: 30px;
-			padding-bottom: 5px;
+		.badgeAppend{
+			margin-top: -20px;
 		}
-		.blue {
-			color: #0db4f3;
-			border-bottom: 3px solid #0db4f3;
+		.badgeHover {
+			&:hover{
+				cursor: pointer;
+			}
 		}
+		.badgeBox {
+			display: flex;
+			flex-direction column;
+			justify-content: center;
+			align-items: center;
+			width: 190px;
+			border: 1px solid rgba(0, 0, 0, 0.07);
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
+			color: #2d2d2d;
+			padding: 0 10px;
+			padding-top: 20px;
+			.badgeEl {
+				font-size: 11px;
+				color: rgba(0, 0, 0, 0.5);
+			}
+		}
+	}
 	.test {
-		width: 100%;
-		text-align: right;
-		text-decoration: none;
-		padding: 0 50px;
-		margin-top: 30px;
+	width: 100%;
+	text-align: right;
+	text-decoration: none;
+	padding: 0 50px;
+	margin-top: 30px;
 	}
 `;
 
@@ -239,15 +241,26 @@ function Mypage() {
 	*/
 
 	// 마이페이지 내가 쓴 글 삭제 핸들러
-	const postDeleteClick = async (id: number) => {
-		try {
-			await Api.delete(`/posts/${id}`);
-			// eslint-disable-next-line no-alert
-			alert('글이 삭제되었습니다.');
-			window.location.reload();
-		} catch (error) {
-			navigate('/error');
-		}
+	const postDeleteClick = (id: number) => {
+		Swal.fire({
+			icon: 'warning',
+			title: '삭제',
+			text: `글을 삭제하시겠습니까?`,
+			showCancelButton: true,
+			confirmButtonText: '삭제',
+			cancelButtonText: '취소',
+		}).then(async (res) => {
+			if (res.isConfirmed) {
+				try {
+					await Api.delete(`/posts/${id}`);
+					window.location.reload();
+				} catch (error) {
+					navigate('/error');
+				}
+			} else {
+				navigate('/mypage');
+			}
+		});
 	};
 
 	// 마이페이지 뱃지 호버 시 뱃지 기준 설명 박스가 나오는 핸들러
@@ -294,7 +307,7 @@ function Mypage() {
 						여행 리뷰
 					</button>
 				</div>
-				<div className="menuContent">
+				<MenuContent>
 					{select === 'btn1' && (
 						<div className="userInformation">
 							<div>DisplayName</div>
@@ -354,7 +367,7 @@ function Mypage() {
 						</UserWriting>
 					)}
 					{select === 'btn3' && <MyReview />}
-				</div>
+				</MenuContent>
 			</Content>
 		</Main>
 	);

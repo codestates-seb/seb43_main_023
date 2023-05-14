@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import IntroBox from '../../Components/Member/IntroBox';
 import { UPDATE } from '../../Reducers/userInfoReducer';
@@ -100,9 +101,14 @@ function UserEdit() {
 				mbti: editmbti,
 			});
 			dispatch(UPDATE({ nickname: editname, mbti: editmbti }));
-			// eslint-disable-next-line no-alert
-			alert('수정 완료되었습니다.');
-			navigate('/mypage');
+			Swal.fire({
+				title: '수정완료되었습니다.',
+				icon: 'success',
+			}).then((result) => {
+				if (result.value) {
+					navigate('/mypage');
+				}
+			});
 		} catch (error) {
 			navigate('/error');
 		}

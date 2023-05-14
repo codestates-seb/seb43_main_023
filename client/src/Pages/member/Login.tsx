@@ -1,10 +1,13 @@
 import '../../Global.css';
 
+import { FocusEvent } from 'react';
+
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
@@ -70,6 +73,17 @@ const Content = styled.div`
 			}
 		}
 	}
+	.keyUp {
+		font-size: 12px;
+		width: 98%;
+		color: #0db4f3;
+		text-align: left;
+		margin-top: 12px;
+		margin-bottom: -25px;
+	}
+	.hide {
+		display: none;
+	}
 	.lineBox {
 		color: #393737;
 		display: flex;
@@ -103,8 +117,8 @@ const OauthBox = styled.div`
 	justify-content: center;
 	align-items: center;
 	.oauth {
-		width: 100px;
-		height: 50px;
+		width: 80px;
+		height: 40px;
 		background: none;
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		margin: 0 5px;
@@ -119,6 +133,9 @@ const OauthBox = styled.div`
 		}
 		span {
 			margin-left: 10px;
+		}
+		.google {
+			margin-left: 5px;
 		}
 	}
 `;
@@ -157,8 +174,6 @@ function Login() {
 				alert('아이디 or 비밀번호가 다릅니다.');
 				window.location.reload();
 			} else {
-				// eslint-disable-next-line no-alert
-				alert('로그인 되었습니다.');
 				dispatch(
 					UPDATE({
 						id: userInfo.data.id,
@@ -178,11 +193,29 @@ function Login() {
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('empiresAtAccess', '1800000');
 				localStorage.setItem('empiresAtRefresh', '9900000');
-				navigate('/main');
+				Swal.fire({
+					icon: 'success',
+					title: '로그인되었습니다.',
+					text: '메인 페이지로 이동합니다.',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// 만약 모달창에서 confirm 버튼을 눌렀다면
+						navigate('/main');
+					}
+				});
 			}
 		} catch (error) {
 			navigate('/error');
 		}
+	};
+
+	const displayNameKeyFocus = (e: FocusEvent<HTMLInputElement>) => {
+		const keyUp = e.target.previousSibling as HTMLDivElement;
+		keyUp?.classList.remove('hide');
+	};
+	const displayNameKeyBlur = (e: FocusEvent<HTMLInputElement>) => {
+		const keyUp = e.target.previousSibling as HTMLDivElement;
+		keyUp?.classList.add('hide');
 	};
 
 	return (
@@ -194,8 +227,24 @@ function Login() {
 			<Content>
 				<div>Log in</div>
 				<form onSubmit={(e) => joinSubmit(e)}>
-					<input name="email" type="text" placeholder="Email" required />
-					<input name="password" type="text" placeholder="Password" required />
+					<div className="keyUp hide">Email</div>
+					<input
+						onFocus={(e) => displayNameKeyFocus(e)}
+						onBlur={(e) => displayNameKeyBlur(e)}
+						name="email"
+						type="text"
+						placeholder="Email"
+						required
+					/>
+					<div className="keyUp hide">Password</div>
+					<input
+						onFocus={(e) => displayNameKeyFocus(e)}
+						onBlur={(e) => displayNameKeyBlur(e)}
+						name="password"
+						type="text"
+						placeholder="Password"
+						required
+					/>
 					<button type="submit">Log in</button>
 				</form>
 				<div className="lineBox">
@@ -206,7 +255,7 @@ function Login() {
 				<OauthBox>
 					<button className="oauth">
 						<AiOutlineGoogle color="#393737" size="20px" />
-						<span>Google</span>
+						<span className="google">Google</span>
 					</button>
 					<button className="oauth">
 						<SiNaver color="#03c157" size="15px" />

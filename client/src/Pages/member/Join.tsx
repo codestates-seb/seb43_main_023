@@ -1,11 +1,12 @@
 import '../../Global.css';
 
-import { useState } from 'react';
+import { FocusEvent, useState } from 'react';
 
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
@@ -170,21 +171,15 @@ function Join() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		const id = Math.random();
-		/*
-		const passwordCheck = document.querySelector('.passwordCheck');
-		if (!el.passwordCheck.value === el.password.value) {
-			passwordCheck?.classList.add('hide');
-		} else {
-			passwordCheck?.classList.remove('hide');
-		}
-		*/
 		try {
 			if (!EMAIL_REGEX.test(el.email.value)) {
 				setEmailValid(false);
 				setMbtiValid(true);
 				setPasswordValid(true);
 				setpasswordCheck(true);
-			} else if (MBTI_REGEX.find((v) => v === el.mbti.value) === undefined) {
+			} else if (
+				MBTI_REGEX.find((v) => v === el.mbti.value.toUpperCase()) === undefined
+			) {
 				setMbtiValid(false);
 				setEmailValid(true);
 				setPasswordValid(true);
@@ -204,20 +199,27 @@ function Join() {
 				setMbtiValid(true);
 				setPasswordValid(true);
 				setpasswordCheck(true);
+
 				const mbtiImg = await Api.get('/mbtiInfo');
 				await Api.post('/members', {
 					id,
 					nickname: el.displayName.value,
-					mbti: el.mbti.value,
+					mbti: el.mbti.value.toUpperCase(),
 					email: el.email.value,
 					password: el.password.value,
 					img: mbtiImg.data.find(
-						(v: { mbti: string }) => v.mbti === el.mbti.value,
+						(v: { mbti: string }) => v.mbti === el.mbti.value.toUpperCase(),
 					).img,
 				});
-				// eslint-disable-next-line no-alert
-				alert('회원가입이 완료되었습니다.');
-				navigate('/login');
+				Swal.fire({
+					title: '회원가입이 완료되었습니다',
+					text: '로그인 페이지로 이동합니다.',
+					icon: 'success',
+				}).then((result) => {
+					if (result.value) {
+						navigate('/login');
+					}
+				});
 			}
 		} catch (error) {
 			navigate('/error');
@@ -252,12 +254,12 @@ function Join() {
 	};
 	*/
 
-	const displayNameKeyFocus = (e: any) => {
-		const keyUp = e.target.previousSibling;
+	const displayNameKeyFocus = (e: FocusEvent<HTMLInputElement>) => {
+		const keyUp = e.target.previousSibling as HTMLDivElement;
 		keyUp?.classList.remove('hide');
 	};
-	const displayNameKeyBlur = (e: any) => {
-		const keyUp = e.target.previousSibling;
+	const displayNameKeyBlur = (e: FocusEvent<HTMLInputElement>) => {
+		const keyUp = e.target.previousSibling as HTMLDivElement;
 		keyUp?.classList.add('hide');
 	};
 
@@ -289,7 +291,7 @@ function Join() {
 						required
 					/>
 					<div className="check">
-						{!mbtiValid && '대문자 MBTI 형식으로 입력해주세요 ex.ISTJ'}
+						{!mbtiValid && 'MBTI 형식으로 입력해주세요 ex.ISTJ'}
 					</div>
 					<div className="keyUp hide">Email</div>
 					<input
