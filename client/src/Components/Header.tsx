@@ -2,7 +2,7 @@ import '../Global.css';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../Assets/logo.png';
@@ -66,6 +66,7 @@ const Content = styled.div`
 `;
 function Header() {
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
+	const navigate = useNavigate();
 
 	const locationNow = useLocation();
 	if (locationNow.pathname === '/logout') return null;
@@ -78,6 +79,7 @@ function Header() {
 		const el = e.target as HTMLFormElement;
 		// eslint-disable-next-line no-console
 		console.log(el.search.value);
+		navigate('/search');
 	};
 	return (
 		<Content>

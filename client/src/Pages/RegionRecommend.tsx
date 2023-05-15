@@ -18,7 +18,7 @@ const backgroundImg =
 const RegionRecContainer = styled.div`
 	width: 100vw;
 	height: 100%;
-	margin-top: 71px;
+	margin-top: 82px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

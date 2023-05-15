@@ -25,6 +25,7 @@ import Login from './Pages/Member/Login';
 import Logout from './Pages/Member/Logout';
 import UserEdit from './Pages/Member/UserEdit';
 import RegionRec from './Pages/RegionRecommend';
+import Search from './Pages/Search';
 
 const MainPage = lazy(() => import('./Pages/MainPage'));
 const Mypage = lazy(() => import('./Pages/Member/Mypage'));
@@ -59,6 +60,7 @@ function App() {
 					<Route path="/loading" element={<Loading />} />
 					<Route path="/regionrec" element={<RegionRec />} />
 					<Route path="/regiondetail/:id" element={<RegionDetail />} />
+					<Route path="/search" element={<Search />} />
 				</Routes>
 			</Suspense>
 			<Footer />
