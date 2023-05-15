@@ -20,14 +20,14 @@ import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
 import Landing from './Pages/Landing';
 import Loading from './Pages/Loading';
-import Join from './Pages/member/Join';
-import Login from './Pages/member/Login';
-import Logout from './Pages/member/Logout';
-import UserEdit from './Pages/member/UserEdit';
+import Join from './Pages/Member/Join';
+import Login from './Pages/Member/Login';
+import Logout from './Pages/Member/Logout';
+import UserEdit from './Pages/Member/UserEdit';
 import RegionRec from './Pages/RegionRecommend';
 
 const MainPage = lazy(() => import('./Pages/MainPage'));
-const Mypage = lazy(() => import('./Pages/member/Mypage'));
+const Mypage = lazy(() => import('./Pages/Member/Mypage'));
 const RegionDetail = lazy(() => import('./Pages/RegionDetail'));
 
 function App() {
