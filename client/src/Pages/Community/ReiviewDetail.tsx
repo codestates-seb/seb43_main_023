@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -13,6 +13,8 @@ import MapApi from '../../Components/Community/MapApi';
 import Answers from '../../Components/Community/Answers';
 import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const ReviewContainer = styled.div`
 	height: 100vh;
@@ -62,12 +64,14 @@ const Writer = styled.div`
 		border-radius: 100%;
 	}
 `;
+
 const Title = styled.h3`
 	min-height: 40px;
 	padding: 10px;
 	padding-bottom: 0;
 	margin-left: 10px;
 `;
+
 const Content = styled.div`
 	min-height: 285px;
 	padding: 20px;
@@ -151,35 +155,46 @@ const AnswerContainer = styled.div`
 	align-items: center;
 `;
 
+interface Review {
+	id: number;
+	title: string;
+	content: string;
+	nickName: string;
+	img: string[];
+	viewCount: number;
+	voteCount: number;
+	createdAt: string;
+	tag: string[];
+}
+
 function ReviewDetail() {
-	interface Review {
-		id: number;
-		title: string;
-		content: string;
-		nickName: string;
-		img: string[];
-		viewCount: number;
-		voteCount: number;
-		createdAt: string;
-		tag: string[];
-	}
+	const navigate = useNavigate();
+
 	const { id } = useParams();
 	const [review, setReview] = useState<Review[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
+
 	const handleLike = () => {
 		setIsLike(!isLike);
 
 		const reviewVote = review[0].voteCount;
 
-		axios
-			.patch(`http://localhost:4000/posts/${id}`, {
+		try {
+			Api.patch(`/posts/${id}`, {
 				voteCount: reviewVote + 1,
 			})
-			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
-			.then((res) => setReview([res.data]));
+				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then((res) => setReview([res.data]));
+		} catch (error) {
+			navigate('/error');
+		}
 	};
 
 	const handleDisLike = () => {
@@ -187,12 +202,15 @@ function ReviewDetail() {
 
 		const reviewVote = review[0].voteCount;
 
-		axios
-			.patch(`http://localhost:4000/posts/${id}`, {
+		try {
+			Api.patch(`/posts/${id}`, {
 				voteCount: reviewVote - 1,
 			})
-			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
-			.then((res) => setReview([res.data]));
+				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then((res) => setReview([res.data]));
+		} catch (error) {
+			navigate('/error');
+		}
 	};
 
 	const deletePost = () => {
@@ -206,29 +224,30 @@ function ReviewDetail() {
 			confirmButtonText: 'Delete',
 		}).then((result) => {
 			if (result.isConfirmed) {
-				axios
-					.delete(`http://localhost:4000/posts/${id}`)
-					.then(() =>
-						Swal.fire({
-							title: 'Deleted!',
-							text: '삭제되었습니다',
-							icon: 'success',
-							confirmButtonColor: '#0db4f3',
-						}),
-					)
-					// eslint-disable-next-line no-return-assign
-					.then(() => (document.location.href = '/community'));
+				try {
+					Api.delete(`/posts/${id}`)
+						.then(() =>
+							Swal.fire({
+								title: 'Deleted!',
+								text: '삭제되었습니다',
+								icon: 'success',
+								confirmButtonColor: '#0db4f3',
+							}),
+						)
+						// eslint-disable-next-line no-return-assign
+						.then(() => (document.location.href = '/tripreview'));
+				} catch (error) {
+					navigate('/error');
+				}
 			}
 		});
 	};
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:4000/posts/${id}`)
-			.then((res) => setReview([res.data]));
-	}, [id]);
-
-	console.log(review);
+		if (postData.response) {
+			setReview([postData.response]);
+		}
+	}, [postData.response]);
 
 	return (
 		<div className="main">

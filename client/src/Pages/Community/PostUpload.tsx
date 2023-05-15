@@ -8,12 +8,14 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FiDelete, FiAlertCircle } from 'react-icons/fi';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import SearchPlace from '../../Components/Community/SearchPlace';
 import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 100vw;
@@ -60,6 +62,7 @@ const TitleInput = styled.input`
 		border-color: rgb(214, 217, 219);
 	}
 `;
+
 const TagContainer = styled.div`
 	margin-top: 15px;
 	display: flex;
@@ -68,6 +71,7 @@ const TagContainer = styled.div`
 	width: 100%;
 	height: 40px;
 `;
+
 const Hash = styled.div`
 	display: flex;
 	justify-content: center;
@@ -86,16 +90,19 @@ const Hash = styled.div`
 		width: max-content;
 	}
 `;
+
 const HashName = styled.p`
 	width: auto;
 	margin-right: 10px;
 	font-size: 13px;
 `;
+
 const HashBtn = styled.button`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 `;
+
 const InputBox = styled.input`
 	width: 100%;
 	border: none;
@@ -108,39 +115,67 @@ const InputBox = styled.input`
 	}
 `;
 
+// const ImgContainer = styled.div`
+// 	margin-top: 15px;
+// 	width: 100%;
+
+// 	display: flex;
+// 	justify-content: space-around;
+
+// 	div {
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
+// 		height: 40px;
+// 		padding-left: 10px;
+
+// 		> label {
+// 			font-size: 14px;
+// 			color: gray;
+// 			margin-right: 5px;
+
+// 			&:hover {
+// 				color: #0db4f3;
+// 			}
+// 		}
+
+// 		input[type='file'] {
+// 			position: absolute;
+// 			width: 0;
+// 			height: 0;
+// 			padding: 0;
+// 			margin: -1px;
+// 			overflow: hidden;
+// 			clip: rect(0, 0, 0, 0);
+// 			border: 0;
+// 		}
+// 	}
+// `;
+
 const ImgContainer = styled.div`
 	margin-top: 15px;
 	width: 100%;
-
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 
 	div {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 40px;
-		padding-left: 10px;
 
-		> label {
-			font-size: 14px;
-			color: gray;
-			margin-right: 5px;
+		input {
+			width: 300px;
+			padding: 10px;
+			font-size: 13px;
+			border: 1px solid rgb(214, 217, 219);
+			background-color: #fafafa;
+			height: 42px;
 
-			&:hover {
-				color: #0db4f3;
+			&:focus {
+				outline: none !important;
+				border-color: rgb(214, 217, 219);
 			}
-		}
-
-		input[type='file'] {
-			position: absolute;
-			width: 0;
-			height: 0;
-			padding: 0;
-			margin: -1px;
-			overflow: hidden;
-			clip: rect(0, 0, 0, 0);
-			border: 0;
 		}
 	}
 `;
@@ -170,6 +205,7 @@ const Alert = styled.div`
 `;
 
 function PostUpload() {
+	const navigate = useNavigate();
 	const editorRef = useRef<Editor | null>(null);
 
 	const imgUploadInput = useRef<HTMLInputElement | null>(null);
@@ -184,6 +220,11 @@ function PostUpload() {
 	const [y, setY] = useState<string>('');
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts`,
+	});
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -203,10 +244,18 @@ function PostUpload() {
 		}
 	};
 
+	// 이미지 파일 첨부 코드 ( 사용 여부 보류 )
+	// const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	// 	if (event.target.files) {
+	// 		const newFileURL = URL.createObjectURL(event.target.files[0]);
+	// 		setImages((prevImages) => [...prevImages, newFileURL]);
+	// 	}
+	// };
+
 	const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.files) {
-			const newFileURL = URL.createObjectURL(event.target.files[0]);
-			setImages((prevImages) => [...prevImages, newFileURL]);
+		if (event.target.value) {
+			const newImage = event.target.value;
+			setImages((prevImages) => [...prevImages, newImage]);
 		}
 	};
 
@@ -241,8 +290,8 @@ function PostUpload() {
 			editorRef.current
 		) {
 			// json-server용 api 요청
-			axios
-				.post('http://localhost:4000/posts', {
+			try {
+				Api.post('/posts', {
 					id: posts.length + 1,
 					nickName: userInfos.nickname,
 					subject,
@@ -256,15 +305,16 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					x,
 					y,
-				})
-				.then(
-					// eslint-disable-next-line no-return-assign
-					() => (document.location.href = `/tripreview/${posts.length + 1}`),
-				);
+					email: userInfos.email,
+				});
+				document.location.href = `/tripreview/${posts.length + 1}`;
+			} catch (error) {
+				navigate('/error');
+			}
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
-			axios
-				.post('http://localhost:4000/posts', {
+			try {
+				Api.post('/posts', {
 					id: posts.length + 1,
 					nickName: userInfos.nickname,
 					subject,
@@ -276,17 +326,21 @@ function PostUpload() {
 					viewCount: 0,
 					createdAt: '23-05-01T000000',
 					modifiedAt: '23-05-01T000000',
-				})
-				.then(
-					// eslint-disable-next-line no-return-assign
-					() => (document.location.href = `/community/${posts.length + 1}`),
-				);
+					email: userInfos.email,
+				});
+				document.location.href = `/community/${posts.length + 1}`;
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
 	useEffect(() => {
-		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
-	}, []);
+		if (postData.response) {
+			setPosts(postData.response);
+		}
+	}, [postData.response]);
+
 	return (
 		<div className="main">
 			<Container>
@@ -355,7 +409,8 @@ function PostUpload() {
 					) : null}
 
 					<ImgContainer>
-						<div>
+						{/* 이미지 파일 첨부 코드 (사용 여부 보류) */}
+						{/* <div>
 							<label htmlFor="img1">
 								<div className="btnStart">Image 1 첨부하기</div>
 							</label>
@@ -387,6 +442,29 @@ function PostUpload() {
 								type="file"
 								accept="image/*"
 								ref={imgUploadInput}
+								onChange={onImageChange}
+							/>
+						</div> */}
+						<div>
+							<input
+								type="text"
+								placeholder="Image 1 링크"
+								onChange={onImageChange}
+							/>
+						</div>
+
+						<div>
+							<input
+								type="text"
+								placeholder="Image 2 링크"
+								onChange={onImageChange}
+							/>
+						</div>
+
+						<div>
+							<input
+								type="text"
+								placeholder="Image 3 링크"
 								onChange={onImageChange}
 							/>
 						</div>

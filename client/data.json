@@ -5,8 +5,8 @@
       "nickName": "testnick",
       "email": "test@gmail.com",
       "subject": "여행고민",
-      "title": "제목",
-      "content": "내용",
+      "title": "",
+      "content": "내용 tnwjd",
       "tag": [
         "ESFJ",
         "1인",
@@ -104,7 +104,7 @@
       "img": [
         "https://a.cdn-hotels.com/gdcs/production18/d110/a710493b-da6c-415d-bc2c-f63fc58cfeb0.jpg?impolicy=fcrop&w=800&h=533&q=medium"
       ],
-      "voteCount": 6555,
+      "voteCount": 6556,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
@@ -224,25 +224,53 @@
     {
       "id": 14,
       "nickName": "testnick",
-      "email" : "test@gmail.com",
       "subject": "여행리뷰",
-      "title": "x",
-      "content": "x",
+      "title": "",
+      "content": "",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/b9/92/a4/b992a46a56cdab3baee7e461ed350cd5.jpg",
+        "https://i.pinimg.com/564x/b9/92/a4/b992a46a56cdab3baee7e461ed350cd5.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.28970651657366",
+      "y": "37.01152307108269",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 15,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "kk",
+      "content": "",
       "tag": [],
       "img": [],
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [
     {
+      "id": 2,
+      "postId": 1,
+      "content": "aavv",
+      "author": "testnick",
+      "vote": 5
+    },
+    {
       "id": 3,
       "postId": 1,
+      "content": "aa",
       "author": "조베기",
-      "content": "댓글",
-      "vote": 3
+      "vote": 0
     }
   ],
   "members": [
