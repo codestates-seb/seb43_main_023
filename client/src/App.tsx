@@ -24,11 +24,11 @@ import Join from './Pages/member/Join';
 import Login from './Pages/member/Login';
 import Logout from './Pages/member/Logout';
 import UserEdit from './Pages/member/UserEdit';
-import RegionDetail from './Pages/RegionDetail';
 import RegionRec from './Pages/RegionRecommend';
 
 const MainPage = lazy(() => import('./Pages/MainPage'));
 const Mypage = lazy(() => import('./Pages/member/Mypage'));
+const RegionDetail = lazy(() => import('./Pages/RegionDetail'));
 
 function App() {
 	return (
@@ -58,7 +58,7 @@ function App() {
 					<Route path="/error" element={<Error />} />
 					<Route path="/loading" element={<Loading />} />
 					<Route path="/regionrec" element={<RegionRec />} />
-					<Route path="/regiondetail" element={<RegionDetail />} />
+					<Route path="/regiondetail/:id" element={<RegionDetail />} />
 				</Routes>
 			</Suspense>
 			<Footer />
