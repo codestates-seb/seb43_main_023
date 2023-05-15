@@ -170,9 +170,23 @@ function Login() {
 				el.email.value !== userInfo.data.email ||
 				el.password.value !== userInfo.data.password
 			) {
-				// eslint-disable-next-line no-alert
-				alert('아이디 or 비밀번호가 다릅니다.');
-				window.location.reload();
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast: {
+						addEventListener: (arg0: string, arg1: any) => void;
+					}) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer);
+						toast.addEventListener('mouseleave', Swal.resumeTimer);
+					},
+				});
+				Toast.fire({
+					icon: 'warning',
+					title: '아이디/비밀번호가 다릅니다.',
+				});
 			} else {
 				dispatch(
 					UPDATE({
