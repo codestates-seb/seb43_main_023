@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import '../../Global.css';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
+import useAxios from '../../Util/customAxios';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -159,7 +159,7 @@ const TagContainer = styled.div`
 
 function Main() {
 	interface Post {
-		id: number;
+		postId: number;
 		subject: string;
 		title: string;
 		nickName: string;
@@ -169,11 +169,21 @@ function Main() {
 
 	// eslint-disable-next-line prefer-const
 	let [posts, setPosts] = useState<Post[]>([]);
-	useEffect(() => {
-		axios.get('http://localhost:4000/posts').then((res) => setPosts(res.data));
-	}, []);
 
-	posts = posts.filter((el) => el.subject === '여행고민');
+	const { response } = useAxios({
+		method: 'get',
+		url: '/posts',
+	});
+
+	useEffect(() => {
+		if (response) {
+			setPosts(response);
+		}
+	}, [response]);
+
+	posts = posts
+		.filter((el) => el.subject === '여행고민')
+		.sort((a, b) => b.postId - a.postId);
 
 	return (
 		<div className="main">
@@ -201,7 +211,7 @@ function Main() {
 
 					{posts &&
 						posts.map((el) => (
-							<Link to={`/community/${el.id}`}>
+							<Link to={`/community/${el.postId}`}>
 								<Contentbody>
 									<div>{`[${el.subject}]`}</div>
 									<div>{el.title}</div>
