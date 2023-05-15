@@ -17,7 +17,7 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 	width: 100%;
 	height: 640px;
 	padding: 100px;
-	margin-top: 71px;
+	margin-top: 82px;
 	display: flex;
 	align-items: center;
 	&::before {
