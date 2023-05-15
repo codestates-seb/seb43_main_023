@@ -14,7 +14,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 interface IReview {
-	postId: number;
+	id: number;
 	nickName: string;
 	subject: string;
 	title: string;
@@ -145,7 +145,7 @@ function CarouselReview() {
 				{filterdReview
 					? filterdReview.map((item) => (
 							<StyledLink
-								to={{ pathname: `/tripreview/${item.postId}` }}
+								to={{ pathname: `/tripreview/${item.id}` }}
 								style={{ textDecoration: 'none' }}
 							>
 								<ReviewContainer>
