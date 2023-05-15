@@ -74,7 +74,7 @@ interface IuserMbti {
 
 function UserHeader() {
 	const [userInfo, setUserInfo] = useState<IuserInfo>({
-		id: 0,
+		memberId: 0,
 		email: '',
 		password: '',
 		nickname: '',
@@ -94,7 +94,7 @@ function UserHeader() {
 		placeImg: '',
 	});
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
-	const memberId = userInfos.id;
+	const { memberId } = userInfos;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -120,35 +120,6 @@ function UserHeader() {
 			setFilterMbti(newData[0]);
 		}
 	}, [res, userInfo.mbti]);
-
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		axios(`http://localhost:4000/members/${memberId}`)
-	// 			.then((response) => {
-	// 				const { data } = response;
-	// 				setUserInfo(data);
-	// 			})
-	// 			.catch(() => {
-	// 				navigate('/error');
-	// 			});
-	// 	}, 500);
-	// }, [memberId, navigate]);
-
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		axios('http://localhost:4000/mbtiInfo')
-	// 			.then((response) => {
-	// 				const { data } = response;
-	// 				const newData = data.filter(
-	// 					(item: IuserMbti) => item.mbti === userInfo.mbti,
-	// 				);
-	// 				setFilterMbti(newData[0]);
-	// 			})
-	// 			.catch(() => {
-	// 				navigate('/error');
-	// 			});
-	// 	}, 500);
-	// }, [navigate, userInfo.mbti]);
 
 	return (
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>

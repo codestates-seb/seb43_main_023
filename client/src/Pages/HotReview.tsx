@@ -8,7 +8,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 interface IReview {
-	id: number;
+	postId: number;
 	nickName: string;
 	subject: string;
 	title: string;
@@ -128,10 +128,10 @@ function HotReview() {
 				{filterdReview
 					? filterdReview.map((item) => (
 							<StyledLink
-								to={{ pathname: `/tripreview/${item.id}` }}
+								to={{ pathname: `/tripreview/${item.postId}` }}
 								style={{ textDecoration: 'none' }}
 							>
-								<HotReviewItem key={item.id}>
+								<HotReviewItem key={item.postId}>
 									<HotReviewImg image={item.img[0]} />
 									<HotReviewInfo>
 										<span className="hotReviewBold">{item.title}</span>
