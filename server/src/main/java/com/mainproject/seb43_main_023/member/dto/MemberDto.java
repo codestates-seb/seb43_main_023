@@ -48,18 +48,16 @@ public class MemberDto {
     public static class Response {
         private Long memberId;
         private String email;
-        private String password;
         private String nickname;
         private String mbti;
-        private String role;
         private String memberStatus;
         private String badge;
-        private String img;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
 
     @Getter
+    @Setter
     @Builder
     @AllArgsConstructor
     public static class TokenInfo {
@@ -68,5 +66,6 @@ public class MemberDto {
         private Long accessTokenExpirationTime;
         private String refreshToken;
         private Long refreshTokenExpirationTime;
+        private Long memberId;
     }
 }

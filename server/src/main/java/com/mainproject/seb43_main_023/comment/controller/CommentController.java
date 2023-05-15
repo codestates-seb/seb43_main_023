@@ -20,9 +20,13 @@ import javax.validation.constraints.Positive;
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
-    @PostMapping
-    public ResponseEntity postComment(@RequestBody @Valid CommentDto.CommentPostDto commentPostDto) {
+    @PostMapping("/{member-id}/{post-id}") // 임시로 변수 받기
+    public ResponseEntity postComment(@RequestBody @Valid CommentDto.CommentPostDto commentPostDto,
+                                      @PathVariable("member-id") @Positive long memberId,
+                                      @PathVariable("post-id") @Positive long postId) {
         Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
+        comment.setMemberId(memberId);
+        comment.setPostId(postId);
         Comment createdComment = commentService.createComment(comment);
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(createdComment), HttpStatus.CREATED);
     }
