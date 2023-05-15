@@ -200,16 +200,14 @@ function Join() {
 				setpasswordCheck(true);
 
 				const mbtiImg = await Api.get(
-					`http://localhost:4000/mbtiInfo/${el.mbti.value}`,
+					`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
 				);
 				await Api.post('/members', {
 					nickname: el.displayName.value,
 					mbti: el.mbti.value.toUpperCase(),
 					email: el.email.value,
 					password: el.password.value,
-					img: mbtiImg.data.find(
-						(v: { mbti: string }) => v.mbti === el.mbti.value.toUpperCase(),
-					).img,
+					img: mbtiImg.data.img,
 				});
 				Swal.fire({
 					title: '회원가입이 완료되었습니다',

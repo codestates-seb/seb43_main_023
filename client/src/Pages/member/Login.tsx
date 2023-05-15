@@ -147,7 +147,7 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			const loginData = await Api.post('http://localhost:4000/auth/login', {
+			const loginData = await Api.post('/auth/login', {
 				email: el.email.value,
 				password: el.password.value,
 			});
@@ -186,7 +186,7 @@ function Login() {
 			} else {
 				dispatch(
 					UPDATE({
-						id: userInfo.data.memberId,
+						id: userInfo.data.id,
 						email: userInfo.data.email,
 						nickname: userInfo.data.nickname,
 						mbti: userInfo.data.mbti,
@@ -201,9 +201,17 @@ function Login() {
 					secure: true,
 				});
 				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('empiresAtAccess', '1800000');
-				localStorage.setItem('empiresAtRefresh', '9900000');
-				navigate('/main');
+				localStorage.setItem('empiresAtAccess', empiresAtAccess);
+				localStorage.setItem('empiresAtRefresh', empiresAtRefresh);
+				Swal.fire({
+					icon: 'success',
+					title: '로그인되었습니다.',
+					text: '메인 페이지로 이동합니다.',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						navigate('/main');
+					}
+				});
 			}
 		} catch (error) {
 			navigate('/error');
