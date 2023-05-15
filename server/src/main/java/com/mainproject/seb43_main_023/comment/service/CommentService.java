@@ -8,6 +8,7 @@ import com.mainproject.seb43_main_023.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -21,12 +22,13 @@ public class CommentService {
         Comment findComment = findVerifiedComment(comment.getCommentId());
         Optional.ofNullable(comment.getContent())
                 .ifPresent((content -> findComment.setContent(content)));
-        return commentRepository.save(comment);
+        return commentRepository.save(findComment);
     }
     public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);
         commentRepository.delete(findComment);
     }
+
     public Comment findVerifiedComment(long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         Comment findComment = optionalComment.orElseThrow(() ->
