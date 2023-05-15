@@ -74,7 +74,7 @@ interface IuserMbti {
 
 function UserHeader() {
 	const [userInfo, setUserInfo] = useState<IuserInfo>({
-		memberId: 0,
+		id: 0,
 		email: '',
 		password: '',
 		nickname: '',
@@ -94,7 +94,7 @@ function UserHeader() {
 		placeImg: '',
 	});
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
-	const { memberId } = userInfos;
+	const memberId = userInfos.id;
 
 	const { response } = useAxios({
 		method: 'get',
