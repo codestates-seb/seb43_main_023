@@ -7,6 +7,7 @@ import { HTMLAttributes, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import useAxios from '../../Util/customAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -60,11 +61,16 @@ function ReviewCarousel() {
 	const { id } = useParams();
 	const [review, setReview] = useState<Review[]>([]);
 
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
+
 	useEffect(() => {
-		axios
-			.get(`http://localhost:4000/posts/${id}`)
-			.then((res) => setReview([res.data]));
-	}, [id]);
+		if (postData.response) {
+			setReview([postData.response]);
+		}
+	}, [postData.response]);
 
 	return (
 		<div>
