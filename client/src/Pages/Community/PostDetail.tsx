@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../Global.css';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -11,6 +11,9 @@ import { useSelector } from 'react-redux';
 import Answers from '../../Components/Community/Answers';
 import { RootState } from '../../Store/store';
 import { Iuser } from '../../Reducers/userInfoReducer';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
+import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -22,7 +25,6 @@ const PostContainer = styled.div`
 
 const PostBody = styled.div`
 	margin-top: 20px;
-
 	height: max-content;
 	width: 90%;
 	display: flex;
@@ -60,10 +62,8 @@ const Title = styled.div`
 `;
 
 const Vote = styled.div`
-	margin-top: 50px;
+	margin-top: 20px;
 	padding: 10px;
-	margin-bottom: 30px;
-	border-bottom: 1px solid rgb(214, 217, 219);
 	display: flex;
 	align-items: center;
 
@@ -75,13 +75,74 @@ const Vote = styled.div`
 
 const Content = styled.div`
 	margin-top: 30px;
-	height: 450px;
+	max-height: 600px;
+	min-height: 500px;
 	overflow-y: scroll;
+	display: flex;
+`;
+
+const TagContainer = styled.div`
+	min-height: 60px;
+	padding: 10px;
+
+	> span {
+		padding-left: 10px;
+		font-size: 14px;
+		color: gray;
+	}
+
+	> div {
+		margin-top: 10px;
+		display: flex;
+		justify-content: space-between;
+		font-size: 13px;
+
+		> div:nth-child(1) {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		> div:nth-child(2) {
+			display: flex;
+			width: 60px;
+			justify-content: space-evenly;
+			align-items: center;
+
+			> a {
+				margin-top: 4px;
+			}
+		}
+	}
+`;
+
+const Tag = styled.div`
+	width: max-content;
+	padding: 5px 20px;
+	margin: 5px;
+	border-radius: 30px;
+	font-size: 11px;
+	background-color: #fcf0ff;
+`;
+
+const ImgContainer = styled.div`
+	height: 100%;
+	width: 25.3vw;
+	margin-left: 25px;
+`;
+
+const ViewerContainer = styled.div`
+	width: 70%;
+	padding: 20px;
+	max-height: 515px;
+	overflow: scroll;
+	margin-left: 24px;
 `;
 
 function PostDetail() {
+	const navigate = useNavigate();
 	interface Post {
-		id: number;
+		postId: number;
 		subject: string;
 		title: string;
 		content: string;
@@ -89,12 +150,14 @@ function PostDetail() {
 		viewCount: number;
 		voteCount: number;
 		createdAt: string;
+		tag: string[];
+		img: string[];
 	}
 
 	interface Answer {
 		author: string;
 		content: string;
-		id: number;
+		commentId: number;
 		vote: number;
 		postId: number;
 	}
@@ -105,9 +168,20 @@ function PostDetail() {
 
 	// eslint-disable-next-line prefer-const
 	let [answers, setAnswers] = useState<Answer[]>([]);
+
 	answers = answers.filter((el) => el.postId === Number(id));
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
+
+	const answerData = useAxios({
+		method: 'get',
+		url: `/comments`,
+	});
 
 	const deletePost = () => {
 		Swal.fire({
@@ -120,18 +194,20 @@ function PostDetail() {
 			confirmButtonText: 'Delete',
 		}).then((result) => {
 			if (result.isConfirmed) {
-				axios
-					.delete(`http://localhost:4000/posts/${id}`)
-					.then(() =>
-						Swal.fire({
-							title: 'Deleted!',
-							text: '삭제되었습니다',
-							icon: 'success',
-							confirmButtonColor: '#0db4f3',
-						}),
-					)
-					// eslint-disable-next-line no-return-assign
-					.then(() => (document.location.href = '/community'));
+				try {
+					Api.delete(`/posts/${id}`)
+						.then(() =>
+							Swal.fire({
+								title: 'Deleted!',
+								text: '삭제되었습니다',
+								icon: 'success',
+								confirmButtonColor: '#0db4f3',
+							}),
+						) // eslint-disable-next-line no-return-assign
+						.then(() => (document.location.href = '/community'));
+				} catch (error) {
+					navigate('/error');
+				}
 			}
 		});
 	};
@@ -141,12 +217,15 @@ function PostDetail() {
 
 		const postVote = post[0].voteCount;
 
-		axios
-			.patch(`http://localhost:4000/posts/${id}`, {
+		try {
+			Api.patch(`/posts/${id}`, {
 				voteCount: postVote + 1,
 			})
-			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
-			.then((res) => setPost([res.data]));
+				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then((res) => setPost([res.data]));
+		} catch (error) {
+			navigate('/error');
+		}
 	};
 
 	const handleDisLike = () => {
@@ -154,23 +233,28 @@ function PostDetail() {
 
 		const postVote = post[0].voteCount;
 
-		axios
-			.patch(`http://localhost:4000/posts/${id}`, {
+		try {
+			Api.patch(`/posts/${id}`, {
 				voteCount: postVote - 1,
 			})
-			.then(() => axios.get(`http://localhost:4000/posts/${id}`))
-			.then((res) => setPost([res.data]));
+				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then((res) => setPost([res.data]));
+		} catch (error) {
+			navigate('/error');
+		}
 	};
 
 	useEffect(() => {
-		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
-			setPost([res.data]);
-		});
+		if (postData.response) {
+			setPost([postData.response]);
+		}
 
-		axios.get(`http://localhost:4000/comments`).then((res) => {
-			setAnswers(res.data);
-		});
-	}, [id]);
+		if (answerData.response) {
+			setAnswers(answerData.response);
+		} else {
+			setAnswers([]);
+		}
+	}, [answerData.response, postData.response]);
 
 	return (
 		<div className="main">
@@ -202,13 +286,24 @@ function PostDetail() {
 										</div>
 									</Title>
 									<Content>
-										<Viewer initialValue={el.content || ''} />
+										{el.img.length > 0 ? (
+											<>
+												<ImgContainer>
+													<ReviewCarousel />
+												</ImgContainer>
+												<ViewerContainer>
+													<Viewer initialValue={el.content || ''} />
+												</ViewerContainer>
+											</>
+										) : (
+											<Viewer initialValue={el.content || ''} />
+										)}
 									</Content>
 								</div>
 
 								<div>
 									<Vote>
-										{isLike && el.id === Number(id) ? (
+										{isLike && el.postId === Number(id) ? (
 											<AiFillHeart
 												size={21}
 												onClick={handleDisLike}
@@ -226,6 +321,20 @@ function PostDetail() {
 											명이 좋아합니다.
 										</span>
 									</Vote>
+									{el.tag ? (
+										<TagContainer>
+											<span># 태그</span>
+
+											<div>
+												<div>
+													{el.tag.map((t) => (
+														<Tag>{t}</Tag>
+													))}
+												</div>
+											</div>
+										</TagContainer>
+									) : null}
+
 									<Answers />
 								</div>
 							</>

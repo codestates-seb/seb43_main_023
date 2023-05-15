@@ -8,10 +8,11 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FiDelete, FiAlertCircle } from 'react-icons/fi';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import SearchPlace from '../../Components/Community/SearchPlace';
+import useAxios from '../../Util/customAxios';
+import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
 	width: 100vw;
@@ -106,6 +107,40 @@ const InputBox = styled.input`
 	}
 `;
 
+// const ImgContainer = styled.div`
+// 	background-color: #ababab8b;
+// 	margin-top: 15px;
+// 	width: 100%;
+
+// 	display: flex;
+// 	justify-content: space-around;
+
+// 	div {
+// 		display: flex;
+// 		justify-content: center;
+// 		align-items: center;
+// 		height: 40px;
+// 		padding-left: 10px;
+
+// 		> label {
+// 			font-size: 14px;
+// 			color: gray;
+// 			margin-right: 5px;
+// 		}
+
+// 		input[type='file'] {
+// 			position: absolute;
+// 			width: 0;
+// 			height: 0;
+// 			padding: 0;
+// 			margin: -1px;
+// 			overflow: hidden;
+// 			clip: rect(0, 0, 0, 0);
+// 			border: 0;
+// 		}
+// 	}
+// `;
+
 const ImgContainer = styled.div`
 	background-color: #ababab8b;
 	margin-top: 15px;
@@ -120,23 +155,7 @@ const ImgContainer = styled.div`
 		align-items: center;
 		height: 40px;
 		padding-left: 10px;
-
-		> label {
-			font-size: 14px;
-			color: gray;
-			margin-right: 5px;
-		}
-
-		input[type='file'] {
-			position: absolute;
-			width: 0;
-			height: 0;
-			padding: 0;
-			margin: -1px;
-			overflow: hidden;
-			clip: rect(0, 0, 0, 0);
-			border: 0;
-		}
+		color: gray;
 	}
 `;
 
@@ -164,26 +183,48 @@ const Alert = styled.div`
 	}
 `;
 
+interface Post {
+	content: string;
+	createdAt: string;
+	postId: number;
+	img: string[];
+	modifiedAt: string;
+	nickName: string;
+	subject: string;
+	tag: string[];
+	title: string;
+}
+
+interface Type {
+	tag: [];
+	subject: string;
+	title: string;
+}
+
 function PostUpdate() {
-	interface Post {
-		content: string;
-		createdAt: string;
-		id: number;
-		img: string[];
-		modifiedAt: string;
-		nickName: string;
-		subject: string;
-		tag: string[];
-		title: string;
-	}
+	const navigate = useNavigate();
+
 	const editorRef = useRef<Editor | null>(null);
 	const { id } = useParams();
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/${id}`,
+	});
+
+	let axiosData: Type;
+	let titleData;
+
+	if (postData.response) {
+		axiosData = postData.response;
+		titleData = axiosData.title;
+	}
 
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [post, setPost] = useState<Post>();
 	const [subject, setSubject] = useState<string>('');
-	const [title, setTitle] = useState<string>('');
+	const [title, setTitle] = useState<string | undefined>(titleData);
 	const [alert, setAlert] = useState<boolean>(false);
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
@@ -229,30 +270,33 @@ function PostUpdate() {
 			const content = instance.getMarkdown();
 
 			// json-server용 api 요청
-			axios
-				.patch(`http://localhost:4000/posts/${id}`, {
+			try {
+				Api.patch(`/posts/${id}`, {
 					title,
 					content,
 					tag: tags,
-				})
-				// eslint-disable-next-line no-return-assign
-				.then(() => {
-					if (post?.subject === '여행리뷰') {
-						document.location.href = `/tripreview/${id}`;
-					} else {
-						document.location.href = `/community/${id}`;
-					}
-				});
+				}) // eslint-disable-next-line no-return-assign
+					.then(() => {
+						if (post?.subject === '여행리뷰') {
+							document.location.href = `/tripreview/${id}`;
+						} else {
+							document.location.href = `/community/${id}`;
+						}
+					});
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
 	useEffect(() => {
-		axios.get(`http://localhost:4000/posts/${id}`).then((res) => {
-			setPost(res.data);
-			setTags(res.data.tag);
-			setSubject(res.data.subject);
-		});
-	}, [id]);
+		if (postData.response) {
+			const data: Type = postData.response;
+			setPost(postData.response);
+			setTags(data.tag);
+			setSubject(data.subject);
+		}
+	}, [postData.response]);
 
 	return (
 		<div className="main">
@@ -272,6 +316,7 @@ function PostUpdate() {
 							placeholder="제목을 입력해주세요"
 							onChange={handleTitle}
 							defaultValue={post.title}
+							value={post.title}
 						/>
 
 						{subject === '여행리뷰' ? (
@@ -318,7 +363,7 @@ function PostUpdate() {
 						</TagContainer>
 
 						<ImgContainer onClick={handleImg}>
-							<div>
+							{/* <div>
 								<label htmlFor="img1">
 									<div className="btnStart">Image 1 첨부하기</div>
 								</label>
@@ -332,7 +377,13 @@ function PostUpdate() {
 								<label htmlFor="img1">
 									<div className="btnStart">Image 3 첨부하기</div>
 								</label>
-							</div>
+							</div> */}
+
+							<div>Image 1 링크</div>
+
+							<div>Image 2 링크</div>
+
+							<div>Image 3 링크</div>
 						</ImgContainer>
 						{alert ? (
 							<Alert>

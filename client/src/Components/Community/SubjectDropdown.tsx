@@ -3,9 +3,9 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FiAlertCircle } from 'react-icons/fi';
+import useAxios from '../../Util/customAxios';
 
 const Button = styled.button`
 	border: 1px solid rgb(214, 217, 219);
@@ -66,6 +66,11 @@ interface SubjectDropdownProps {
 	from: string;
 }
 
+interface Type {
+	id: number;
+	subject: string;
+}
+
 function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [selected, setSelected] = useState<string>('');
@@ -90,13 +95,18 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 
 	const menus = ['여행리뷰', '여행고민', '같이가요', 'MBTI', '잡담'];
 
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts`,
+	});
+
 	useEffect(() => {
-		if (from === 'Update') {
-			axios
-				.get(`http://localhost:4000/posts/${id}`)
-				.then((res) => setSelected(res.data.subject));
+		if (from === 'Update' && postData.response) {
+			const filtered: Type[] = postData.response;
+			const filteredData = filtered.filter((el) => el.id === Number(id));
+			setSelected(filteredData[0].subject);
 		}
-	}, [from, id]);
+	}, [from, id, postData.response]);
 
 	return (
 		// eslint-disable-next-line react/jsx-no-useless-fragment
