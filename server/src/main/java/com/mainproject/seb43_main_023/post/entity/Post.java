@@ -31,9 +31,15 @@ public class Post extends Auditable {
     @Column(length = 3000,nullable = false)
     private String content;
 
+    @Column
     private long viewCount = 0;
 
+    @Column
     private long voteCount = 0;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    private LocalDateTime modifiedAt = createdAt;
 
     @Column(nullable = false)
     private Long memberId;
@@ -49,4 +55,10 @@ public class Post extends Auditable {
 
     @ElementCollection
     private List<String> image = new ArrayList<>();
+
+    public Post(Post post,Long memberId, String nickname, String email){
+        post.setMemberId(memberId);
+        post.setNickname(nickname);
+        post.setEmail(email);
+    }
 }
