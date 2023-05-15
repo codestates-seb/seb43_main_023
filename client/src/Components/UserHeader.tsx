@@ -50,20 +50,6 @@ const HeaderText = styled.div`
 	}
 `;
 
-interface IuserInfo {
-	id: number;
-	email: string;
-	password: string;
-	nickname: string;
-	mbti: string;
-	image: string;
-	rold: string;
-	memberStatus: string;
-	badge: null;
-	createdAt: string;
-	modifiedAt: string;
-}
-
 interface IuserMbti {
 	description: string;
 	img: string;
@@ -73,19 +59,6 @@ interface IuserMbti {
 }
 
 function UserHeader() {
-	const [userInfo, setUserInfo] = useState<IuserInfo>({
-		id: 0,
-		email: '',
-		password: '',
-		nickname: '',
-		mbti: '',
-		image: '',
-		rold: '',
-		memberStatus: '',
-		badge: null,
-		createdAt: '',
-		modifiedAt: '',
-	});
 	const [filterMbti, setFilterMbti] = useState<IuserMbti>({
 		description: '',
 		img: '',
@@ -94,18 +67,6 @@ function UserHeader() {
 		placeImg: '',
 	});
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
-	const memberId = userInfos.id;
-
-	const { response } = useAxios({
-		method: 'get',
-		url: `/members/${memberId}`,
-	});
-
-	useEffect(() => {
-		if (response !== null) {
-			setUserInfo(response);
-		}
-	}, [response]);
 
 	const res: any = useAxios({
 		method: 'get',
@@ -115,17 +76,17 @@ function UserHeader() {
 	useEffect(() => {
 		if (res !== null) {
 			const newData = res.filter(
-				(item: IuserMbti) => item.mbti === userInfo.mbti,
+				(item: IuserMbti) => item.mbti === userInfos.mbti,
 			);
 			setFilterMbti(newData[0]);
 		}
-	}, [res, userInfo.mbti]);
+	}, [res, userInfos.mbti]);
 
 	return (
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
 			<HeaderText>
 				<span>
-					<span className="nickName">{userInfo.nickname}</span>님 어서오세요!
+					<span className="nickName">{userInfos.nickname}</span>님 어서오세요!
 				</span>
 				<div>
 					{filterMbti

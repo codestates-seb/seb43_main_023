@@ -70,8 +70,6 @@ function Banner() {
 			});
 	}, [navigate, tourUrl]);
 
-	console.log(eventInfo);
-
 	return (
 		<div>
 			<SlideContainer {...settings}>
