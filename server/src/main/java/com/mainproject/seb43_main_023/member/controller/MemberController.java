@@ -1,5 +1,6 @@
 package com.mainproject.seb43_main_023.member.controller;
 
+import com.mainproject.seb43_main_023.dto.ApiResponse;
 import com.mainproject.seb43_main_023.member.dto.MemberDto;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.mapper.MemberMapper;
@@ -7,7 +8,12 @@ import com.mainproject.seb43_main_023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/members")
@@ -15,13 +21,30 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
+    private final ApiResponse apiResponse;
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity singUp(@RequestBody MemberDto.Post memberPostDto) {
         Member member = memberMapper.memberPostDtoToMember(memberPostDto);
         Member createdMember = memberService.createMember(member);
 
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(createdMember), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity signIn(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestBody @Valid MemberDto.SignIn signIn, Errors errors) {
+        if (errors.hasErrors()) {
+            return apiResponse.fail(errors);
+        }
+        return memberService.signin(request, response, signIn);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(HttpServletRequest request,
+                                  HttpServletResponse response) {
+        return memberService.reissue(request, response);
     }
 
     @PatchMapping("{member-id}")
