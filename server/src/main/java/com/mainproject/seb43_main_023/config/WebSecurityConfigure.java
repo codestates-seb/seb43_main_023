@@ -64,6 +64,17 @@ public class WebSecurityConfigure {
                 .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/members/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/posts/**").hasRole("USER")
+                .antMatchers(HttpMethod.PATCH, "/posts/**").hasRole("USER")
+                .antMatchers(HttpMethod.PATCH, "/posts/*/vote/*").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/posts").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/posts/**").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/posts/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
+                .antMatchers(HttpMethod.PATCH, "/comments/**").hasRole("USER")
+                .antMatchers(HttpMethod.PATCH, "/comments/*/vote/*").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/comments/**").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/comments/**").hasRole("USER")
                 .anyRequest().permitAll();
 
         // jwt filter 설정
