@@ -27,7 +27,7 @@ const backgroundImg =
 const HotReviewContainer = styled.div`
 	width: 100vw;
 	height: 100%;
-	margin-top: 71px;
+	margin-top: 82px;
 `;
 
 const HotReviewImage = styled.div`
