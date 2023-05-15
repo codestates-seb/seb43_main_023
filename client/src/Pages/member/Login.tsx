@@ -177,7 +177,7 @@ function Login() {
 					timer: 3000,
 					timerProgressBar: true,
 					didOpen: (toast: {
-						addEventListener: (arg0: string, arg1: any) => void;
+						addEventListener: (arg0: string, arg1: () => void) => void;
 					}) => {
 						toast.addEventListener('mouseenter', Swal.stopTimer);
 						toast.addEventListener('mouseleave', Swal.resumeTimer);
