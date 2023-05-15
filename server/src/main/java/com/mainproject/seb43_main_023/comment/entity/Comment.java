@@ -1,5 +1,6 @@
 package com.mainproject.seb43_main_023.comment.entity;
 
+import com.mainproject.seb43_main_023.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,17 +16,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Comment {
+public class Comment extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentId;
     @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
     private long voteCount = 0;
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private long memberId;
     @Column(nullable = false)
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    private long postId;
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
 }
