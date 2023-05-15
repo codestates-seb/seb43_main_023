@@ -70,11 +70,18 @@ function Banner() {
 			});
 	}, [navigate, tourUrl]);
 
+	type EventType = {
+		firstimage: string;
+		title: string;
+		eventstartdate: string;
+		eventenddate: string;
+	};
+
 	return (
 		<div>
 			<SlideContainer {...settings}>
 				{eventInfo
-					? eventInfo.map((item: any) => {
+					? eventInfo.map((item: EventType) => {
 							return (
 								<SlideItem image={item.firstimage}>
 									<div>
