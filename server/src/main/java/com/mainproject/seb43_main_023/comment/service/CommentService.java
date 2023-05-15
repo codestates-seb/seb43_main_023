@@ -6,9 +6,9 @@ import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +32,7 @@ public class CommentService {
         Comment findComment = findVerifiedComment(commentId);
         commentRepository.delete(findComment);
     }
+
     public Comment findVerifiedComment(long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         Comment findComment = optionalComment.orElseThrow(() ->

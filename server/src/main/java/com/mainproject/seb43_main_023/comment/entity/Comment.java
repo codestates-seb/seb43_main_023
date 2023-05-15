@@ -29,7 +29,7 @@ public class Comment extends Auditable {
     @Column(nullable = false)
     private long memberId;
     @Column(nullable = false)
-    private  long postId;
+    private long postId;
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
 }
