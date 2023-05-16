@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { HTMLAttributes, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Slider from 'react-slick';
+import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
@@ -58,13 +58,15 @@ const SlideTextBox = styled.div`
 `;
 
 function Banner() {
-	const settings = {
+	const settings: Settings = {
 		dots: false,
 		infinite: true,
 		fade: true,
 		speed: 100,
 		autoplay: true,
 		slidesToShow: 1,
+		pauseOnHover: true,
+		lazyLoad: 'anticipated',
 	};
 
 	const [eventInfo, serEventInfo] = useState([]);
