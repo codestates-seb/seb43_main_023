@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import '../../Global.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AiFillHeart } from 'react-icons/ai';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
 import useAxios from '../../Util/customAxios';
@@ -31,7 +32,7 @@ const Explain = styled.div`
 `;
 
 const Body = styled.div`
-	height: calc(100vh - 470px);
+	height: calc(100vh - 220px);
 	display: flex;
 
 	a {
@@ -46,89 +47,71 @@ const ContentContainer = styled.div`
 	margin-right: 30px;
 `;
 
-const ContentHeader = styled.div`
-	display: flex;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	font-weight: 600;
-	font-size: 13px;
-
-	> div:nth-child(1) {
-		width: 90px;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(2) {
-		flex-grow: 2;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(3) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(4) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(5) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
-	}
-`;
-
 const Contentbody = styled.div`
 	display: flex;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	font-weight: 350;
 	font-size: 13px;
+	border-bottom: 1px solid rgb(214, 217, 219);
 
 	&:hover {
 		color: #0db4f3;
 	}
-
 	> div:nth-child(1) {
-		width: 90px;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		margin-right: 20px;
+		width: 850px;
+		margin-left: 8px;
 	}
 
-	> div:nth-child(2) {
-		width: 750px;
-		margin-right: 50px;
+	> img {
+		// 사진 부분
+		/* width: 190px;
+		height: 87px; */
+		width: 100px;
+		height: 100px;
+		max-width: 100%;
+		display: flex;
+		justify-content: center;
+		object-fit: cover;
+	}
+`;
 
-		> p {
-			display: block;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
+const Header = styled.div`
+	padding: 5px;
+
+	> div {
+		display: flex;
+		> h3:nth-child(1) {
+			margin-right: 10px;
 		}
 	}
 
-	> div:nth-child(3) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
+	> p {
+		padding: 10px 0;
+		height: 50px;
+	}
+`;
+
+const Info = styled.div`
+	display: flex;
+	padding: 5px;
+
+	div {
+		margin-right: 15px;
 	}
 
 	> div:nth-child(4) {
-		width: 60px;
+		width: 30px;
 		display: flex;
-		justify-content: center;
-	}
+		justify-content: flex-start;
+		align-items: center;
 
-	> div:nth-child(5) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
+		> p {
+			margin-left: 5px;
+		}
 	}
 `;
 
@@ -165,6 +148,8 @@ function Main() {
 		nickName: string;
 		voteCount: number;
 		createdAt: string;
+		content: string;
+		img: string[];
 	}
 
 	// eslint-disable-next-line prefer-const
@@ -201,23 +186,43 @@ function Main() {
 				<SideBar />
 
 				<ContentContainer>
-					<ContentHeader>
-						<div>말머리</div>
-						<div>제목</div>
-						<div>닉네임</div>
-						<div>추천</div>
-						<div>작성시간</div>
-					</ContentHeader>
-
 					{posts &&
 						posts.map((el) => (
 							<Link to={`/community/${el.id}`}>
 								<Contentbody>
-									<div>{`[${el.subject}]`}</div>
-									<div>{el.title}</div>
-									<div>{el.nickName}</div>
-									<div>{el.voteCount}</div>
-									<div>16:15</div>
+									<div>
+										<Header>
+											<div>
+												<h3>{`[${el.subject}]`}</h3>
+												<h3>{el.title}</h3>
+											</div>
+
+											{el.content.length > 70 ? (
+												<p>
+													{`${el.content
+														.substring(0, 175)
+														.substring(0, el.content.lastIndexOf(' '))
+														.trim()}...`}
+												</p>
+											) : (
+												<p>{el.content}</p>
+											)}
+										</Header>
+
+										<Info>
+											<div>{el.nickName}</div>
+											<div>16:15</div>
+											<div>조회 20</div>
+											<div>
+												<AiFillHeart color="#fe6464" />
+												<p> {el.voteCount}</p>
+											</div>
+										</Info>
+									</div>
+
+									{el.img[0] ? (
+										<img src={el.img[0]} alt="게시글 사진 미리보기" />
+									) : null}
 								</Contentbody>
 							</Link>
 						))}
