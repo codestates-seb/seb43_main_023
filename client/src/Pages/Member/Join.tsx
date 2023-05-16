@@ -148,7 +148,7 @@ function Join() {
 		'ESFP',
 		'INFJ',
 		'INFP',
-		'ENTJ',
+		'ENFJ',
 		'ENFP',
 		'ISTJ',
 		'ISFJ',
