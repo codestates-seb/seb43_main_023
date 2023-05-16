@@ -232,6 +232,15 @@ function Login() {
 		keyUp?.classList.add('hide');
 	};
 
+	// oauth 구현 url
+	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
+response_type=token&
+redirect_uri=http://localhost:3000/accounts/google/login/&
+scope=https://www.googleapis.com/auth/userinfo.email`;
+	const oAuthHandler = () => {
+		window.location.assign(oAuthURL);
+	};
+
 	return (
 		<Main>
 			<img className="airplane" src={airplane} alt="" />
@@ -267,7 +276,7 @@ function Login() {
 					<span className="line" />
 				</div>
 				<OauthBox>
-					<button className="oauth">
+					<button className="oauth" onClick={oAuthHandler}>
 						<AiOutlineGoogle color="#393737" size="20px" />
 						<span className="google">Google</span>
 					</button>

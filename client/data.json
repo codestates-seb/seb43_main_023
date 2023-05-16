@@ -5,7 +5,7 @@
       "nickName": "testnick",
       "email": "test@gmail.com",
       "subject": "여행고민",
-      "title": "",
+      "title": "여행고민입니다",
       "content": "내용 tnwjd",
       "tag": [
         "ESFJ",
@@ -225,8 +225,8 @@
       "id": 14,
       "nickName": "testnick",
       "subject": "여행리뷰",
-      "title": "",
-      "content": "",
+      "title": "ㅇㅇ",
+      "content": "ㅇㅇ",
       "tag": [
         "테스트"
       ],
@@ -247,7 +247,7 @@
       "nickName": "testnick",
       "subject": "여행고민",
       "title": "kk",
-      "content": "",
+      "content": "ㅇㅇ",
       "tag": [],
       "img": [],
       "voteCount": 0,
@@ -255,6 +255,27 @@
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
       "email": "test@gmail.com"
+    },
+    {
+      "id": 16,
+      "nickName": "안녕",
+      "subject": "여행리뷰",
+      "title": "dd",
+      "content": "d",
+      "tag": [
+        "dd"
+      ],
+      "img": [
+        "d",
+        "dd"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.058816424151",
+      "y": "37.5125226317312",
+      "email": "bda624444@gmail.com"
     }
   ],
   "comments": [
@@ -299,6 +320,15 @@
       "email": "raccoon@gmail.com",
       "password": "1234",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjU3/MDAxNjI1NjQzNzI2ODgw.4SALKzLC-iLP3PvUs3bDFlijYO-VfVewp1c7tbrP4qcg.JWMyIWCXSJn_aKSXOAJtwb1Wi9w-TnwZ3peJU6YR9m4g.PNG.im_worry/5.png?type=w800",
+      "badge": null
+    },
+    {
+      "id": 113043093810114310000,
+      "nickname": " oauth성공!",
+      "mbti": "ENTJ",
+      "email": "bda624444@gmail.com",
+      "password": "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",
+      "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjk4/MDAxNjI1NjQzNzM1NTY0.N3UM1sVKMyNXTav-dRBXnGHe7FYMJpAA1h_Ko8NvFrgg.Y1fST4Lphu6ypeTYQKIDoihjp4-gJSILP0SqZdDnUxcg.PNG.im_worry/3.png?type=w800",
       "badge": null
     }
   ],
