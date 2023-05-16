@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -18,7 +18,7 @@ const backgroundImg =
 const RegionRecContainer = styled.div`
 	width: 100vw;
 	height: 100%;
-	margin-top: 71px;
+	margin-top: 82px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -51,6 +51,9 @@ const RegionRecItemContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	.unvisible {
+		background-image: url('');
+	}
 `;
 
 const RegionRecImg = styled.div<SlideItemProps>`
@@ -161,6 +164,27 @@ function RegionRec() {
 		},
 	];
 
+	useEffect(() => {
+		const options = {
+			root: null,
+			rootmargin: '0px',
+			threshold: 0.4,
+		};
+
+		const lazyObserver = new IntersectionObserver((entries, observer) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.remove('unvisible');
+					observer.unobserve(entry.target);
+				}
+			});
+		}, options);
+		const images = document.querySelectorAll('.regionItem');
+		images.forEach((el) => {
+			lazyObserver.observe(el);
+		});
+	}, []);
+
 	return (
 		<RegionRecContainer>
 			<RegionRecImage>
@@ -172,8 +196,9 @@ function RegionRec() {
 							<StyledLink
 								to={`/regiondetail/${item.id}`}
 								style={{ textDecoration: 'none' }}
+								key={item.id}
 							>
-								<RegionRecImg image={item.img}>
+								<RegionRecImg className="unvisible regionItem" image={item.img}>
 									<div>{item.name}</div>
 								</RegionRecImg>
 							</StyledLink>
