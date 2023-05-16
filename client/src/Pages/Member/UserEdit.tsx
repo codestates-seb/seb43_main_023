@@ -95,15 +95,17 @@ function UserEdit() {
 		setEditMbti(e.target.value);
 	};
 	const userEditClick = async () => {
-		const mbtiImg = await Api.get('/mbtiInfo');
+		const mbtiImgData = await Api.get('/mbtiInfo');
+		const mbtiImg = mbtiImgData.data.find(
+			(v: { mbti: string }) => v.mbti === editmbti,
+		).img;
 		try {
 			await Api.patch(`/members/${userInfos.id}`, {
 				nickname: editname,
 				mbti: editmbti,
-				img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === editmbti)
-					.img,
+				img: mbtiImg,
 			});
-			dispatch(UPDATE({ nickname: editname, mbti: editmbti }));
+			dispatch(UPDATE({ nickname: editname, mbti: editmbti, img: mbtiImg }));
 			Swal.fire({
 				title: '수정완료되었습니다.',
 				icon: 'success',
