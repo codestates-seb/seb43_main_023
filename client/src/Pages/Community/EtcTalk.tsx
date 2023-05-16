@@ -2,17 +2,24 @@ import styled from 'styled-components';
 import '../../Global.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AiFillHeart } from 'react-icons/ai';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
 import useAxios from '../../Util/customAxios';
+import Pagination from '../../Components/Community/Pagination';
 
 const EtcTalkContainer = styled.div`
-	height: calc(100vh - 300px);
+	height: calc(100vh - 165px);
 	display: flex;
 
 	a {
 		text-decoration: none;
 		color: black;
+	}
+
+	> div {
+		display: flex;
+		flex-direction: column;
 	}
 `;
 
@@ -21,44 +28,8 @@ const EtcTalkBody = styled.div`
 	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
-`;
-
-const ContentHeader = styled.div`
-	display: flex;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	font-weight: 600;
-	font-size: 13px;
-
-	> div:nth-child(1) {
-		width: 90px;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(2) {
-		flex-grow: 2;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(3) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(4) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
-	}
-
-	> div:nth-child(5) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
-	}
+	min-height: 610px;
+	max-height: 610px;
 `;
 
 const Contentbody = styled.div`
@@ -67,44 +38,67 @@ const Contentbody = styled.div`
 	padding-bottom: 10px;
 	font-weight: 350;
 	font-size: 13px;
+	border-bottom: 1px solid rgb(214, 217, 219);
 
 	&:hover {
 		color: #0db4f3;
 	}
 
 	> div:nth-child(1) {
-		width: 90px;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		margin-right: 20px;
+		width: 860px;
+		margin-left: 8px;
 	}
 
-	> div:nth-child(2) {
-		width: 740px;
+	> img {
+		// 사진 부분
+		width: 150px;
+		height: 100px;
+		max-width: 100%;
+		display: flex;
+		justify-content: center;
+		object-fit: cover;
+	}
+`;
 
-		> p {
-			display: block;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
+const Header = styled.div`
+	padding: 5px;
+
+	> div {
+		display: flex;
+		-webkit-text-stroke: 0.4px black;
+		font-size: 15px;
+		> h3:nth-child(1) {
+			margin-right: 10px;
 		}
 	}
 
-	> div:nth-child(3) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
+	> p {
+		padding: 10px 0;
+		height: 50px;
+		-webkit-text-stroke: 0.1px black;
+	}
+`;
+
+const Info = styled.div`
+	display: flex;
+	padding: 5px;
+
+	div {
+		margin-right: 15px;
 	}
 
 	> div:nth-child(4) {
-		width: 60px;
+		width: 30px;
 		display: flex;
-		justify-content: center;
-	}
+		justify-content: flex-start;
+		align-items: center;
 
-	> div:nth-child(5) {
-		width: 60px;
-		display: flex;
-		justify-content: center;
+		> p {
+			margin-left: 5px;
+		}
 	}
 `;
 
@@ -124,8 +118,7 @@ const TagContainer = styled.div`
 	}
 `;
 
-const Pagination = styled.div`
-	background-color: rgb(200, 202, 204);
+const PaginationContainer = styled.div`
 	margin-top: 10px;
 	height: 32px;
 	display: flex;
@@ -142,9 +135,15 @@ function EtcTalk() {
 		nickName: string;
 		voteCount: number;
 		createdAt: string;
+		content: string;
+		img: string[];
 	}
 	// eslint-disable-next-line prefer-const
 	let [posts, setPosts] = useState<Post[]>([]);
+	const [curPage, setCurPage] = useState<number>(1);
+
+	const startIdx = (curPage - 1) * 5;
+	const endIdx = startIdx + 5;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -163,30 +162,59 @@ function EtcTalk() {
 		<div className="main">
 			<EtcTalkContainer>
 				<SideBar />
-				<EtcTalkBody>
-					<ContentHeader>
-						<div>말머리</div>
-						<div>제목</div>
-						<div>닉네임</div>
-						<div>추천</div>
-						<div>작성시간</div>
-					</ContentHeader>
+				<div>
+					<EtcTalkBody>
+						{posts &&
+							posts.slice(startIdx, endIdx).map((el) => (
+								<Link to={`/community/${el.id}`}>
+									<Contentbody>
+										<div>
+											<Header>
+												<div>
+													<h3>{`[${el.subject}]`}</h3>
+													<h3>{el.title}</h3>
+												</div>
 
-					{posts &&
-						posts.map((el) => (
-							<Link to={`/community/${el.id}`}>
-								<Contentbody>
-									<div>{`[${el.subject}]`}</div>
-									<div>{el.title}</div>
-									<div>{el.nickName}</div>
-									<div>{el.voteCount}</div>
-									<div>16:15</div>
-								</Contentbody>
-							</Link>
-						))}
+												{el.content.length > 70 ? (
+													<p>
+														{`${el.content
+															.substring(0, 175)
+															.substring(0, el.content.lastIndexOf(' '))
+															.trim()}...`}
+													</p>
+												) : (
+													<p>{el.content}</p>
+												)}
+											</Header>
+											<Info>
+												<div>{el.nickName}</div>
+												<div>16:15</div>
+												<div>조회 20</div>
+												<div>
+													<AiFillHeart color="#fe6464" />
+													<p> {el.voteCount}</p>
+												</div>
+											</Info>
+										</div>
 
-					<Pagination>페 이 지 네 이 션 자 리</Pagination>
-				</EtcTalkBody>
+										{el.img[0] ? (
+											<img src={el.img[0]} alt="게시글 사진 미리보기" />
+										) : null}
+									</Contentbody>
+								</Link>
+							))}
+					</EtcTalkBody>
+					<PaginationContainer>
+						<Pagination
+							curPage={curPage}
+							setCurPage={setCurPage}
+							totalPage={Math.ceil(posts.length / 5)}
+							totalCount={posts.length}
+							size={5}
+							pageCount={5}
+						/>
+					</PaginationContainer>
+				</div>
 				<TagContainer>
 					<Tags />
 				</TagContainer>

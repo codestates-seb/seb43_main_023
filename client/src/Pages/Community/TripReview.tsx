@@ -5,12 +5,14 @@ import Tags from '../../Components/Community/Tags';
 import '../../Global.css';
 
 const ReviewContainer = styled.div`
-	height: calc(100vh - 300px);
+	height: calc(100vh - 165px);
 	display: flex;
 `;
 
 const ReviewBody = styled.div`
 	width: calc(100vw - 230px);
+	max-height: 660px;
+	min-height: 660px;
 `;
 
 const TagContainer = styled.div`
