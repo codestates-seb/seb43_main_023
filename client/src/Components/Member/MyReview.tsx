@@ -5,15 +5,15 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import img from '../../Assets/jeonju.jpg';
 import { Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
 
 const Container = styled.div`
-	width: 90%;
-	height: calc(100vh - 280px);
+	width: 95%;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	flex-wrap: wrap;
 	a {
 		text-decoration: none;
@@ -25,8 +25,7 @@ const ReviewBox = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	height: 270px;
 	width: 210px;
-	margin-bottom: 20px;
-	margin-right: 45px;
+	margin: 0 20px 30px 20px;
 	background-color: white;
 
 	> div:nth-child(1) {
@@ -121,7 +120,7 @@ function MyReview() {
 							<Writer>
 								<div>
 									<div>
-										<img src={img} alt="유저프로필사진" />
+										<img src={userInfos.img} alt="유저프로필사진" />
 									</div>
 									<div>{el.nickName}</div>
 								</div>

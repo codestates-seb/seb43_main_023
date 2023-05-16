@@ -147,19 +147,23 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			const loginData = await Api.post('/auth/login', {
+			/* 
+			// 서버 연결하면 사용할 코드
+			const loginData = await Api.post('http://localhost:4000/auth/login', {
 				email: el.email.value,
-				password: el.password.value,
+				password: el.password.value
 			});
-			const {
-				memberId,
-				accessToken,
-				refreshToken,
-				empiresAtAccess,
-				empiresAtRefresh,
-			} = loginData.data;
-			// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-			const token = { accessToken: `${accessToken}` };
+			const memberId = loginData.response.data.memberId;
+			const accessToken = loginData.response.data.accessToken
+			const refreshToken = loginData.response.data.refreshToken
+			const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
+			const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
+			axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+			*/
+			const memberId = 1;
+			const token = { accessToken: 'token' };
+			const accessToken = 'token';
+			const refreshToken = 'token2';
 
 			const userInfo = await Api.get(`/members/${memberId}`);
 			if (
@@ -173,7 +177,7 @@ function Login() {
 					timer: 3000,
 					timerProgressBar: true,
 					didOpen: (toast: {
-						addEventListener: (arg0: string, arg1: any) => void;
+						addEventListener: (arg0: string, arg1: () => void) => void;
 					}) => {
 						toast.addEventListener('mouseenter', Swal.stopTimer);
 						toast.addEventListener('mouseleave', Swal.resumeTimer);
@@ -201,14 +205,15 @@ function Login() {
 					secure: true,
 				});
 				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('empiresAtAccess', empiresAtAccess);
-				localStorage.setItem('empiresAtRefresh', empiresAtRefresh);
+				localStorage.setItem('empiresAtAccess', '1800000');
+				localStorage.setItem('empiresAtRefresh', '9900000');
 				Swal.fire({
 					icon: 'success',
 					title: '로그인되었습니다.',
 					text: '메인 페이지로 이동합니다.',
 				}).then((result) => {
 					if (result.isConfirmed) {
+						// 만약 모달창에서 confirm 버튼을 눌렀다면
 						navigate('/main');
 					}
 				});
@@ -225,6 +230,15 @@ function Login() {
 	const displayNameKeyBlur = (e: FocusEvent<HTMLInputElement>) => {
 		const keyUp = e.target.previousSibling as HTMLDivElement;
 		keyUp?.classList.add('hide');
+	};
+
+	// oauth 구현 url
+	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
+response_type=token&
+redirect_uri=http://localhost:3000/accounts/google/login/&
+scope=https://www.googleapis.com/auth/userinfo.email`;
+	const oAuthHandler = () => {
+		window.location.assign(oAuthURL);
 	};
 
 	return (
@@ -262,7 +276,7 @@ function Login() {
 					<span className="line" />
 				</div>
 				<OauthBox>
-					<button className="oauth">
+					<button className="oauth" onClick={oAuthHandler}>
 						<AiOutlineGoogle color="#393737" size="20px" />
 						<span className="google">Google</span>
 					</button>
