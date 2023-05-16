@@ -122,7 +122,8 @@ public class MemberService {
                 .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getMbti())
                 .ifPresent(mbti -> findMember.setMbti(mbti));
-
+        Optional.ofNullable(member.getImg())
+                .ifPresent((img -> findMember.setImg(img)));
         return memberRepository.save(member);
     }
 

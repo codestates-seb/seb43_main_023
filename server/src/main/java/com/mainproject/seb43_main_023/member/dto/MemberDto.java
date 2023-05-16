@@ -40,6 +40,7 @@ public class MemberDto {
     public static class Patch {
         private String nickname;
         private String mbti;
+        private String img;
     }
 
     @Getter

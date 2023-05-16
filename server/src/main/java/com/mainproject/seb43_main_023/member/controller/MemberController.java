@@ -70,7 +70,7 @@ public class MemberController {
     @PatchMapping("/grantBadge/{member-id}")
     public ResponseEntity grantBadge(@PathVariable("member-id") long memberId) {
         memberService.grantBadge(memberId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
