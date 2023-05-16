@@ -11,7 +11,7 @@ const MainHeaderContainer = styled.div`
 	width: 100%;
 	height: 640px;
 	padding-left: 100px;
-	margin-top: 71px;
+	margin-top: 82px;
 	display: flex;
 	align-items: center;
 	scroll-snap-align: start;

@@ -11,7 +11,7 @@ const backgroundImg =
 const HotPlaceContainer = styled.div`
 	width: 100vw;
 	height: 100%;
-	margin-top: 71px;
+	margin-top: 82px;
 `;
 
 const HotPlaceImage = styled.div`

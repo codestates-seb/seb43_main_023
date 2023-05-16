@@ -29,10 +29,17 @@ interface IRegionData {
 	regionIntro: string;
 }
 
+type TripInfoType = {
+	contentid: number;
+	firstimage: string;
+	title: string;
+	addr1: string;
+};
+
 const RegionDetailContainer = styled.div`
 	width: 100vw;
 	height: 100%;
-	margin-top: 71px;
+	margin-top: 82px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -466,7 +473,7 @@ function RegionDetail() {
 			</RegionTitle>
 			<RegionRecItemContainer>
 				{tripInfo
-					? tripInfo.map((item: any) => {
+					? tripInfo.map((item: TripInfoType) => {
 							return (
 								<RegionRecItem key={item.contentid}>
 									<RegionItemImg image={item.firstimage} />
