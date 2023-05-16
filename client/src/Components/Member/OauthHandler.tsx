@@ -18,15 +18,15 @@ export default function OauthJoinHandler() {
 	useEffect(() => {
 		const url = new URL(window.location.href);
 		const { hash } = url;
-		const accessToken = hash.split('=')[1].split('&')[0];
+		const accessToken2 = hash.split('=')[1].split('&')[0];
 		async function getData() {
 			try {
 				// oauth 접근, 로그인 실행
 				await axios.get(
-					`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`,
+					`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken2}`,
 					{
 						headers: {
-							authorization: `token ${accessToken}`,
+							authorization: `token ${accessToken2}`,
 							accept: 'application/json',
 						},
 					},
@@ -36,68 +36,73 @@ export default function OauthJoinHandler() {
 					'https://www.googleapis.com/oauth2/v2/userinfo',
 					{
 						headers: {
-							Authorization: `Bearer ${accessToken}`,
+							Authorization: `Bearer ${accessToken2}`,
 						},
 					},
 				);
 				// eslint-disable-next-line no-console
 				console.log(oauthInfo.data); // oauth data(id, email)
 
-				// 회원가입과 로그인 공통 정보 업데이트
-				const memberId = oauthInfo.data.id;
-				const mbtiImg = await Api.get('/mbtiInfo');
-				const refreshToken = 'token2';
-				dispatch(LOGIN({ accessToken: `${accessToken}` }));
-				setCookie('refreshToken', refreshToken, {
-					path: '/',
-					sameSite: 'none',
-					secure: true,
-				});
-				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('empiresAtAccess', '1800000');
-				localStorage.setItem('empiresAtRefresh', '9900000');
-
 				// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
+				const mbtiImg = await Api.get('/mbtiInfo');
 				const oauthInfoData = {
-					id: Number(oauthInfo.data.id),
+					memberId: oauthInfo.data.id,
 					nickname: oauthInfo.data.id,
 					mbti: 'INFP',
 					email: oauthInfo.data.email,
 					password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
 					img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
 						.img,
-					badge: null,
 				};
-
-				// 서버 연결하면 사용할 코드(수정 필요)
-				/*
-				const loginData = await Api.post('/auth/login', {
+				const oauthInfoData2 = {
+					id: oauthInfo.data.id,
+					nickname: oauthInfo.data.id,
+					mbti: 'INFP',
 					email: oauthInfo.data.email,
-					password: oauthInfo.data.id,
-				});
-				const memberId = loginData.response.data.memberId;
-				const accessToken = loginData.response.data.accessToken
-				const refreshToken = loginData.response.data.refreshToken
-				const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
-				const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
-				axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-				*/
+					password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
+					img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+						.img,
+				};
 
 				// 회원가입이 안되있다면
 				const userCheck = await Api.get(`/members`);
 				if (
-					userCheck.data.filter((el: { id: number }) => el.id === memberId)
-						.length === 0
+					userCheck.data.filter(
+						(el: { memberId: number }) => el.memberId === oauthInfo.data.id,
+					).length === 0
 				) {
 					// 회원가입 post 요청
 					await Api.post('/members', {
 						...oauthInfoData,
 					});
+					// 서버 연결코드
+					const loginData = await Api.post('/members/signin', {
+						email: oauthInfo.data.email,
+						password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
+					});
+					const {
+						accessToken,
+						refreshToken,
+						accessTokenExpirationTime,
+						refreshTokenExpirationTime,
+					} = loginData.data;
+					// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+					// 로그인 정보 업데이트
 					dispatch(
 						UPDATE({
-							...oauthInfoData,
+							...oauthInfoData2,
 						}),
 					);
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					localStorage.setItem('accessToken', accessToken);
+					localStorage.setItem('empiresAtAccess', accessTokenExpirationTime);
+					localStorage.setItem('empiresAtRefresh', refreshTokenExpirationTime);
 					Swal.fire({
 						icon: 'success',
 						title: '회원가입되었습니다.',
@@ -109,7 +114,21 @@ export default function OauthJoinHandler() {
 					});
 				} else {
 					// 이미 회원가입이 되어 있어 바로 로그인하는 경우
-					const userInfo = await Api.get(`/members/${memberId}`);
+					const userInfo = await Api.get(`/members/${oauthInfo.data.id}`);
+					// 서버 연결코드
+					const loginData = await Api.post('/members/signin', {
+						email: oauthInfo.data.email,
+						password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
+					});
+					const {
+						accessToken,
+						refreshToken,
+						accessTokenExpirationTime,
+						refreshTokenExpirationTime,
+					} = loginData.data;
+					// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+					// 로그인 정보 업데이트
 					dispatch(
 						UPDATE({
 							id: userInfo.data.id,
@@ -120,6 +139,16 @@ export default function OauthJoinHandler() {
 							badge: userInfo.data.badge,
 						}),
 					);
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					localStorage.setItem('accessToken', accessToken);
+					localStorage.setItem('empiresAtAccess', accessTokenExpirationTime);
+					localStorage.setItem('empiresAtRefresh', refreshTokenExpirationTime);
+
 					Swal.fire({
 						icon: 'success',
 						title: '로그인되었습니다.',

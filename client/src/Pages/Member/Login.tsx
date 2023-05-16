@@ -147,23 +147,19 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			/* 
-			// 서버 연결하면 사용할 코드
-			const loginData = await Api.post('http://localhost:4000/auth/login', {
+			const loginData = await Api.post('/members/signin', {
 				email: el.email.value,
-				password: el.password.value
+				password: el.password.value,
 			});
-			const memberId = loginData.response.data.memberId;
-			const accessToken = loginData.response.data.accessToken
-			const refreshToken = loginData.response.data.refreshToken
-			const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
-			const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
-			axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-			*/
-			const memberId = 1;
+			const {
+				memberId,
+				accessToken,
+				refreshToken,
+				accessTokenExpirationTime,
+				refreshTokenExpirationTime,
+			} = loginData.data;
+			// axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 			const token = { accessToken: 'token' };
-			const accessToken = 'token';
-			const refreshToken = 'token2';
 
 			const userInfo = await Api.get(`/members/${memberId}`);
 			if (
@@ -205,15 +201,14 @@ function Login() {
 					secure: true,
 				});
 				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('empiresAtAccess', '1800000');
-				localStorage.setItem('empiresAtRefresh', '9900000');
+				localStorage.setItem('empiresAtAccess', accessTokenExpirationTime);
+				localStorage.setItem('empiresAtRefresh', refreshTokenExpirationTime);
 				Swal.fire({
 					icon: 'success',
 					title: '로그인되었습니다.',
 					text: '메인 페이지로 이동합니다.',
 				}).then((result) => {
 					if (result.isConfirmed) {
-						// 만약 모달창에서 confirm 버튼을 눌렀다면
 						navigate('/main');
 					}
 				});

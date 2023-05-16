@@ -170,7 +170,6 @@ function Join() {
 	async function joinSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
-		const id = Math.random();
 		try {
 			if (!EMAIL_REGEX.test(el.email.value)) {
 				setEmailValid(false);
@@ -200,16 +199,15 @@ function Join() {
 				setPasswordValid(true);
 				setpasswordCheck(true);
 
-				const mbtiImg = await Api.get('/mbtiInfo');
+				const mbtiImg = await Api.get(
+					`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
+				);
 				await Api.post('/members', {
-					id,
 					nickname: el.displayName.value,
 					mbti: el.mbti.value.toUpperCase(),
 					email: el.email.value,
 					password: el.password.value,
-					img: mbtiImg.data.find(
-						(v: { mbti: string }) => v.mbti === el.mbti.value.toUpperCase(),
-					).img,
+					img: mbtiImg.data.img,
 				});
 				Swal.fire({
 					title: '회원가입이 완료되었습니다',
@@ -225,34 +223,6 @@ function Join() {
 			navigate('/error');
 		}
 	}
-
-	/*
-	// 서버 연결하면 바뀔 코드
-	function Join() {
-	const navigate = useNavigate();
-	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const el = e.target as HTMLFormElement;
-		const id = Math.random();
-		try {
-			const mbtiImg = await Api.get(`http://localhost:4000/mbtiInfo/${el.mbti.value}`);
-			await Api.post('http://localhost:4000/members', {
-				id,
-				nickname: el.displayName.value,
-				mbti: el.mbti.value,
-				email: el.email.value,
-				password: el.password.value,
-				img: mbtiImg.img,
-				badge: null,
-			});
-			// eslint-disable-next-line no-alert
-			alert('회원가입이 완료되었습니다.');
-			navigate('/login');
-		} catch (error) {
-			navigate('/error');
-		}
-	};
-	*/
 
 	const displayNameKeyFocus = (e: FocusEvent<HTMLInputElement>) => {
 		const keyUp = e.target.previousSibling as HTMLDivElement;
