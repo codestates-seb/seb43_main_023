@@ -1,14 +1,16 @@
 import '../../Global.css';
 
+import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
-import { LOGOUT } from '../../Reducers/loginReducer';
+import { Ilogin, LOGOUT } from '../../Reducers/loginReducer';
+import { RootState } from '../../Store/store';
 import { removeCookie } from '../../Util/cookie';
 
 const Main = styled.div`
@@ -59,6 +61,7 @@ const Content = styled.div`
 function Logout() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
 	const logoutClick = () => {
 		Swal.fire({
 			icon: 'warning',
@@ -70,6 +73,9 @@ function Logout() {
 		}).then(async (res) => {
 			if (res.isConfirmed) {
 				try {
+					await axios.post(
+						`https://oauth2.googleapis.com/revoke?token=${login.accessToken}`,
+					);
 					localStorage.removeItem('accessToken');
 					localStorage.removeItem('empiresAtAccess');
 					localStorage.removeItem('empiresAtRefresh');
