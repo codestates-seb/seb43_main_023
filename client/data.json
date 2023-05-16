@@ -6,7 +6,7 @@
       "email": "test@gmail.com",
       "subject": "여행고민",
       "title": "여행고민입니다",
-      "content": "내용 tnwjd",
+      "content": "(서울=연합뉴스) 채새롬 기자 = BC카드는 중소벤처기업부 산하 소상공인시장진흥공단과 '소상공인 및 전통시장 소비 활성화'를 위한 협약을 맺었다고 16일 밝혔다.\n이번 협약에 따라 BC카드와 소진공은 중소기업벤처부가 주관하는 5월 동행축제 기간에 온누리상품권 이용 고객에게 최대 16만원까지 할인 혜택을 제공하는 이벤트를 진행한다.\n또 9월, 12월 진행 예정인 동행축제 기간 다양한 이벤트를 하고, 전통시장 및 지역 내 소외된 상권에 고객 방문을 유치할 수 있는 사업연계도 강화할 방침이다.\n\n<br>\n",
       "tag": [
         "ESFJ",
         "1인",
@@ -15,7 +15,8 @@
       "voteCount": 2,
       "viewCount": 1,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 2,
@@ -40,7 +41,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 4,
@@ -52,7 +54,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 5,
@@ -64,7 +67,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 6,
@@ -76,7 +80,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 7,
@@ -88,7 +93,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 8,
@@ -276,13 +282,197 @@
       "x": "127.058816424151",
       "y": "37.5125226317312",
       "email": "bda624444@gmail.com"
+    },
+    {
+      "id": 16,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "테스트 1",
+      "content": "테스트 1",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/ee/03/41/ee0341cbf65e5deed7168d06c40e67d3.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 17,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "jj",
+      "content": "(서울=연합뉴스) 채새롬 기자 = BC카드는 중소벤처기업부 산하 소상공인시장진흥공단과 '소상공인 및 전통시장 소비 활성화'를 위한 협약을 맺었다고 16일 밝혔다.\n이번 협약에 따라 BC카드와 소진공은 중소기업벤처부가 주관하는 5월 동행축제 기간에 온누리상품권 이용 고객에게 최대 16만원까지 할인 혜택을 제공하는 이벤트를 진행한다.\n또 9월, 12월 진행 예정인 동행축제 기간 다양한 이벤트를 하고, 전통시장 및 지역 내 소외된 상권에 고객 방문을 유치할 수 있는 사업연계도 강화할 방침이다.\n\n<br>\n",
+      "tag": [
+        "jj"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/78/74/33/787433bbef97f5af15a87d8e2a7fbef8.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 18,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 19,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 20,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 21,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 22,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 23,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 24,
+      "nickName": "testnick",
+      "subject": "잡담",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 25,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/b5/66/57/b56657c0af0005a9ce471c2f411e038b.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.05156147004348",
+      "y": "37.505691000291094",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 26,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/77/7e/6d/777e6dd1e2c4b6754460dc209321ce4d.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.05156147004348",
+      "y": "37.505691000291094",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [
     {
       "id": 2,
       "postId": 1,
-      "content": "aavv",
+      "content": "uu",
       "author": "testnick",
       "vote": 5
     },

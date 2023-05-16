@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import img from '../../Assets/jeonju.jpg';
 import useAxios from '../../Util/customAxios';
+import Pagination from './Pagination';
 
 const Container = styled.div`
 	margin-top: 50px;
-	height: calc(100vh - 280px);
+	min-height: 600px;
+	max-height: 600px;
 	margin-left: 35px;
 	display: flex;
 	overflow: scroll;
@@ -81,8 +83,7 @@ const Writer = styled.div`
 	}
 `;
 
-const Pagination = styled.div`
-	background-color: rgb(200, 202, 204);
+const PaginationContainer = styled.div`
 	margin-top: 10px;
 	height: 32px;
 	display: flex;
@@ -105,6 +106,10 @@ function Review() {
 
 	// eslint-disable-next-line prefer-const
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
+	const [curPage, setCurPage] = useState<number>(1);
+
+	const startIdx = (curPage - 1) * 8;
+	const endIdx = startIdx + 8;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -120,34 +125,44 @@ function Review() {
 	reviews = reviews.filter((el) => el.subject === '여행리뷰');
 
 	return (
-		<Container>
-			{reviews &&
-				reviews.map((el) => (
-					<Link to={`/tripreview/${el.id}`}>
-						<ReviewBox>
-							<div>
-								<img src={el.img[0]} alt="여행리뷰사진" />
-							</div>
-							<div>{el.title}</div>
-							<Writer>
+		<>
+			<Container>
+				{reviews &&
+					reviews.slice(startIdx, endIdx).map((el) => (
+						<Link to={`/tripreview/${el.id}`}>
+							<ReviewBox>
 								<div>
+									<img src={el.img[0]} alt="여행리뷰사진" />
+								</div>
+								<div>{el.title}</div>
+								<Writer>
 									<div>
-										<img src={img} alt="유저프로필사진" />
+										<div>
+											<img src={img} alt="유저프로필사진" />
+										</div>
+										<div>{el.nickName}</div>
 									</div>
-									<div>{el.nickName}</div>
-								</div>
 
-								<div>
-									<AiFillHeart color="#F24F1F" size={17} />
-									<p>{el.voteCount}</p>
-								</div>
-							</Writer>
-						</ReviewBox>
-					</Link>
-				))}
-
-			<Pagination> 페 이 지 네 이 션 자 리</Pagination>
-		</Container>
+									<div>
+										<AiFillHeart color="#F24F1F" size={17} />
+										<p>{el.voteCount}</p>
+									</div>
+								</Writer>
+							</ReviewBox>
+						</Link>
+					))}
+			</Container>
+			<PaginationContainer>
+				<Pagination
+					curPage={curPage}
+					setCurPage={setCurPage}
+					totalPage={Math.ceil(reviews.length / 8)}
+					totalCount={reviews.length}
+					size={8}
+					pageCount={5}
+				/>
+			</PaginationContainer>
+		</>
 	);
 }
 
