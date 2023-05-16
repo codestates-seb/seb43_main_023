@@ -218,12 +218,13 @@ function Mypage() {
 		method: 'get',
 		url: '/posts',
 	});
-
 	useEffect(() => {
-		if (response !== null) {
-			setPosts(response);
-		}
-	}, [response]);
+		if (response === null) return;
+		const data = response as [];
+		setPosts(
+			data.filter((v: { email: string }) => v.email === userInfos.email),
+		);
+	}, [response, userInfos.email]);
 
 	/*
 	// 커뮤니티 내글 get요청(커스텀 axios Api 사용)
@@ -337,32 +338,30 @@ function Mypage() {
 					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
-								{posts
-									.filter((v: { email: string }) => v.email === userInfos.email)
-									.map((post) => {
-										return (
-											<li key={post.id}>
-												<div className="writingHead">[{post.subject}]</div>
+								{posts.map((post) => {
+									return (
+										<li key={post.id}>
+											<div className="writingHead">[{post.subject}]</div>
+											<Link
+												to={{ pathname: `/community/${post.id}` }}
+												style={{ textDecoration: 'none' }}
+											>
+												<div className="writingBody">{post.title}</div>
+											</Link>
+											<div>
 												<Link
-													to={{ pathname: `/community/${post.id}` }}
+													to={{ pathname: `/community/${post.id}/update` }}
 													style={{ textDecoration: 'none' }}
 												>
-													<div className="writingBody">{post.title}</div>
+													<button>Edit</button>
 												</Link>
-												<div>
-													<Link
-														to={{ pathname: `/community/${post.id}/update` }}
-														style={{ textDecoration: 'none' }}
-													>
-														<button>Edit</button>
-													</Link>
-													<button onClick={() => postDeleteClick(post.id)}>
-														Delete
-													</button>
-												</div>
-											</li>
-										);
-									})}
+												<button onClick={() => postDeleteClick(post.id)}>
+													Delete
+												</button>
+											</div>
+										</li>
+									);
+								})}
 							</ul>
 						</UserWriting>
 					)}
