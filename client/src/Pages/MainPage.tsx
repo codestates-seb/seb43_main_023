@@ -15,7 +15,6 @@ import { RootState } from '../Store/store';
 
 const MainContainer = styled.div`
 	width: 100vw;
-	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -31,11 +30,20 @@ const MainContainer = styled.div`
 
 const MainTab = styled.div`
 	width: 90%;
-	height: 70px;
+	height: 66px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px;
+	@media (max-width: 768px) {
+		flex-direction: column;
+		flex-wrap: wrap;
+		height: 180px;
+		justify-content: center;
+	}
+	@media (max-width: 582px) {
+		height: 164px;
+	}
 `;
 
 const MainTabButton = styled.div`
@@ -48,6 +56,9 @@ const MainTabButton = styled.div`
 		color: rgb(250, 250, 250);
 		background-color: #0db4f3;
 		transition: all 0.3s linear;
+	}
+	@media (max-width: 720px) {
+		font-size: 20px;
 	}
 `;
 
@@ -77,7 +88,6 @@ const SlideContainer = styled.div`
 
 const BannerContainer = styled.div`
 	width: 85.5%;
-	height: 200px;
 	margin: 50px 0;
 	padding: 0px;
 `;

@@ -13,6 +13,9 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const SlideContainer = styled(Slider)`
+	width: 100%;
+	height: 180px;
+	display: flex;
 	.slick-prev::before {
 		color: #0db4f3;
 	}
@@ -31,14 +34,25 @@ const SlideItem = styled.div<SlideItemProps>`
 		cover no-repeat;
 	color: white;
 	border-radius: 15px;
-	font-size: 30px;
-	font-weight: 700;
+`;
+
+const SlideTextBox = styled.div`
+	width: 100%;
+	height: 100%;
+	display: flex;
 	text-align: center;
+	flex-direction: column;
+	align-items: center;
 	justify-content: center;
-	> div {
-		line-height: 180px;
-		> span {
-			font-size: 24px;
+	.eventTitle {
+		font-size: 30px;
+		@media (max-width: 768px) {
+			font-size: 20px;
+		}
+	}
+	.eventDate {
+		@media (max-width: 768px) {
+			font-size: 20px;
 		}
 	}
 `;
@@ -84,13 +98,13 @@ function Banner() {
 					? eventInfo.map((item: EventType) => {
 							return (
 								<SlideItem image={item.firstimage}>
-									<div>
-										{item.title}
-										<span>
+									<SlideTextBox>
+										<div className="eventTitle">{item.title}</div>
+										<div className="eventDate">
 											({item.eventstartdate.substr(4)} ~{' '}
 											{item.eventenddate.substr(4)})
-										</span>
-									</div>
+										</div>
+									</SlideTextBox>
 								</SlideItem>
 							);
 					  })

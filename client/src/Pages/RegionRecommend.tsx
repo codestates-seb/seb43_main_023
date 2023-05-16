@@ -47,7 +47,7 @@ const RegionRecImage = styled.div`
 
 const RegionRecItemContainer = styled.div`
 	width: 90vw;
-	padding: 70px;
+	padding: 70px 0;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

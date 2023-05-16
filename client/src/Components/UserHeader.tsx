@@ -15,7 +15,7 @@ interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 
 const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 	width: 100%;
-	height: 640px;
+	height: 40vh;
 	padding: 100px;
 	margin-top: 82px;
 	display: flex;
@@ -27,15 +27,40 @@ const UserHeaderContainer = styled.div<UserHeaderImgProps>`
 		position: absolute;
 		left: 0;
 		width: 100%;
-		height: 640px;
+		height: 40vh;
 		opacity: 0.8;
 		z-index: -1;
+		@media (max-width: 583px) {
+			padding: 20px;
+			height: 300px;
+		}
+		@media (max-width: 768px) {
+			height: 35vh;
+		}
+	}
+	@media (max-width: 583px) {
+		padding: 20px;
+		height: 300px;
+	}
+	@media (max-width: 768px) {
+		padding: 20px;
+		height: 35vh;
+	}
+	@media (max-width: 1024px) {
+		padding: 40px;
 	}
 `;
 
 const HeaderText = styled.div`
 	font-size: 50px;
-	font-weight: 900;
+	font-weight: 700;
+	@media (max-width: 582px) {
+		padding: 20px;
+		height: 20vh;
+	}
+	@media (max-width: 768px) {
+		font-size: 2rem;
+	}
 	.nickName {
 		color: #0db4f3;
 	}
@@ -47,6 +72,9 @@ const HeaderText = styled.div`
 		font-weight: 700;
 		margin-top: 20px;
 		background-color: rgba(255, 255, 255, 0.7);
+		@media (max-width: 768px) {
+			font-size: 2rem;
+		}
 	}
 `;
 
