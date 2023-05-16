@@ -164,7 +164,6 @@ const PostBtn = styled.div`
 
 		span {
 			position: relative;
-			font-family: 'Ubuntu', sans-serif;
 			font-size: 13px;
 			font-weight: 700;
 			letter-spacing: 0.05em;
