@@ -27,7 +27,7 @@ const RegionRecContainer = styled.div`
 
 const RegionRecImage = styled.div`
 	width: 100%;
-	height: 460px;
+	height: 40vh;
 	background-image: linear-gradient(
 			rgba(255, 255, 255, 0.25),
 			rgba(255, 255, 255, 0.25)
@@ -42,6 +42,9 @@ const RegionRecImage = styled.div`
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+	}
+	@media (max-width: 768px) {
+		height: 30vh;
 	}
 `;
 

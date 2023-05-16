@@ -75,6 +75,9 @@ const MainContentsContainer = styled.div`
 	.linkButton {
 		text-align: end;
 	}
+	@media (max-width: 768px) {
+		margin: 20px 0;
+	}
 `;
 
 const SlideContainer = styled.div`
