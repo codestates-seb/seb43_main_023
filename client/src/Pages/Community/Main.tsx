@@ -6,6 +6,7 @@ import { AiFillHeart } from 'react-icons/ai';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
 import useAxios from '../../Util/customAxios';
+import Pagination from '../../Components/Community/Pagination';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -39,12 +40,19 @@ const Body = styled.div`
 		text-decoration: none;
 		color: black;
 	}
+
+	> div {
+		display: flex;
+		flex-direction: column;
+	}
 `;
 
 const ContentContainer = styled.div`
 	height: calc(100vh - 400px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
+	min-height: 610px;
+	max-height: 610px;
 `;
 
 const Contentbody = styled.div`
@@ -62,15 +70,13 @@ const Contentbody = styled.div`
 		display: flex;
 		flex-direction: column;
 		margin-right: 20px;
-		width: 850px;
+		width: 860px;
 		margin-left: 8px;
 	}
 
 	> img {
 		// 사진 부분
-		/* width: 190px;
-		height: 87px; */
-		width: 100px;
+		width: 150px;
 		height: 100px;
 		max-width: 100%;
 		display: flex;
@@ -84,6 +90,8 @@ const Header = styled.div`
 
 	> div {
 		display: flex;
+		-webkit-text-stroke: 0.4px black;
+		font-size: 15px;
 		> h3:nth-child(1) {
 			margin-right: 10px;
 		}
@@ -92,6 +100,7 @@ const Header = styled.div`
 	> p {
 		padding: 10px 0;
 		height: 50px;
+		-webkit-text-stroke: 0.1px black;
 	}
 `;
 
@@ -115,8 +124,7 @@ const Info = styled.div`
 	}
 `;
 
-const Pagination = styled.div`
-	background-color: rgb(200, 202, 204);
+const PaginationContainer = styled.div`
 	margin-top: 10px;
 	height: 32px;
 	display: flex;
@@ -150,10 +158,15 @@ function Main() {
 		createdAt: string;
 		content: string;
 		img: string[];
+		tag: string[];
 	}
 
 	// eslint-disable-next-line prefer-const
 	let [posts, setPosts] = useState<Post[]>([]);
+	const [curPage, setCurPage] = useState<number>(1);
+
+	const startIdx = (curPage - 1) * 5;
+	const endIdx = startIdx + 5;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -185,50 +198,61 @@ function Main() {
 			<Body>
 				<SideBar />
 
-				<ContentContainer>
-					{posts &&
-						posts.map((el) => (
-							<Link to={`/community/${el.id}`}>
-								<Contentbody>
-									<div>
-										<Header>
-											<div>
-												<h3>{`[${el.subject}]`}</h3>
-												<h3>{el.title}</h3>
-											</div>
+				<div>
+					<ContentContainer>
+						{posts &&
+							posts.slice(startIdx, endIdx).map((el) => (
+								<Link to={`/community/${el.id}`}>
+									<Contentbody>
+										<div>
+											<Header>
+												<div>
+													<h3>{`[${el.subject}]`}</h3>
+													<h3>{el.title}</h3>
+												</div>
 
-											{el.content.length > 70 ? (
-												<p>
-													{`${el.content
-														.substring(0, 175)
-														.substring(0, el.content.lastIndexOf(' '))
-														.trim()}...`}
-												</p>
-											) : (
-												<p>{el.content}</p>
-											)}
-										</Header>
+												{el.content.length > 70 ? (
+													<p>
+														{`${el.content
+															.substring(0, 175)
+															.substring(0, el.content.lastIndexOf(' '))
+															.trim()}...`}
+													</p>
+												) : (
+													<p>{el.content}</p>
+												)}
+											</Header>
 
-										<Info>
-											<div>{el.nickName}</div>
-											<div>16:15</div>
-											<div>조회 20</div>
-											<div>
-												<AiFillHeart color="#fe6464" />
-												<p> {el.voteCount}</p>
-											</div>
-										</Info>
-									</div>
+											<Info>
+												<div>{el.nickName}</div>
+												<div>16:15</div>
+												<div>조회 20</div>
+												<div>
+													<AiFillHeart color="#fe6464" />
+													<p> {el.voteCount}</p>
+												</div>
+											</Info>
+										</div>
 
-									{el.img[0] ? (
-										<img src={el.img[0]} alt="게시글 사진 미리보기" />
-									) : null}
-								</Contentbody>
-							</Link>
-						))}
+										{el.img[0] ? (
+											<img src={el.img[0]} alt="게시글 사진 미리보기" />
+										) : null}
+									</Contentbody>
+								</Link>
+							))}
+					</ContentContainer>
 
-					<Pagination>페 이 지 네 이 션 자 리</Pagination>
-				</ContentContainer>
+					<PaginationContainer>
+						<Pagination
+							curPage={curPage}
+							setCurPage={setCurPage}
+							totalPage={Math.ceil(posts.length / 5)}
+							totalCount={posts.length}
+							size={5}
+							pageCount={5}
+						/>
+					</PaginationContainer>
+				</div>
 
 				<TagContainer>
 					<Tags />

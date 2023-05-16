@@ -295,6 +295,156 @@
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
       "email": "test@gmail.com"
+    },
+    {
+      "id": 18,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 19,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 20,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 21,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 22,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 23,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 24,
+      "nickName": "testnick",
+      "subject": "잡담",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 25,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/b5/66/57/b56657c0af0005a9ce471c2f411e038b.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.05156147004348",
+      "y": "37.505691000291094",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 26,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/77/7e/6d/777e6dd1e2c4b6754460dc209321ce4d.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.05156147004348",
+      "y": "37.505691000291094",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [
