@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import Slider from 'react-slick';
+import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
@@ -43,13 +43,34 @@ const SlideItem = styled.div<SlideItemProps>`
 
 function CarouselHotPlace() {
 	// 옵션
-	const settings = {
+	const settings: Settings = {
 		dots: false,
 		infinite: true,
 		speed: 100,
 		autoplay: true,
 		slidesToShow: 4,
 		pauseOnHover: true,
+		lazyLoad: 'anticipated',
+		responsive: [
+			{
+				breakpoint: 1025,
+				settings: {
+					slidesToShow: 3,
+				},
+			},
+			{
+				breakpoint: 769,
+				settings: {
+					slidesToShow: 2,
+				},
+			},
+			{
+				breakpoint: 425,
+				settings: {
+					slidesToShow: 1,
+				},
+			},
+		],
 	};
 
 	return (

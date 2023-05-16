@@ -12,11 +12,15 @@ const HotPlaceContainer = styled.div`
 	width: 100vw;
 	height: 100%;
 	margin-top: 82px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 `;
 
 const HotPlaceImage = styled.div`
 	width: 100%;
-	height: 460px;
+	height: 40vh;
 	background-image: linear-gradient(
 			rgba(255, 255, 255, 0.25),
 			rgba(255, 255, 255, 0.25)
@@ -26,46 +30,81 @@ const HotPlaceImage = styled.div`
 	background-size: cover;
 	display: flex;
 	align-items: flex-end;
+	@media (max-width: 768px) {
+		height: 30vh;
+	}
 	> span {
 		font-size: 50px;
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 425px) {
+			font-size: 36px;
+		}
 	}
 `;
 
 const HotPlaceItemContainer = styled.div`
-	width: 1300px;
+	width: 90vw;
 	padding: 70px;
+	@media (max-width: 768px) {
+		padding: 20px;
+	}
 `;
 
 const HotPlaceItem = styled.div`
 	border-bottom: 1px solid black;
 	padding: 20px 0;
 	display: flex;
+	@media (max-width: 425px) {
+		display: flex;
+		flex-direction: column;
+	}
+	@media (max-width: 768px) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 `;
 
 const HotPlaceImg = styled.div<SlideItemProps>`
-	width: 400px;
-	height: 400px;
+	width: 300px;
+	height: 300px;
 	background-image: url(${(props) => (props.image ? props.image : '')});
 	background-position: center;
 	background-size: cover;
 	border-radius: 15px;
+	@media (max-width: 768px) {
+		width: 80vw;
+	}
+	@media (max-width: 425px) {
+		width: 80vw;
+		height: 20vh;
+	}
 `;
 
 const HotPlaceInfo = styled.div`
-	width: 900px;
+	width: 70%;
 	margin-left: 20px;
 	display: flex;
 	flex-direction: column;
 	> span {
 		margin: 10px;
 		font-size: 20px;
+		@media (max-width: 768px) {
+			width: 80vw;
+			margin-left: 0;
+		}
+	}
+	@media (max-width: 768px) {
+		margin-left: 0;
 	}
 	.HotPlaceBold {
 		font-size: 28px;
 		font-weight: 700;
+		@media (max-width: 768px) {
+			margin: 20px 0 0 0;
+		}
 	}
 `;
 
