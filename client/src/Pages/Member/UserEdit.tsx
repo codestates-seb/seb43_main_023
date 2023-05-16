@@ -49,6 +49,11 @@ const Content = styled.div`
 				font-weight: 400;
 				margin-bottom: 40px;
 			}
+			.check {
+				color: red;
+				font-size: 10px;
+				margin-top: -30px;
+			}
 			.memberEdit {
 				font-size: 12px;
 				color: rgba(0, 0, 0, 0.2);
@@ -87,6 +92,26 @@ function UserEdit() {
 
 	const [editname, setEditName] = useState<string>('');
 	const [editmbti, setEditMbti] = useState<string>('');
+	const [nameValid, setNameValid] = useState(false);
+	const [mbtiValid, setMbtiValid] = useState(false);
+	const MBTI_REGEX = [
+		'ISTP',
+		'ISFP',
+		'ESTP',
+		'ESFP',
+		'INFJ',
+		'INFP',
+		'ENTJ',
+		'ENFP',
+		'ISTJ',
+		'ISFJ',
+		'ESTJ',
+		'ESFJ',
+		'INTJ',
+		'INTP',
+		'ENTJ',
+		'ENTP',
+	];
 
 	const nameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEditName(e.target.value);
@@ -95,27 +120,49 @@ function UserEdit() {
 		setEditMbti(e.target.value);
 	};
 	const userEditClick = async () => {
-		const mbtiImgData = await Api.get('/mbtiInfo');
-		const mbtiImg = mbtiImgData.data.find(
-			(v: { mbti: string }) => v.mbti === editmbti,
-		).img;
-		try {
-			await Api.patch(`/members/${userInfos.id}`, {
-				nickname: editname,
-				mbti: editmbti,
-				img: mbtiImg,
-			});
-			dispatch(UPDATE({ nickname: editname, mbti: editmbti, img: mbtiImg }));
-			Swal.fire({
-				title: '수정완료되었습니다.',
-				icon: 'success',
-			}).then((result) => {
-				if (result.value) {
-					navigate('/mypage');
-				}
-			});
-		} catch (error) {
-			navigate('/error');
+		if (editname === '') {
+			setNameValid(true);
+			setMbtiValid(false);
+		}
+		if (
+			MBTI_REGEX.find((v) => v === editmbti.toUpperCase()) === undefined &&
+			editname !== ''
+		) {
+			setMbtiValid(true);
+			setNameValid(false);
+		}
+		if (
+			editname !== '' &&
+			MBTI_REGEX.find((v) => v === editmbti.toUpperCase()) !== undefined
+		) {
+			const mbtiImgData = await Api.get('/mbtiInfo');
+			const mbtiImg = mbtiImgData.data.find(
+				(v: { mbti: string }) => v.mbti === editmbti.toUpperCase(),
+			).img;
+			try {
+				await Api.patch(`/members/${userInfos.id}`, {
+					nickname: editname,
+					mbti: editmbti.toUpperCase(),
+					img: mbtiImg,
+				});
+				dispatch(
+					UPDATE({
+						nickname: editname,
+						mbti: editmbti.toUpperCase(),
+						img: mbtiImg,
+					}),
+				);
+				Swal.fire({
+					title: '수정완료되었습니다.',
+					icon: 'success',
+				}).then((result) => {
+					if (result.value) {
+						navigate('/mypage');
+					}
+				});
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
@@ -136,6 +183,7 @@ function UserEdit() {
 								type="text"
 							/>
 						</div>
+						<div className="check">{nameValid && '이름을 입력해주세요'}</div>
 
 						<div>MBTI</div>
 						<div className="myInfo myMbti">
@@ -145,7 +193,9 @@ function UserEdit() {
 								type="text"
 							/>
 						</div>
-
+						<div className="check">
+							{mbtiValid && 'MBTI 형식으로 입력해주세요 ex.ISTJ'}
+						</div>
 						<div>Badge</div>
 						<div className="myInfo">{userInfos.badge}</div>
 						<button onClick={userEditClick} className="memberEdit">
