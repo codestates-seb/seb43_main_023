@@ -12,7 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -33,21 +32,19 @@ public class MemberController {
 
     @PostMapping("/signin")
     public ResponseEntity signIn(HttpServletRequest request,
-                                 HttpServletResponse response,
                                  @RequestBody @Valid MemberDto.SignIn signIn, Errors errors) {
         if (errors.hasErrors()) {
             return apiResponse.fail(errors);
         }
-        return memberService.signin(request, response, signIn);
+        return memberService.signin(request, signIn);
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity reissue(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        return memberService.reissue(request, response);
+    public ResponseEntity reissue(HttpServletRequest request) {
+        return memberService.reissue(request);
     }
 
-    @PatchMapping("{member-id}")
+    @PatchMapping("/{member-id}")
     public ResponseEntity updateMember(@PathVariable("member-id") long memberId,
                                        @RequestBody MemberDto.Patch memberPatchDto) {
         Member findMember = memberService.findVerifiedMember(memberId);
@@ -58,15 +55,22 @@ public class MemberController {
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(updatedMember), HttpStatus.OK);
     }
 
-    @GetMapping("{member-id}")
+    @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") long memberId) {
         Member verifiedMember = memberService.findVerifiedMember(memberId);
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(verifiedMember), HttpStatus.OK);
     }
 
-    @DeleteMapping("{member-id}")
+    @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@PathVariable("member-id") long memberId) {
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/grantBadge/{member-id}")
+    public ResponseEntity grantBadge(@PathVariable("member-id") long memberId) {
+        memberService.grantBadge(memberId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
