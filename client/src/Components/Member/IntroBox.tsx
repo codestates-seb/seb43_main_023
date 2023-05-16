@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { LOGOUT } from '../../Reducers/loginReducer';
 import { DELETE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
+import { removeCookie } from '../../Util/cookie';
 import { Api } from '../../Util/customAPI';
 
 const Main = styled.div`
@@ -62,6 +63,10 @@ function IntroBox() {
 			if (res.isConfirmed) {
 				try {
 					await Api.delete(`/members/${userInfos.id}`);
+					localStorage.removeItem('accessToken');
+					localStorage.removeItem('empiresAtAccess');
+					localStorage.removeItem('empiresAtRefresh');
+					removeCookie('refreshToken');
 					dispatch(DELETE());
 					dispatch(LOGOUT());
 					navigate('/main');
