@@ -95,10 +95,13 @@ function UserEdit() {
 		setEditMbti(e.target.value);
 	};
 	const userEditClick = async () => {
+		const mbtiImg = await Api.get('/mbtiInfo');
 		try {
 			await Api.patch(`/members/${userInfos.id}`, {
 				nickname: editname,
 				mbti: editmbti,
+				img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === editmbti)
+					.img,
 			});
 			dispatch(UPDATE({ nickname: editname, mbti: editmbti }));
 			Swal.fire({
