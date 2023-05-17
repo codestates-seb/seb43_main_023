@@ -1,9 +1,6 @@
 package com.mainproject.seb43_main_023.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.validation.constraints.NotBlank;
@@ -27,6 +24,7 @@ public class MemberDto {
         }
     }
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
         private String email;

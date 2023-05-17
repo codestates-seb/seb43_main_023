@@ -14,19 +14,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/posts")
 @Validated
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
-    @PostMapping
+    @PostMapping("/{post-id}/comments")
     public ResponseEntity postComment(@RequestBody @Valid CommentDto.CommentPostDto commentPostDto) {
         Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
         Comment createdComment = commentService.createComment(comment);
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(createdComment), HttpStatus.CREATED);
     }
-    @PatchMapping("{comment-id}")
+    @PatchMapping("/{post-id}/comments/{comment-id}")
     public ResponseEntity patchComment(@PathVariable("comment-id") @Positive long commentId,
                                        @RequestBody @Valid CommentDto.CommentPatchDto commentPatchDto) {
         Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
@@ -34,20 +34,20 @@ public class CommentController {
         Comment updatedComment = commentService.updateComment(comment);
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(updatedComment), HttpStatus.OK);
     }
-    @GetMapping("{comment-id}")
+    @GetMapping("/{post-id}/comments/{comment-id}")
     public ResponseEntity getComment(@PathVariable("comment-id") long commentId) {
         Comment verifiedComment = commentService.findVerifiedComment(commentId);
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(verifiedComment), HttpStatus.OK);
     }
-    @DeleteMapping("{comment-id}")
+    @DeleteMapping("/{post-id}/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") long commentId) {
         commentService.deleteComment(commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PatchMapping("/{comment-id}/vote/{member-id}")
+    @PatchMapping("/{post-id}/comments/{comment-id}/vote/{member-id}")
     public ResponseEntity voteComment(@PathVariable("comment-id") long commentId,
                                       @PathVariable("member-id") long memberId){
-        Comment comment = commentService.voteComment(commentId,memberId);
+        Comment comment = commentService.voteComment(commentId, memberId);
         return new ResponseEntity(commentMapper.commentToCommentResponseDto(comment),HttpStatus.OK);
     }
 }
