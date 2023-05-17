@@ -30,9 +30,10 @@ public class DataLoader {
 
     @PostConstruct
     public void init(){
+        Member member1 = new Member(1L,"test1@gmail.com","1234","testNick1","INFP",null,null,null, Member.MemberStatus.MEMBER_ACTIVE);
+        Member member2 = new Member(2L,"test2@gmail.com","1234","testNick2","INFP",null,null, null,Member.MemberStatus.MEMBER_ACTIVE);
         List<Member> members = Arrays.asList(
-        new Member(1L,"test1@gmail.com","1234","testNick1","INFP",null,null,null, Member.MemberStatus.MEMBER_ACTIVE),
-        new Member(2L,"test2@gmail.com","1234","testNick2","INFP",null,null, null,Member.MemberStatus.MEMBER_ACTIVE)
+        member1,member2
         );
         memberRepository.saveAll(members);
         List<Post> posts = Arrays.asList(
@@ -110,7 +111,6 @@ public class DataLoader {
                 new Comment(32L,"댓글1234",0,1,1,null),
                 new Comment(33L,"댓글1234",0,1,1,null),
                 new Comment(34L,"댓글1234",0,1,1,null)
-
 
         );
         commentRepository.saveAll(comments);

@@ -1,5 +1,6 @@
 package com.mainproject.seb43_main_023.post.dto;
 
+import com.mainproject.seb43_main_023.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class PostDto {
 
 /**    TODO
  *      private String tag;
+ *      뱃지
  *      추가예정
  */
     }
@@ -40,8 +42,8 @@ public class PostDto {
         private List<String> image;
         private long viewCount;
         private long voteCount;
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private LocalDateTime postCreatedAt;
+        private LocalDateTime postModifiedAt;
     }
     @Getter
     @Setter
@@ -54,8 +56,8 @@ public class PostDto {
         private String title;
         private long viewCount;
         private long voteCount;
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private LocalDateTime postCreatedAt;
+        private LocalDateTime postModifiedAt;
     }
 
     @Getter

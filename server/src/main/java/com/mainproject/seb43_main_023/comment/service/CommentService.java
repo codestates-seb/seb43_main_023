@@ -9,7 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -37,14 +42,17 @@ public class CommentService {
     }
     public Comment voteComment(long commentId) {
         Comment comment = findVerifiedComment(commentId);
-        if(comment.getVoteList().contains(comment.getMemberId())){
-            comment.setVoteCount(comment.getVoteCount() - 1);
-            comment.getVoteList().remove(comment.getMemberId());
+        Set<Long> voteList = new HashSet<>(comment.getVoteList());
+        Long count = comment.getVoteCount();
+        if (voteList.contains(memberId)) {
+            voteList.remove(memberId);
+            count--;
+        } else {
+            voteList.add(memberId);
+            count++;
         }
-        else {
-            comment.setVoteCount(comment.getVoteCount() + 1);
-            comment.getVoteList().add(comment.getMemberId());
-        }
+        comment.setVoteCount(count);
+        comment.setVoteList(new ArrayList<>(voteList));
         return commentRepository.save(comment);
     }
 }
