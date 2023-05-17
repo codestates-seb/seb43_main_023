@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import Slider from 'react-slick';
+import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
@@ -27,8 +27,7 @@ const SlideContainer = styled(Slider)`
 `;
 
 const SlideItem = styled.div<SlideItemProps>`
-	width: 220px;
-	height: 220px;
+	width: 100%;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
 
@@ -52,13 +51,34 @@ const StyledLink = styled(Link)`
 `;
 
 function Carousel() {
-	const settings = {
+	const settings: Settings = {
 		dots: false,
 		infinite: true,
 		speed: 100,
 		autoplay: true,
 		slidesToShow: 4,
 		pauseOnHover: true,
+		lazyLoad: 'anticipated',
+		responsive: [
+			{
+				breakpoint: 1025,
+				settings: {
+					slidesToShow: 3,
+				},
+			},
+			{
+				breakpoint: 769,
+				settings: {
+					slidesToShow: 2,
+				},
+			},
+			{
+				breakpoint: 425,
+				settings: {
+					slidesToShow: 1,
+				},
+			},
+		],
 	};
 
 	const regionInfo = [
