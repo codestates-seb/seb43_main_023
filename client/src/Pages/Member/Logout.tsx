@@ -1,6 +1,5 @@
 import '../../Global.css';
 
-import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,6 +9,7 @@ import Swal from 'sweetalert2';
 import airplane from '../../Assets/airplane.png';
 import logo from '../../Assets/logo.png';
 import { Ilogin, LOGOUT } from '../../Reducers/loginReducer';
+import { DELETE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { removeCookie } from '../../Util/cookie';
 
@@ -73,13 +73,27 @@ function Logout() {
 		}).then(async (res) => {
 			if (res.isConfirmed) {
 				try {
-					await axios.post(
-						`https://oauth2.googleapis.com/revoke?token=${login.accessToken}`,
+					/*
+					const oauthInfo = await axios.get(
+						'https://www.googleapis.com/oauth2/v2/userinfo',
+						{
+							headers: {
+								Authorization: `Bearer ${login.accessToken}`,
+							},
+						},
 					);
+					console.log(oauthInfo.data.id);
+					if (oauthInfo.data.id) {
+						await axios.post(
+							`https://oauth2.googleapis.com/revoke?token=${login.accessToken}`,
+						);
+					}
+					*/
 					localStorage.removeItem('accessToken');
 					localStorage.removeItem('empiresAtAccess');
 					localStorage.removeItem('empiresAtRefresh');
 					dispatch(LOGOUT());
+					dispatch(DELETE());
 					removeCookie('refreshToken');
 					navigate('/main');
 				} catch (error) {

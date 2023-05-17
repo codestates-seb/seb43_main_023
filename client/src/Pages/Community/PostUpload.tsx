@@ -1,21 +1,26 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '../../Global.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { FiDelete, FiAlertCircle } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
+
+import { FiAlertCircle, FiDelete } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import SubjectDropdown from '../../Components/Community/SubjectDropdown';
+import styled from 'styled-components';
+import Swal from 'sweetalert2';
+
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { Editor } from '@toast-ui/react-editor';
+
 import SearchPlace from '../../Components/Community/SearchPlace';
+import SubjectDropdown from '../../Components/Community/SubjectDropdown';
+import { Iuser, UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
-import { Iuser } from '../../Reducers/userInfoReducer';
-import useAxios from '../../Util/customAxios';
 import { Api } from '../../Util/customAPI';
+import useAxios from '../../Util/customAxios';
 
 const Container = styled.div`
 	width: 100vw;
@@ -205,6 +210,7 @@ const Alert = styled.div`
 `;
 
 function PostUpload() {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const editorRef = useRef<Editor | null>(null);
 
@@ -307,7 +313,35 @@ function PostUpload() {
 					y,
 					email: userInfos.email,
 				});
-				document.location.href = `/tripreview/${posts.length + 1}`;
+				const myposts = posts.filter(
+					(v: { email: string }) => v.email === userInfos.email,
+				);
+				if (myposts.length === 4) {
+					Api.patch(`/members/${userInfos.id}`, {
+						nickname: userInfos.nickname,
+						mbti: userInfos.mbti,
+						img: userInfos.img,
+						badge: '초보여행자',
+					});
+					dispatch(
+						UPDATE({
+							nickname: userInfos.nickname,
+							mbti: userInfos.mbti,
+							img: userInfos.img,
+							badge: '초보여행자',
+						}),
+					);
+					Swal.fire({
+						title: '초보여행자 뱃지 획득!',
+						icon: 'success',
+					}).then((result) => {
+						if (result.value) {
+							document.location.href = `/community/${posts.length + 1}`;
+						}
+					});
+				} else {
+					document.location.href = `/community/${posts.length + 1}`;
+				}
 			} catch (error) {
 				navigate('/error');
 			}
@@ -328,7 +362,35 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					email: userInfos.email,
 				});
-				document.location.href = `/community/${posts.length + 1}`;
+				const myposts = posts.filter(
+					(v: { email: string }) => v.email === userInfos.email,
+				);
+				if (myposts.length === 4) {
+					Api.patch(`/members/${userInfos.id}`, {
+						nickname: userInfos.nickname,
+						mbti: userInfos.mbti,
+						img: userInfos.img,
+						badge: '초보여행자',
+					});
+					dispatch(
+						UPDATE({
+							nickname: userInfos.nickname,
+							mbti: userInfos.mbti,
+							img: userInfos.img,
+							badge: '초보여행자',
+						}),
+					);
+					Swal.fire({
+						title: '초보여행자 뱃지 획득!',
+						icon: 'success',
+					}).then((result) => {
+						if (result.value) {
+							document.location.href = `/community/${posts.length + 1}`;
+						}
+					});
+				} else {
+					document.location.href = `/community/${posts.length + 1}`;
+				}
 			} catch (error) {
 				navigate('/error');
 			}
