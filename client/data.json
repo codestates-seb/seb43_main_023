@@ -466,6 +466,48 @@
       "x": "127.05156147004348",
       "y": "37.505691000291094",
       "email": "test@gmail.com"
+    },
+    {
+      "id": 28,
+      "nickName": "조베기",
+      "subject": "여행고민",
+      "title": "ㅏㅏ",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "choalstn@gmail.com"
+    },
+    {
+      "id": 29,
+      "nickName": "조베기",
+      "subject": "여행고민",
+      "title": "ㅏㅏ",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "choalstn@gmail.com"
+    },
+    {
+      "id": 30,
+      "nickName": "조베기",
+      "subject": "여행고민",
+      "title": "ㅣㅣ",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "choalstn@gmail.com"
     }
   ],
   "comments": [
@@ -528,6 +570,15 @@
       "email": "yjh44242168@gmail.com",
       "password": "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",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTg1/MDAxNjI1NjQzNzIxNDQz.EfMyjRXUfV1VGRgNszd7a5cVwIDZp9WpZHEzyEC5RJEg.MbHWLTvaIE-96grTDv661p7bK-xyaHpaRmdVBLMTIxog.PNG.im_worry/13.png?type=w800",
+      "badge": null
+    },
+    {
+      "id": 106546720966482130000,
+      "nickname": "조베기",
+      "mbti": "ESFJ",
+      "email": "choalstn@gmail.com",
+      "password": "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",
+      "img": "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg",
       "badge": null
     }
   ],

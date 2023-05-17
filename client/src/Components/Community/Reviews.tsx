@@ -7,7 +7,6 @@ import useAxios from '../../Util/customAxios';
 import Pagination from './Pagination';
 
 const Container = styled.div`
-	margin-top: 50px;
 	min-height: 600px;
 	max-height: 600px;
 	margin-left: 35px;

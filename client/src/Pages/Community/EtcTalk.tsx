@@ -8,6 +8,30 @@ import Tags from '../../Components/Community/Tags';
 import useAxios from '../../Util/customAxios';
 import Pagination from '../../Components/Community/Pagination';
 
+const Explain = styled.div`
+	margin-top: 85px;
+	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 20px;
+	margin-bottom: 40px;
+	padding: 30px;
+	line-height: 1.5rem;
+
+	> h1 {
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+
+	> div {
+		color: #595959;
+		font-size: 14px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgb(214, 217, 219);
+	}
+`;
+
 const EtcTalkContainer = styled.div`
 	height: calc(100vh - 165px);
 	display: flex;
@@ -160,6 +184,15 @@ function EtcTalk() {
 
 	return (
 		<div className="main">
+			<Explain>
+				<h1>잡담</h1>
+				<div>
+					여행과 MBTI 관련 외 여러 대화를 나누고 싶다면 ? <br />
+					이 공간에서 여러 사람들과 자유롭게 대화를 나눠보세요
+					<br />
+					타인에게 예민하거나 안전하지 않은 내용은 지양해주세요
+				</div>
+			</Explain>
 			<EtcTalkContainer>
 				<SideBar />
 				<div>

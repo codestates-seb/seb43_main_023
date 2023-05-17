@@ -8,8 +8,32 @@ import Tags from '../../Components/Community/Tags';
 import useAxios from '../../Util/customAxios';
 import Pagination from '../../Components/Community/Pagination';
 
+const Explain = styled.div`
+	margin-top: 85px;
+	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 20px;
+	margin-bottom: 40px;
+	padding: 30px;
+	line-height: 1.5rem;
+
+	> h1 {
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+
+	> div {
+		color: #595959;
+		font-size: 14px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgb(214, 217, 219);
+	}
+`;
+
 const TripMateContainer = styled.div`
-	height: calc(100vh - 165px);
+	height: calc(100vh - 220px);
 	display: flex;
 
 	a {
@@ -24,7 +48,6 @@ const TripMateContainer = styled.div`
 `;
 
 const TripMateBody = styled.div`
-	margin-top: 35px;
 	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
@@ -160,6 +183,16 @@ function TripMate() {
 
 	return (
 		<div className="main">
+			<Explain>
+				<h1>같이가요</h1>
+				<div>
+					혼자이고 싶지만 여행은 혼자이기 싫으신가요 ? <br />
+					여행계획이 취소되어 못가게 됐는데 아쉬우신가요 ?
+					<br />
+					안전하게 나와 비슷한 성향을 가진 사람과 함께 여행해보세요 ! 새로운
+					여행의 매력을 느낄지도 몰라요
+				</div>
+			</Explain>
 			<TripMateContainer>
 				<SideBar />
 
