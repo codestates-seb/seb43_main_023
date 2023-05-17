@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,7 +26,7 @@ public class CommentService {
         Comment findComment = findVerifiedComment(comment.getCommentId());
         Optional.ofNullable(comment.getContent())
                 .ifPresent((content -> findComment.setContent(content)));
-        return commentRepository.save(findComment);
+        return commentRepository.save(comment);
     }
     public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);
@@ -40,7 +39,7 @@ public class CommentService {
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
-    public Comment voteComment(long commentId) {
+    public Comment voteComment(long commentId, long memberId){
         Comment comment = findVerifiedComment(commentId);
         Set<Long> voteList = new HashSet<>(comment.getVoteList());
         Long count = comment.getVoteCount();
