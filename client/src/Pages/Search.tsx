@@ -1,4 +1,7 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { RootState } from '../Store/store';
+import { IKeyword } from '../Reducers/searchKeywordReducer';
 
 const SearchContainer = styled.div`
 	width: 100%;
@@ -9,6 +12,29 @@ const SearchContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+`;
+
+const SearchAPI = styled.div`
+	width: 90%;
+	border: 1px solid #d9d9d9;
+	border-radius: 15px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	font-size: 24px;
+	font-weight: 700;
+	.keyword {
+		color: #0db4f3;
+	}
+`;
+
+const APIContainer = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-top: 10px;
 `;
 
 const SearchAd = styled.div`
@@ -112,11 +138,40 @@ const ResultImg = styled.div`
 `;
 
 function Search() {
+	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
 	return (
 		<SearchContainer>
+			<SearchAPI>
+				<div className="title">
+					한국 관광 공사의 <span className="keyword">{keyword.keyword}</span>{' '}
+					추천 여행지
+				</div>
+				<AdItemContainer>
+					<AdItem>
+						<div className="adimg">사진</div>
+						<div className="adtext">텍스트</div>
+					</AdItem>
+					<AdItem>
+						<div className="adimg">사진</div>
+						<div className="adtext">텍스트</div>
+					</AdItem>
+					<AdItem>
+						<div className="adimg">사진</div>
+						<div className="adtext">텍스트</div>
+					</AdItem>
+					<AdItem>
+						<div className="adimg">사진</div>
+						<div className="adtext">텍스트</div>
+					</AdItem>
+					<AdItem>
+						<div className="adimg">사진</div>
+						<div className="adtext">텍스트</div>
+					</AdItem>
+				</AdItemContainer>
+			</SearchAPI>
 			<SearchAd>
 				<div className="title">
-					<span className="keyword">키워드</span> 추천 여행지
+					<span className="keyword">{keyword.keyword}</span> 추천 여행지
 				</div>
 				<AdItemContainer>
 					<AdItem>
@@ -143,7 +198,7 @@ function Search() {
 			</SearchAd>
 			<SearchResult>
 				<div className="title">
-					<span className="keyword">키워드</span>가 포함된 게시글
+					<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
 				</div>
 				<ResultContainer>
 					<ResultItem>
