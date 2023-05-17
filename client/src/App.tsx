@@ -35,10 +35,8 @@ const RegionDetail = lazy(() => import('./Pages/RegionDetail'));
 function App() {
 	const url = new URL(window.location.href); // 현재 url 가져오기
 	const { hash } = url; // url에서 hash값 가져오기
-	if (hash.split('=')[0] === '#access_token') {
-		// hash값이 accessToken이 포함된 경우 실행(oauth google클릭 때만 실행됨)
-		OauthJoinHandler();
-	}
+	// hash값이 accessToken이 포함된 경우 실행(oauth google클릭 때만 실행됨)
+	if (hash.split('=')[0] === '#access_token') OauthJoinHandler();
 
 	return (
 		<div>

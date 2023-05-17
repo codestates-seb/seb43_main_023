@@ -6,7 +6,7 @@ export interface Iuser {
 	email?: string;
 	mbti: string;
 	img?: string;
-	badge?: null;
+	badge?: null | string;
 }
 
 const initialState: Iuser = {

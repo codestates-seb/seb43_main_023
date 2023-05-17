@@ -144,12 +144,14 @@ function UserEdit() {
 					nickname: editname,
 					mbti: editmbti.toUpperCase(),
 					img: mbtiImg,
+					badge: userInfos.badge,
 				});
 				dispatch(
 					UPDATE({
 						nickname: editname,
 						mbti: editmbti.toUpperCase(),
 						img: mbtiImg,
+						badge: userInfos.badge,
 					}),
 				);
 				Swal.fire({

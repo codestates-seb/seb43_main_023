@@ -2,14 +2,14 @@ import '../../Global.css';
 
 import { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import IntroBox from '../../Components/Member/IntroBox';
 import MyReview from '../../Components/Member/MyReview';
-import { Iuser } from '../../Reducers/userInfoReducer';
+import { Iuser, UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
 import useAxios from '../../Util/customAxios';
@@ -114,6 +114,7 @@ const MenuContent = styled.div`
 
 const UserWriting = styled.div`
 	width: 100%;
+	min-height: 28vh;
 	ul {
 		margin-bottom: 250px;
 	}
@@ -163,6 +164,7 @@ interface Ipost {
 }
 
 function Mypage() {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
@@ -218,12 +220,13 @@ function Mypage() {
 		method: 'get',
 		url: '/posts',
 	});
-
 	useEffect(() => {
-		if (response !== null) {
-			setPosts(response);
-		}
-	}, [response]);
+		if (response === null) return;
+		const data = response as [];
+		setPosts(
+			data.filter((v: { email: string }) => v.email === userInfos.email),
+		);
+	}, [response, userInfos.email]);
 
 	/*
 	// 커뮤니티 내글 get요청(커스텀 axios Api 사용)
@@ -240,7 +243,8 @@ function Mypage() {
 	}, [userInfos.email]);
 	*/
 
-	// 마이페이지 내가 쓴 글 삭제 핸들러
+	// 마이페이지 내가 쓴 글 삭제 핸들러 +
+	// 초보여행자 뱃지가 있고, 삭제 후 글이 5개 미만이 되는 경우 -> 뱃지 null로 업데이트
 	const postDeleteClick = (id: number) => {
 		Swal.fire({
 			icon: 'warning',
@@ -253,6 +257,22 @@ function Mypage() {
 			if (res.isConfirmed) {
 				try {
 					await Api.delete(`/posts/${id}`);
+					if (userInfos.badge !== null && posts.length <= 5) {
+						Api.patch(`/members/${userInfos.id}`, {
+							nickname: userInfos.nickname,
+							mbti: userInfos.mbti,
+							img: userInfos.img,
+							badge: null,
+						});
+						dispatch(
+							UPDATE({
+								nickname: userInfos.nickname,
+								mbti: userInfos.mbti,
+								img: userInfos.img,
+								badge: null,
+							}),
+						);
+					}
 					window.location.reload();
 				} catch (error) {
 					navigate('/error');
@@ -337,32 +357,30 @@ function Mypage() {
 					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
-								{posts
-									.filter((v: { email: string }) => v.email === userInfos.email)
-									.map((post) => {
-										return (
-											<li key={post.id}>
-												<div className="writingHead">[{post.subject}]</div>
+								{posts.map((post) => {
+									return (
+										<li key={post.id}>
+											<div className="writingHead">[{post.subject}]</div>
+											<Link
+												to={{ pathname: `/community/${post.id}` }}
+												style={{ textDecoration: 'none' }}
+											>
+												<div className="writingBody">{post.title}</div>
+											</Link>
+											<div>
 												<Link
-													to={{ pathname: `/community/${post.id}` }}
+													to={{ pathname: `/community/${post.id}/update` }}
 													style={{ textDecoration: 'none' }}
 												>
-													<div className="writingBody">{post.title}</div>
+													<button>Edit</button>
 												</Link>
-												<div>
-													<Link
-														to={{ pathname: `/community/${post.id}/update` }}
-														style={{ textDecoration: 'none' }}
-													>
-														<button>Edit</button>
-													</Link>
-													<button onClick={() => postDeleteClick(post.id)}>
-														Delete
-													</button>
-												</div>
-											</li>
-										);
-									})}
+												<button onClick={() => postDeleteClick(post.id)}>
+													Delete
+												</button>
+											</div>
+										</li>
+									);
+								})}
 							</ul>
 						</UserWriting>
 					)}
