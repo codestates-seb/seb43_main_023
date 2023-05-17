@@ -168,6 +168,7 @@ const WeatherTitle = styled.div`
 	font-weight: 700;
 	> span {
 		color: tomato;
+		margin-left: 10px;
 	}
 `;
 

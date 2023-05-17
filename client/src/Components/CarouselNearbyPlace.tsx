@@ -53,7 +53,7 @@ const SlideItem = styled.div<SlideItemProps>`
 	}
 `;
 
-function CarouselHotPlace() {
+function CarouselNearbyPlace() {
 	const [myLocation, setMyLocation] = useState({
 		latitude: 37.541,
 		longitude: 126.986,
@@ -100,7 +100,7 @@ function CarouselHotPlace() {
 	}, []);
 
 	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=15000&contentTypeId=12`;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=6&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=10000&contentTypeId=12`;
 
 	const [tripInfo, setTripInfo] = useState([]);
 
@@ -132,4 +132,4 @@ function CarouselHotPlace() {
 	);
 }
 
-export default CarouselHotPlace;
+export default CarouselNearbyPlace;
