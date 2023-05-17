@@ -56,7 +56,7 @@ export default function OauthJoinHandler() {
 					).length === 0
 				) {
 					// 회원가입 post 요청
-					await Api.post('/members', {
+					await Api.post('/members/signup', {
 						memberId,
 						nickname: oauthInfo.data.id,
 						mbti: 'INFP',
@@ -67,7 +67,7 @@ export default function OauthJoinHandler() {
 						badge: null,
 					});
 					// 서버 연결코드
-					const loginData = await Api.post('/members/signup', {
+					const loginData = await Api.post('/members/signin', {
 						email: oauthInfo.data.email,
 						password,
 					});

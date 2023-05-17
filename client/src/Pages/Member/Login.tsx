@@ -147,7 +147,7 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			const loginData = await Api.post('/members/signup', {
+			const loginData = await Api.post('/members/signin', {
 				email: el.email.value,
 				password: el.password.value,
 			});
