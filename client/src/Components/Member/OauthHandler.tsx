@@ -44,8 +44,10 @@ export default function OauthJoinHandler() {
 				console.log(oauthInfo.data); // oauth data(id, email)
 
 				// 회원가입과 로그인 공통 정보 업데이트
-				const memberId = oauthInfo.data.id;
 				const mbtiImg = await Api.get('/mbtiInfo');
+				const userCheck = await Api.get(`/members`);
+				const memberId = Number(oauthInfo.data.id);
+				const password = process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY;
 				const refreshToken = 'token2';
 				dispatch(LOGIN({ accessToken: `${accessToken}` }));
 				setCookie('refreshToken', refreshToken, {
@@ -56,18 +58,6 @@ export default function OauthJoinHandler() {
 				localStorage.setItem('accessToken', accessToken);
 				localStorage.setItem('empiresAtAccess', '1800000');
 				localStorage.setItem('empiresAtRefresh', '9900000');
-
-				// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
-				const oauthInfoData = {
-					id: Number(oauthInfo.data.id),
-					nickname: oauthInfo.data.id,
-					mbti: 'INFP',
-					email: oauthInfo.data.email,
-					password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
-					img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-						.img,
-					badge: null,
-				};
 
 				// 서버 연결하면 사용할 코드(수정 필요)
 				/*
@@ -84,18 +74,30 @@ export default function OauthJoinHandler() {
 				*/
 
 				// 회원가입이 안되있다면
-				const userCheck = await Api.get(`/members`);
 				if (
 					userCheck.data.filter((el: { id: number }) => el.id === memberId)
 						.length === 0
 				) {
 					// 회원가입 post 요청
 					await Api.post('/members', {
-						...oauthInfoData,
+						id: memberId,
+						nickname: oauthInfo.data.id,
+						mbti: 'INFP',
+						email: oauthInfo.data.email,
+						password,
+						img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+							.img,
+						badge: null,
 					});
 					dispatch(
 						UPDATE({
-							...oauthInfoData,
+							id: memberId,
+							nickname: oauthInfo.data.id,
+							mbti: 'INFP',
+							email: oauthInfo.data.email,
+							img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+								.img,
+							badge: null,
 						}),
 					);
 					Swal.fire({
