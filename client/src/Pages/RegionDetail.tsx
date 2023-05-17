@@ -29,6 +29,13 @@ interface IRegionData {
 	regionIntro: string;
 }
 
+type TripInfoType = {
+	contentid: number;
+	firstimage: string;
+	title: string;
+	addr1: string;
+};
+
 const RegionDetailContainer = styled.div`
 	width: 100vw;
 	height: 100%;
@@ -41,7 +48,7 @@ const RegionDetailContainer = styled.div`
 
 const RegionDetailImage = styled.div<ImageProps>`
 	width: 100%;
-	height: 460px;
+	height: 40vh;
 	display: flex;
 	align-items: flex-end;
 	> span {
@@ -61,25 +68,39 @@ const RegionDetailImage = styled.div<ImageProps>`
 		opacity: 0.7;
 		z-index: -1;
 	}
+	@media (max-width: 768px) {
+		height: 30vh;
+	}
 `;
 
 const RegionInfo = styled.div`
 	width: 90%;
-	height: 230px;
 	margin: 70px;
 	display: flex;
+	@media (max-width: 768px) {
+		display: flex;
+		flex-direction: column;
+	}
 `;
 
 const RegionInfoImg = styled.div<ImageProps>`
 	width: 40%;
 	background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
 		center / cover no-repeat;
+	@media (max-width: 768px) {
+		width: 100%;
+		height: 250px;
+		margin-bottom: 20px;
+	}
 `;
 
 const RegionInfoText = styled.div`
 	width: 60%;
 	padding-left: 20px;
 	font-size: 18px;
+	@media (max-width: 768px) {
+		width: 100%;
+	}
 `;
 
 const RegionTitle = styled.div`
@@ -102,6 +123,10 @@ const RegionRecItemContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
+	@media (max-width: 1024px) {
+		padding: 20px;
+		justify-content: center;
+	}
 `;
 
 const RegionRecItem = styled.div`
@@ -466,7 +491,7 @@ function RegionDetail() {
 			</RegionTitle>
 			<RegionRecItemContainer>
 				{tripInfo
-					? tripInfo.map((item: any) => {
+					? tripInfo.map((item: TripInfoType) => {
 							return (
 								<RegionRecItem key={item.contentid}>
 									<RegionItemImg image={item.firstimage} />
