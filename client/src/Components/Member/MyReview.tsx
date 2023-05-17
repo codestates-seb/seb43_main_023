@@ -1,3 +1,5 @@
+import '../../Global.css';
+
 import { useEffect, useState } from 'react';
 
 import { AiFillHeart } from 'react-icons/ai';
@@ -9,8 +11,9 @@ import { Iuser } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
 
-const Container = styled.div`
+const Container = styled.ul`
 	width: 95%;
+	min-height: 28vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -111,27 +114,29 @@ function MyReview() {
 		<Container>
 			{reviews &&
 				reviews.map((el) => (
-					<Link to={`/tripreview/${el.id}`}>
-						<ReviewBox>
-							<div>
-								<img src={el.img[0]} alt="여행리뷰사진" />
-							</div>
-							<div>{el.title}</div>
-							<Writer>
+					<li key={el.id}>
+						<Link to={`/tripreview/${el.id}`}>
+							<ReviewBox>
 								<div>
+									<img src={el.img[0]} alt="여행리뷰사진" />
+								</div>
+								<div>{el.title}</div>
+								<Writer>
 									<div>
-										<img src={userInfos.img} alt="유저프로필사진" />
+										<div>
+											<img src={userInfos.img} alt="유저프로필사진" />
+										</div>
+										<div>{el.nickName}</div>
 									</div>
-									<div>{el.nickName}</div>
-								</div>
 
-								<div>
-									<AiFillHeart color="#F24F1F" size={17} />
-									<p>{el.voteCount}</p>
-								</div>
-							</Writer>
-						</ReviewBox>
-					</Link>
+									<div>
+										<AiFillHeart color="#F24F1F" size={17} />
+										<p>{el.voteCount}</p>
+									</div>
+								</Writer>
+							</ReviewBox>
+						</Link>
+					</li>
 				))}
 		</Container>
 	);

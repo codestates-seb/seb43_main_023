@@ -202,7 +202,7 @@ function Join() {
 				const mbtiImg = await Api.get(
 					`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
 				);
-				await Api.post('/members', {
+				await Api.post('/members/signin', {
 					nickname: el.displayName.value,
 					mbti: el.mbti.value.toUpperCase(),
 					email: el.email.value,

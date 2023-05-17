@@ -147,7 +147,7 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			const loginData = await Api.post('/members/signin', {
+			const loginData = await Api.post('/members/signup', {
 				email: el.email.value,
 				password: el.password.value,
 			});
@@ -159,7 +159,6 @@ function Login() {
 				refreshTokenExpirationTime,
 			} = loginData.data;
 			// axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-			const token = { accessToken: 'token' };
 
 			const userInfo = await Api.get(`/members/${memberId}`);
 			if (
@@ -194,7 +193,7 @@ function Login() {
 						badge: userInfo.data.badge,
 					}),
 				);
-				dispatch(LOGIN(token));
+				dispatch(LOGIN({ accessToken: `${accessToken}` }));
 				setCookie('refreshToken', refreshToken, {
 					path: '/',
 					sameSite: 'none',

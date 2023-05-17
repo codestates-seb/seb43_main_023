@@ -45,27 +45,11 @@ export default function OauthJoinHandler() {
 
 				// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
 				const mbtiImg = await Api.get('/mbtiInfo');
-				const oauthInfoData = {
-					memberId: oauthInfo.data.id,
-					nickname: oauthInfo.data.id,
-					mbti: 'INFP',
-					email: oauthInfo.data.email,
-					password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
-					img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-						.img,
-				};
-				const oauthInfoData2 = {
-					id: oauthInfo.data.id,
-					nickname: oauthInfo.data.id,
-					mbti: 'INFP',
-					email: oauthInfo.data.email,
-					password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
-					img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-						.img,
-				};
+				const userCheck = await Api.get(`/members`);
+				const memberId = Number(oauthInfo.data.id);
+				const password = process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY;
 
 				// 회원가입이 안되있다면
-				const userCheck = await Api.get(`/members`);
 				if (
 					userCheck.data.filter(
 						(el: { memberId: number }) => el.memberId === oauthInfo.data.id,
@@ -73,12 +57,19 @@ export default function OauthJoinHandler() {
 				) {
 					// 회원가입 post 요청
 					await Api.post('/members', {
-						...oauthInfoData,
+						memberId,
+						nickname: oauthInfo.data.id,
+						mbti: 'INFP',
+						email: oauthInfo.data.email,
+						password,
+						img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+							.img,
+						badge: null,
 					});
 					// 서버 연결코드
-					const loginData = await Api.post('/members/signin', {
+					const loginData = await Api.post('/members/signup', {
 						email: oauthInfo.data.email,
-						password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
+						password,
 					});
 					const {
 						accessToken,
@@ -91,7 +82,13 @@ export default function OauthJoinHandler() {
 					// 로그인 정보 업데이트
 					dispatch(
 						UPDATE({
-							...oauthInfoData2,
+							id: memberId,
+							nickname: oauthInfo.data.id,
+							mbti: 'INFP',
+							email: oauthInfo.data.email,
+							img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+								.img,
+							badge: null,
 						}),
 					);
 					dispatch(LOGIN({ accessToken: `${accessToken}` }));
@@ -131,12 +128,13 @@ export default function OauthJoinHandler() {
 					// 로그인 정보 업데이트
 					dispatch(
 						UPDATE({
-							id: userInfo.data.id,
-							email: userInfo.data.email,
-							nickname: userInfo.data.nickname,
-							mbti: userInfo.data.mbti,
-							img: userInfo.data.img,
-							badge: userInfo.data.badge,
+							id: memberId,
+							nickname: oauthInfo.data.id,
+							mbti: 'INFP',
+							email: oauthInfo.data.email,
+							img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+								.img,
+							badge: null,
 						}),
 					);
 					dispatch(LOGIN({ accessToken: `${accessToken}` }));
