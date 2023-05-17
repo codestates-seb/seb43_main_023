@@ -27,10 +27,10 @@ public class PostService {
         this.postRepository = postRepository;
         this.memberService = memberService;
     }
-    @Transactional
     public Post createPost(Post post, long memberId){
         Member member = memberService.findVerifiedMember(memberId);
-        return postRepository.save(new Post(post,memberId,member.getNickname(),member.getEmail()));
+        post.addMember(post,member);
+        return postRepository.save(post);
     }
     public Post updatePost(Post post, long memberId){
         Post findPost = verifyPost(post.getPostId());

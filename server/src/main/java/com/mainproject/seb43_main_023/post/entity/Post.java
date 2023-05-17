@@ -2,6 +2,7 @@ package com.mainproject.seb43_main_023.post.entity;
 
 
 import com.mainproject.seb43_main_023.audit.Auditable;
+import com.mainproject.seb43_main_023.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,9 +38,9 @@ public class Post extends Auditable {
     @Column
     private long voteCount = 0;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime postCreatedAt = LocalDateTime.now();
 
-    private LocalDateTime modifiedAt = createdAt;
+    private LocalDateTime postModifiedAt = postCreatedAt;
 
     @Column(nullable = false)
     private Long memberId;
@@ -50,15 +51,20 @@ public class Post extends Auditable {
     @Column(nullable = false)
     private String nickname;
 
+//    @ManyToOne
+//    @JoinColumn(name = "MEMBER_ID")
+//    private Member member;
+
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
 
     @ElementCollection
     private List<String> image = new ArrayList<>();
 
-    public Post(Post post,Long memberId, String nickname, String email){
-        post.setMemberId(memberId);
-        post.setNickname(nickname);
-        post.setEmail(email);
+    public void addMember(Post post,Member member) {
+        post.setMemberId(member.getMemberId());
+        post.setNickname(member.getNickname());
+        post.setEmail(member.getEmail());
     }
 }
+
