@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Iuser {
 	id?: number;
-	nickname?: string;
+	nickname: string;
 	email?: string;
-	mbti?: string;
+	mbti: string;
 	img?: string;
 	badge?: null | string;
 }
