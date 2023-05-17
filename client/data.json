@@ -508,6 +508,41 @@
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
       "email": "choalstn@gmail.com"
+    },
+    {
+      "id": 31,
+      "nickName": "",
+      "subject": "여행고민",
+      "title": "하동",
+      "content": "하동하동",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": ""
+    },
+    {
+      "id": 32,
+      "nickName": "",
+      "subject": "여행리뷰",
+      "title": "하동 여행",
+      "content": "",
+      "tag": [
+        "하동",
+        "최참판댁"
+      ],
+      "img": [
+        "https://images.chosun.com/resizer/OynK2vVnenPVwEXM7o-xy2MSLkc=/616x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/P34PNYBNCDMADSX3XE2T3MNCAM.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.688100367243",
+      "y": "35.1555906084513",
+      "email": ""
     }
   ],
   "comments": [
