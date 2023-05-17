@@ -4,18 +4,20 @@ package com.mainproject.seb43_main_023.member.service;
 import com.mainproject.seb43_main_023.auth.jwt.JwtTokenProvider;
 import com.mainproject.seb43_main_023.auth.lib.Helper;
 import com.mainproject.seb43_main_023.auth.utils.CustomAuthorityUtils;
+import com.mainproject.seb43_main_023.comment.entity.Comment;
+import com.mainproject.seb43_main_023.comment.repository.CommentRepository;
 import com.mainproject.seb43_main_023.dto.ApiResponse;
 import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.member.dto.MemberDto;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.repository.MemberRepository;
+import com.mainproject.seb43_main_023.post.entity.Post;
+import com.mainproject.seb43_main_023.post.repository.PostRepository;
 import com.mainproject.seb43_main_023.redis.entity.RefreshToken;
 import com.mainproject.seb43_main_023.redis.repository.RefreshTokenRedisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -23,23 +25,25 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
-    private final ApiResponse apiResponse;
+    private final ApiResponse response;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public ResponseEntity<?> signin(HttpServletRequest request, HttpServletResponse response, MemberDto.SignIn signIn) {
+    public ResponseEntity<?> signin(HttpServletRequest request, MemberDto.SignIn signIn) {
         // 1. email, password 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = signIn.toAuthentication();
@@ -51,6 +55,9 @@ public class MemberService {
         // 3. 인증 정보를 기반으로 JWT Token 생성
         MemberDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
+        Member verifiedMember = findVerifiedMemberByEmail(signIn.getEmail());
+        tokenInfo.setMemberId(verifiedMember.getMemberId());
+
         // 4. Redis RefreshToken 저장
         refreshTokenRedisRepository.save(RefreshToken.builder()
                 .id(authentication.getName())
@@ -59,25 +66,10 @@ public class MemberService {
                 .refreshToken(tokenInfo.getRefreshToken())
                 .build());
 
-        Member member = findVerifiedMemberByEmail(signIn.getEmail());
-        response.addHeader("Authorization", tokenInfo.getAccessToken());
-        response.addHeader("AccessTokenExpirationTime", tokenInfo.getAccessTokenExpirationTime().toString());
-        response.addHeader("Refresh", tokenInfo.getRefreshToken());
-        response.addHeader("RefreshTokenExpirationTime", tokenInfo.getRefreshTokenExpirationTime().toString());
-        response.addHeader("MemberId", member.getMemberId().toString());
-
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenInfo.getRefreshToken())
-                .maxAge(7 * 24 * 60 * 60)
-                .path("/")
-                .secure(true)
-                .sameSite("None")
-                .httpOnly(true)
-                .build();
-        response.setHeader("Set-Cookie", cookie.toString());
-        return new ResponseEntity<> (HttpStatus.OK);
+        return response.success(tokenInfo);
     }
 
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> reissue(HttpServletRequest request) {
         // 1. Request Header 에서 JWT Token 추출
         String token = jwtTokenProvider.resolveToken(request);
 
@@ -102,16 +94,12 @@ public class MemberService {
                                 .refreshToken(tokenInfo.getRefreshToken())
                                 .build());
 
-                        response.addHeader("Authorization", tokenInfo.getAccessToken());
-                        response.addHeader("AccessTokenExpirationTime", tokenInfo.getAccessTokenExpirationTime().toString());
-                        response.addHeader("Refresh", tokenInfo.getRefreshToken());
-                        response.addHeader("RefreshTokenExpirationTime", tokenInfo.getRefreshTokenExpirationTime().toString());
-                        return new ResponseEntity<> (HttpStatus.OK);
+                        return response.success(tokenInfo);
                     }
                 }
             }
         }
-        return apiResponse.fail("토큰 갱신에 실패했습니다.");
+        return response.fail("토큰 갱신에 실패했습니다.");
     }
 
     public Member createMember(Member member) {
@@ -134,7 +122,8 @@ public class MemberService {
                 .ifPresent(nickname -> findMember.setNickname(nickname));
         Optional.ofNullable(member.getMbti())
                 .ifPresent(mbti -> findMember.setMbti(mbti));
-
+        Optional.ofNullable(member.getImg())
+                .ifPresent((img -> findMember.setImg(img)));
         return memberRepository.save(member);
     }
 
@@ -163,5 +152,33 @@ public class MemberService {
         if (member.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
+    }
+
+    public void grantBadge(long memberId) {
+        Member verifiedMember = findVerifiedMember(memberId);
+
+        List<Post> posts = postRepository.findAll().stream()
+                .filter(post -> post.getMemberId() == memberId)
+                .collect(Collectors.toList());
+
+        List<Comment> comments = commentRepository.findAll().stream()
+                .filter(comment -> comment.getMemberId() == memberId)
+                .collect(Collectors.toList());
+
+        long voteCount = posts.stream()
+                .map(Post::getVoteCount)
+                .reduce(0L, Long::sum);
+
+        if (posts.size() >= 50 && voteCount >= 30 && comments.size() >= 100) {
+            verifiedMember.setBadge("고수 여행자");
+        }
+        else if (posts.size() >= 30 && voteCount >= 10 && comments.size() >= 30) {
+            verifiedMember.setBadge("중급 여행자");
+        }
+        else if (posts.size() >= 5 && voteCount >= 1 && comments.size() >= 5) {
+            verifiedMember.setBadge("초보 여행자");
+        }
+
+        memberRepository.save(verifiedMember);
     }
 }

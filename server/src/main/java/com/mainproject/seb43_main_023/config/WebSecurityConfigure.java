@@ -61,6 +61,7 @@ public class WebSecurityConfigure {
         // 요청에 대한 권한 설정
         http.authorizeRequests()
                 .antMatchers("/members/signin", "/members/signup", "/members/reissue").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/members/grantBadge/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/members/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
