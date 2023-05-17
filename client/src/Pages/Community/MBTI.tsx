@@ -33,7 +33,7 @@ const Explain = styled.div`
 `;
 
 const MBTIContainer = styled.div`
-	height: calc(100vh - 220px);
+	height: 1000px;
 	display: flex;
 
 	a {
@@ -51,8 +51,9 @@ const MBTIBody = styled.div`
 	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
-	min-height: 610px;
-	max-height: 610px;
+	height: fit-content;
+	/* min-height: 1000px;
+	max-height: 1000px; */
 `;
 
 const Contentbody = styled.div`
@@ -241,10 +242,10 @@ function MBTI() {
 						<Pagination
 							curPage={curPage}
 							setCurPage={setCurPage}
-							totalPage={Math.ceil(posts.length / 5)}
+							totalPage={Math.ceil(posts.length / 8)}
 							totalCount={posts.length}
-							size={5}
-							pageCount={5}
+							size={8}
+							pageCount={8}
 						/>
 					</PaginationContainer>
 				</div>

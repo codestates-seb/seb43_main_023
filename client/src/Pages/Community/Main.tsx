@@ -33,7 +33,7 @@ const Explain = styled.div`
 `;
 
 const Body = styled.div`
-	height: calc(100vh - 220px);
+	height: 1000px;
 	display: flex;
 
 	a {
@@ -51,8 +51,9 @@ const ContentContainer = styled.div`
 	height: calc(100vh - 400px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
-	min-height: 610px;
-	max-height: 610px;
+	height: fit-content;
+	/* min-height: 1000px;
+	max-height: 1000px; */
 `;
 
 const Contentbody = styled.div`
@@ -165,8 +166,8 @@ function Main() {
 	let [posts, setPosts] = useState<Post[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
-	const startIdx = (curPage - 1) * 5;
-	const endIdx = startIdx + 5;
+	const startIdx = (curPage - 1) * 8;
+	const endIdx = startIdx + 8;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -246,9 +247,9 @@ function Main() {
 						<Pagination
 							curPage={curPage}
 							setCurPage={setCurPage}
-							totalPage={Math.ceil(posts.length / 5)}
+							totalPage={Math.ceil(posts.length / 8)}
 							totalCount={posts.length}
-							size={5}
+							size={8}
 							pageCount={5}
 						/>
 					</PaginationContainer>
