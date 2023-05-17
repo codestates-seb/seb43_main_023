@@ -451,13 +451,13 @@ function RegionDetail() {
 	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${tourAPIKey}&pageNo=1&numOfRows=6&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=12&areaCode=${selectedRegion[0].areaCode}&_type=json`;
 
-	const [tripInfo, serTripInfo] = useState([]);
+	const [tripInfo, setTripInfo] = useState([]);
 
 	useEffect(() => {
 		axios(tourUrl)
 			.then((response) => {
 				const { data } = response;
-				serTripInfo(data.response.body.items.item);
+				setTripInfo(data.response.body.items.item);
 			})
 			.catch(() => {
 				navigate('/error');

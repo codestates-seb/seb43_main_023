@@ -1,9 +1,18 @@
-import { HTMLAttributes } from 'react';
+import axios from 'axios';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
 }
+
+type TripInfoType = {
+	contentid: number;
+	firstimage: string;
+	title: string;
+	addr1: string;
+};
 
 const backgroundImg =
 	'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80';
@@ -109,6 +118,59 @@ const HotPlaceInfo = styled.div`
 `;
 
 function HotPlace() {
+	const [myLocation, setMyLocation] = useState({
+		latitude: 37.541,
+		longitude: 126.986,
+	});
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		navigator.geolocation.getCurrentPosition((position) => {
+			setMyLocation({
+				latitude: position.coords.latitude,
+				longitude: position.coords.longitude,
+			});
+		});
+	}, []);
+
+	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=15000&contentTypeId=12`;
+
+	const [tripNumber, setTripNumber] = useState<string[]>();
+
+	useEffect(() => {
+		axios(tourUrl)
+			.then((response) => {
+				const { data } = response;
+				const newArr = data.response.body.items.item;
+				const tripcode: string[] = [];
+				newArr.map((item: { contentid: string }) => {
+					return tripcode.push(item.contentid);
+				});
+				setTripNumber(tripcode);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	}, [navigate, tourUrl]);
+
+	console.log(tripNumber);
+
+	const regionUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=15000&contentTypeId=12`;
+
+	const [tripInfo, setTripInfo] = useState([]);
+
+	useEffect(() => {
+		axios(tourUrl)
+			.then((response) => {
+				const { data } = response;
+				setTripInfo(data.response.body.items.item);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	}, [navigate, tourUrl]);
+
 	return (
 		<HotPlaceContainer>
 			<HotPlaceImage>

@@ -3,16 +3,28 @@ import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { HTMLAttributes } from 'react';
+import axios from 'axios';
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
 }
 
+type TripInfoType = {
+	contentid: number;
+	firstimage: string;
+	title: string;
+	addr1: string;
+};
+
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;
+	height: 210px;
+	width: 100%;
 	display: flex;
+	justify-content: center;
 	margin-bottom: 20px;
 	.slick-prev::before {
 		color: #0db4f3;
@@ -42,6 +54,12 @@ const SlideItem = styled.div<SlideItemProps>`
 `;
 
 function CarouselHotPlace() {
+	const [myLocation, setMyLocation] = useState({
+		latitude: 37.541,
+		longitude: 126.986,
+	});
+	const navigate = useNavigate();
+
 	const settings: Settings = {
 		dots: false,
 		infinite: true,
@@ -72,24 +90,43 @@ function CarouselHotPlace() {
 		],
 	};
 
+	useEffect(() => {
+		navigator.geolocation.getCurrentPosition((position) => {
+			setMyLocation({
+				latitude: position.coords.latitude,
+				longitude: position.coords.longitude,
+			});
+		});
+	}, []);
+
+	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=15000&contentTypeId=12`;
+
+	const [tripInfo, setTripInfo] = useState([]);
+
+	useEffect(() => {
+		axios(tourUrl)
+			.then((response) => {
+				const { data } = response;
+				setTripInfo(data.response.body.items.item);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	}, [navigate, tourUrl]);
+
 	return (
 		<div>
 			<SlideContainer {...settings}>
-				<SlideItem image="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=9c991ae8-67f8-4037-a3b3-dd2ed916a161">
-					<div>월미테마파크</div>
-				</SlideItem>
-				<SlideItem image="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=42c91d42-7f91-4c72-9794-8f93a2662228">
-					<div>백야자연휴양림</div>
-				</SlideItem>
-				<SlideItem image="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=a1ffcd56-ba0f-4171-a4a2-3111da89ec8c">
-					<div>대포해안</div>
-				</SlideItem>
-				<SlideItem image="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=786b4ca3-8549-47b6-a47e-368aa9b5b8dd">
-					<div>화암관광지</div>
-				</SlideItem>
-				<SlideItem image="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=7319438e-4e09-4fbd-9524-e25420bdd917">
-					<div>강천산 군립공원</div>
-				</SlideItem>
+				{tripInfo
+					? tripInfo.map((item: TripInfoType) => {
+							return (
+								<SlideItem image={item.firstimage}>
+									<div>{item.title}</div>
+								</SlideItem>
+							);
+					  })
+					: null}
 			</SlideContainer>
 		</div>
 	);
