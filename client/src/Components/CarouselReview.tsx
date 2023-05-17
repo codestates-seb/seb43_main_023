@@ -2,7 +2,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 /* eslint-disable react/jsx-props-no-spreading */
-import Slider from 'react-slick';
+import Slider, { Settings } from 'react-slick';
 import styled from 'styled-components';
 
 import { HTMLAttributes, useEffect, useState } from 'react';
@@ -46,7 +46,7 @@ const SlideContainer = styled(Slider)`
 
 const ReviewContainer = styled.div`
 	border: 1px solid rgb(214, 217, 219);
-	height: 270px;
+	height: 220px;
 	margin-bottom: 20px;
 	background-color: white;
 	text-align: start;
@@ -54,16 +54,16 @@ const ReviewContainer = styled.div`
 
 const ReviewImg = styled.div<SlideItemProps>`
 	width: 100%;
-	height: 180px;
+	height: 140px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
 `;
 
 const ReviewTextContainer = styled.div`
 	width: 100%;
-	height: 90px;
+	height: 80px;
 	border: 1px solid rgb(214, 217, 219);
-	padding: 10px;
+	padding: 5px;
 
 	.title {
 		font-size: 17px;
@@ -112,13 +112,34 @@ function CarouselReview() {
 		}
 	};
 
-	const settings = {
+	const settings: Settings = {
 		dots: false,
 		infinite: true,
 		speed: 100,
 		autoplay: true,
 		slidesToShow: reviewCarouselCount(),
 		pauseOnHover: true,
+		lazyLoad: 'anticipated',
+		responsive: [
+			{
+				breakpoint: 1025,
+				settings: {
+					slidesToShow: 3,
+				},
+			},
+			{
+				breakpoint: 769,
+				settings: {
+					slidesToShow: 2,
+				},
+			},
+			{
+				breakpoint: 425,
+				settings: {
+					slidesToShow: 1,
+				},
+			},
+		],
 	};
 
 	const res: any = useAxios({

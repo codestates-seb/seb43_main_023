@@ -9,14 +9,18 @@ const backgroundImg =
 	'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80';
 
 const HotPlaceContainer = styled.div`
-	width: 100vw;
+	width: 100%;
 	height: 100%;
 	margin-top: 82px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 `;
 
 const HotPlaceImage = styled.div`
 	width: 100%;
-	height: 460px;
+	height: 40vh;
 	background-image: linear-gradient(
 			rgba(255, 255, 255, 0.25),
 			rgba(255, 255, 255, 0.25)
@@ -26,46 +30,81 @@ const HotPlaceImage = styled.div`
 	background-size: cover;
 	display: flex;
 	align-items: flex-end;
+	@media (max-width: 768px) {
+		height: 30vh;
+	}
 	> span {
 		font-size: 50px;
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 425px) {
+			font-size: 36px;
+		}
 	}
 `;
 
 const HotPlaceItemContainer = styled.div`
-	width: 1300px;
+	width: 90vw;
 	padding: 70px;
+	@media (max-width: 768px) {
+		padding: 20px;
+	}
 `;
 
 const HotPlaceItem = styled.div`
 	border-bottom: 1px solid black;
 	padding: 20px 0;
 	display: flex;
+	@media (max-width: 425px) {
+		display: flex;
+		flex-direction: column;
+	}
+	@media (max-width: 768px) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 `;
 
 const HotPlaceImg = styled.div<SlideItemProps>`
-	width: 400px;
-	height: 400px;
+	width: 300px;
+	height: 300px;
 	background-image: url(${(props) => (props.image ? props.image : '')});
 	background-position: center;
 	background-size: cover;
 	border-radius: 15px;
+	@media (max-width: 768px) {
+		width: 80vw;
+	}
+	@media (max-width: 425px) {
+		width: 80vw;
+		height: 20vh;
+	}
 `;
 
 const HotPlaceInfo = styled.div`
-	width: 900px;
+	width: 70%;
 	margin-left: 20px;
 	display: flex;
 	flex-direction: column;
 	> span {
 		margin: 10px;
 		font-size: 20px;
+		@media (max-width: 768px) {
+			width: 80vw;
+			margin-left: 0;
+		}
+	}
+	@media (max-width: 768px) {
+		margin-left: 0;
 	}
 	.HotPlaceBold {
 		font-size: 28px;
 		font-weight: 700;
+		@media (max-width: 768px) {
+			margin: 20px 0 0 0;
+		}
 	}
 `;
 
@@ -142,13 +181,9 @@ function HotPlace() {
 							있다. 화암약수 야영장 또한 자연의 품 안에서 쉬어가기에 알맞다.
 							인근 그림바위마을은 한적하게 산책하기에 좋다. 화암약수 못지않게
 							유명한 곳이 4경에 해당하는 화암동굴이다. 화암동굴은 석회암동굴로
-							천연기념물이다. 1934년 금광 갱도를 파는 과정에서 그 모습을
-							드러냈다. 동굴 입구까지는 모노레일을 타고 이동할 수 있다. 동굴
-							내부는 옛 금광의 흔적과 석회암동굴이 공존한다. 동굴 길이는
-							1,803m로 돌아보는데 약 1시간 30분이 걸린다. 상부갱도와 하부갱도를
-							잇는 220m의 가파른 수직계단 등이 흥미롭다. 정선향토박물관,
-							천포금광촌, 화암카트체험장이 이웃해 화암동굴과 함께 돌아볼 수
-							있다.
+							천연기념물이다. 동굴 입구까지는 모노레일을 타고 이동할 수 있다.
+							동굴 내부는 옛 금광의 흔적과 석회암동굴이 공존한다. 동굴 길이는
+							1,803m로 돌아보는데 약 1시간 30분이 걸린다.
 						</span>
 					</HotPlaceInfo>
 				</HotPlaceItem>
