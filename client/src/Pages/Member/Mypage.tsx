@@ -114,6 +114,7 @@ const MenuContent = styled.div`
 
 const UserWriting = styled.div`
 	width: 100%;
+	min-height: 28vh;
 	ul {
 		margin-bottom: 250px;
 	}

@@ -11,6 +11,7 @@ import { Api } from '../../Util/customAPI';
 
 const Container = styled.ul`
 	width: 95%;
+	min-height: 28vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
