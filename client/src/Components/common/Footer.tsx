@@ -1,9 +1,9 @@
-import '../Global.css';
+import '../../Global.css';
 
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;

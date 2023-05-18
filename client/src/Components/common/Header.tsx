@@ -1,13 +1,13 @@
-import '../Global.css';
+import '../../Global.css';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import logo from '../../assets/logo.png';
 import { Ilogin } from '../../reducers/loginReducer';
 import { RootState } from '../../store/Store';
-import logo from '../assets/logo.png';
 
 const Content = styled.div`
 	z-index: 1;
