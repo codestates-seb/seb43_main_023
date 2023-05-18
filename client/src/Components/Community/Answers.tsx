@@ -93,11 +93,12 @@ const Vote = styled.div`
 `;
 
 interface Answer {
-	author: string;
+	nickName: string;
 	content: string;
 	commentId: number;
-	vote: number;
+	voteCount: number;
 	postId: number;
+	memberId: number;
 }
 
 interface Review {
@@ -152,6 +153,7 @@ function Answers() {
 					content: text,
 					memberId: userInfos.id,
 					postId: id,
+					nickName: userInfos.nickname,
 				}).then(() => {
 					if (review[0].subject === '여행리뷰') {
 						document.location.href = `/tripreview/${id}`;
@@ -229,16 +231,12 @@ function Answers() {
 		setClickedId(answerId);
 		setIsLike(!isLike);
 
-		const clickedAnswer = answers.find((q) => q.postId === answerId);
-
-		if (clickedAnswer) {
-			try {
-				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
-					.then(() => Api.get(`/posts/${id}/comments`))
-					.then((res) => setAnswers(res.data));
-			} catch (error) {
-				navigate('/error');
-			}
+		try {
+			Api.patch(`posts/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
+				.then(() => Api.get(`/posts/${id}/comments`))
+				.then((res) => setAnswers(res.data));
+		} catch (error) {
+			navigate('/error');
 		}
 	};
 
@@ -250,7 +248,7 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
+				Api.patch(`posts/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
 					.then(() => Api.get(`/posts/${id}/comments`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
@@ -275,7 +273,7 @@ function Answers() {
 			<AnswerInput
 				placeholder="댓글을 남겨주세요"
 				onChange={(e) => handleInput(e)}
-				onKeyDown={handleSubmit}
+				onKeyDown={(e) => handleSubmit(e)}
 			/>
 
 			{answers &&
@@ -296,11 +294,11 @@ function Answers() {
 									/>
 								)}
 
-								<span>{el.vote}</span>
+								<span>{el.voteCount}</span>
 							</Vote>
 							<div />
 							<div>
-								<div>{el.author}</div>
+								<div>{el.nickName}</div>
 
 								<div>
 									{edit && clickedId === el.commentId ? (
@@ -314,7 +312,7 @@ function Answers() {
 										<span>{el.content}</span>
 									)}
 
-									{el.author === userInfos.nickname ? (
+									{el.nickName === userInfos.nickname ? (
 										<div>
 											<BsPencilSquare
 												size={14}

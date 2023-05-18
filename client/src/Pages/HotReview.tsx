@@ -172,8 +172,7 @@ function HotReview() {
 							style={{ textDecoration: 'none' }}
 						>
 							<HotReviewItem key={item.postId}>
-								{/* <HotReviewImg image={item.image[0]} /> */}
-								<HotReviewImg image="" />
+								<HotReviewImg image={item.image[0]} />
 								<HotReviewInfo>
 									<span className="hotReviewBold">{item.title}</span>
 									<span className="hotReviewBold">💙 {item.voteCount}</span>

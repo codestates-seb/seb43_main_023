@@ -210,7 +210,7 @@ function Main() {
 														<h3>{`[${el.subject}]`}</h3>
 														<h3>{el.title}</h3>
 													</div>
-
+													{/* 
 													{el.content.length > 70 ? (
 														<p>
 															{`${el.content
@@ -220,7 +220,7 @@ function Main() {
 														</p>
 													) : (
 														<p>{el.content}</p>
-													)}
+													)} */}
 												</Header>
 
 												<Info>

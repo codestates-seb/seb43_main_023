@@ -1,13 +1,14 @@
 import '../Global.css';
 
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../Assets/logo.png';
-import { Ilogin } from '../Reducers/loginReducer';
+import { KEYWORD } from '../Reducers/searchKeywordReducer';
 import { RootState } from '../Store/store';
+import { Ilogin } from '../Reducers/loginReducer';
 
 const Content = styled.div`
 	z-index: 1;
@@ -66,6 +67,8 @@ const Content = styled.div`
 `;
 function Header() {
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const locationNow = useLocation();
 	if (locationNow.pathname === '/logout') return null;
@@ -76,8 +79,11 @@ function Header() {
 	const searchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
-		// eslint-disable-next-line no-console
-		console.log(el.search.value);
+
+		if (el.search.value) {
+			dispatch(KEYWORD({ keyword: el.search.value }));
+			navigate('/search');
+		}
 	};
 	return (
 		<Content>

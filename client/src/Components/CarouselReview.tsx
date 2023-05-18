@@ -160,6 +160,8 @@ function CarouselReview() {
 		}
 	}, [res]);
 
+	console.log(filterdReview);
+
 	return (
 		<div>
 			<SlideContainer {...settings}>
