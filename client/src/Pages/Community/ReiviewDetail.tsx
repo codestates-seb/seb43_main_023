@@ -190,7 +190,7 @@ function ReviewDetail() {
 			Api.patch(`/posts/${id}`, {
 				voteCount: reviewVote + 1,
 			})
-				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setReview([res.data]));
 		} catch (error) {
 			navigate('/error');
@@ -206,7 +206,7 @@ function ReviewDetail() {
 			Api.patch(`/posts/${id}`, {
 				voteCount: reviewVote - 1,
 			})
-				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setReview([res.data]));
 		} catch (error) {
 			navigate('/error');

@@ -234,7 +234,7 @@ function Answers() {
 				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {
 					vote: clickedAnswer.vote + 1,
 				})
-					.then(() => axios.get(`http://localhost:4000/comments`))
+					.then(() => Api.get(`/comments`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
@@ -253,7 +253,7 @@ function Answers() {
 				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {
 					vote: clickedAnswer.vote - 1,
 				})
-					.then(() => axios.get(`http://localhost:4000/comments`))
+					.then(() => Api.get(`/comments`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
