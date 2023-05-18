@@ -567,8 +567,8 @@
       "email": "test@gmail.com",
       "password": "1234",
       "nickname": "testnick",
-      "mbti": "INFP",
-      "img": "https://bantax.co.kr/common/img/default_profile.png",
+      "mbti": "ESFJ",
+      "img": "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg",
       "badge": null
     },
     {
@@ -608,13 +608,12 @@
       "badge": null
     },
     {
-      "id": 106546720966482130000,
+      "id": 0.462477301753323,
       "nickname": "조베기",
       "mbti": "ESFJ",
       "email": "choalstn@gmail.com",
-      "password": "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",
-      "img": "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg",
-      "badge": null
+      "password": "cmsdean1224",
+      "img": "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg"
     }
   ],
   "mbtiInfo": [

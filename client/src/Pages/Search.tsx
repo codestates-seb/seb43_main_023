@@ -199,14 +199,14 @@ function Search() {
 			setPosts(postData.response);
 		}
 	}, [postData.response, tourUrl]);
+
 	return (
 		<Container>
 			<SearchContainer>
 				{tourResult && tourResult.length > 0 && (
 					<SearchAPI>
 						<div className="title">
-							한국 관광 공사의{' '}
-							<span className="keyword">{keyword.keyword}</span> 추천 여행지
+							<span className="keyword">{keyword.keyword}</span> 추천 여행지 🏝
 						</div>
 						<APIContainer>
 							{tourResult.map((el: tourAPIType, idx) => (
@@ -219,34 +219,6 @@ function Search() {
 					</SearchAPI>
 				)}
 
-				<SearchAd>
-					<div className="title">
-						<span className="keyword">{keyword.keyword}</span> 추천 여행지
-					</div>
-					<AdItemContainer>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-					</AdItemContainer>
-				</SearchAd>
-
 				{posts.filter(
 					(el: postType) =>
 						el.title.includes(keyword.keyword) ||
@@ -255,6 +227,7 @@ function Search() {
 					<SearchResult>
 						<div className="title">
 							<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
+							💭
 						</div>
 						<ResultContainer>
 							{posts
