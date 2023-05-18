@@ -57,13 +57,13 @@ public class PostService {
     }
     public Page<Post> searchPosts(int page,String title,String subject){
         return postRepository.findByTitleContainingAndSubjectContaining
-                (title, subject, PageRequest.of(page, 15,Sort.by("postId").descending()));
+                (title, subject, PageRequest.of(page, 8,Sort.by("postId").descending()));
     }
     @Transient
     public Post votePost(long postId, long memberId){
         Post post = verifyPost(postId);
         Set<Long> voteList = new HashSet<>(post.getVoteList());
-        Long count = post.getVoteCount();
+        long count = post.getVoteCount();
         if (voteList.contains(memberId)) {
             voteList.remove(memberId);
             count--;

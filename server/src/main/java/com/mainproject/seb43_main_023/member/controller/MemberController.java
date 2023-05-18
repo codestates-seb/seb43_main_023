@@ -73,4 +73,10 @@ public class MemberController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/findAllMembers")
+    public ResponseEntity<Integer> findAll() {
+        int all = memberService.findAllMembers();
+        return new ResponseEntity<>(all, HttpStatus.OK);
+    }
 }

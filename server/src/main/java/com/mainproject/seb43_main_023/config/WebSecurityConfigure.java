@@ -61,23 +61,23 @@ public class WebSecurityConfigure {
         // 요청에 대한 권한 설정
         http.authorizeRequests()
                 .antMatchers("/members/signin", "/members/signup", "/members/reissue").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/members/grantBadge/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/members/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
-
-                .antMatchers(HttpMethod.POST, "/posts/**").hasRole("USER")
-                .antMatchers(HttpMethod.PATCH, "/posts/*/vote/*").hasRole("USER")
-                .antMatchers(HttpMethod.PATCH, "/posts/**").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/posts").permitAll()
-                .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/posts/**").hasRole("USER")
-
-                .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
-                .antMatchers(HttpMethod.PATCH, "/comments/**").hasRole("USER")
-                .antMatchers(HttpMethod.PATCH, "/comments/*/vote/*").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/comments/**").hasRole("USER")
+//                .antMatchers(HttpMethod.PATCH, "/members/grantBadge/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
+//                .antMatchers(HttpMethod.GET, "/members/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
+//
+//                .antMatchers(HttpMethod.POST, "/posts/**").hasRole("USER")
+//                .antMatchers(HttpMethod.PATCH, "/posts/*/vote/*").hasRole("USER")
+//                .antMatchers(HttpMethod.PATCH, "/posts/**").hasRole("USER")
+//                .antMatchers(HttpMethod.GET, "/posts").permitAll()
+//                .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
+//                .antMatchers(HttpMethod.DELETE, "/posts/**").hasRole("USER")
+//
+//                .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
+//                .antMatchers(HttpMethod.PATCH, "/comments/**").hasRole("USER")
+//                .antMatchers(HttpMethod.PATCH, "/comments/*/vote/*").hasRole("USER")
+//                .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
+//                .antMatchers(HttpMethod.DELETE, "/comments/**").hasRole("USER")
                 .anyRequest().permitAll();
 
         // jwt filter 설정
@@ -96,9 +96,6 @@ public class WebSecurityConfigure {
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
-        configuration.addExposedHeader("Authorization");
-        configuration.addExposedHeader("Refresh");
-        configuration.addExposedHeader("MemberId");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
