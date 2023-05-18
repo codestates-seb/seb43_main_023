@@ -163,7 +163,7 @@ function MainPage() {
 					지역별 추천 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(1)}>
-					국내 핫한 여행 명소
+					우리 동네 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(2)}>
 					인기 여행 리뷰글

@@ -20,6 +20,7 @@ const useAxios = ({ url, method }: AxiosProps) => {
 				setResponse(res.data);
 			})
 			.catch(() => {
+				console.log(`error: ${url}`);
 				navigate('/error');
 			});
 	}, [method, navigate, url]);

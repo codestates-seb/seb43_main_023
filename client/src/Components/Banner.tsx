@@ -73,7 +73,7 @@ function Banner() {
 	const navigate = useNavigate();
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=20230501`;
+	const tourUrl = `http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=20230501`;
 
 	useEffect(() => {
 		axios(tourUrl)
@@ -81,8 +81,9 @@ function Banner() {
 				const { data } = response;
 				serEventInfo(data.response.body.items.item);
 			})
-			.catch(() => {
+			.catch((error) => {
 				console.log('배너 에러');
+				console.log(error);
 				navigate('/error');
 			});
 	}, [navigate, tourUrl]);
