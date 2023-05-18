@@ -97,7 +97,7 @@ function UserHeader() {
 
 	const res: any = useAxios({
 		method: 'get',
-		url: `/mbtiInfo`,
+		url: `/mbtiInfo/${userInfos.mbti}`,
 	}).response;
 
 	useEffect(() => {

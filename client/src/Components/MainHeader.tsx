@@ -76,7 +76,9 @@ function MainHeader() {
 
 	useEffect(() => {
 		setTimeout(() => {
-			axios(`http://localhost:4000/members/`)
+			axios(
+				`http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com0/members/1`,
+			)
 				.then((response) => {
 					const { data } = response;
 					setUserCount(data.length);

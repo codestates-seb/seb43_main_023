@@ -141,21 +141,20 @@ const StyledLink = styled(Link)`
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
 
+	const subject = '여행리뷰';
+
 	const res: any = useAxios({
 		method: 'get',
-		url: '/posts',
+		url: `/posts&subject=${subject}`,
 	}).response;
 
 	useEffect(() => {
 		if (res !== null) {
-			const newData = res.filter(
-				(item: { subject: string }) => item.subject === '여행리뷰',
-			);
-			newData.sort(
+			res.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(newData.slice(0, 5));
+			setFilterReview(res.slice(0, 5));
 		}
 	}, [res]);
 
