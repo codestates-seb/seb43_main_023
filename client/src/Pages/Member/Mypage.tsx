@@ -161,7 +161,7 @@ interface Ipost {
 	viewCount?: number;
 	createdAt?: string;
 	modifiedAt?: string;
-	img: string[];
+	image: string[];
 }
 
 function Mypage() {
@@ -213,7 +213,7 @@ function Mypage() {
 			viewCount: 0,
 			createdAt: '',
 			modifiedAt: '',
-			img: [],
+			image: [],
 		},
 	]);
 

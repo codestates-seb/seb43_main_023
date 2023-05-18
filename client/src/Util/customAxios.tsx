@@ -14,7 +14,7 @@ const useAxios = ({ url, method }: AxiosProps) => {
 
 	useEffect(() => {
 		axios[method](
-			`http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com:8080${url}`,
+			`http://ec2-15-164-104-51.ap-northeast-2.compute.amazonaws.com:8080${url}`,
 		)
 			.then((res) => {
 				setResponse(res.data);

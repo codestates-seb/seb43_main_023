@@ -151,11 +151,13 @@ function Login() {
 				email: el.email.value,
 				password: el.password.value,
 			});
-			const memberId = Number(loginData.headers.memberid);
-			const accessToken = loginData.headers.authorization;
-			const refreshToken = loginData.headers.refresh;
-			const accessTokenExpirationTime = '1800000';
-			const refreshTokenExpirationTime = '230000000';
+			const {
+				memberId,
+				accessToken,
+				refreshToken,
+				accessTokenExpirationTime,
+				refreshTokenExpirationTime,
+			} = loginData.data.data;
 			/*
 			const {
 				memberId,
@@ -169,7 +171,6 @@ function Login() {
 
 			// console.log(loginData, memberId, accessToken);
 			const userInfo = await Api.get(`/members/${memberId}`);
-			console.log(userInfo.data);
 			if (el.email.value !== userInfo.data.email) {
 				const Toast = Swal.mixin({
 					toast: true,
