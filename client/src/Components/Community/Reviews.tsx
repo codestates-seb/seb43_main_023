@@ -1,9 +1,11 @@
-import styled from 'styled-components';
-import { AiFillHeart } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
+
+import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import img from '../../Assets/jeonju.jpg';
-import useAxios from '../../Util/customAxios';
+import styled from 'styled-components';
+
+import img from '../../assets/jeonju.jpg';
+import useAxios from '../../util/customAxios';
 import Pagination from './Pagination';
 
 const Container = styled.div`

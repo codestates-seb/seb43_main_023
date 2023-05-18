@@ -14,7 +14,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import Answers from '../../Components/Community/Answers';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import { Iuser } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { Api } from '../../util/customAPI';
 import useAxios from '../../util/customAxios';
 

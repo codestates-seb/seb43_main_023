@@ -18,7 +18,7 @@ import { Editor } from '@toast-ui/react-editor';
 import SearchPlace from '../../Components/Community/SearchPlace';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { Api } from '../../util/customAPI';
 import useAxios from '../../util/customAxios';
 

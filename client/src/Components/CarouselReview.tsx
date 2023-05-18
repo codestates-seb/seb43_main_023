@@ -1,13 +1,14 @@
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
+import { HTMLAttributes, useEffect, useState } from 'react';
+
+import { Link } from 'react-router-dom';
 /* eslint-disable react/jsx-props-no-spreading */
 import Slider, { Settings } from 'react-slick';
 import styled from 'styled-components';
 
-import { HTMLAttributes, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import useAxios from '../Util/customAxios';
+import useAxios from '../util/customAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;

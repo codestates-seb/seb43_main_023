@@ -10,7 +10,7 @@ import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
 import { Ilogin, LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { removeCookie } from '../../util/cookie';
 
 const Main = styled.div`

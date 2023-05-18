@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
 import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { Api } from '../../util/customAPI';
 import useAxios from '../../util/customAxios';
 

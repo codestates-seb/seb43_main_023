@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Iuser } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { Api } from '../../util/customAPI';
 
 const Container = styled.ul`

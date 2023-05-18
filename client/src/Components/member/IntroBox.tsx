@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { removeCookie } from '../../util/cookie';
 import { Api } from '../../util/customAPI';
 

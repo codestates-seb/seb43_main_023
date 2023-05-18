@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 import IntroBox from '../../Components/member/IntroBox';
 import { UPDATE } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/store';
+import { RootState } from '../../store/Store';
 import { Api } from '../../util/customAPI';
 
 const Main = styled.div`

@@ -12,7 +12,7 @@ import CarouselReview from '../Components/CarouselReview';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
 import { Ilogin } from '../reducers/loginReducer';
-import { RootState } from '../store/store';
+import { RootState } from '../store/Store';
 
 const MainContainer = styled.div`
 	width: 100vw;
