@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../Global.css';
@@ -184,12 +183,8 @@ function ReviewDetail() {
 	const handleLike = () => {
 		setIsLike(!isLike);
 
-		const reviewVote = review[0].voteCount;
-
 		try {
-			Api.patch(`/posts/${id}`, {
-				voteCount: reviewVote + 1,
-			})
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
 				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setReview([res.data]));
 		} catch (error) {
@@ -200,12 +195,8 @@ function ReviewDetail() {
 	const handleDisLike = () => {
 		setIsLike(!isLike);
 
-		const reviewVote = review[0].voteCount;
-
 		try {
-			Api.patch(`/posts/${id}`, {
-				voteCount: reviewVote - 1,
-			})
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
 				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setReview([res.data]));
 		} catch (error) {
@@ -225,7 +216,7 @@ function ReviewDetail() {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				try {
-					Api.delete(`/posts/${id}`)
+					Api.delete(`/posts/${id}/${userInfos.id}`)
 						.then(() =>
 							Swal.fire({
 								title: 'Deleted!',
@@ -292,11 +283,7 @@ function ReviewDetail() {
 										<span># 태그</span>
 
 										<div>
-											<div>
-												{el.tag.map((t) => (
-													<Tag>{t}</Tag>
-												))}
-											</div>
+											<div>{el.tag && el.tag.map((t) => <Tag>{t}</Tag>)}</div>
 
 											{el.nickName === userInfos.nickname ? (
 												<div>

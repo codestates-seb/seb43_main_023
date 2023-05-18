@@ -97,7 +97,7 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 
 	const postData = useAxios({
 		method: 'get',
-		url: `/posts/${id}`,
+		url: `/posts`,
 	});
 
 	useEffect(() => {

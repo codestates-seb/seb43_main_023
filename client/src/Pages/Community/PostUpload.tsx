@@ -225,13 +225,11 @@ function PostUpload() {
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
 
-	const { id } = useParams();
-
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const postData = useAxios({
 		method: 'get',
-		url: `/posts/${id}`,
+		url: `/posts`,
 	});
 
 	const removeTag = (i: number) => {
@@ -349,18 +347,12 @@ function PostUpload() {
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
 			try {
-				Api.post('/posts', {
-					nickName: userInfos.nickname,
+				Api.post(`/posts/${userInfos.id}`, {
 					subject,
 					title,
 					content,
 					tag: tags,
-					img: Images,
-					voteCount: 0,
-					viewCount: 0,
-					createdAt: '23-05-01T000000',
-					modifiedAt: '23-05-01T000000',
-					email: userInfos.email,
+					image: Images,
 				});
 				const myposts = posts.filter(
 					(v: { email: string }) => v.email === userInfos.email,

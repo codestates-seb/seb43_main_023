@@ -199,13 +199,19 @@ function Search() {
 			setPosts(postData.response);
 		}
 	}, [postData.response, tourUrl]);
+
+	const filteredData = posts.filter(
+		(el: postType) =>
+			el.title.includes(keyword.keyword) ||
+			el.content.includes(keyword.keyword),
+	);
+
 	return (
 		<Container>
 			<SearchContainer>
 				{tourResult && tourResult.length > 0 && (
 					<SearchAPI>
 						<div className="title">
-							한국 관광 공사의{' '}
 							<span className="keyword">{keyword.keyword}</span> 추천 여행지 🏝
 						</div>
 						<APIContainer>
@@ -219,89 +225,39 @@ function Search() {
 					</SearchAPI>
 				)}
 
-				<SearchAd>
-					<div className="title">
-						<span className="keyword">{keyword.keyword}</span> 추천 여행지 ✈️
-					</div>
-					<AdItemContainer>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-						<AdItem>
-							<div className="adimg">사진</div>
-							<div className="adtext">텍스트</div>
-						</AdItem>
-					</AdItemContainer>
-				</SearchAd>
-
-				{posts.filter(
-					(el: postType) =>
-						el.title.includes(keyword.keyword) ||
-						el.content.includes(keyword.keyword),
-				).length > 0 && (
+				{filteredData.length > 0 && (
 					<SearchResult>
 						<div className="title">
 							<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
 							💭
 						</div>
 						<ResultContainer>
-							{posts
-								.filter(
-									(el: postType) =>
-										el.title.includes(keyword.keyword) ||
-										el.content.includes(keyword.keyword),
-								)
-								.map((post: postType) => (
-									<ResultItem
-										onClick={() => handlePostClick(post.subject, post.id)}
-									>
-										<ResultText>
-											<div className="resultInfo">
-												<span className="subject">[{post.subject}]</span>
-												<span className="title">{post.title}</span>
-											</div>
-											<div className="content">{post.content}</div>
-											<span className="author">{post.nickName}</span>
-										</ResultText>
-										{post.image.length > 0 && (
-											<ResultImg
-												src={post.image[0]}
-												alt="검색결과 사진 미리보기"
-											/>
-										)}
-									</ResultItem>
-								))}
+							{filteredData.map((post: postType) => (
+								<ResultItem
+									onClick={() => handlePostClick(post.subject, post.id)}
+								>
+									<ResultText>
+										<div className="resultInfo">
+											<span className="subject">[{post.subject}]</span>
+											<span className="title">{post.title}</span>
+										</div>
+										<div className="content">{post.content}</div>
+										<span className="author">{post.nickName}</span>
+									</ResultText>
+									{post.image.length > 0 && (
+										<ResultImg
+											src={post.image[0]}
+											alt="검색결과 사진 미리보기"
+										/>
+									)}
+								</ResultItem>
+							))}
 
 							<Pagination
 								curPage={curPage}
 								setCurPage={setCurPage}
-								totalPage={Math.ceil(
-									posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length / 5,
-								)}
-								totalCount={
-									posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length
-								}
+								totalPage={Math.ceil(filteredData.length / 5)}
+								totalCount={filteredData.length}
 								size={5}
 								pageCount={5}
 							/>
