@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
+import { Api } from '../../apis/customAPI';
 import IntroBox from '../../Components/member/IntroBox';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { Api } from '../../util/customAPI';
 
 const Main = styled.div`
 	display: flex;

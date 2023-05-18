@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
+import { Api } from '../../apis/customAPI';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { removeCookie } from '../../util/cookie';
-import { Api } from '../../util/customAPI';
+import { removeCookie } from '../../utils/cookie';
 
 const Main = styled.div`
 	width: 100%;

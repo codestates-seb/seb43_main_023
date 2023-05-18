@@ -4,9 +4,9 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import Footer from './Components/Footer';
-import Header from './Components/Header';
-import OauthJoinHandler from './Components/member/OauthHandler';
+import OauthJoinHandler from './apis/OauthHandler';
+import Footer from './Components/common/Footer';
+import Header from './Components/common/Header';
 import EtcTalk from './pages/Community/EtcTalk';
 import Main from './pages/Community/Main';
 import MBTI from './pages/Community/MBTI';

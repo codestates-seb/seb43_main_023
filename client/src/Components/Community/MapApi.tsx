@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import useAxios from '../../util/customAxios';
+import useAxios from '../../apis/customAxios';
 
 declare global {
 	interface Window {

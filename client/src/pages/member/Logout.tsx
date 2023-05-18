@@ -11,7 +11,7 @@ import logo from '../../assets/logo.png';
 import { Ilogin, LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { removeCookie } from '../../util/cookie';
+import { removeCookie } from '../../utils/cookie';
 
 const Main = styled.div`
 	width: 100%;

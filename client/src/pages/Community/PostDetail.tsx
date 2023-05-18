@@ -11,12 +11,12 @@ import Swal from 'sweetalert2';
 
 import { Viewer } from '@toast-ui/react-editor';
 
+import { Api } from '../../apis/customAPI';
+import useAxios from '../../apis/customAxios';
 import Answers from '../../Components/Community/Answers';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { Api } from '../../util/customAPI';
-import useAxios from '../../util/customAxios';
 
 const PostContainer = styled.div`
 	height: fit-content;

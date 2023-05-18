@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Ilogin } from '../../reducers/loginReducer';
+import { RootState } from '../../store/Store';
 import logo from '../assets/logo.png';
-import { Ilogin } from '../reducers/loginReducer';
-import { RootState } from '../store/Store';
 
 const Content = styled.div`
 	z-index: 1;
