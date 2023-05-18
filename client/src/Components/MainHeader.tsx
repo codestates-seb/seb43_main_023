@@ -58,6 +58,7 @@ const MainText = styled.div`
 	}
 	> span {
 		color: #0db4f3;
+		background-color: rgba(255, 255, 255, 0.5);
 	}
 	> div {
 		width: 320px;

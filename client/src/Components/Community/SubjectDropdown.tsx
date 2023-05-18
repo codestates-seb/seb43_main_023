@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
+
+import { FiAlertCircle } from 'react-icons/fi';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { useParams } from 'react-router-dom';
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import { useParams } from 'react-router-dom';
-import { FiAlertCircle } from 'react-icons/fi';
-import useAxios from '../../Util/customAxios';
+
+import useAxios from '../../apis/customAxios';
 
 const Button = styled.button`
 	border: 1px solid rgb(214, 217, 219);

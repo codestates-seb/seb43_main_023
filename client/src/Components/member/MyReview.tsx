@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 
 import { AiFillHeart } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../apis/customAxios';
-import img from '../../assets/jeonju.jpg';
-import Pagination from './Pagination';
+import { Api } from '../../apis/customAPI';
+import { Iuser } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/Store';
 
-const Container = styled.div`
-	min-height: 600px;
-	max-height: 600px;
-	margin-left: 35px;
+const Container = styled.ul`
+	width: 95%;
+	min-height: 28vh;
 	display: flex;
-	overflow: scroll;
+	justify-content: center;
+	align-items: center;
 	flex-wrap: wrap;
-
 	a {
 		text-decoration: none;
 		color: black;
@@ -26,8 +26,7 @@ const ReviewBox = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	height: 270px;
 	width: 210px;
-	margin-bottom: 20px;
-	margin-right: 45px;
+	margin: 0 20px 30px 20px;
 	background-color: white;
 
 	> div:nth-child(1) {
@@ -84,17 +83,11 @@ const Writer = styled.div`
 	}
 `;
 
-const PaginationContainer = styled.div`
-	margin-top: 10px;
-	height: 32px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-`;
+function MyReview() {
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
-function Review() {
 	interface ReviewInter {
+		email: string;
 		id: number;
 		subject: string;
 		title: string;
@@ -107,29 +100,19 @@ function Review() {
 
 	// eslint-disable-next-line prefer-const
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
-	const [curPage, setCurPage] = useState<number>(1);
-
-	const startIdx = (curPage - 1) * 8;
-	const endIdx = startIdx + 8;
-
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts',
-	});
-
 	useEffect(() => {
-		if (response) {
-			setReviews(response);
-		}
-	}, [response]);
+		Api.get('/posts').then((res) => setReviews(res.data));
+	}, []);
 
-	reviews = reviews.filter((el) => el.subject === '여행리뷰');
+	reviews = reviews.filter(
+		(el) => el.subject === '여행리뷰' && el.email === userInfos.email,
+	);
 
 	return (
-		<>
-			<Container>
-				{reviews &&
-					reviews.slice(startIdx, endIdx).map((el) => (
+		<Container>
+			{reviews &&
+				reviews.map((el) => (
+					<li key={el.id}>
 						<Link to={`/tripreview/${el.id}`}>
 							<ReviewBox>
 								<div>
@@ -139,7 +122,7 @@ function Review() {
 								<Writer>
 									<div>
 										<div>
-											<img src={img} alt="유저프로필사진" />
+											<img src={userInfos.img} alt="유저프로필사진" />
 										</div>
 										<div>{el.nickName}</div>
 									</div>
@@ -151,20 +134,10 @@ function Review() {
 								</Writer>
 							</ReviewBox>
 						</Link>
-					))}
-			</Container>
-			<PaginationContainer>
-				<Pagination
-					curPage={curPage}
-					setCurPage={setCurPage}
-					totalPage={Math.ceil(reviews.length / 8)}
-					totalCount={reviews.length}
-					size={8}
-					pageCount={5}
-				/>
-			</PaginationContainer>
-		</>
+					</li>
+				))}
+		</Container>
 	);
 }
 
-export default Review;
+export default MyReview;

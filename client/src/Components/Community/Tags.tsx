@@ -1,10 +1,12 @@
+import '../../Global.css';
+
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
-import '../../Global.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/store';
-import { Ilogin } from '../../Reducers/loginReducer';
+
+import { Ilogin } from '../../reducers/loginReducer';
+import { RootState } from '../../store/Store';
 
 const PlaceTag = styled.div`
 	font-weight: 600;
