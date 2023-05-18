@@ -116,6 +116,7 @@ const OauthBox = styled.div`
 		justify-content: center;
 		align-items: center;
 		border-radius: 5px;
+		font-size: 15px;
 		&:hover {
 			background: rgba(0, 0, 0, 0.04);
 			border: none;

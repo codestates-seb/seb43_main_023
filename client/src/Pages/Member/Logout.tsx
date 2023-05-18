@@ -73,7 +73,7 @@ function Logout() {
 		}).then(async (res) => {
 			if (res.isConfirmed) {
 				try {
-					/*
+					/* oauth로그인 후 로그아웃하는 로직 - 오류나서 보류
 					const oauthInfo = await axios.get(
 						'https://www.googleapis.com/oauth2/v2/userinfo',
 						{
