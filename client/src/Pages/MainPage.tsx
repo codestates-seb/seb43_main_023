@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
-import CarouselHotPlace from '../Components/CarouselHotPlace';
+import CarouselNearbyPlace from '../Components/CarouselNearbyPlace';
 import CarouselReview from '../Components/CarouselReview';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
@@ -122,7 +122,7 @@ function MainPage() {
 			case 0:
 				return <Carousel />;
 			case 1:
-				return <CarouselHotPlace />;
+				return <CarouselNearbyPlace />;
 			case 2:
 				return <CarouselReview />;
 			default:
@@ -163,7 +163,7 @@ function MainPage() {
 					지역별 추천 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(1)}>
-					국내 핫한 여행 명소
+					우리 동네 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(2)}>
 					인기 여행 리뷰글

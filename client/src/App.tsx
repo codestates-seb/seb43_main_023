@@ -17,7 +17,7 @@ import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
 import Error from './Pages/Error';
-import HotPlace from './Pages/HotPlace';
+import HotPlace from './Pages/NearbyPlace';
 import HotReview from './Pages/HotReview';
 import Landing from './Pages/Landing';
 import Loading from './Pages/Loading';
