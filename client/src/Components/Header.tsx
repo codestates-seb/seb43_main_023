@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../Assets/logo.png';
+import { Ilogin } from '../Reducers/loginReducer';
 import { KEYWORD } from '../Reducers/searchKeywordReducer';
 import { RootState } from '../Store/store';
-import { Ilogin } from '../Reducers/loginReducer';
+import logo from '../assets/logo.png';
 
 const Content = styled.div`
 	z-index: 1;

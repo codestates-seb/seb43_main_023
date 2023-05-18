@@ -4,7 +4,7 @@ import '../Global.css';
 import { PulseLoader } from 'react-spinners';
 import styled from 'styled-components';
 
-import loading from '../Assets/loading.png';
+import loading from '../assets/loading.png';
 
 const Content = styled.div`
 	width: 100%;

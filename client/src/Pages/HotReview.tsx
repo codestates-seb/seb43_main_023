@@ -168,7 +168,7 @@ function HotReview() {
 				{filterdReview ? (
 					filterdReview.map((item) => (
 						<StyledLink
-							to={{ pathname: `/posts/${item.postId}` }}
+							to={{ pathname: `/tripreview/${item.postId}` }}
 							style={{ textDecoration: 'none' }}
 						>
 							<HotReviewItem key={item.postId}>
