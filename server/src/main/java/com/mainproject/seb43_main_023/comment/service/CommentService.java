@@ -4,12 +4,9 @@ import com.mainproject.seb43_main_023.comment.entity.Comment;
 import com.mainproject.seb43_main_023.comment.repository.CommentRepository;
 import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
-import com.mainproject.seb43_main_023.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -40,7 +37,7 @@ public class CommentService {
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
-    public Comment voteComment(long commentId) {
+    public Comment voteComment(long commentId,long memberId) {
         Comment comment = findVerifiedComment(commentId);
         Set<Long> voteList = new HashSet<>(comment.getVoteList());
         Long count = comment.getVoteCount();
