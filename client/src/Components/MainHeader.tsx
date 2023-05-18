@@ -77,7 +77,7 @@ function MainHeader() {
 	useEffect(() => {
 		setTimeout(() => {
 			axios(
-				`http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com:8080/members/1`,
+				`http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com:8080/members/2`,
 			)
 				.then((response) => {
 					const { data } = response;
