@@ -158,7 +158,7 @@ interface Review {
 	postId: number;
 	title: string;
 	content: string;
-	nickName: string;
+	nickname: string;
 	image: string[];
 	viewCount: number;
 	voteCount: number;
@@ -254,7 +254,7 @@ function ReviewDetail() {
 								<ContentContainer>
 									<Writer>
 										<div />
-										{el.nickName}
+										{el.nickname}
 									</Writer>
 									<Title>{el.title}</Title>
 									<Content>
@@ -285,7 +285,7 @@ function ReviewDetail() {
 										<div>
 											<div>{el.tag && el.tag.map((t) => <Tag>{t}</Tag>)}</div>
 
-											{el.nickName === userInfos.nickname ? (
+											{el.nickname === userInfos.nickname ? (
 												<div>
 													<Link to={`/tripreview/${id}/update`}>
 														<BsPencilSquare color="gray" />

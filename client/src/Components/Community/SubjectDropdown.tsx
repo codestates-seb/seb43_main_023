@@ -67,7 +67,7 @@ interface SubjectDropdownProps {
 }
 
 interface Type {
-	id: number;
+	postId: number;
 	subject: string;
 }
 
@@ -103,7 +103,7 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	useEffect(() => {
 		if (from === 'Update' && postData.response) {
 			const filtered: Type[] = postData.response;
-			const filteredData = filtered.filter((el) => el.id === Number(id));
+			const filteredData = filtered.filter((el) => el.postId === Number(id));
 			setSelected(filteredData[0].subject);
 		}
 	}, [from, id, postData.response]);

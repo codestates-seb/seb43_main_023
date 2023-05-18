@@ -209,6 +209,11 @@ const Alert = styled.div`
 	}
 `;
 
+interface Post {
+	postId: number;
+	email: string;
+}
+
 function PostUpload() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -218,7 +223,7 @@ function PostUpload() {
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [Images, setImages] = useState<string[]>([]);
-	const [posts, setPosts] = useState([]);
+	const [posts, setPosts] = useState<Post[]>([]);
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
 	const [alert, setAlert] = useState<boolean>(false);
@@ -274,6 +279,7 @@ function PostUpload() {
 	};
 
 	const handlePlace = (data: any) => {
+		console.log(data);
 		setX(data[0].x);
 		setY(data[0].y);
 	};
@@ -335,11 +341,11 @@ function PostUpload() {
 						icon: 'success',
 					}).then((result) => {
 						if (result.value) {
-							document.location.href = `/community/${posts.length + 1}`;
+							document.location.href = `/tripreview/${posts[0].postId + 1}`;
 						}
 					});
 				} else {
-					document.location.href = `/community/${posts.length + 1}`;
+					document.location.href = `/tripreview/${posts[0].postId + 1}`;
 				}
 			} catch (error) {
 				navigate('/error');
@@ -377,11 +383,11 @@ function PostUpload() {
 						icon: 'success',
 					}).then((result) => {
 						if (result.value) {
-							document.location.href = `/community/${posts.length + 1}`;
+							document.location.href = `/community/${posts[0].postId + 1}`;
 						}
 					});
 				} else {
-					document.location.href = `/community/${posts.length + 1}`;
+					document.location.href = `/community/${posts[0].postId + 1}`;
 				}
 			} catch (error) {
 				navigate('/error');

@@ -146,24 +146,22 @@ function Answers() {
 		setText(e.target.value);
 	};
 
-	const handleSubmit = (e: { key: string }) => {
-		if (e.key === 'Enter') {
-			try {
-				Api.post(`posts/${id}/comments`, {
-					content: text,
-					memberId: userInfos.id,
-					postId: id,
-					nickName: userInfos.nickname,
-				}).then(() => {
-					if (review[0].subject === '여행리뷰') {
-						document.location.href = `/tripreview/${id}`;
-					} else {
-						document.location.href = `/community/${id}`;
-					}
-				});
-			} catch (error) {
-				navigate('/error');
-			}
+	const handleSubmit = () => {
+		try {
+			Api.post(`posts/${id}/comments`, {
+				content: text,
+				memberId: userInfos.id,
+				postId: id,
+				nickName: userInfos.nickname,
+			}).then(() => {
+				if (review[0].subject === '여행리뷰') {
+					document.location.href = `/tripreview/${id}`;
+				} else {
+					document.location.href = `/community/${id}`;
+				}
+			});
+		} catch (error) {
+			navigate('/error');
 		}
 	};
 
@@ -273,7 +271,11 @@ function Answers() {
 			<AnswerInput
 				placeholder="댓글을 남겨주세요"
 				onChange={(e) => handleInput(e)}
-				onKeyDown={(e) => handleSubmit(e)}
+				onKeyPress={(e) => {
+					if (e.key === 'Enter') {
+						handleSubmit();
+					}
+				}}
 			/>
 
 			{answers &&

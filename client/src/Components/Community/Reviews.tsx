@@ -96,7 +96,7 @@ function Review() {
 		postId: number;
 		subject: string;
 		title: string;
-		nickName: string;
+		nickname: string;
 		voteCount: number;
 		createdAt: string;
 		tag: string;
@@ -121,6 +121,8 @@ function Review() {
 		}
 	}, [response]);
 
+	console.log(reviews);
+
 	return (
 		<>
 			<Container>
@@ -137,7 +139,7 @@ function Review() {
 										<div>
 											<img src={img} alt="유저프로필사진" />
 										</div>
-										<div>{el.nickName}</div>
+										<div>{el.nickname}</div>
 									</div>
 
 									<div>

@@ -146,10 +146,10 @@ function PostDetail() {
 		subject: string;
 		title: string;
 		content: string;
-		nickName: string;
+		nickname: string;
 		viewCount: number;
 		voteCount: number;
-		createdAt: string;
+		postCreatedAt: string;
 		tag: string[];
 		image: string[];
 	}
@@ -248,6 +248,8 @@ function PostDetail() {
 		}
 	}, [answerData.response, postData.response]);
 
+	console.log(post);
+
 	return (
 		<div className="main">
 			<PostContainer>
@@ -259,14 +261,15 @@ function PostDetail() {
 									<Title>
 										<div>{el.title}</div>
 										<div>
-											{el.nickName}@{userInfos.mbti} {el.createdAt}
+											{el.nickname}@{userInfos.mbti}{' '}
+											{el.postCreatedAt.slice(0, 10)}
 											<div>
 												<span>
 													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글{' '}
 													{answers.length}
 												</span>
 
-												{userInfos.nickname === el.nickName ? (
+												{userInfos.nickname === el.nickname ? (
 													<div>
 														<Link to={`/community/${id}/update`}>
 															<BsPencilSquare color="gray" />

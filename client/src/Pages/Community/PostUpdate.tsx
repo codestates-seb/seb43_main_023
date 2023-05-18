@@ -298,6 +298,7 @@ function PostUpdate() {
 		if (postData.response) {
 			const data: Type = postData.response;
 			setPost(postData.response);
+			console.log(data);
 			setTags(data.tag);
 			setSubject(data.subject);
 		}
@@ -347,17 +348,18 @@ function PostUpdate() {
 						/>
 
 						<TagContainer>
-							{tags.map((e, i) => (
-								// eslint-disable-next-line react/no-array-index-key
-								<Hash key={i}>
-									<div>
-										<HashName>{e}</HashName>
-										<HashBtn onClick={() => removeTag(i)}>
-											<FiDelete />
-										</HashBtn>
-									</div>
-								</Hash>
-							))}
+							{tags &&
+								tags.map((e, i) => (
+									// eslint-disable-next-line react/no-array-index-key
+									<Hash key={i}>
+										<div>
+											<HashName>{e}</HashName>
+											<HashBtn onClick={() => removeTag(i)}>
+												<FiDelete />
+											</HashBtn>
+										</div>
+									</Hash>
+								))}
 
 							<InputBox
 								placeholder="태그를 입력해주세요"
