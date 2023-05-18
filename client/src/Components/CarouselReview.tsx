@@ -20,7 +20,7 @@ interface IReview {
 	title: string;
 	content: string;
 	tag?: null | string;
-	img: string[];
+	image: string[];
 	voteCount: number;
 	viewCount: number;
 	createdAt: string;
@@ -149,13 +149,19 @@ function CarouselReview() {
 
 	useEffect(() => {
 		if (res !== null) {
-			res.sort(
+			console.log(res);
+			const newArr = res.filter(
+				(item: { subject: string }) => item.subject === '여행리뷰',
+			);
+			newArr.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(res.slice(0, 5));
+			setFilterReview(newArr.slice(0, 5));
 		}
 	}, [res]);
+
+	console.log(filterdReview);
 
 	return (
 		<div>
@@ -167,7 +173,7 @@ function CarouselReview() {
 								style={{ textDecoration: 'none' }}
 							>
 								<ReviewContainer>
-									<ReviewImg image={item.img[0]} />
+									<ReviewImg image={item.image[0]} />
 									<ReviewTextContainer>
 										<div className="title">{item.title}</div>
 										<div className="content">{item.content}</div>

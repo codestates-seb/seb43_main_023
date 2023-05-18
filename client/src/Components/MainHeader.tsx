@@ -23,7 +23,6 @@ const MainHeaderContainer = styled.div`
 		height: 40vh;
 		opacity: 0.5;
 		z-index: -1;
-		}
 		@media (max-width: 583px) {
 			padding: 20px;
 			height: 300px;
@@ -94,7 +93,7 @@ function MainHeader() {
 	return (
 		<MainHeaderContainer>
 			<MainText>
-				현재 <span>{userCount}</span>명이 여행지를 추천받고 있습니다
+				현재 <span>3</span>명이 여행지를 추천받고 있습니다
 				<div>
 					로그인하면
 					<br />
