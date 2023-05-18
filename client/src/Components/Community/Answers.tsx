@@ -168,7 +168,7 @@ function Answers() {
 	const handleUpdate = (e: { key: string }, answerId: number) => {
 		if (e.key === 'Enter') {
 			try {
-				Api.patch(`/comments/${answerId}`, {
+				Api.patch(`post/${id}/comments/${answerId}`, {
 					content: text,
 				});
 				if (review[0].subject === '여행리뷰') {
@@ -231,7 +231,7 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`/comments/${answerId}`, {
+				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {
 					vote: clickedAnswer.vote + 1,
 				})
 					.then(() => axios.get(`http://localhost:4000/comments`))
@@ -250,7 +250,7 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`/comments/${answerId}`, {
+				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {
 					vote: clickedAnswer.vote - 1,
 				})
 					.then(() => axios.get(`http://localhost:4000/comments`))

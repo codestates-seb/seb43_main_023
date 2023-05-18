@@ -183,6 +183,11 @@ function PostDetail() {
 		url: `/comments`,
 	});
 
+	const memberData = useAxios({
+		method: 'get',
+		url: `/members`,
+	});
+
 	const deletePost = () => {
 		Swal.fire({
 			title: '정말로 삭제하시겠습니까 ?',
@@ -195,7 +200,7 @@ function PostDetail() {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				try {
-					Api.delete(`/posts/${id}`)
+					Api.delete(`/posts/${id}/${userInfos.id}`)
 						.then(() =>
 							Swal.fire({
 								title: 'Deleted!',
@@ -218,7 +223,7 @@ function PostDetail() {
 		const postVote = post[0].voteCount;
 
 		try {
-			Api.patch(`/posts/${id}`, {
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {
 				voteCount: postVote + 1,
 			})
 				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
@@ -234,7 +239,7 @@ function PostDetail() {
 		const postVote = post[0].voteCount;
 
 		try {
-			Api.patch(`/posts/${id}`, {
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {
 				voteCount: postVote - 1,
 			})
 				.then(() => axios.get(`http://localhost:4000/posts/${id}`))

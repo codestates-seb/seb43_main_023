@@ -5,8 +5,8 @@
       "nickName": "testnick",
       "email": "test@gmail.com",
       "subject": "여행고민",
-      "title": "제목",
-      "content": "내용",
+      "title": "여행고민입니다",
+      "content": "(서울=연합뉴스) 채새롬 기자 = BC카드는 중소벤처기업부 산하 소상공인시장진흥공단과 '소상공인 및 전통시장 소비 활성화'를 위한 협약을 맺었다고 16일 밝혔다.\n이번 협약에 따라 BC카드와 소진공은 중소기업벤처부가 주관하는 5월 동행축제 기간에 온누리상품권 이용 고객에게 최대 16만원까지 할인 혜택을 제공하는 이벤트를 진행한다.\n또 9월, 12월 진행 예정인 동행축제 기간 다양한 이벤트를 하고, 전통시장 및 지역 내 소외된 상권에 고객 방문을 유치할 수 있는 사업연계도 강화할 방침이다.\n\n<br>\n",
       "tag": [
         "ESFJ",
         "1인",
@@ -15,7 +15,8 @@
       "voteCount": 2,
       "viewCount": 1,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 2,
@@ -40,7 +41,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 4,
@@ -52,7 +54,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 5,
@@ -64,7 +67,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 6,
@@ -76,7 +80,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 7,
@@ -88,7 +93,8 @@
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "img": []
     },
     {
       "id": 8,
@@ -104,7 +110,7 @@
       "img": [
         "https://a.cdn-hotels.com/gdcs/production18/d110/a710493b-da6c-415d-bc2c-f63fc58cfeb0.jpg?impolicy=fcrop&w=800&h=533&q=medium"
       ],
-      "voteCount": 6555,
+      "voteCount": 6556,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
       "modifiedAt": "23-05-01T000000",
@@ -224,25 +230,335 @@
     {
       "id": 14,
       "nickName": "testnick",
-      "email" : "test@gmail.com",
       "subject": "여행리뷰",
-      "title": "x",
-      "content": "x",
+      "title": "ㅇㅇ",
+      "content": "ㅇㅇ",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/b9/92/a4/b992a46a56cdab3baee7e461ed350cd5.jpg",
+        "https://i.pinimg.com/564x/b9/92/a4/b992a46a56cdab3baee7e461ed350cd5.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.28970651657366",
+      "y": "37.01152307108269",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 15,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "kk",
+      "content": "ㅇㅇ",
       "tag": [],
       "img": [],
       "voteCount": 0,
       "viewCount": 0,
       "createdAt": "23-05-01T000000",
-      "modifiedAt": "23-05-01T000000"
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 16,
+      "nickName": "안녕",
+      "subject": "여행리뷰",
+      "title": "dd",
+      "content": "d",
+      "tag": [
+        "dd"
+      ],
+      "img": [
+        "d",
+        "dd"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.058816424151",
+      "y": "37.5125226317312",
+      "email": "bda624444@gmail.com"
+    },
+    {
+      "id": 16,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "테스트 1",
+      "content": "테스트 1",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/ee/03/41/ee0341cbf65e5deed7168d06c40e67d3.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 17,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "jj",
+      "content": "(서울=연합뉴스) 채새롬 기자 = BC카드는 중소벤처기업부 산하 소상공인시장진흥공단과 '소상공인 및 전통시장 소비 활성화'를 위한 협약을 맺었다고 16일 밝혔다.\n이번 협약에 따라 BC카드와 소진공은 중소기업벤처부가 주관하는 5월 동행축제 기간에 온누리상품권 이용 고객에게 최대 16만원까지 할인 혜택을 제공하는 이벤트를 진행한다.\n또 9월, 12월 진행 예정인 동행축제 기간 다양한 이벤트를 하고, 전통시장 및 지역 내 소외된 상권에 고객 방문을 유치할 수 있는 사업연계도 강화할 방침이다.\n\n<br>\n",
+      "tag": [
+        "jj"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/78/74/33/787433bbef97f5af15a87d8e2a7fbef8.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 18,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 19,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 20,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 21,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 22,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 23,
+      "nickName": "testnick",
+      "subject": "같이가요",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [
+        "https://i.pinimg.com/564x/1b/bc/71/1bbc71132c6bf860021d6f54f81d34b1.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 24,
+      "nickName": "testnick",
+      "subject": "잡담",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 25,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/b5/66/57/b56657c0af0005a9ce471c2f411e038b.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.05156147004348",
+      "y": "37.505691000291094",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 26,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "테스트",
+      "content": "테스트",
+      "tag": [
+        "테스트"
+      ],
+      "img": [
+        "https://i.pinimg.com/564x/77/7e/6d/777e6dd1e2c4b6754460dc209321ce4d.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.05156147004348",
+      "y": "37.505691000291094",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 28,
+      "nickName": "조베기",
+      "subject": "여행고민",
+      "title": "ㅏㅏ",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "choalstn@gmail.com"
+    },
+    {
+      "id": 29,
+      "nickName": "조베기",
+      "subject": "여행고민",
+      "title": "ㅏㅏ",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "choalstn@gmail.com"
+    },
+    {
+      "id": 30,
+      "nickName": "조베기",
+      "subject": "여행고민",
+      "title": "ㅣㅣ",
+      "content": "",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "choalstn@gmail.com"
+    },
+    {
+      "id": 31,
+      "nickName": "",
+      "subject": "여행고민",
+      "title": "하동",
+      "content": "하동하동",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": ""
+    },
+    {
+      "id": 32,
+      "nickName": "",
+      "subject": "여행리뷰",
+      "title": "하동 여행",
+      "content": "",
+      "tag": [
+        "하동",
+        "최참판댁"
+      ],
+      "img": [
+        "https://images.chosun.com/resizer/OynK2vVnenPVwEXM7o-xy2MSLkc=/616x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/P34PNYBNCDMADSX3XE2T3MNCAM.jpg"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.688100367243",
+      "y": "35.1555906084513",
+      "email": ""
     }
   ],
   "comments": [
     {
+      "id": 2,
+      "postId": 1,
+      "content": "uu",
+      "author": "testnick",
+      "vote": 5
+    },
+    {
       "id": 3,
       "postId": 1,
+      "content": "aa",
       "author": "조베기",
-      "content": "댓글",
-      "vote": 3
+      "vote": 0
     }
   ],
   "members": [
@@ -272,6 +588,33 @@
       "password": "1234",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjU3/MDAxNjI1NjQzNzI2ODgw.4SALKzLC-iLP3PvUs3bDFlijYO-VfVewp1c7tbrP4qcg.JWMyIWCXSJn_aKSXOAJtwb1Wi9w-TnwZ3peJU6YR9m4g.PNG.im_worry/5.png?type=w800",
       "badge": null
+    },
+    {
+      "id": 113043093810114310000,
+      "nickname": " oauth성공!",
+      "mbti": "ENTJ",
+      "email": "bda624444@gmail.com",
+      "password": "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",
+      "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjk4/MDAxNjI1NjQzNzM1NTY0.N3UM1sVKMyNXTav-dRBXnGHe7FYMJpAA1h_Ko8NvFrgg.Y1fST4Lphu6ypeTYQKIDoihjp4-gJSILP0SqZdDnUxcg.PNG.im_worry/3.png?type=w800",
+      "badge": null
+    },
+    {
+      "id": 116229671669639840000,
+      "nickname": "구글너구리",
+      "mbti": "ISTP",
+      "email": "yjh44242168@gmail.com",
+      "password": "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",
+      "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTg1/MDAxNjI1NjQzNzIxNDQz.EfMyjRXUfV1VGRgNszd7a5cVwIDZp9WpZHEzyEC5RJEg.MbHWLTvaIE-96grTDv661p7bK-xyaHpaRmdVBLMTIxog.PNG.im_worry/13.png?type=w800",
+      "badge": null
+    },
+    {
+      "id": 106546720966482130000,
+      "nickname": "조베기",
+      "mbti": "ESFJ",
+      "email": "choalstn@gmail.com",
+      "password": "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",
+      "img": "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg",
+      "badge": null
     }
   ],
   "mbtiInfo": [
@@ -279,7 +622,7 @@
       "mbti": "ISTP",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTg1/MDAxNjI1NjQzNzIxNDQz.EfMyjRXUfV1VGRgNszd7a5cVwIDZp9WpZHEzyEC5RJEg.MbHWLTvaIE-96grTDv661p7bK-xyaHpaRmdVBLMTIxog.PNG.im_worry/13.png?type=w800",
       "place": "울릉도, 독도",
-      "description": "먹고 놀고 휴식하기 등 동시에 다양한 니즈를 만족시킬 수 있는 여행지를 선호하는\\nESTP에게 어울리는 울릉도는 어떠신가요?",
+      "description": "현실적이지만 대담한 스타일! 예기치 못한 상황도 무난히 해결하는 융통성 있는\\nISTP에게 어울리는 울릉도는 어떠신가요?",
       "placeImg": "https://m.segye.com/content/image/2021/06/16/20210616515482.jpg"
     },
     {
