@@ -47,20 +47,6 @@ public class PostDto {
         private LocalDateTime postCreatedAt;
         private LocalDateTime postModifiedAt;
     }
-    @Getter
-    @Setter
-    public static class postsResponseDto{
-        private long postId;
-        private long memberId;
-        private String email;
-        private String nickname;
-        private String subject;
-        private String title;
-        private long viewCount;
-        private long voteCount;
-        private LocalDateTime postCreatedAt;
-        private LocalDateTime postModifiedAt;
-    }
 
     @Getter
     @Setter
