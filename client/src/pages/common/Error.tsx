@@ -1,9 +1,9 @@
-import '../Global.css';
+import '../../Global.css';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import error from '../assets/error.png';
+import error from '../../assets/error.png';
 
 const Content = styled.div`
 	width: 100%;

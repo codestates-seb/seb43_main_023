@@ -11,10 +11,10 @@ import Swal from 'sweetalert2';
 
 import { Viewer } from '@toast-ui/react-editor';
 
-import { Api } from '../../apis/customAPI';
-import useAxios from '../../apis/customAxios';
 import Answers from '../../Components/Community/Answers';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
+import { Api } from '../../apis/customAPI';
+import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 

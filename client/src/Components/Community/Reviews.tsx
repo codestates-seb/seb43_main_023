@@ -4,8 +4,8 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../apis/customAxios';
 import img from '../../assets/jeonju.jpg';
+import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
 
 const Container = styled.div`
