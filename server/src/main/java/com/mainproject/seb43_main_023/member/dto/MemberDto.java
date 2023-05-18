@@ -33,6 +33,7 @@ public class MemberDto {
         private String password;
         private String nickname;
         private String mbti;
+        private String img;
     }
 
     @Getter
