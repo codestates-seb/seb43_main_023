@@ -7,8 +7,8 @@ import storage from 'redux-persist/lib/storage/session';
 
 import { configureStore, Store } from '@reduxjs/toolkit';
 
-import loginReducer, { Ilogin } from '../Reducers/loginReducer';
-import userInfoReducer, { Iuser } from '../Reducers/userInfoReducer';
+import loginReducer, { Ilogin } from '../reducers/loginReducer';
+import userInfoReducer, { Iuser } from '../reducers/userInfoReducer';
 
 const reducers = combineReducers({
 	user: userInfoReducer,

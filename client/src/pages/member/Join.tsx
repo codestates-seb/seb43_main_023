@@ -8,9 +8,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-import airplane from '../../Assets/airplane.png';
-import logo from '../../Assets/logo.png';
-import { Api } from '../../Util/customAPI';
+import airplane from '../../assets/airplane.png';
+import logo from '../../assets/logo.png';
+import { Api } from '../../util/customAPI';
 
 const Main = styled.div`
 	width: 100%;

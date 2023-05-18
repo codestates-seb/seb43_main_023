@@ -5,10 +5,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-import { LOGIN } from '../../Reducers/loginReducer';
-import { UPDATE } from '../../Reducers/userInfoReducer';
-import { setCookie } from '../../Util/cookie';
-import { Api } from '../../Util/customAPI';
+import { LOGIN } from '../../reducers/loginReducer';
+import { UPDATE } from '../../reducers/userInfoReducer';
+import { setCookie } from '../../util/cookie';
+import { Api } from '../../util/customAPI';
 
 export default function OauthJoinHandler() {
 	const navigate = useNavigate();

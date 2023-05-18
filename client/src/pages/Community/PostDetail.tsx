@@ -1,19 +1,22 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../../Global.css';
-import styled from 'styled-components';
+
+import { useEffect, useState } from 'react';
+
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
-import Swal from 'sweetalert2';
-import { Viewer } from '@toast-ui/react-editor';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import Swal from 'sweetalert2';
+
+import { Viewer } from '@toast-ui/react-editor';
+
 import Answers from '../../Components/Community/Answers';
-import { RootState } from '../../Store/store';
-import { Iuser } from '../../Reducers/userInfoReducer';
-import useAxios from '../../Util/customAxios';
-import { Api } from '../../Util/customAPI';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
+import { Iuser } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/store';
+import { Api } from '../../util/customAPI';
+import useAxios from '../../util/customAxios';
 
 const PostContainer = styled.div`
 	height: fit-content;

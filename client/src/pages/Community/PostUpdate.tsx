@@ -1,18 +1,22 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '../../Global.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { FiDelete, FiAlertCircle } from 'react-icons/fi';
+
+import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useNavigate, useParams } from 'react-router-dom';
-import SubjectDropdown from '../../Components/Community/SubjectDropdown';
+import styled from 'styled-components';
+
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { Editor } from '@toast-ui/react-editor';
+
 import SearchPlace from '../../Components/Community/SearchPlace';
-import useAxios from '../../Util/customAxios';
-import { Api } from '../../Util/customAPI';
+import SubjectDropdown from '../../Components/Community/SubjectDropdown';
+import { Api } from '../../util/customAPI';
+import useAxios from '../../util/customAxios';
 
 const Container = styled.div`
 	width: 100vw;

@@ -17,10 +17,10 @@ import { Editor } from '@toast-ui/react-editor';
 
 import SearchPlace from '../../Components/Community/SearchPlace';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
-import { Iuser, UPDATE } from '../../Reducers/userInfoReducer';
-import { RootState } from '../../Store/store';
-import { Api } from '../../Util/customAPI';
-import useAxios from '../../Util/customAxios';
+import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/store';
+import { Api } from '../../util/customAPI';
+import useAxios from '../../util/customAxios';
 
 const Container = styled.div`
 	width: 100vw;

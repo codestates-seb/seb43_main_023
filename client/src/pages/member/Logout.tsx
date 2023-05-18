@@ -6,12 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-import airplane from '../../Assets/airplane.png';
-import logo from '../../Assets/logo.png';
-import { Ilogin, LOGOUT } from '../../Reducers/loginReducer';
-import { DELETE } from '../../Reducers/userInfoReducer';
-import { RootState } from '../../Store/store';
-import { removeCookie } from '../../Util/cookie';
+import airplane from '../../assets/airplane.png';
+import logo from '../../assets/logo.png';
+import { Ilogin, LOGOUT } from '../../reducers/loginReducer';
+import { DELETE } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/store';
+import { removeCookie } from '../../util/cookie';
 
 const Main = styled.div`
 	width: 100%;

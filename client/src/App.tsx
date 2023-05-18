@@ -6,31 +6,31 @@ import { Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
-import OauthJoinHandler from './Components/Member/OauthHandler';
-import EtcTalk from './Pages/Community/EtcTalk';
-import Main from './Pages/Community/Main';
-import MBTI from './Pages/Community/MBTI';
-import PostDetail from './Pages/Community/PostDetail';
-import PostUpdate from './Pages/Community/PostUpdate';
-import PostUpload from './Pages/Community/PostUpload';
-import ReviewDetail from './Pages/Community/ReiviewDetail';
-import TripMate from './Pages/Community/TripMate';
-import TripReview from './Pages/Community/TripReview';
-import Error from './Pages/Error';
-import HotPlace from './Pages/HotPlace';
-import HotReview from './Pages/HotReview';
-import Landing from './Pages/Landing';
-import Loading from './Pages/Loading';
-import Join from './Pages/Member/Join';
-import Login from './Pages/Member/Login';
-import Logout from './Pages/Member/Logout';
-import UserEdit from './Pages/Member/UserEdit';
-import RegionRec from './Pages/RegionRecommend';
-import Search from './Pages/Search';
+import OauthJoinHandler from './Components/member/OauthHandler';
+import EtcTalk from './pages/Community/EtcTalk';
+import Main from './pages/Community/Main';
+import MBTI from './pages/Community/MBTI';
+import PostDetail from './pages/Community/PostDetail';
+import PostUpdate from './pages/Community/PostUpdate';
+import PostUpload from './pages/Community/PostUpload';
+import ReviewDetail from './pages/Community/ReiviewDetail';
+import TripMate from './pages/Community/TripMate';
+import TripReview from './pages/Community/TripReview';
+import Error from './pages/Error';
+import HotPlace from './pages/HotPlace';
+import HotReview from './pages/HotReview';
+import Landing from './pages/Landing';
+import Loading from './pages/Loading';
+import Join from './pages/member/Join';
+import Login from './pages/member/Login';
+import Logout from './pages/member/Logout';
+import UserEdit from './pages/member/UserEdit';
+import RegionRec from './pages/RegionRecommend';
+import Search from './pages/Search';
 
-const MainPage = lazy(() => import('./Pages/MainPage'));
-const Mypage = lazy(() => import('./Pages/Member/Mypage'));
-const RegionDetail = lazy(() => import('./Pages/RegionDetail'));
+const MainPage = lazy(() => import('./pages/MainPage'));
+const Mypage = lazy(() => import('./pages/member/Mypage'));
+const RegionDetail = lazy(() => import('./pages/RegionDetail'));
 
 function App() {
 	const url = new URL(window.location.href); // 현재 url 가져오기

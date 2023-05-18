@@ -7,12 +7,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-import IntroBox from '../../Components/Member/IntroBox';
-import MyReview from '../../Components/Member/MyReview';
-import { Iuser, UPDATE } from '../../Reducers/userInfoReducer';
-import { RootState } from '../../Store/store';
-import { Api } from '../../Util/customAPI';
-import useAxios from '../../Util/customAxios';
+import IntroBox from '../../Components/member/IntroBox';
+import MyReview from '../../Components/member/MyReview';
+import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/store';
+import { Api } from '../../util/customAPI';
+import useAxios from '../../util/customAxios';
 
 const Main = styled.div`
 	display: flex;

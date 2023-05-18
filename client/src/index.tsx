@@ -11,7 +11,7 @@ import { Normalize } from 'styled-normalize';
 
 import App from './App';
 import ScrollToTop from './Components/ScrollToTop';
-import store from './Store/store';
+import store from './store/store';
 
 const persistor = persistStore(store);
 
