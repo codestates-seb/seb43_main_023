@@ -6,10 +6,10 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../apis/customAxios';
 import Pagination from '../../Components/Community/Pagination';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
+import useAxios from '../../hooks/useAxios';
 
 const EtcTalkContainer = styled.div`
 	height: calc(100vh - 165px);

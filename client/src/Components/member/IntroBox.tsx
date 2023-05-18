@@ -8,6 +8,7 @@ import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { removeCookie } from '../../utils/cookie';
+import { removeLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
@@ -63,9 +64,9 @@ function IntroBox() {
 			if (res.isConfirmed) {
 				try {
 					await Api.delete(`/members/${userInfos.id}`);
-					localStorage.removeItem('accessToken');
-					localStorage.removeItem('empiresAtAccess');
-					localStorage.removeItem('empiresAtRefresh');
+					removeLocalStorage('accessToken');
+					removeLocalStorage('empiresAtAccess');
+					removeLocalStorage('empiresAtRefresh');
 					removeCookie('refreshToken');
 					dispatch(DELETE());
 					dispatch(LOGOUT());

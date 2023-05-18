@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 
-import useAxios from '../../apis/customAxios';
+import useAxios from '../../hooks/useAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
