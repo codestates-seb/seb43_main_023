@@ -217,11 +217,6 @@ function PostUpdate() {
 		url: `/posts/${id}`,
 	});
 
-	const memberData = useAxios({
-		method: 'get',
-		url: `/members`,
-	});
-
 	let axiosData: Type;
 	let titleData;
 
