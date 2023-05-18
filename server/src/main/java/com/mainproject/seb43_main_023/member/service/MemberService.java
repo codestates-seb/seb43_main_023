@@ -183,4 +183,8 @@ public class MemberService {
 
         memberRepository.save(verifiedMember);
     }
+
+    public int findAllMembers() {
+        return memberRepository.findAll().size();
+    }
 }
