@@ -15,8 +15,8 @@ import { Api } from '../../apis/customAPI';
 import Answers from '../../Components/Community/Answers';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 const PostContainer = styled.div`
 	height: fit-content;

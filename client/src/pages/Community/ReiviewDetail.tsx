@@ -16,8 +16,8 @@ import Answers from '../../Components/Community/Answers';
 import MapApi from '../../Components/Community/MapApi';
 import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 const ReviewContainer = styled.div`
 	height: 100vh;

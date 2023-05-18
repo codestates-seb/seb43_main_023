@@ -7,6 +7,7 @@ import { Api } from '../../apis/customAPI';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 import { removeCookie } from '../../utils/cookie';
 import { removeLocalStorage } from '../../utils/LocalStorage';
 
@@ -49,7 +50,7 @@ function IntroBox() {
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
-	const userInfos = useSelector((state: RootState) => state.user);
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	// 회원 탈퇴 핸들러
 	const memberDeleteClick = () => {

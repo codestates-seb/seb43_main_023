@@ -9,8 +9,8 @@ import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 const Container = styled.div`
 	width: 100%;

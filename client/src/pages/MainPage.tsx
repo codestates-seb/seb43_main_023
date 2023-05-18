@@ -11,8 +11,8 @@ import CarouselNearbyPlace from '../Components/CarouselNearbyPlace';
 import CarouselReview from '../Components/CarouselReview';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';
-import { Ilogin } from '../reducers/loginReducer';
 import { RootState } from '../store/Store';
+import { Ilogin } from '../type/Ilogin';
 
 const MainContainer = styled.div`
 	width: 100vw;

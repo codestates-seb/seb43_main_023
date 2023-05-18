@@ -19,8 +19,9 @@ import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/Community/SearchPlace';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
-import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 const Container = styled.div`
 	width: 100vw;
