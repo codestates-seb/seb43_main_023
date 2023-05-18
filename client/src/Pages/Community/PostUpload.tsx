@@ -232,6 +232,11 @@ function PostUpload() {
 		url: `/posts`,
 	});
 
+	const memberData = useAxios({
+		method: 'get',
+		url: `/members`,
+	});
+
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
 		clonetags.splice(i, 1);
@@ -297,7 +302,7 @@ function PostUpload() {
 		) {
 			// json-server용 api 요청
 			try {
-				Api.post('/posts', {
+				Api.post(`/posts/${userInfos.id}`, {
 					nickName: userInfos.nickname,
 					subject,
 					title,

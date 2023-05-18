@@ -9,10 +9,13 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FiDelete, FiAlertCircle } from 'react-icons/fi';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import SearchPlace from '../../Components/Community/SearchPlace';
 import useAxios from '../../Util/customAxios';
 import { Api } from '../../Util/customAPI';
+import { RootState } from '../../Store/store';
+import { Iuser } from '../../Reducers/userInfoReducer';
 
 const Container = styled.div`
 	width: 100vw;
@@ -204,12 +207,19 @@ interface Type {
 function PostUpdate() {
 	const navigate = useNavigate();
 
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+
 	const editorRef = useRef<Editor | null>(null);
 	const { id } = useParams();
 
 	const postData = useAxios({
 		method: 'get',
 		url: `/posts/${id}`,
+	});
+
+	const memberData = useAxios({
+		method: 'get',
+		url: `/members`,
 	});
 
 	let axiosData: Type;
@@ -271,7 +281,7 @@ function PostUpdate() {
 
 			// json-server용 api 요청
 			try {
-				Api.patch(`/posts/${id}`, {
+				Api.patch(`/posts/${id}/${userInfos.id}`, {
 					title,
 					content,
 					tag: tags,
