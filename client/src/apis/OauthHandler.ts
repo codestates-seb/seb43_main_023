@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { LOGIN } from '../reducers/loginReducer';
 import { UPDATE } from '../reducers/userInfoReducer';
 import { setCookie } from '../utils/cookie';
+import { setLocalStorage } from '../utils/LocalStorage';
 import { Api } from './customAPI';
 
 export default function OauthJoinHandler() {
@@ -55,22 +56,17 @@ export default function OauthJoinHandler() {
 					sameSite: 'none',
 					secure: true,
 				});
-				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('empiresAtAccess', '1800000');
-				localStorage.setItem('empiresAtRefresh', '9900000');
+				setLocalStorage('accessToken', accessToken);
+				setLocalStorage('empiresAtAccess', 1800000);
+				setLocalStorage('empiresAtRefresh', 9900000);
 
 				// 서버 연결하면 사용할 코드(수정 필요)
 				/*
-				const loginData = await Api.post('/auth/login', {
+				const loginData = await Api.post('/members/signin', {
 					email: oauthInfo.data.email,
 					password: oauthInfo.data.id,
 				});
-				const memberId = loginData.response.data.memberId;
-				const accessToken = loginData.response.data.accessToken
-				const refreshToken = loginData.response.data.refreshToken
-				const empiresAtAccess = loginData.response.data.accessTokenExpirationTime;
-				const empiresAtRefresh = loginData.response.data.refreshTokenExpirationTime;
-				axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+				const { memberId, accessToken, refreshToken, empiresAtAccess, empiresAtRefresh } = loginData.data.data;
 				*/
 
 				// 회원가입이 안되있다면

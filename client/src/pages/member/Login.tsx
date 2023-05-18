@@ -15,6 +15,7 @@ import logo from '../../assets/logo.png';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
+import { setLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
@@ -205,9 +206,9 @@ function Login() {
 					sameSite: 'none',
 					secure: true,
 				});
-				localStorage.setItem('accessToken', accessToken);
-				localStorage.setItem('empiresAtAccess', '1800000');
-				localStorage.setItem('empiresAtRefresh', '9900000');
+				setLocalStorage('accessToken', accessToken);
+				setLocalStorage('empiresAtAccess', '1800000');
+				setLocalStorage('empiresAtRefresh', '9900000');
 				Swal.fire({
 					icon: 'success',
 					title: '로그인되었습니다.',
