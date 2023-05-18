@@ -7,7 +7,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
@@ -225,11 +225,13 @@ function PostUpload() {
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
 
+	const { id } = useParams();
+
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const postData = useAxios({
 		method: 'get',
-		url: `/posts`,
+		url: `/posts/${id}`,
 	});
 
 	const removeTag = (i: number) => {
@@ -303,7 +305,7 @@ function PostUpload() {
 					title,
 					content,
 					tag: tags,
-					img: Images,
+					image: Images,
 					voteCount: 0,
 					viewCount: 0,
 					createdAt: '23-05-01T000000',

@@ -106,7 +106,7 @@ interface Review {
 	content: string;
 	nickName: string;
 	subject: string;
-	img: string[];
+	image: string[];
 	viewCount: number;
 	voteCount: number;
 	createdAt: string;

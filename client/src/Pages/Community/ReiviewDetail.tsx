@@ -160,7 +160,7 @@ interface Review {
 	title: string;
 	content: string;
 	nickName: string;
-	img: string[];
+	image: string[];
 	viewCount: number;
 	voteCount: number;
 	createdAt: string;
