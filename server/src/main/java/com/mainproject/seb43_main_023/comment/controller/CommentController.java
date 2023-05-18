@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -34,6 +35,12 @@ public class CommentController {
         Comment updatedComment = commentService.updateComment(comment);
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(updatedComment), HttpStatus.OK);
     }
+    @GetMapping("/{post-id}/comments")
+    public ResponseEntity getComments(@PathVariable("post-id") long postId) {
+        List<Comment> comments = commentService.findComments(postId);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
     @GetMapping("/{post-id}/comments/{comment-id}")
     public ResponseEntity getComment(@PathVariable("comment-id") long commentId) {
         Comment verifiedComment = commentService.findVerifiedComment(commentId);
