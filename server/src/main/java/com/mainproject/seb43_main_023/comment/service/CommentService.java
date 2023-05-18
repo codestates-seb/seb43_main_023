@@ -10,11 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +29,9 @@ public class CommentService {
         Comment findComment = findVerifiedComment(commentId);
         commentRepository.delete(findComment);
     }
-
+    public List<Comment> findComments(long postId) {
+        return commentRepository.findByPostId(postId);
+    }
     public Comment findVerifiedComment(long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         Comment findComment = optionalComment.orElseThrow(() ->
