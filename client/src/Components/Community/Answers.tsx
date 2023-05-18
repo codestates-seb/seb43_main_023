@@ -138,7 +138,7 @@ function Answers() {
 
 	const answerData = useAxios({
 		method: 'get',
-		url: `/comments`,
+		url: `/posts/${id}/comments`,
 	});
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -150,8 +150,8 @@ function Answers() {
 			try {
 				Api.post(`posts/${id}/comments`, {
 					content: text,
-					author: userInfos.nickname,
-					vote: 0,
+					memberId: userInfos.id,
+					postId: id,
 				}).then(() => {
 					if (review[0].subject === '여행리뷰') {
 						document.location.href = `/tripreview/${id}`;
@@ -170,6 +170,8 @@ function Answers() {
 			try {
 				Api.patch(`post/${id}/comments/${answerId}`, {
 					content: text,
+					memberId: userInfos.id,
+					postId: id,
 				});
 				if (review[0].subject === '여행리뷰') {
 					document.location.href = `/tripreview/${id}`;
@@ -231,10 +233,8 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {
-					vote: clickedAnswer.vote + 1,
-				})
-					.then(() => Api.get(`/comments`))
+				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/posts/${id}/comments`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
@@ -250,10 +250,8 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {
-					vote: clickedAnswer.vote - 1,
-				})
-					.then(() => Api.get(`/comments`))
+				Api.patch(`post/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/posts/${id}/comments`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
