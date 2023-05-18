@@ -41,6 +41,7 @@ public class MemberDto {
         private String nickname;
         private String mbti;
         private String img;
+        private String badge;
     }
 
     @Getter
@@ -52,6 +53,7 @@ public class MemberDto {
         private String nickname;
         private String mbti;
         private String memberStatus;
+        private String img;
         private String badge;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
