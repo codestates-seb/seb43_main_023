@@ -13,7 +13,9 @@ const useAxios = ({ url, method }: AxiosProps) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		axios[method](`http://localhost:4000${url}`)
+		axios[method](
+			`http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com:8080${url}`,
+		)
 			.then((res) => {
 				setResponse(res.data);
 			})

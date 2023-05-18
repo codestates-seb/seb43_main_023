@@ -2,7 +2,8 @@ import axios, { AxiosInstance } from 'axios';
 
 // import { refresh, refreshErrorHandle } from './refresh';
 
-const baseURL = 'http://localhost:4000';
+const baseURL =
+	'http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com:8080';
 
 // eslint-disable-next-line import/prefer-default-export
 export const Api: AxiosInstance = axios.create({
