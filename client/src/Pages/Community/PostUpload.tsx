@@ -232,11 +232,6 @@ function PostUpload() {
 		url: `/posts`,
 	});
 
-	const memberData = useAxios({
-		method: 'get',
-		url: `/members`,
-	});
-
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
 		clonetags.splice(i, 1);

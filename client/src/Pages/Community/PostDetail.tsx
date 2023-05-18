@@ -183,11 +183,6 @@ function PostDetail() {
 		url: `/comments`,
 	});
 
-	const memberData = useAxios({
-		method: 'get',
-		url: `/members`,
-	});
-
 	const deletePost = () => {
 		Swal.fire({
 			title: '정말로 삭제하시겠습니까 ?',
