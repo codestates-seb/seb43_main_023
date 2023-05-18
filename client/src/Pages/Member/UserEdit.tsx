@@ -135,22 +135,24 @@ function UserEdit() {
 			editname !== '' &&
 			MBTI_REGEX.find((v) => v === editmbti.toUpperCase()) !== undefined
 		) {
-			const mbtiImgData = await Api.get('/mbtiInfo');
+			const mbtiImg = await Api.get(`/mbtiInfo/${editmbti.toUpperCase()}`);
+			/*
 			const mbtiImg = mbtiImgData.data.find(
 				(v: { mbti: string }) => v.mbti === editmbti.toUpperCase(),
 			).img;
+			*/
 			try {
 				await Api.patch(`/members/${userInfos.id}`, {
 					nickname: editname,
 					mbti: editmbti.toUpperCase(),
-					img: mbtiImg,
+					img: mbtiImg.data.img,
 					badge: userInfos.badge,
 				});
 				dispatch(
 					UPDATE({
 						nickname: editname,
 						mbti: editmbti.toUpperCase(),
-						img: mbtiImg,
+						img: mbtiImg.data.img,
 						badge: userInfos.badge,
 					}),
 				);
