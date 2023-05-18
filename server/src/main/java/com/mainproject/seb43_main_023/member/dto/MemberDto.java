@@ -1,9 +1,6 @@
 package com.mainproject.seb43_main_023.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.validation.constraints.NotBlank;
@@ -27,6 +24,7 @@ public class MemberDto {
         }
     }
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
         private String email;
@@ -41,6 +39,7 @@ public class MemberDto {
         private String nickname;
         private String mbti;
         private String img;
+        private String badge;
     }
 
     @Getter
@@ -52,6 +51,7 @@ public class MemberDto {
         private String nickname;
         private String mbti;
         private String memberStatus;
+        private String img;
         private String badge;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;

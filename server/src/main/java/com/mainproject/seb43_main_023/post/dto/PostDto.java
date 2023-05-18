@@ -3,6 +3,7 @@ package com.mainproject.seb43_main_023.post.dto;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.ElementCollection;
@@ -13,6 +14,7 @@ import java.util.List;
 public class PostDto {
     @AllArgsConstructor
     @Getter
+    @NoArgsConstructor
     public static class postPostDto {
         @NotBlank(message = "말머리를 선택해주세요.")
         private String subject;

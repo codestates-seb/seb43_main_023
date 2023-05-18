@@ -124,6 +124,8 @@ public class MemberService {
                 .ifPresent(mbti -> findMember.setMbti(mbti));
         Optional.ofNullable(member.getImg())
                 .ifPresent((img -> findMember.setImg(img)));
+        Optional.ofNullable(member.getBadge())
+                .ifPresent(badge -> findMember.setBadge(badge));
         return memberRepository.save(member);
     }
 
@@ -180,5 +182,9 @@ public class MemberService {
         }
 
         memberRepository.save(verifiedMember);
+    }
+
+    public int findAllMembers() {
+        return memberRepository.findAll().size();
     }
 }

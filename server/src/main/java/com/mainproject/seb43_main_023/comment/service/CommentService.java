@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,7 +23,7 @@ public class CommentService {
         Comment findComment = findVerifiedComment(comment.getCommentId());
         Optional.ofNullable(comment.getContent())
                 .ifPresent((content -> findComment.setContent(content)));
-        return commentRepository.save(findComment);
+        return commentRepository.save(comment);
     }
     public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);
