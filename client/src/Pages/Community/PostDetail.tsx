@@ -151,7 +151,7 @@ function PostDetail() {
 		voteCount: number;
 		createdAt: string;
 		tag: string[];
-		img: string[];
+		image: string[];
 	}
 
 	interface Answer {
@@ -278,7 +278,7 @@ function PostDetail() {
 										</div>
 									</Title>
 									<Content>
-										{el.img.length > 0 ? (
+										{el.image.length > 0 ? (
 											<>
 												<ImgContainer>
 													<ReviewCarousel />

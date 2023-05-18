@@ -23,7 +23,7 @@ const MainHeaderContainer = styled.div`
 		height: 40vh;
 		opacity: 0.5;
 		z-index: -1;
-		}
+
 		@media (max-width: 583px) {
 			padding: 20px;
 			height: 300px;

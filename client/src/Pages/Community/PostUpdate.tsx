@@ -190,7 +190,7 @@ interface Post {
 	content: string;
 	createdAt: string;
 	postId: number;
-	img: string[];
+	image: string[];
 	modifiedAt: string;
 	nickName: string;
 	subject: string;

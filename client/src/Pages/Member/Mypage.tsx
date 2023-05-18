@@ -78,17 +78,17 @@ const MenuContent = styled.div`
 				color: #0db4f3;
 			}
 		}
-		.badgeAppend{
+		.badgeAppend {
 			margin-top: -20px;
 		}
 		.badgeHover {
-			&:hover{
+			&:hover {
 				cursor: pointer;
 			}
 		}
 		.badgeBox {
 			display: flex;
-			flex-direction column;
+			flex-direction: column;
 			justify-content: center;
 			align-items: center;
 			width: 190px;
@@ -104,11 +104,11 @@ const MenuContent = styled.div`
 		}
 	}
 	.test {
-	width: 100%;
-	text-align: right;
-	text-decoration: none;
-	padding: 0 50px;
-	margin-top: 30px;
+		width: 100%;
+		text-align: right;
+		text-decoration: none;
+		padding: 0 50px;
+		margin-top: 30px;
 	}
 `;
 

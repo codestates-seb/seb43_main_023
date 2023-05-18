@@ -161,7 +161,7 @@ interface postType {
 	content: string;
 	subject: string;
 	nickName: string;
-	img: string[];
+	image: string[];
 }
 
 function Search() {
@@ -276,9 +276,9 @@ function Search() {
 											<div className="content">{post.content}</div>
 											<span className="author">{post.nickName}</span>
 										</ResultText>
-										{post.img.length > 0 && (
+										{post.image.length > 0 && (
 											<ResultImg
-												src={post.img[0]}
+												src={post.image[0]}
 												alt="검색결과 사진 미리보기"
 											/>
 										)}

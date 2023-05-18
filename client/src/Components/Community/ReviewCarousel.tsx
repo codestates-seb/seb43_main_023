@@ -53,7 +53,7 @@ function ReviewCarousel() {
 		title: string;
 		content: string;
 		nickName: string;
-		img: string[];
+		image: string[];
 		viewCount: number;
 		voteCount: number;
 		createdAt: string;
@@ -76,9 +76,9 @@ function ReviewCarousel() {
 		<div>
 			{review.length > 0 && (
 				<SlideContainer {...settings}>
-					<SlideItem image={review[0].img[0]} />
-					<SlideItem image={review[0].img[1]} />
-					<SlideItem image={review[0].img[2]} />
+					<SlideItem image={review[0].image[0]} />
+					<SlideItem image={review[0].image[1]} />
+					<SlideItem image={review[0].image[2]} />
 				</SlideContainer>
 			)}
 		</div>

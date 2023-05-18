@@ -158,7 +158,7 @@ function Main() {
 		voteCount: number;
 		createdAt: string;
 		content: string;
-		img: string[];
+		image: string[];
 		tag: string[];
 	}
 
@@ -234,8 +234,8 @@ function Main() {
 												</Info>
 											</div>
 
-											{el.img[0] ? (
-												<img src={el.img[0]} alt="게시글 사진 미리보기" />
+											{el.image[0] ? (
+												<img src={el.image[0]} alt="게시글 사진 미리보기" />
 											) : null}
 										</Contentbody>
 									</Link>

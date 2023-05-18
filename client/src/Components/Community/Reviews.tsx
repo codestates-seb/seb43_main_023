@@ -100,7 +100,7 @@ function Review() {
 		voteCount: number;
 		createdAt: string;
 		tag: string;
-		img: string[];
+		image: string[];
 	}
 
 	// eslint-disable-next-line prefer-const
@@ -129,7 +129,7 @@ function Review() {
 						<Link to={`/tripreview/${el.postId}`}>
 							<ReviewBox>
 								<div>
-									<img src={el.img[0]} alt="여행리뷰사진" />
+									<img src={el.image[0]} alt="여행리뷰사진" />
 								</div>
 								<div>{el.title}</div>
 								<Writer>
