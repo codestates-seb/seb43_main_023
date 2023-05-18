@@ -17,7 +17,6 @@ import ReviewDetail from './pages/Community/ReiviewDetail';
 import TripMate from './pages/Community/TripMate';
 import TripReview from './pages/Community/TripReview';
 import Error from './pages/Error';
-import HotPlace from './pages/HotPlace';
 import HotReview from './pages/HotReview';
 import Landing from './pages/Landing';
 import Loading from './pages/Loading';
@@ -25,6 +24,7 @@ import Join from './pages/member/Join';
 import Login from './pages/member/Login';
 import Logout from './pages/member/Logout';
 import UserEdit from './pages/member/UserEdit';
+import HotPlace from './pages/NearbyPlace';
 import RegionRec from './pages/RegionRecommend';
 import Search from './pages/Search';
 
