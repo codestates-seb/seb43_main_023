@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { FiAlertCircle } from 'react-icons/fi';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
-import { FiAlertCircle } from 'react-icons/fi';
+import styled from 'styled-components';
 import useAxios from '../../Util/customAxios';
 
 const Button = styled.button`
@@ -97,7 +97,7 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 
 	const postData = useAxios({
 		method: 'get',
-		url: `/posts/${id}`,
+		url: '/posts',
 	});
 
 	useEffect(() => {

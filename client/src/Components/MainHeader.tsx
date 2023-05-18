@@ -1,8 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import '../Global.css';
+import useAxios from '../Util/customAxios';
 
 const img1 =
 	'https://images.unsplash.com/photo-1598943392629-19ddae99855c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1932&q=80';
@@ -71,29 +70,24 @@ const MainText = styled.div`
 `;
 
 function MainHeader() {
-	const navigate = useNavigate();
-	const [userCount, setUserCount] = useState(0);
+	const [userCount, setUserCount] = useState<number>();
+
+	const { response } = useAxios({
+		method: 'get',
+		url: '/members/findAllMembers',
+	});
 
 	useEffect(() => {
-		setTimeout(() => {
-			axios(
-				`http://ec2-3-39-232-88.ap-northeast-2.compute.amazonaws.com:8080/members/2`,
-			)
-				.then((response) => {
-					const { data } = response;
-					setUserCount(data.length);
-				})
-				.catch(() => {
-					console.log('메인 헤더 에러');
-					navigate('/error');
-				});
-		}, 500);
-	}, [navigate]);
+		console.log(response);
+		if (response) {
+			setUserCount(response);
+		}
+	}, [response]);
 
 	return (
 		<MainHeaderContainer>
 			<MainText>
-				현재 <span>3</span>명이 여행지를 추천받고 있습니다
+				현재 <span>{userCount}</span>명이 여행지를 추천받고 있습니다
 				<div>
 					로그인하면
 					<br />

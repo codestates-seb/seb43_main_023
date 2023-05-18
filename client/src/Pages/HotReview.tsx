@@ -159,8 +159,6 @@ function HotReview() {
 		}
 	}, [res]);
 
-	console.log(filterdReview);
-
 	return (
 		<HotReviewContainer>
 			<HotReviewImage>
@@ -174,7 +172,8 @@ function HotReview() {
 							style={{ textDecoration: 'none' }}
 						>
 							<HotReviewItem key={item.postId}>
-								<HotReviewImg image={item.image[0]} />
+								{/* <HotReviewImg image={item.image[0]} /> */}
+								<HotReviewImg image="" />
 								<HotReviewInfo>
 									<span className="hotReviewBold">{item.title}</span>
 									<span className="hotReviewBold">💙 {item.voteCount}</span>
