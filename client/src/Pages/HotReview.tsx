@@ -141,11 +141,9 @@ const StyledLink = styled(Link)`
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
 
-	const subject = '여행리뷰';
-
 	const res: any = useAxios({
 		method: 'get',
-		url: `/posts&subject=${subject}`,
+		url: '/posts?subject=여행리뷰&page=1',
 	}).response;
 
 	useEffect(() => {
@@ -164,24 +162,27 @@ function HotReview() {
 				<span>🔥 인기 여행 리뷰 TOP5</span>
 			</HotReviewImage>
 			<HotReviewItemContainer>
-				{filterdReview
-					? filterdReview.map((item) => (
-							<StyledLink
-								to={{ pathname: `/tripreview/${item.postId}` }}
-								style={{ textDecoration: 'none' }}
-							>
-								<HotReviewItem key={item.postId}>
-									<HotReviewImg image={item.img[0]} />
-									<HotReviewInfo>
-										<span className="hotReviewBold">{item.title}</span>
-										<span className="hotReviewBold">💙 {item.voteCount}</span>
-										<span>{item.content}</span>
-										<span className="hotReviewAuthor">{item.nickName}</span>
-									</HotReviewInfo>
-								</HotReviewItem>
-							</StyledLink>
-					  ))
-					: null}
+				{filterdReview ? (
+					filterdReview.map((item) => (
+						<StyledLink
+							to={{ pathname: `/posts/${item.postId}` }}
+							style={{ textDecoration: 'none' }}
+						>
+							<HotReviewItem key={item.postId}>
+								{/* <HotReviewImg image={item.img[0]} /> */}
+								<HotReviewImg image="" />
+								<HotReviewInfo>
+									<span className="hotReviewBold">{item.title}</span>
+									<span className="hotReviewBold">💙 {item.voteCount}</span>
+									<span>{item.content}</span>
+									<span className="hotReviewAuthor">{item.nickName}</span>
+								</HotReviewInfo>
+							</HotReviewItem>
+						</StyledLink>
+					))
+				) : (
+					<div />
+				)}
 			</HotReviewItemContainer>
 		</HotReviewContainer>
 	);

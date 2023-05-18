@@ -142,11 +142,9 @@ function CarouselReview() {
 		],
 	};
 
-	const subject = '여행리뷰';
-
 	const res: any = useAxios({
 		method: 'get',
-		url: `/posts&subject=${subject}`,
+		url: '/posts?subject=여행리뷰&page=1',
 	}).response;
 
 	useEffect(() => {
@@ -162,26 +160,29 @@ function CarouselReview() {
 	return (
 		<div>
 			<SlideContainer {...settings}>
-				{filterdReview
-					? filterdReview.map((item) => (
-							<StyledLink
-								to={{ pathname: `/tripreview/${item.postId}` }}
-								style={{ textDecoration: 'none' }}
-							>
-								<ReviewContainer>
-									<ReviewImg image={item.img[0]} />
-									<ReviewTextContainer>
-										<div className="title">{item.title}</div>
-										<div className="content">{item.content}</div>
-										<div className="userInfo">
-											<span>{item.nickName}</span>
-											<span>💙 {item.voteCount}</span>
-										</div>
-									</ReviewTextContainer>
-								</ReviewContainer>
-							</StyledLink>
-					  ))
-					: null}
+				{filterdReview ? (
+					filterdReview.map((item) => (
+						<StyledLink
+							to={{ pathname: `/posts/${item.postId}` }}
+							style={{ textDecoration: 'none' }}
+						>
+							<ReviewContainer>
+								{/* <ReviewImg image={item.img[0]} /> */}
+								<ReviewImg image="" />
+								<ReviewTextContainer>
+									<div className="title">{item.title}</div>
+									<div className="content">{item.content}</div>
+									<div className="userInfo">
+										<span>{item.nickName}</span>
+										<span>💙 {item.voteCount}</span>
+									</div>
+								</ReviewTextContainer>
+							</ReviewContainer>
+						</StyledLink>
+					))
+				) : (
+					<div />
+				)}
 			</SlideContainer>
 		</div>
 	);
