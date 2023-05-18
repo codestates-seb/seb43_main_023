@@ -180,7 +180,7 @@ function PostDetail() {
 
 	const answerData = useAxios({
 		method: 'get',
-		url: `/comments`,
+		url: `/posts/${id}/comments`,
 	});
 
 	const deletePost = () => {
@@ -215,12 +215,8 @@ function PostDetail() {
 	const handleLike = () => {
 		setIsLike(!isLike);
 
-		const postVote = post[0].voteCount;
-
 		try {
-			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {
-				voteCount: postVote + 1,
-			})
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
 				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setPost([res.data]));
 		} catch (error) {
@@ -231,12 +227,8 @@ function PostDetail() {
 	const handleDisLike = () => {
 		setIsLike(!isLike);
 
-		const postVote = post[0].voteCount;
-
 		try {
-			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {
-				voteCount: postVote - 1,
-			})
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
 				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setPost([res.data]));
 		} catch (error) {
@@ -267,7 +259,7 @@ function PostDetail() {
 									<Title>
 										<div>{el.title}</div>
 										<div>
-											{el.nickName}@infp {el.createdAt}
+											{el.nickName}@{userInfos.mbti} {el.createdAt}
 											<div>
 												<span>
 													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글{' '}
