@@ -82,6 +82,7 @@ function Banner() {
 				serEventInfo(data.response.body.items.item);
 			})
 			.catch(() => {
+				console.log('배너 에러');
 				navigate('/error');
 			});
 	}, [navigate, tourUrl]);
@@ -93,13 +94,24 @@ function Banner() {
 		eventenddate: string;
 	};
 
+	const handleLink = (link: string) => {
+		window.open(
+			`https://www.google.com/search?q=${link}`,
+			'_blank',
+			'noopener, noreferrer',
+		);
+	};
+
 	return (
 		<div>
 			<SlideContainer {...settings}>
 				{eventInfo
 					? eventInfo.map((item: EventType) => {
 							return (
-								<SlideItem image={item.firstimage}>
+								<SlideItem
+									onClick={() => handleLink(`${item.title}`)}
+									image={item.firstimage}
+								>
 									<SlideTextBox>
 										<div className="eventTitle">{item.title}</div>
 										<div className="eventDate">

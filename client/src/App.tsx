@@ -17,7 +17,6 @@ import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
 import Error from './Pages/Error';
-import HotPlace from './Pages/HotPlace';
 import HotReview from './Pages/HotReview';
 import Landing from './Pages/Landing';
 import Loading from './Pages/Loading';
@@ -25,6 +24,7 @@ import Join from './Pages/Member/Join';
 import Login from './Pages/Member/Login';
 import Logout from './Pages/Member/Logout';
 import UserEdit from './Pages/Member/UserEdit';
+import NearbyPlace from './Pages/NearbyPlace';
 import RegionRec from './Pages/RegionRecommend';
 
 const MainPage = lazy(() => import('./Pages/MainPage'));
@@ -61,7 +61,7 @@ function App() {
 					<Route path="/community/:id/update" element={<PostUpdate />} />
 					<Route path="/tripreview/:id/update" element={<PostUpdate />} />
 					<Route path="/etctalk" element={<EtcTalk />} />
-					<Route path="/hotplace" element={<HotPlace />} />
+					<Route path="/hotplace" element={<NearbyPlace />} />
 					<Route path="/hotreview" element={<HotReview />} />
 					<Route path="/error" element={<Error />} />
 					<Route path="/loading" element={<Loading />} />

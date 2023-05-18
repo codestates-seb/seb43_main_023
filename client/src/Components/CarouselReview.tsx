@@ -14,7 +14,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 interface IReview {
-	postId: number;
+	id: number;
 	nickName: string;
 	subject: string;
 	title: string;
@@ -46,7 +46,7 @@ const SlideContainer = styled(Slider)`
 
 const ReviewContainer = styled.div`
 	border: 1px solid rgb(214, 217, 219);
-	height: 270px;
+	height: 220px;
 	margin-bottom: 20px;
 	background-color: white;
 	text-align: start;
@@ -144,7 +144,7 @@ function CarouselReview() {
 
 	const res: any = useAxios({
 		method: 'get',
-		url: '/posts?subject=여행리뷰&page=1',
+		url: '/posts',
 	}).response;
 
 	useEffect(() => {
@@ -160,29 +160,26 @@ function CarouselReview() {
 	return (
 		<div>
 			<SlideContainer {...settings}>
-				{filterdReview ? (
-					filterdReview.map((item) => (
-						<StyledLink
-							to={{ pathname: `/posts/${item.postId}` }}
-							style={{ textDecoration: 'none' }}
-						>
-							<ReviewContainer>
-								{/* <ReviewImg image={item.img[0]} /> */}
-								<ReviewImg image="" />
-								<ReviewTextContainer>
-									<div className="title">{item.title}</div>
-									<div className="content">{item.content}</div>
-									<div className="userInfo">
-										<span>{item.nickName}</span>
-										<span>💙 {item.voteCount}</span>
-									</div>
-								</ReviewTextContainer>
-							</ReviewContainer>
-						</StyledLink>
-					))
-				) : (
-					<div />
-				)}
+				{filterdReview
+					? filterdReview.map((item) => (
+							<StyledLink
+								to={{ pathname: `/tripreview/${item.id}` }}
+								style={{ textDecoration: 'none' }}
+							>
+								<ReviewContainer>
+									<ReviewImg image={item.img[0]} />
+									<ReviewTextContainer>
+										<div className="title">{item.title}</div>
+										<div className="content">{item.content}</div>
+										<div className="userInfo">
+											<span>{item.nickName}</span>
+											<span>💙 {item.voteCount}</span>
+										</div>
+									</ReviewTextContainer>
+								</ReviewContainer>
+							</StyledLink>
+					  ))
+					: null}
 			</SlideContainer>
 		</div>
 	);

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../Components/Banner';
 import Carousel from '../Components/Carousel';
-import CarouselHotPlace from '../Components/CarouselHotPlace';
+import CarouselHotPlace from '../Components/CarouselNearbyPlace';
 import CarouselReview from '../Components/CarouselReview';
 import MainHeader from '../Components/MainHeader';
 import UserHeader from '../Components/UserHeader';

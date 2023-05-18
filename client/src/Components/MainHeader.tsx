@@ -58,6 +58,7 @@ const MainText = styled.div`
 	}
 	> span {
 		color: #0db4f3;
+		background-color: rgba(255, 255, 255, 0.5);
 	}
 	> div {
 		width: 320px;
@@ -84,6 +85,7 @@ function MainHeader() {
 					setUserCount(data.length);
 				})
 				.catch(() => {
+					console.log('메인 헤더 에러');
 					navigate('/error');
 				});
 		}, 500);

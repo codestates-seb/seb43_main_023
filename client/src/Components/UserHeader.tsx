@@ -102,10 +102,7 @@ function UserHeader() {
 
 	useEffect(() => {
 		if (res !== null) {
-			const newData = res.filter(
-				(item: IuserMbti) => item.mbti === userInfos.mbti,
-			);
-			setFilterMbti(newData[0]);
+			setFilterMbti(res);
 		}
 	}, [res, userInfos.mbti]);
 
