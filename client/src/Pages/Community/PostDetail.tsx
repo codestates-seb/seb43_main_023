@@ -226,7 +226,7 @@ function PostDetail() {
 			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {
 				voteCount: postVote + 1,
 			})
-				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setPost([res.data]));
 		} catch (error) {
 			navigate('/error');
@@ -242,7 +242,7 @@ function PostDetail() {
 			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {
 				voteCount: postVote - 1,
 			})
-				.then(() => axios.get(`http://localhost:4000/posts/${id}`))
+				.then(() => Api.get(`/posts/${id}`))
 				.then((res) => setPost([res.data]));
 		} catch (error) {
 			navigate('/error');
