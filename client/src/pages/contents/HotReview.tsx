@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
 import { IImageProps } from '../../type/IImageProps';
-import { IReview } from '../../type/IReview';
+import { Iposts } from '../../type/Ipost';
 
 const backgroundImg =
 	'https://images.unsplash.com/photo-1618237586696-d3690dad22e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80';
@@ -125,7 +125,7 @@ const StyledLink = styled(Link)`
 `;
 
 function HotReview() {
-	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
+	const [filterdReview, setFilterReview] = useState<Iposts>([]);
 
 	const res: any = useAxios({
 		method: 'get',

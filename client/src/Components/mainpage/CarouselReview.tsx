@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import { IImageProps } from '../../type/IImageProps';
-import { IReview } from '../../type/IReview';
+import { Iposts } from '../../type/Ipost';
 
 const SlideContainer = styled(Slider)`
 	padding: 0 18px;
@@ -79,7 +79,7 @@ const StyledLink = styled(Link)`
 `;
 
 function CarouselReview() {
-	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
+	const [filterdReview, setFilterReview] = useState<Iposts>([]);
 
 	const reviewCarouselCount = () => {
 		switch (filterdReview.length) {
@@ -159,7 +159,7 @@ function CarouselReview() {
 										<div className="title">{item.title}</div>
 										<div className="content">{item.content}</div>
 										<div className="userInfo">
-											<span>{item.member.nickname}</span>
+											<span> {item.member.nickname}</span>
 											<span>💙 {item.voteCount}</span>
 										</div>
 									</ReviewTextContainer>
