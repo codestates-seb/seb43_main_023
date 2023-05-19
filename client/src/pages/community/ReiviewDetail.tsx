@@ -12,9 +12,9 @@ import Swal from 'sweetalert2';
 import { Viewer } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
-import Answers from '../../Components/ccc/Answers';
-import MapApi from '../../Components/ccc/MapApi';
-import ReviewCarousel from '../../Components/ccc/ReviewCarousel';
+import Answers from '../../Components/community/Answers';
+import MapApi from '../../Components/community/MapApi';
+import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
@@ -65,6 +65,13 @@ const Writer = styled.div`
 		background-color: antiquewhite;
 		margin-right: 10px;
 		border-radius: 100%;
+	}
+
+	> span {
+		font-size: 13px;
+		color: gray;
+		padding-left: 5px;
+		padding-top: 5px;
 	}
 `;
 
@@ -162,12 +169,15 @@ interface Review {
 	postId: number;
 	title: string;
 	content: string;
-	nickname: string;
 	image: string[];
 	viewCount: number;
 	voteCount: number;
 	createdAt: string;
 	tag: string[];
+	member: {
+		nickname: string;
+		mbti: string;
+	};
 }
 
 function ReviewDetail() {
@@ -244,6 +254,8 @@ function ReviewDetail() {
 		}
 	}, [postData.response]);
 
+	console.log(postData.response);
+
 	return (
 		<div className="main">
 			<ReviewContainer>
@@ -258,7 +270,7 @@ function ReviewDetail() {
 								<ContentContainer>
 									<Writer>
 										<div />
-										{el.nickname}
+										{el.member.nickname} <span>@{el.member.mbti}</span>
 									</Writer>
 									<Title>{el.title}</Title>
 									<Content>
@@ -289,7 +301,7 @@ function ReviewDetail() {
 										<div>
 											<div>{el.tag && el.tag.map((t) => <Tag>{t}</Tag>)}</div>
 
-											{el.nickname === userInfos.nickname ? (
+											{el.member.nickname === userInfos.nickname ? (
 												<div>
 													<Link to={`/tripreview/${id}/update`}>
 														<BsPencilSquare color="gray" />
