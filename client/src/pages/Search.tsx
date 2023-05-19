@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
+import styled from 'styled-components';
 import { RootState } from '../store/Store';
 import { IKeyword } from '../reducers/searchKeywordReducer';
-import useAxios from '../apis/customAxios';
+import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/Community/Pagination';
 
 const Container = styled.div`

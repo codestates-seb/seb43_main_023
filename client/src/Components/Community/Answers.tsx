@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
-import useAxios from '../../apis/customAxios';
+import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../reducers/loginReducer';
