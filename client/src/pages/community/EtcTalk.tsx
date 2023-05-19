@@ -6,9 +6,9 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Pagination from '../../Components/ccc/Pagination';
-import SideBar from '../../Components/ccc/SideBar';
-import Tags from '../../Components/ccc/Tags';
+import Pagination from '../../Components/community/Pagination';
+import SideBar from '../../Components/community/SideBar';
+import Tags from '../../Components/community/Tags';
 import useAxios from '../../hooks/useAxios';
 
 const Explain = styled.div`

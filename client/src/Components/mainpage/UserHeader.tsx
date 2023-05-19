@@ -1,17 +1,15 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { IImageProps } from '../../type/IImageProps';
+import { IMbti } from '../../type/IMbti';
+import { Iuser } from '../../type/Iuser';
 
-interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
-
-const UserHeaderContainer = styled.div<UserHeaderImgProps>`
+const UserHeaderContainer = styled.div<IImageProps>`
 	width: 100vw;
 	height: 40vh;
 	padding: 100px;
@@ -75,16 +73,8 @@ const HeaderText = styled.div`
 	}
 `;
 
-interface IuserMbti {
-	description: string;
-	img: string;
-	mbti: string;
-	place: string;
-	placeImg: string;
-}
-
 function UserHeader() {
-	const [filterMbti, setFilterMbti] = useState<IuserMbti>({
+	const [filterMbti, setFilterMbti] = useState<IMbti>({
 		description: '',
 		img: '',
 		mbti: '',

@@ -16,8 +16,8 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { Editor } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
-import SearchPlace from '../../Components/ccc/SearchPlace';
-import SubjectDropdown from '../../Components/ccc/SubjectDropdown';
+import SearchPlace from '../../Components/community/SearchPlace';
+import SubjectDropdown from '../../Components/community/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
 import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';

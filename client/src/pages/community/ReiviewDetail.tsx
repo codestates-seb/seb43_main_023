@@ -12,9 +12,9 @@ import Swal from 'sweetalert2';
 import { Viewer } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
-import Answers from '../../Components/ccc/Answers';
-import MapApi from '../../Components/ccc/MapApi';
-import ReviewCarousel from '../../Components/ccc/ReviewCarousel';
+import Answers from '../../Components/community/Answers';
+import MapApi from '../../Components/community/MapApi';
+import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';

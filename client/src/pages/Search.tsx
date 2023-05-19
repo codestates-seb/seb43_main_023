@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import Pagination from '../Components/ccc/Pagination';
+import Pagination from '../Components/community/Pagination';
 import useAxios from '../hooks/useAxios';
 import { IKeyword } from '../reducers/searchKeywordReducer';
 import { RootState } from '../store/Store';
