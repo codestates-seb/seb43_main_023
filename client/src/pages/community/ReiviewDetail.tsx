@@ -15,9 +15,9 @@ import Answers from '../../Components/ccc/Answers';
 import MapApi from '../../Components/ccc/MapApi';
 import ReviewCarousel from '../../Components/ccc/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../rrr/userInfoReducer';
-import { RootState } from '../../sss/store';
-import { Api } from '../../uuu/customAPI';
+import { Iuser } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/Store';
+import { Api } from '../../utils/customAPI';
 
 const ReviewContainer = styled.div`
 	height: 100vh;

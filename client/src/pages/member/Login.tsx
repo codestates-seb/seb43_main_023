@@ -11,10 +11,10 @@ import Swal from 'sweetalert2';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
-import { LOGIN } from '../../rrr/loginReducer';
-import { UPDATE } from '../../rrr/userInfoReducer';
-import { setCookie } from '../../uuu/cookie';
-import { Api } from '../../uuu/customAPI';
+import { LOGIN } from '../../reducers/loginReducer';
+import { UPDATE } from '../../reducers/userInfoReducer';
+import { setCookie } from '../../utils/cookie';
+import { Api } from '../../utils/customAPI';
 
 const Main = styled.div`
 	width: 100%;

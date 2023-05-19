@@ -8,9 +8,9 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../rrr/userInfoReducer';
-import { RootState } from '../../sss/store';
-import { Api } from '../../uuu/customAPI';
+import { Iuser } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/Store';
+import { Api } from '../../utils/customAPI';
 
 const Container = styled.div`
 	width: 100%;

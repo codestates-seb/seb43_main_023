@@ -18,9 +18,9 @@ import { Editor } from '@toast-ui/react-editor';
 import SearchPlace from '../../Components/ccc/SearchPlace';
 import SubjectDropdown from '../../Components/ccc/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
-import { Iuser, UPDATE } from '../../rrr/userInfoReducer';
-import { RootState } from '../../sss/store';
-import { Api } from '../../uuu/customAPI';
+import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/Store';
+import { Api } from '../../utils/customAPI';
 
 const Container = styled.div`
 	width: 100vw;

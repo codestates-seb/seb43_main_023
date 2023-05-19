@@ -10,9 +10,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../../assets/logo.png';
-import { Ilogin } from '../../rrr/loginReducer';
-import { IKeyword, KEYWORD } from '../../rrr/searchKeywordReducer';
-import { RootState } from '../../sss/store';
+import { Ilogin } from '../../reducers/loginReducer';
+import { IKeyword, KEYWORD } from '../../reducers/searchKeywordReducer';
+import { RootState } from '../../store/Store';
 
 interface ContainerProps {
 	hasResult: string[];

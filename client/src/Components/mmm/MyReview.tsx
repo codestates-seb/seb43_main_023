@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Iuser } from '../../rrr/userInfoReducer';
-import { RootState } from '../../sss/store';
-import { Api } from '../../uuu/customAPI';
+import { Iuser } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/Store';
+import { Api } from '../../utils/customAPI';
 
 const Container = styled.ul`
 	width: 95%;

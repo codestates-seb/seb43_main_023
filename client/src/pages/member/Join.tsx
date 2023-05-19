@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
-import { Api } from '../../uuu/customAPI';
+import { Api } from '../../utils/customAPI';
 
 const Main = styled.div`
 	width: 100%;

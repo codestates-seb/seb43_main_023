@@ -10,9 +10,9 @@ import Swal from 'sweetalert2';
 import IntroBox from '../../Components/mmm/IntroBox';
 import MyReview from '../../Components/mmm/MyReview';
 import useAxios from '../../hooks/useAxios';
-import { Iuser, UPDATE } from '../../rrr/userInfoReducer';
-import { RootState } from '../../sss/store';
-import { Api } from '../../uuu/customAPI';
+import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { RootState } from '../../store/Store';
+import { Api } from '../../utils/customAPI';
 
 const Main = styled.div`
 	display: flex;

@@ -6,8 +6,8 @@ import styled from 'styled-components';
 
 import Pagination from '../Components/ccc/Pagination';
 import useAxios from '../hooks/useAxios';
-import { IKeyword } from '../rrr/searchKeywordReducer';
-import { RootState } from '../sss/store';
+import { IKeyword } from '../reducers/searchKeywordReducer';
+import { RootState } from '../store/Store';
 
 const Container = styled.div`
 	min-height: 100vh;
