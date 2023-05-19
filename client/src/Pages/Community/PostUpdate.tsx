@@ -298,7 +298,6 @@ function PostUpdate() {
 		if (postData.response) {
 			const data: Type = postData.response;
 			setPost(postData.response);
-			console.log(data);
 			setTags(data.tag);
 			setSubject(data.subject);
 		}

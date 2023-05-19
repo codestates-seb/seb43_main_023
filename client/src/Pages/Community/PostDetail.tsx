@@ -248,8 +248,6 @@ function PostDetail() {
 		}
 	}, [answerData.response, postData.response]);
 
-	console.log(post);
-
 	return (
 		<div className="main">
 			<PostContainer>

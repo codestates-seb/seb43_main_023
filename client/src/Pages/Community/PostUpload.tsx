@@ -279,7 +279,6 @@ function PostUpload() {
 	};
 
 	const handlePlace = (data: any) => {
-		console.log(data);
 		setX(data[0].x);
 		setY(data[0].y);
 	};

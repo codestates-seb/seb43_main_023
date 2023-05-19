@@ -3,7 +3,7 @@ import '../Global.css';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../assets/logo.png';
+import logo from '../Assets/logo.png';
 
 const ScrollSnapWrap = styled.div`
 	scroll-snap-type: y mandatory;
@@ -14,7 +14,7 @@ const ScrollSnapWrap = styled.div`
 		display: none;
 	}
 	.page {
-		background-image: url('/assets/airplane1.png');
+		background-image: url('/Assets/airplane1.png');
 		background-repeat: no-repeat;
 		width: 100vw;
 		height: 100vh;
@@ -28,7 +28,7 @@ const ScrollSnapWrap = styled.div`
 		}
 	}
 	.page2 {
-		background-image: url('/assets/cloud.png');
+		background-image: url('/Assets/cloud.png');
 	}
 	.logo {
 		width: 27%;
