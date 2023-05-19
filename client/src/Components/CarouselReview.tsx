@@ -15,7 +15,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 
 interface IReview {
 	postId: number;
-	nickName: string;
+	member: any;
 	subject: string;
 	title: string;
 	content: string;
@@ -160,8 +160,6 @@ function CarouselReview() {
 		}
 	}, [res]);
 
-	console.log(filterdReview);
-
 	return (
 		<div>
 			<SlideContainer {...settings}>
@@ -177,7 +175,7 @@ function CarouselReview() {
 										<div className="title">{item.title}</div>
 										<div className="content">{item.content}</div>
 										<div className="userInfo">
-											<span>{item.nickName}</span>
+											<span>{item.member.nickname}</span>
 											<span>💙 {item.voteCount}</span>
 										</div>
 									</ReviewTextContainer>

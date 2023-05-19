@@ -3,7 +3,7 @@ import '../Global.css';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../Assets/logo.png';
+import logo from '../assets/logo.png';
 
 const ScrollSnapWrap = styled.div`
 	scroll-snap-type: y mandatory;

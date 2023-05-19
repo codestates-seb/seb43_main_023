@@ -9,7 +9,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 
 interface IReview {
 	postId: number;
-	nickName: string;
+	member: any;
 	subject: string;
 	title: string;
 	content: string;
@@ -177,7 +177,9 @@ function HotReview() {
 									<span className="hotReviewBold">{item.title}</span>
 									<span className="hotReviewBold">💙 {item.voteCount}</span>
 									<span>{item.content}</span>
-									<span className="hotReviewAuthor">{item.nickName}</span>
+									<span className="hotReviewAuthor">
+										{item.member.nickname}
+									</span>
 								</HotReviewInfo>
 							</HotReviewItem>
 						</StyledLink>

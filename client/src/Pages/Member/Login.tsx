@@ -9,8 +9,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-import airplane from '../../Assets/airplane.png';
-import logo from '../../Assets/logo.png';
+import airplane from '../../assets/airplane.png';
+import logo from '../../assets/logo.png';
 import { LOGIN } from '../../Reducers/loginReducer';
 import { UPDATE } from '../../Reducers/userInfoReducer';
 import { setCookie } from '../../Util/cookie';

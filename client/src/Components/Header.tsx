@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-import logo from '../Assets/logo.png';
+import { useEffect, useState } from 'react';
 import { Ilogin } from '../Reducers/loginReducer';
-import { RootState } from '../Store/store';
 import { IKeyword, KEYWORD } from '../Reducers/searchKeywordReducer';
+import { RootState } from '../Store/store';
+import logo from '../assets/logo.png';
 
 interface ContainerProps {
 	hasResult: string[];

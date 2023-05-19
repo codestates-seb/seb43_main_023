@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 // import { refresh, refreshErrorHandle } from './refresh';
 
 const baseURL =
-	'http://ec2-15-164-104-51.ap-northeast-2.compute.amazonaws.com:8080';
+	'http://ec2-52-79-98-94.ap-northeast-2.compute.amazonaws.com:8080';
 
 // eslint-disable-next-line import/prefer-default-export
 export const Api: AxiosInstance = axios.create({

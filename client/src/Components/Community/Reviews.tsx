@@ -3,7 +3,7 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useAxios from '../../Util/customAxios';
-import img from '../../Assets/jeonju.jpg';
+import img from '../../assets/jeonju.jpg';
 import Pagination from './Pagination';
 
 const Container = styled.div`
