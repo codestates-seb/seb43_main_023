@@ -2,9 +2,9 @@ import '../../Global.css';
 
 import styled from 'styled-components';
 
-import Reviews from '../../Components/ccc/Reviews';
-import SideBar from '../../Components/ccc/SideBar';
-import Tags from '../../Components/ccc/Tags';
+import Reviews from '../../Components/community/Reviews';
+import SideBar from '../../Components/community/SideBar';
+import Tags from '../../Components/community/Tags';
 
 const Explain = styled.div`
 	margin-top: 85px;

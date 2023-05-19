@@ -15,8 +15,10 @@ import { Api } from '../../apis/customAPI';
 import Answers from '../../Components/community/Answers';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
+import { Ipost } from '../../type/Ipost';
+import { Ianswer } from '../../type/Ianswer';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -144,33 +146,13 @@ const ViewerContainer = styled.div`
 
 function PostDetail() {
 	const navigate = useNavigate();
-	interface Post {
-		postId: number;
-		subject: string;
-		title: string;
-		content: string;
-		nickname: string;
-		viewCount: number;
-		voteCount: number;
-		postCreatedAt: string;
-		tag: string[];
-		image: string[];
-	}
-
-	interface Answer {
-		author: string;
-		content: string;
-		commentId: number;
-		vote: number;
-		postId: number;
-	}
 
 	const { id } = useParams();
-	const [post, setPost] = useState<Post[]>([]);
+	const [post, setPost] = useState<Ipost[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
 
 	// eslint-disable-next-line prefer-const
-	let [answers, setAnswers] = useState<Answer[]>([]);
+	let [answers, setAnswers] = useState<Ianswer[]>([]);
 
 	answers = answers.filter((el) => el.postId === Number(id));
 
@@ -262,15 +244,15 @@ function PostDetail() {
 									<Title>
 										<div>{el.title}</div>
 										<div>
-											{el.nickname}@{userInfos.mbti}{' '}
-											{el.postCreatedAt.slice(0, 10)}
+											{el.member.nickname}@{userInfos.mbti}{' '}
+											{el.postCreatedAt!.slice(0, 10)}
 											<div>
 												<span>
 													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글{' '}
 													{answers.length}
 												</span>
 
-												{userInfos.nickname === el.nickname ? (
+												{userInfos.nickname === el.member.nickname ? (
 													<div>
 														<Link to={`/community/${id}/update`}>
 															<BsPencilSquare color="gray" />
