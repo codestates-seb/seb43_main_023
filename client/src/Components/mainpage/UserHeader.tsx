@@ -1,13 +1,11 @@
-import '../Global.css';
-
 import { HTMLAttributes, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
-import { Iuser } from '../Reducers/userInfoReducer';
-import { RootState } from '../Store/store';
-import useAxios from '../Util/customAxios';
+import { Iuser } from '../../Reducers/userInfoReducer';
+import { RootState } from '../../Store/store';
+import useAxios from '../../hooks/useAxios';
 
 interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;

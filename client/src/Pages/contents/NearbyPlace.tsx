@@ -185,8 +185,8 @@ function NearbyPlace() {
 	});
 
 	const [myLocation, setMyLocation] = useState({
-		latitude: 37.541,
-		longitude: 126.986,
+		latitude: 0,
+		longitude: 0,
 	});
 
 	useEffect(() => {

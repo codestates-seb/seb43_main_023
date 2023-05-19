@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import { HTMLAttributes, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useAxios from '../Util/customAxios';
+import useAxios from '../../hooks/useAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;

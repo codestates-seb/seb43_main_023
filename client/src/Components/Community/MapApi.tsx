@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useAxios from '../../Util/customAxios';
+import useAxios from '../../hooks/useAxios';
 
 declare global {
 	interface Window {

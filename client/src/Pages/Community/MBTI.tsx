@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import '../../Global.css';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AiFillHeart } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Pagination from '../../Components/Community/Pagination';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
-import useAxios from '../../Util/customAxios';
-import Pagination from '../../Components/Community/Pagination';
+import '../../Global.css';
+import useAxios from '../../hooks/useAxios';
 
 const Explain = styled.div`
 	margin-top: 85px;

@@ -1,13 +1,13 @@
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '../../Global.css';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '../../Global.css';
 
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
@@ -20,7 +20,7 @@ import SubjectDropdown from '../../Components/Community/SubjectDropdown';
 import { Iuser, UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
-import useAxios from '../../Util/customAxios';
+import useAxios from '../../hooks/useAxios';
 
 const Container = styled.div`
 	width: 100vw;

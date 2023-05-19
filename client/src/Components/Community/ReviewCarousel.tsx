@@ -4,10 +4,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import { HTMLAttributes, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import useAxios from '../../Util/customAxios';
+import styled from 'styled-components';
+import useAxios from '../../hooks/useAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;

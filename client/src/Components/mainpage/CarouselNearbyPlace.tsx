@@ -55,8 +55,8 @@ const SlideItem = styled.div<SlideItemProps>`
 
 function CarouselNearbyPlace() {
 	const [myLocation, setMyLocation] = useState({
-		latitude: 37.541,
-		longitude: 126.986,
+		latitude: 0,
+		longitude: 0,
 	});
 	const navigate = useNavigate();
 

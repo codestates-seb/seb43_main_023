@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import useAxios from '../../Util/customAxios';
 import img from '../../assets/jeonju.jpg';
+import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
 
 const Container = styled.div`

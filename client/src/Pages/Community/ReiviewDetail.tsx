@@ -1,19 +1,19 @@
+import { Viewer } from '@toast-ui/react-editor';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import '../../Global.css';
-import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
-import { Viewer } from '@toast-ui/react-editor';
-import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
-import ReviewCarousel from '../../Components/Community/ReviewCarousel';
-import MapApi from '../../Components/Community/MapApi';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import Answers from '../../Components/Community/Answers';
-import { RootState } from '../../Store/store';
+import MapApi from '../../Components/Community/MapApi';
+import ReviewCarousel from '../../Components/Community/ReviewCarousel';
+import '../../Global.css';
 import { Iuser } from '../../Reducers/userInfoReducer';
-import useAxios from '../../Util/customAxios';
+import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
+import useAxios from '../../hooks/useAxios';
 
 const ReviewContainer = styled.div`
 	height: 100vh;

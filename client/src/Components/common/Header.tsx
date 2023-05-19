@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import '../Global.css';
+import '../../Global.css';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +8,10 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Ilogin } from '../Reducers/loginReducer';
-import { IKeyword, KEYWORD } from '../Reducers/searchKeywordReducer';
-import { RootState } from '../Store/store';
-import logo from '../assets/logo.png';
+import { Ilogin } from '../../Reducers/loginReducer';
+import { IKeyword, KEYWORD } from '../../Reducers/searchKeywordReducer';
+import { RootState } from '../../Store/store';
+import logo from '../../assets/logo.png';
 
 interface ContainerProps {
 	hasResult: string[];

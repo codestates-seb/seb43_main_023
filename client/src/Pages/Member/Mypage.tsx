@@ -12,7 +12,7 @@ import MyReview from '../../Components/Member/MyReview';
 import { Iuser, UPDATE } from '../../Reducers/userInfoReducer';
 import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
-import useAxios from '../../Util/customAxios';
+import useAxios from '../../hooks/useAxios';
 
 const Main = styled.div`
 	display: flex;

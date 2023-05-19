@@ -1,15 +1,14 @@
-import styled from 'styled-components';
-import { BsPencilSquare, BsTrash } from 'react-icons/bs';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/store';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import { Iuser } from '../../Reducers/userInfoReducer';
-import useAxios from '../../Util/customAxios';
+import { RootState } from '../../Store/store';
 import { Api } from '../../Util/customAPI';
+import useAxios from '../../hooks/useAxios';
 
 const Container = styled.div`
 	width: 100%;

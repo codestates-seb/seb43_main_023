@@ -4,9 +4,12 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import Footer from './Components/Footer';
-import Header from './Components/Header';
+import Footer from './Components/common/Footer';
+import Header from './Components/common/Header';
 import OauthJoinHandler from './Components/Member/OauthHandler';
+import Error from './Pages/common/Error';
+import Landing from './Pages/common/Landing';
+import Loading from './Pages/common/Loading';
 import EtcTalk from './Pages/Community/EtcTalk';
 import Main from './Pages/Community/Main';
 import MBTI from './Pages/Community/MBTI';
@@ -16,21 +19,18 @@ import PostUpload from './Pages/Community/PostUpload';
 import ReviewDetail from './Pages/Community/ReiviewDetail';
 import TripMate from './Pages/Community/TripMate';
 import TripReview from './Pages/Community/TripReview';
-import Error from './Pages/Error';
-import HotReview from './Pages/HotReview';
-import Landing from './Pages/Landing';
-import Loading from './Pages/Loading';
+import HotReview from './Pages/contents/HotReview';
+import NearbyPlace from './Pages/contents/NearbyPlace';
+import RegionRec from './Pages/contents/RegionRecommend';
 import Join from './Pages/Member/Join';
 import Login from './Pages/Member/Login';
 import Logout from './Pages/Member/Logout';
 import UserEdit from './Pages/Member/UserEdit';
-import NearbyPlace from './Pages/NearbyPlace';
-import RegionRec from './Pages/RegionRecommend';
 import Search from './Pages/Search';
 
-const MainPage = lazy(() => import('./Pages/MainPage'));
+const MainPage = lazy(() => import('./Pages/common/MainPage'));
 const Mypage = lazy(() => import('./Pages/Member/Mypage'));
-const RegionDetail = lazy(() => import('./Pages/RegionDetail'));
+const RegionDetail = lazy(() => import('./Pages/contents/RegionDetail'));
 
 function App() {
 	const url = new URL(window.location.href); // 현재 url 가져오기

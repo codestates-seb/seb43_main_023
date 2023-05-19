@@ -5,7 +5,7 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import useAxios from '../../Util/customAxios';
+import useAxios from '../../hooks/useAxios';
 
 const Button = styled.button`
 	border: 1px solid rgb(214, 217, 219);
