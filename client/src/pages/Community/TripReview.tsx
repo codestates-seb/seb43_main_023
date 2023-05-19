@@ -29,7 +29,7 @@ const Explain = styled.div`
 `;
 
 const ReviewContainer = styled.div`
-	height: calc(100vh - 220px);
+	height: calc(100vh - 50px);
 	display: flex;
 `;
 
