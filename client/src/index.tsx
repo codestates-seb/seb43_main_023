@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { persistStore } from 'redux-persist';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PersistGate } from 'redux-persist/integration/react';
+import { Normalize } from 'styled-normalize';
 
 import App from './App';
 import ScrollToTop from './hooks/useScrollToTop';
@@ -23,6 +24,7 @@ root.render(
 			<CookiesProvider>
 				<BrowserRouter>
 					<ScrollToTop />
+					<Normalize />
 					<App />
 				</BrowserRouter>
 			</CookiesProvider>
