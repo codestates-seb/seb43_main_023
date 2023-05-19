@@ -11,8 +11,32 @@ import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
 import useAxios from '../../hooks/useAxios';
 
+const Explain = styled.div`
+	margin-top: 85px;
+	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 20px;
+	margin-bottom: 40px;
+	padding: 30px;
+	line-height: 1.5rem;
+
+	> h1 {
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+
+	> div {
+		color: #595959;
+		font-size: 14px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgb(214, 217, 219);
+	}
+`;
+
 const MBTIContainer = styled.div`
-	height: calc(100vh - 165px);
+	height: 1000px;
 	display: flex;
 
 	a {
@@ -27,12 +51,12 @@ const MBTIContainer = styled.div`
 `;
 
 const MBTIBody = styled.div`
-	margin-top: 35px;
 	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
-	min-height: 610px;
-	max-height: 610px;
+	height: fit-content;
+	/* min-height: 1000px;
+	max-height: 1000px; */
 `;
 
 const Contentbody = styled.div`
@@ -145,8 +169,8 @@ function MBTI() {
 	let [posts, setPosts] = useState<Post[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
-	const startIdx = (curPage - 1) * 5;
-	const endIdx = startIdx + 5;
+	const startIdx = (curPage - 1) * 8;
+	const endIdx = startIdx + 8;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -163,6 +187,15 @@ function MBTI() {
 
 	return (
 		<div className="main">
+			<Explain>
+				<h1>MBTI</h1>
+				<div>
+					MBTI 과몰입러를 위한 공간 ! <br />
+					자유롭게 나와 비슷한 성향을 가진 사람과 대화를 나눠보세요
+					<br />
+					또는 나와 다른 성향을 가진 사람에게 궁금한걸 물어보세요 !
+				</div>
+			</Explain>
 			<MBTIContainer>
 				<SideBar />
 				<div>
@@ -212,10 +245,10 @@ function MBTI() {
 						<Pagination
 							curPage={curPage}
 							setCurPage={setCurPage}
-							totalPage={Math.ceil(posts.length / 5)}
+							totalPage={Math.ceil(posts.length / 8)}
 							totalCount={posts.length}
-							size={5}
-							pageCount={5}
+							size={8}
+							pageCount={8}
 						/>
 					</PaginationContainer>
 				</div>

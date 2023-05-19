@@ -11,8 +11,32 @@ import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
 import useAxios from '../../hooks/useAxios';
 
+const Explain = styled.div`
+	margin-top: 85px;
+	height: 130px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 20px;
+	margin-bottom: 40px;
+	padding: 30px;
+	line-height: 1.5rem;
+
+	> h1 {
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+
+	> div {
+		color: #595959;
+		font-size: 14px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid rgb(214, 217, 219);
+	}
+`;
+
 const EtcTalkContainer = styled.div`
-	height: calc(100vh - 165px);
+	height: 1000px;
 	display: flex;
 
 	a {
@@ -31,8 +55,9 @@ const EtcTalkBody = styled.div`
 	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
-	min-height: 610px;
-	max-height: 610px;
+	height: fit-content;
+	/* min-height: 1000px;
+	max-height: 1000px; */
 `;
 
 const Contentbody = styled.div`
@@ -145,8 +170,8 @@ function EtcTalk() {
 	let [posts, setPosts] = useState<Post[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
-	const startIdx = (curPage - 1) * 5;
-	const endIdx = startIdx + 5;
+	const startIdx = (curPage - 1) * 8;
+	const endIdx = startIdx + 8;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -163,6 +188,15 @@ function EtcTalk() {
 
 	return (
 		<div className="main">
+			<Explain>
+				<h1>잡담</h1>
+				<div>
+					여행과 MBTI 관련 외 여러 대화를 나누고 싶다면 ? <br />
+					이 공간에서 여러 사람들과 자유롭게 대화를 나눠보세요
+					<br />
+					타인에게 예민하거나 안전하지 않은 내용은 지양해주세요
+				</div>
+			</Explain>
 			<EtcTalkContainer>
 				<SideBar />
 				<div>
@@ -211,10 +245,10 @@ function EtcTalk() {
 						<Pagination
 							curPage={curPage}
 							setCurPage={setCurPage}
-							totalPage={Math.ceil(posts.length / 5)}
+							totalPage={Math.ceil(posts.length / 8)}
 							totalCount={posts.length}
-							size={5}
-							pageCount={5}
+							size={8}
+							pageCount={8}
 						/>
 					</PaginationContainer>
 				</div>

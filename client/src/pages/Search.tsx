@@ -1,4 +1,15 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { RootState } from '../store/Store';
+import { IKeyword } from '../reducers/searchKeywordReducer';
+import useAxios from '../apis/customAxios';
+import Pagination from '../Components/Community/Pagination';
+
+const Container = styled.div`
+	min-height: 100vh;
+`;
 
 const SearchContainer = styled.div`
 	width: 100%;
@@ -11,7 +22,29 @@ const SearchContainer = styled.div`
 	align-items: center;
 `;
 
+const SearchAPI = styled.div`
+	margin-top: 30px;
+	width: 90%;
+	border: 1px solid #d9d9d9;
+	border-radius: 15px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	font-size: 24px;
+	font-weight: 700;
+	.keyword {
+		color: #0db4f3;
+	}
+`;
+
+const APIContainer = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+`;
+
 const SearchAd = styled.div`
+	margin-top: 50px;
 	width: 90%;
 	border: 1px solid #d9d9d9;
 	border-radius: 15px;
@@ -36,11 +69,13 @@ const AdItem = styled.div`
 	height: 300px;
 	border: 1px solid #d9d9d9;
 	border-radius: 15px;
-	padding: 10px;
+	/* padding: 10px; */
 	margin: 10px;
 	.adimg {
 		width: 100%;
 		height: 70%;
+		border-top-right-radius: 15px;
+		border-top-left-radius: 15px;
 		border-bottom: 1px solid #d9d9d9;
 	}
 	.adtext {
@@ -48,6 +83,10 @@ const AdItem = styled.div`
 		height: 30%;
 		font-weight: 300;
 		font-size: 20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 5px;
 	}
 `;
 
@@ -83,6 +122,7 @@ const ResultItem = styled.div`
 	padding: 15px;
 	margin: 12px 0;
 	display: flex;
+	cursor: pointer;
 `;
 
 const ResultText = styled.div`
@@ -104,118 +144,144 @@ const ResultText = styled.div`
 	}
 `;
 
-const ResultImg = styled.div`
+const ResultImg = styled.img`
 	width: 20%;
-	border: 1px solid tomato;
 	border-radius: 15px;
 	margin-left: 20px;
 `;
 
+interface tourAPIType {
+	firstimage: string;
+	title: string;
+}
+
+interface postType {
+	id: number;
+	title: string;
+	content: string;
+	subject: string;
+	nickName: string;
+	img: string[];
+}
+
 function Search() {
+	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
+	const [tourResult, setTourResult] = useState([]);
+	const [posts, setPosts] = useState([]);
+	const [curPage, setCurPage] = useState<number>(1);
+
+	const startIdx = (curPage - 1) * 8;
+	const endIdx = startIdx + 8;
+
+	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=${keyword.keyword}&contentTypeId=12`;
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts`,
+	});
+
+	const handlePostClick = (subject: string, id: number) => {
+		if (subject === '여행리뷰') {
+			document.location.href = `/tripreview/${id}`;
+		} else {
+			document.location.href = `/community/${id}`;
+		}
+	};
+
+	useEffect(() => {
+		axios(tourUrl).then((res) => {
+			console.log(res.data.response.body.items.item);
+			setTourResult(res.data.response.body.items.item);
+		});
+
+		if (postData.response) {
+			setPosts(postData.response);
+		}
+	}, [postData.response, tourUrl]);
+
 	return (
-		<SearchContainer>
-			<SearchAd>
-				<div className="title">
-					<span className="keyword">키워드</span> 추천 여행지
-				</div>
-				<AdItemContainer>
-					<AdItem>
-						<div className="adimg">사진</div>
-						<div className="adtext">텍스트</div>
-					</AdItem>
-					<AdItem>
-						<div className="adimg">사진</div>
-						<div className="adtext">텍스트</div>
-					</AdItem>
-					<AdItem>
-						<div className="adimg">사진</div>
-						<div className="adtext">텍스트</div>
-					</AdItem>
-					<AdItem>
-						<div className="adimg">사진</div>
-						<div className="adtext">텍스트</div>
-					</AdItem>
-					<AdItem>
-						<div className="adimg">사진</div>
-						<div className="adtext">텍스트</div>
-					</AdItem>
-				</AdItemContainer>
-			</SearchAd>
-			<SearchResult>
-				<div className="title">
-					<span className="keyword">키워드</span>가 포함된 게시글
-				</div>
-				<ResultContainer>
-					<ResultItem>
-						<ResultText>
-							<div className="resultInfo">
-								<span className="subject">말머리</span>
-								<span className="title">제목</span>
-							</div>
-							<div className="content">
-								내용이 진짜 길면 어디까지 늘어날까요내용이 진짜 길면 어디까지
-								늘어날까요내용이 진짜 길면 어디까지 늘어날까요내용이 진짜 길면
-								어디까지 늘어날까요내용이 진짜 길면 어디까지 늘어날까요내용이
-								진짜 길면 어디까지 늘어날까요내용이 진짜 길면 어디까지내용이
-								진짜 길면 어디까지 늘어날까요내용이 진짜 길면 어디까지
-								늘어날까요내용이 진짜 길면 어디까지 늘어날까요내용이 진짜 길면
-								어디까지 늘어날까요내용이 진짜 길면 어디까지 늘어날까요내용이
-								진짜 길면 어디까지 늘어날까요내용이 진짜 길면 어디까지
-								늘어날까요내용이 진짜 길면 어디까지 늘어날까요내용이 진짜 길면
-								어디까지 늘어날까요
-							</div>
-							<span className="author">작성자</span>
-						</ResultText>
-						<ResultImg>img</ResultImg>
-					</ResultItem>
-					<ResultItem>
-						<ResultText>
-							<div className="resultInfo">
-								<span className="subject">말머리</span>
-								<span className="title">제목</span>
-							</div>
-							<div className="content">내용</div>
-							<span className="author">작성자</span>
-						</ResultText>
-						<ResultImg>img</ResultImg>
-					</ResultItem>
-					<ResultItem>
-						<ResultText>
-							<div className="resultInfo">
-								<span className="subject">말머리</span>
-								<span className="title">제목</span>
-							</div>
-							<div className="content">내용</div>
-							<span className="author">작성자</span>
-						</ResultText>
-						<ResultImg>img</ResultImg>
-					</ResultItem>
-					<ResultItem>
-						<ResultText>
-							<div className="resultInfo">
-								<span className="subject">말머리</span>
-								<span className="title">제목</span>
-							</div>
-							<div className="content">내용</div>
-							<span className="author">작성자</span>
-						</ResultText>
-						<ResultImg>img</ResultImg>
-					</ResultItem>
-					<ResultItem>
-						<ResultText>
-							<div className="resultInfo">
-								<span className="subject">말머리</span>
-								<span className="title">제목</span>
-							</div>
-							<div className="content">내용</div>
-							<span className="author">작성자</span>
-						</ResultText>
-						<ResultImg>img</ResultImg>
-					</ResultItem>
-					<span>◀︎ 1/25 ▶︎</span>
-				</ResultContainer>
-			</SearchResult>
-		</SearchContainer>
+		<Container>
+			<SearchContainer>
+				{tourResult && tourResult.length > 0 && (
+					<SearchAPI>
+						<div className="title">
+							<span className="keyword">{keyword.keyword}</span> 추천 여행지 🏝
+						</div>
+						<APIContainer>
+							{tourResult.map((el: tourAPIType, idx) => (
+								<AdItem>
+									<img src={el.firstimage} alt="사진" className="adimg" />
+									<div className="adtext">{el.title}</div>
+								</AdItem>
+							))}
+						</APIContainer>
+					</SearchAPI>
+				)}
+
+				{posts.filter(
+					(el: postType) =>
+						el.title.includes(keyword.keyword) ||
+						el.content.includes(keyword.keyword),
+				).length > 0 && (
+					<SearchResult>
+						<div className="title">
+							<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
+							💭
+						</div>
+						<ResultContainer>
+							{posts
+								.filter(
+									(el: postType) =>
+										el.title.includes(keyword.keyword) ||
+										el.content.includes(keyword.keyword),
+								)
+								.map((post: postType) => (
+									<ResultItem
+										onClick={() => handlePostClick(post.subject, post.id)}
+									>
+										<ResultText>
+											<div className="resultInfo">
+												<span className="subject">[{post.subject}]</span>
+												<span className="title">{post.title}</span>
+											</div>
+											<div className="content">{post.content}</div>
+											<span className="author">{post.nickName}</span>
+										</ResultText>
+										{post.img.length > 0 && (
+											<ResultImg
+												src={post.img[0]}
+												alt="검색결과 사진 미리보기"
+											/>
+										)}
+									</ResultItem>
+								))}
+
+							<Pagination
+								curPage={curPage}
+								setCurPage={setCurPage}
+								totalPage={Math.ceil(
+									posts.filter(
+										(el: postType) =>
+											el.title.includes(keyword.keyword) ||
+											el.content.includes(keyword.keyword),
+									).length / 5,
+								)}
+								totalCount={
+									posts.filter(
+										(el: postType) =>
+											el.title.includes(keyword.keyword) ||
+											el.content.includes(keyword.keyword),
+									).length
+								}
+								size={5}
+								pageCount={5}
+							/>
+						</ResultContainer>
+					</SearchResult>
+				)}
+			</SearchContainer>
+		</Container>
 	);
 }
 
