@@ -130,6 +130,7 @@ function Footer() {
 	if (locationNow.pathname === '/error') return null;
 	if (locationNow.pathname === '/loading') return null;
 	if (locationNow.pathname === '/') return null;
+	if (locationNow.pathname === '/accounts/google/login/') return null;
 
 	const root = document.documentElement;
 

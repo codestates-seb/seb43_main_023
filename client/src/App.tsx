@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import OauthJoinHandler from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
+import Empty from './Components/member/Empty';
 import Error from './pages/common/Error';
 import Landing from './pages/common/Landing';
 import Loading from './pages/common/Loading';
@@ -33,12 +34,9 @@ const Mypage = lazy(() => import('./pages/member/Mypage'));
 const RegionDetail = lazy(() => import('./pages/contents/RegionDetail'));
 
 function App() {
-	const url = new URL(window.location.href); // 현재 url 가져오기
-	const { hash } = url; // url에서 hash값 가져오기
-	if (hash.split('=')[0] === '#access_token') {
-		// hash값이 accessToken이 포함된 경우 실행(oauth google클릭 때만 실행됨)
+	// oauth google클릭 때만 실행되는 로직
+	if (new URL(window.location.href).pathname === '/accounts/google/login/')
 		OauthJoinHandler();
-	}
 
 	return (
 		<div>
@@ -69,6 +67,7 @@ function App() {
 					<Route path="/regionrec" element={<RegionRec />} />
 					<Route path="/regiondetail/:id" element={<RegionDetail />} />
 					<Route path="/search" element={<Search />} />
+					<Route path="/accounts/google/login/*" element={<Empty />} />
 				</Routes>
 			</Suspense>
 			<Footer />
