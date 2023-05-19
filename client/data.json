@@ -621,29 +621,33 @@
     {
       "mbti": "ISTP",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTg1/MDAxNjI1NjQzNzIxNDQz.EfMyjRXUfV1VGRgNszd7a5cVwIDZp9WpZHEzyEC5RJEg.MbHWLTvaIE-96grTDv661p7bK-xyaHpaRmdVBLMTIxog.PNG.im_worry/13.png?type=w800",
-      "place": "울릉도, 독도",
-      "description": "현실적이지만 대담한 스타일! 예기치 못한 상황도 무난히 해결하는 융통성 있는\\nISTP에게 어울리는 울릉도는 어떠신가요?",
+      "place": "울릉도",
+      "description1": "현실적이지만 대담한 스타일! 예기치 못한 상황도 무난히 해결하는 융통성 있는",
+      "description2": "는 어떠신가요?",
       "placeImg": "https://m.segye.com/content/image/2021/06/16/20210616515482.jpg"
     },
     {
       "mbti": "ISTJ",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTAx/MDAxNjI1NjQzNzMxNjcz.VRNdIWkBVdxoiU8K67Ea3SDmZkk2MTPIvUR7cE-qHWUg.jGP1Wtzs1-O4GiFeX-6RRodA25OgjRWemvcWeyR8jwsg.PNG.im_worry/9.png?type=w800",
       "place": "경주 역사지구",
-      "description": "계획적으로 움직이며 꼼꼼하게 여행지에 대해 공부해가는\\nISTJ에게 어울리는 경주는 어떠신가요?",
+      "description": "계획적으로 움직이며 꼼꼼하게 여행지에 대해 공부해가는",
+      "description2": "는 어떠신가요?",
       "placeImg": "https://t1.daumcdn.net/cfile/tistory/1663884050218C690B"
     },
     {
       "mbti": "ISFJ",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTE2/MDAxNjI1NjQzNzMxNjcz.-fCJ7FzEwIE4Y24rzoSn641sdAe3WAoewHAoUJWd6Tog.JjqTenmJW-iu_PIhenanymzwOMBKBwpRkiTHsjJIsZEg.PNG.im_worry/10.png?type=w800",
       "place": "전주 한옥마을",
-      "description": "계획적으로 움직이며 동행을 챙기는 스타일의\\nISFJ에게 어울리는 전주는 어떠신가요?",
+      "description": "계획적으로 움직이며 동행을 챙기는 스타일의",
+      "description2": "는 어떠신가요?",
       "placeImg": "https://t1.daumcdn.net/thumb/R720x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/3nyp/image/7QuKqsLRQEHPZtZEscAu1BIgP-A.jpg"
     },
     {
       "mbti": "ISFP",
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTgx/MDAxNjI1NjQzNzIxNDQ0.JLqeJ_sdkWyRkQ-Qjnu2xW163wBZmTmqAVyDBZy9UY4g.fCQwooYzAOjReoeF7OpgKArcB50ucPd2fmUmd0Rob5Ag.PNG.im_worry/14.png?type=w800",
       "place": "단양 패러글라이딩",
-      "description": "새로운 것을 시도할 준비가 된 예술가 타입의\\nISFP에게 어울리는 단양은 어떠신가요?",
+      "description": "새로운 것을 시도할 준비가 된 예술가 타입의",
+      "description2": "은 어떠신가요?",
       "placeImg": "https://t1.daumcdn.net/cfile/tistory/99B5C24760169F9B14"
     },
     {
@@ -651,6 +655,7 @@
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjU3/MDAxNjI1NjQzNzI2ODgw.4SALKzLC-iLP3PvUs3bDFlijYO-VfVewp1c7tbrP4qcg.JWMyIWCXSJn_aKSXOAJtwb1Wi9w-TnwZ3peJU6YR9m4g.PNG.im_worry/5.png?type=w800",
       "place": "전북 완주",
       "description": "새로운 사람과 스스럼없이 어울리지만, 사실 혼자만의 시간을 중요하게 여기는\\nINFJ에게 어울리는 완주는 어떠신가요?",
+      "description2": "는 어떠신가요?",
       "placeImg": "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202109/16/4df4704c-519f-4423-bc7f-9d1cb84c6306.jpg"
     },
     {
