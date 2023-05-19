@@ -72,6 +72,7 @@ const AdItem = styled.div`
 	border-radius: 15px;
 	/* padding: 10px; */
 	margin: 10px;
+	cursor: pointer;
 	.adimg {
 		width: 100%;
 		height: 70%;
@@ -218,6 +219,14 @@ function Search() {
 	const handleCreate = () => {
 		document.location.href = '/community/create';
 	};
+
+	const handleResultClicked = (value: string) => {
+		window.open(
+			`https://www.google.com/search?q=${value}`,
+			'_blank',
+			'noopener, noreferrer',
+		);
+	};
 	useEffect(() => {
 		axios(tourUrl).then((res) => {
 			setTourResult(res.data.response.body.items.item);
@@ -238,7 +247,7 @@ function Search() {
 						</div>
 						<APIContainer>
 							{tourResult.map((el: tourAPIType, idx) => (
-								<AdItem>
+								<AdItem onClick={() => handleResultClicked(el.title)}>
 									<img src={el.firstimage} alt="사진" className="adimg" />
 									<div className="adtext">{el.title}</div>
 								</AdItem>
