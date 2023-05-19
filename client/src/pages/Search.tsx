@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { IoIosArrowForward } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -152,6 +153,31 @@ const ResultImg = styled.img`
 	margin-left: 20px;
 `;
 
+const NotResult = styled.div`
+	margin: 40px 0;
+	line-height: 40px;
+
+	> div:nth-child(4) {
+		font-size: 20px;
+		display: flex;
+		justify-content: flex-end;
+		text-decoration: underline;
+		align-items: center;
+
+		&:hover {
+			color: #0db4f3;
+		}
+	}
+
+	.keyword {
+		color: #0db4f3;
+	}
+`;
+
+const CreateBtn = styled.div`
+	cursor: pointer;
+`;
+
 interface tourAPIType {
 	firstimage: string;
 	title: string;
@@ -191,9 +217,11 @@ function Search() {
 		}
 	};
 
+	const handleCreate = () => {
+		document.location.href = '/community/create';
+	};
 	useEffect(() => {
 		axios(tourUrl).then((res) => {
-			console.log(res.data.response.body.items.item);
 			setTourResult(res.data.response.body.items.item);
 		});
 
@@ -221,18 +249,18 @@ function Search() {
 					</SearchAPI>
 				)}
 
-				{posts.filter(
-					(el: postType) =>
-						el.title.includes(keyword.keyword) ||
-						el.content.includes(keyword.keyword),
-				).length > 0 && (
-					<SearchResult>
-						<div className="title">
-							<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
-							💭
-						</div>
-						<ResultContainer>
-							{posts
+				<SearchResult>
+					<div className="title">
+						<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
+						💭
+					</div>
+					<ResultContainer>
+						{posts.filter(
+							(el: postType) =>
+								el.title.includes(keyword.keyword) ||
+								el.content.includes(keyword.keyword),
+						).length > 0 ? (
+							posts
 								.filter(
 									(el: postType) =>
 										el.title.includes(keyword.keyword) ||
@@ -257,8 +285,28 @@ function Search() {
 											/>
 										)}
 									</ResultItem>
-								))}
+								))
+						) : (
+							<NotResult>
+								<div>아직 작성된 게시글이 없어요 </div>
+								<div>
+									<span className="keyword">{keyword.keyword}</span> 이곳을
+									여행하셨거나 여러 도움이 필요하다면, 새로운 글을 작성하러
+									가볼까요 ?{' '}
+								</div>
+								<div>다른 사람들에게 도움이 될지 몰라요 ☺️</div>
 
+								<CreateBtn onClick={handleCreate}>
+									작성하러가기 <IoIosArrowForward />{' '}
+								</CreateBtn>
+							</NotResult>
+						)}
+
+						{posts.filter(
+							(el: postType) =>
+								el.title.includes(keyword.keyword) ||
+								el.content.includes(keyword.keyword),
+						).length > 0 ? (
 							<Pagination
 								curPage={curPage}
 								setCurPage={setCurPage}
@@ -279,9 +327,9 @@ function Search() {
 								size={5}
 								pageCount={5}
 							/>
-						</ResultContainer>
-					</SearchResult>
-				)}
+						) : null}
+					</ResultContainer>
+				</SearchResult>
 			</SearchContainer>
 		</Container>
 	);

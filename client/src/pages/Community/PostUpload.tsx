@@ -293,7 +293,7 @@ function PostUpload() {
 		if (
 			subject === '여행리뷰' &&
 			tags.length > 0 &&
-			Images.length > 0 &&
+			Images.length === 3 &&
 			editorRef.current
 		) {
 			// json-server용 api 요청
