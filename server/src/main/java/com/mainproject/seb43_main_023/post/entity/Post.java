@@ -42,6 +42,11 @@ public class Post extends Auditable {
 
     private LocalDateTime postModifiedAt = postCreatedAt;
 
+    private String locationY;
+
+    private String locationX;
+
+
 //    @Column(nullable = false)
 //    private Long memberId;
 //

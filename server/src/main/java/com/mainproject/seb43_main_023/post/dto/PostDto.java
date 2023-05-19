@@ -18,10 +18,17 @@ public class PostDto {
     public static class postPostDto {
         @NotBlank(message = "말머리를 선택해주세요.")
         private String subject;
+
         @NotBlank(message = "제목를 입력해주세요.")
         private String title;
+
         @NotBlank(message = "내용를 입력해주세요.")
         private String content;
+
+        private String locationY;
+
+        private String locationX;
+
         private List<String> image;
 
 /**    TODO
@@ -42,6 +49,9 @@ public class PostDto {
         private String subject;
         private String title;
         private String content;
+        private String locationY;
+
+        private String locationX;
         private List<String> image;
         private long viewCount;
         private long voteCount;
@@ -55,6 +65,9 @@ public class PostDto {
         private String subject;
         private String title;
         private String content;
+        private String locationY;
+
+        private String locationX;
         private List<String> image;
 //        private String tag;
 //        추가예정
