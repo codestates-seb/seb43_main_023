@@ -7,11 +7,13 @@ import storage from 'redux-persist/lib/storage/session';
 
 import { configureStore, Store } from '@reduxjs/toolkit';
 
-import loginReducer, { Ilogin } from '../reducers/loginReducer';
+import loginReducer from '../reducers/loginReducer';
 import searchKeywordReducer, {
 	IKeyword,
 } from '../reducers/searchKeywordReducer';
-import userInfoReducer, { Iuser } from '../reducers/userInfoReducer';
+import userInfoReducer from '../reducers/userInfoReducer';
+import { Ilogin } from '../type/Ilogin';
+import { Iuser } from '../type/Iuser';
 
 const reducers = combineReducers({
 	user: userInfoReducer,

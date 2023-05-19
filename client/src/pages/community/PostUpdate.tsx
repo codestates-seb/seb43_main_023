@@ -18,8 +18,9 @@ import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
+import { Ipost } from '../../type/Ipost';
 
 const Container = styled.div`
 	width: 100vw;
@@ -190,18 +191,6 @@ const Alert = styled.div`
 	}
 `;
 
-interface Post {
-	content: string;
-	createdAt: string;
-	postId: number;
-	image: string[];
-	modifiedAt: string;
-	nickName: string;
-	subject: string;
-	tag: string[];
-	title: string;
-}
-
 interface Type {
 	tag: [];
 	subject: string;
@@ -231,7 +220,7 @@ function PostUpdate() {
 
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
-	const [post, setPost] = useState<Post>();
+	const [post, setPost] = useState<Ipost>();
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string | undefined>(titleData);
 	const [alert, setAlert] = useState<boolean>(false);

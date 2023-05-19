@@ -16,8 +16,9 @@ import Answers from '../../Components/community/Answers';
 import MapApi from '../../Components/community/MapApi';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
+import { Ipost } from '../../type/Ipost';
 
 const ReviewContainer = styled.div`
 	height: 100vh;
@@ -65,6 +66,13 @@ const Writer = styled.div`
 		background-color: antiquewhite;
 		margin-right: 10px;
 		border-radius: 100%;
+	}
+
+	> span {
+		font-size: 13px;
+		color: gray;
+		padding-left: 5px;
+		padding-top: 5px;
 	}
 `;
 
@@ -158,23 +166,11 @@ const AnswerContainer = styled.div`
 	align-items: center;
 `;
 
-interface Review {
-	postId: number;
-	title: string;
-	content: string;
-	nickname: string;
-	image: string[];
-	viewCount: number;
-	voteCount: number;
-	createdAt: string;
-	tag: string[];
-}
-
 function ReviewDetail() {
 	const navigate = useNavigate();
 
 	const { id } = useParams();
-	const [review, setReview] = useState<Review[]>([]);
+	const [review, setReview] = useState<Ipost[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
@@ -244,6 +240,8 @@ function ReviewDetail() {
 		}
 	}, [postData.response]);
 
+	console.log(postData.response);
+
 	return (
 		<div className="main">
 			<ReviewContainer>
@@ -258,7 +256,7 @@ function ReviewDetail() {
 								<ContentContainer>
 									<Writer>
 										<div />
-										{el.nickname}
+										{el.member.nickname} <span>@{el.member.mbti}</span>
 									</Writer>
 									<Title>{el.title}</Title>
 									<Content>
@@ -289,7 +287,7 @@ function ReviewDetail() {
 										<div>
 											<div>{el.tag && el.tag.map((t) => <Tag>{t}</Tag>)}</div>
 
-											{el.nickname === userInfos.nickname ? (
+											{el.member.nickname === userInfos.nickname ? (
 												<div>
 													<Link to={`/tripreview/${id}/update`}>
 														<BsPencilSquare color="gray" />

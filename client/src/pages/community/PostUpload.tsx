@@ -19,8 +19,10 @@ import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
-import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
+import { Ipost } from '../../type/Ipost';
+import { UPDATE } from '../../reducers/userInfoReducer';
 
 const Container = styled.div`
 	width: 100vw;
@@ -209,11 +211,6 @@ const Alert = styled.div`
 	}
 `;
 
-interface Post {
-	postId: number;
-	email: string;
-}
-
 function PostUpload() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -223,7 +220,7 @@ function PostUpload() {
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [Images, setImages] = useState<string[]>([]);
-	const [posts, setPosts] = useState<Post[]>([]);
+	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
 	const [alert, setAlert] = useState<boolean>(false);
@@ -313,12 +310,12 @@ function PostUpload() {
 					viewCount: 0,
 					createdAt: '23-05-01T000000',
 					modifiedAt: '23-05-01T000000',
-					x,
-					y,
+					locationX: x,
+					locationY: y,
 					email: userInfos.email,
 				});
 				const myposts = posts.filter(
-					(v: { email: string }) => v.email === userInfos.email,
+					(post) => post.member.email === userInfos.email,
 				);
 				if (myposts.length === 4) {
 					Api.patch(`/members/${userInfos.id}`, {
@@ -360,7 +357,7 @@ function PostUpload() {
 					image: Images,
 				});
 				const myposts = posts.filter(
-					(v: { email: string }) => v.email === userInfos.email,
+					(post) => post.member.email === userInfos.email,
 				);
 				if (myposts.length === 4) {
 					Api.patch(`/members/${userInfos.id}`, {
@@ -393,6 +390,8 @@ function PostUpload() {
 			}
 		}
 	};
+
+	console.log(postData.response);
 
 	useEffect(() => {
 		if (postData.response) {

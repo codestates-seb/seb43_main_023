@@ -282,7 +282,7 @@ function NearbyPlace() {
 	return (
 		<NearbyPlaceContainer>
 			<NearbyPlaceDetailImage image={backgroundImg}>
-				<span>우리 동네 추천 명소</span>
+				<span>🧭 우리 동네 추천 명소</span>
 			</NearbyPlaceDetailImage>
 			<NearbyPlaceInfo>
 				<NearbyPlaceInfoImg image={backgroundImg} />

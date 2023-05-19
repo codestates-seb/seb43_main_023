@@ -188,7 +188,7 @@ function RegionRec() {
 	return (
 		<RegionRecContainer>
 			<RegionRecImage>
-				<span>지역별 추천 여행 명소</span>
+				<span>🗺️ 지역별 추천 여행 명소</span>
 			</RegionRecImage>
 			<RegionRecItemContainer>
 				{regionInfo

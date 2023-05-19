@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface Ilogin {
-	isLogin: boolean;
-	accessToken?: string;
-}
+import { Ilogin } from '../type/Ilogin';
 
 const initialState: Ilogin = {
 	isLogin: false,

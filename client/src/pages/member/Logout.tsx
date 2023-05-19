@@ -8,8 +8,9 @@ import Swal from 'sweetalert2';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
-import { Ilogin, LOGOUT } from '../../reducers/loginReducer';
+import { LOGOUT } from '../../reducers/loginReducer';
 import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 import { removeCookie } from '../../utils/cookie';
 
 const Main = styled.div`

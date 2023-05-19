@@ -9,8 +9,10 @@ import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
+import { Ianswer } from '../../type/Ianswer';
+import { Ipost } from '../../type/Ipost';
 
 const Container = styled.div`
 	width: 100%;
@@ -93,28 +95,6 @@ const Vote = styled.div`
 	}
 `;
 
-interface Answer {
-	nickName: string;
-	content: string;
-	commentId: number;
-	voteCount: number;
-	postId: number;
-	memberId: number;
-}
-
-interface Review {
-	id: number;
-	title: string;
-	content: string;
-	nickName: string;
-	subject: string;
-	image: string[];
-	viewCount: number;
-	voteCount: number;
-	createdAt: string;
-	tag: string[];
-}
-
 function Answers() {
 	const navigate = useNavigate();
 	const { id } = useParams();
@@ -123,11 +103,11 @@ function Answers() {
 	const [text, setText] = useState<string>('');
 	const [edit, setEdit] = useState<boolean>(false);
 	const [clickedId, setClickedId] = useState<number | null>(null);
-	const [review, setReview] = useState<Review[]>([]);
+	const [review, setReview] = useState<Ipost[]>([]);
 
 	// eslint-disable-next-line prefer-const
-	let [answers, setAnswers] = useState<Answer[]>([]);
-	const [length, setLenght] = useState<Answer[]>([]);
+	let [answers, setAnswers] = useState<Ianswer[]>([]);
+	const [length, setLenght] = useState<Ianswer[]>([]);
 
 	answers = answers.filter((el) => el.postId === Number(id));
 
@@ -301,7 +281,7 @@ function Answers() {
 							</Vote>
 							<div />
 							<div>
-								<div>{el.nickName}</div>
+								<div>{el.nickname}</div>
 
 								<div>
 									{edit && clickedId === el.commentId ? (
@@ -315,7 +295,7 @@ function Answers() {
 										<span>{el.content}</span>
 									)}
 
-									{el.nickName === userInfos.nickname ? (
+									{el.nickname === userInfos.nickname ? (
 										<div>
 											<BsPencilSquare
 												size={14}

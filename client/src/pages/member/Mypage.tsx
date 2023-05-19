@@ -11,8 +11,10 @@ import { Api } from '../../apis/customAPI';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
 import useAxios from '../../hooks/useAxios';
-import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iposts } from '../../type/Ipost';
+import { Iuser } from '../../type/Iuser';
 
 const Main = styled.div`
 	display: flex;
@@ -149,21 +151,6 @@ const UserWriting = styled.div`
 	}
 `;
 
-interface Ipost {
-	postId: number;
-	subject: string;
-	title: string;
-	content?: string;
-	nickname: string;
-	email: string;
-	tag?: null;
-	voteCount?: number;
-	viewCount?: number;
-	createdAt?: string;
-	modifiedAt?: string;
-	image: string[];
-}
-
 function Mypage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -200,20 +187,21 @@ function Mypage() {
 	};
 
 	// 마이페이지의 내가 쓴 글(get요청 시 필요)
-	const [posts, setPosts] = useState<Ipost[]>([
+	const [posts, setPosts] = useState<Iposts>([
 		{
 			postId: 0,
 			subject: '',
 			title: '',
-			nickname: '',
-			email: '',
 			content: '',
-			tag: null,
+			tag: [],
 			voteCount: 0,
 			viewCount: 0,
-			createdAt: '',
-			modifiedAt: '',
+			postCreatedAt: '',
+			postModifiedAt: '',
 			image: [],
+			member: {
+				email: '',
+			},
 		},
 	]);
 
@@ -228,21 +216,6 @@ function Mypage() {
 			setPosts(response);
 		}
 	}, [response]);
-
-	/*
-	// 커뮤니티 내글 get요청(커스텀 axios Api 사용)
-	useEffect(() => {
-		async function getPost() {
-			const getData = await Api.get('/posts');
-			setPosts(
-				getData.data.filter(
-					(v: { email: string }) => v.email === userInfos.email,
-				),
-			);
-		}
-		getPost();
-	}, [userInfos.email]);
-	*/
 
 	// 마이페이지 내가 쓴 글 삭제 핸들러 +
 	// 초보여행자 뱃지가 있고, 삭제 후 글이 5개 미만이 되는 경우 -> 뱃지 null로 업데이트
@@ -359,7 +332,7 @@ function Mypage() {
 						<UserWriting>
 							<ul>
 								{posts
-									.filter((v: { email: string }) => v.email === userInfos.email)
+									.filter((post) => post.member.email === userInfos.email)
 									.map((post) => {
 										return (
 											<li key={post.postId}>

@@ -10,6 +10,7 @@ import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
 import useAxios from '../../hooks/useAxios';
+import { Ipost } from '../../type/Ipost';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -153,20 +154,8 @@ const TagContainer = styled.div`
 `;
 
 function Main() {
-	interface Post {
-		postId: number;
-		subject: string;
-		title: string;
-		nickName: string;
-		voteCount: number;
-		createdAt: string;
-		content: string;
-		image: string[];
-		tag: string[];
-	}
-
 	// eslint-disable-next-line prefer-const
-	const [posts, setPosts] = useState<Post[]>([]);
+	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
 	const startIdx = (curPage - 1) * 8;
@@ -227,7 +216,7 @@ function Main() {
 												</Header>
 
 												<Info>
-													<div>{el.nickName}</div>
+													<div>{el.member.nickname}</div>
 													<div>16:15</div>
 													<div>조회 20</div>
 													<div>
