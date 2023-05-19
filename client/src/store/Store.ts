@@ -9,16 +9,20 @@ import { configureStore, Store } from '@reduxjs/toolkit';
 
 import loginReducer, { Ilogin } from '../reducers/loginReducer';
 import userInfoReducer, { Iuser } from '../reducers/userInfoReducer';
+import searchKeywordReducer, {
+	IKeyword,
+} from '../reducers/searchKeywordReducer';
 
 const reducers = combineReducers({
 	user: userInfoReducer,
 	login: loginReducer,
+	search: searchKeywordReducer,
 });
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['user', 'login'],
+	whitelist: ['user', 'login', 'search'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -26,6 +30,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 export type RootState = {
 	user: Iuser;
 	login: Ilogin;
+	search: IKeyword;
 };
 
 const store: Store<RootState> = configureStore({
