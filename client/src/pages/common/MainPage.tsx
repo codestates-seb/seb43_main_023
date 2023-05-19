@@ -5,14 +5,14 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Banner from '../Components/Banner';
-import Carousel from '../Components/Carousel';
-import CarouselNearbyPlace from '../Components/CarouselNearbyPlace';
-import CarouselReview from '../Components/CarouselReview';
-import MainHeader from '../Components/MainHeader';
-import UserHeader from '../Components/UserHeader';
-import { RootState } from '../store/Store';
-import { Ilogin } from '../type/Ilogin';
+import Banner from '../../Components/mainpage/Banner';
+import Carousel from '../../Components/mainpage/Carousel';
+import CarouselNearbyPlace from '../../Components/mainpage/CarouselNearbyPlace';
+import CarouselReview from '../../Components/mainpage/CarouselReview';
+import MainHeader from '../../Components/mainpage/MainHeader';
+import UserHeader from '../../Components/mainpage/UserHeader';
+import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 
 const MainContainer = styled.div`
 	width: 100vw;

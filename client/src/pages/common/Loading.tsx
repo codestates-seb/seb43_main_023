@@ -1,10 +1,10 @@
-import '../Global.css';
+import '../../Global.css';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PulseLoader } from 'react-spinners';
 import styled from 'styled-components';
 
-import loading from '../assets/loading.png';
+import loading from '../../assets/loading.png';
 
 const Content = styled.div`
 	width: 100%;

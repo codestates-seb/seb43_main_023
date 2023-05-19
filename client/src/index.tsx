@@ -10,7 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Normalize } from 'styled-normalize';
 
 import App from './App';
-import ScrollToTop from './Components/ScrollToTop';
+import ScrollToTop from './hooks/useScrollToTop';
 import store from './store/Store';
 
 const persistor = persistStore(store);

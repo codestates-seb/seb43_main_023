@@ -8,6 +8,9 @@ import OauthJoinHandler from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
 import Empty from './Components/member/Empty';
+import Error from './pages/common/Error';
+import Landing from './pages/common/Landing';
+import Loading from './pages/common/Loading';
 import EtcTalk from './pages/Community/EtcTalk';
 import Main from './pages/Community/Main';
 import MBTI from './pages/Community/MBTI';
@@ -17,21 +20,18 @@ import PostUpload from './pages/Community/PostUpload';
 import ReviewDetail from './pages/Community/ReiviewDetail';
 import TripMate from './pages/Community/TripMate';
 import TripReview from './pages/Community/TripReview';
-import Error from './pages/Error';
-import HotReview from './pages/HotReview';
-import Landing from './pages/Landing';
-import Loading from './pages/Loading';
+import HotReview from './pages/contents/HotReview';
+import HotPlace from './pages/contents/NearbyPlace';
+import RegionRec from './pages/contents/RegionRecommend';
 import Join from './pages/member/Join';
 import Login from './pages/member/Login';
 import Logout from './pages/member/Logout';
 import UserEdit from './pages/member/UserEdit';
-import HotPlace from './pages/NearbyPlace';
-import RegionRec from './pages/RegionRecommend';
 import Search from './pages/Search';
 
-const MainPage = lazy(() => import('./pages/MainPage'));
+const MainPage = lazy(() => import('./pages/common/MainPage'));
 const Mypage = lazy(() => import('./pages/member/Mypage'));
-const RegionDetail = lazy(() => import('./pages/RegionDetail'));
+const RegionDetail = lazy(() => import('./pages/contents/RegionDetail'));
 
 function App() {
 	// oauth google클릭 때만 실행되는 로직
