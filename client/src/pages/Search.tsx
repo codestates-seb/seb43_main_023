@@ -9,6 +9,7 @@ import Pagination from '../Components/community/Pagination';
 import useAxios from '../hooks/useAxios';
 import { IKeyword } from '../reducers/searchKeywordReducer';
 import { RootState } from '../store/Store';
+import { Ipost } from '../type/Ipost';
 
 const Container = styled.div`
 	min-height: 100vh;
@@ -183,15 +184,6 @@ interface tourAPIType {
 	title: string;
 }
 
-interface postType {
-	id: number;
-	title: string;
-	content: string;
-	subject: string;
-	nickName: string;
-	image: string[];
-}
-
 function Search() {
 	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
 	const [tourResult, setTourResult] = useState([]);
@@ -231,12 +223,6 @@ function Search() {
 		}
 	}, [postData.response, tourUrl]);
 
-	const filteredData = posts.filter(
-		(el: postType) =>
-			el.title.includes(keyword.keyword) ||
-			el.content.includes(keyword.keyword),
-	);
-
 	return (
 		<Container>
 			<SearchContainer>
@@ -263,19 +249,19 @@ function Search() {
 					</div>
 					<ResultContainer>
 						{posts.filter(
-							(el: postType) =>
+							(el: Ipost) =>
 								el.title.includes(keyword.keyword) ||
 								el.content.includes(keyword.keyword),
 						).length > 0 ? (
 							posts
 								.filter(
-									(el: postType) =>
+									(el: Ipost) =>
 										el.title.includes(keyword.keyword) ||
 										el.content.includes(keyword.keyword),
 								)
-								.map((post: postType) => (
+								.map((post: Ipost) => (
 									<ResultItem
-										onClick={() => handlePostClick(post.subject, post.id)}
+										onClick={() => handlePostClick(post.subject, post.postId)}
 									>
 										<ResultText>
 											<div className="resultInfo">
@@ -283,7 +269,7 @@ function Search() {
 												<span className="title">{post.title}</span>
 											</div>
 											<div className="content">{post.content}</div>
-											<span className="author">{post.nickName}</span>
+											<span className="author">{post.member!.nickname}</span>
 										</ResultText>
 										{post.image.length > 0 && (
 											<ResultImg
@@ -310,7 +296,7 @@ function Search() {
 						)}
 
 						{posts.filter(
-							(el: postType) =>
+							(el: Ipost) =>
 								el.title.includes(keyword.keyword) ||
 								el.content.includes(keyword.keyword),
 						).length > 0 ? (
@@ -319,14 +305,14 @@ function Search() {
 								setCurPage={setCurPage}
 								totalPage={Math.ceil(
 									posts.filter(
-										(el: postType) =>
+										(el: Ipost) =>
 											el.title.includes(keyword.keyword) ||
 											el.content.includes(keyword.keyword),
 									).length / 5,
 								)}
 								totalCount={
 									posts.filter(
-										(el: postType) =>
+										(el: Ipost) =>
 											el.title.includes(keyword.keyword) ||
 											el.content.includes(keyword.keyword),
 									).length

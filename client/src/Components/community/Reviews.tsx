@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import img from '../../assets/jeonju.jpg';
 import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
+import { Ipost } from '../../type/Ipost';
 
 const Container = styled.div`
 	min-height: 600px;
@@ -92,19 +93,8 @@ const PaginationContainer = styled.div`
 `;
 
 function Review() {
-	interface ReviewInter {
-		postId: number;
-		subject: string;
-		title: string;
-		nickname: string;
-		voteCount: number;
-		createdAt: string;
-		tag: string;
-		image: string[];
-	}
-
 	// eslint-disable-next-line prefer-const
-	const [reviews, setReviews] = useState<ReviewInter[]>([]);
+	const [reviews, setReviews] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
 	const startIdx = (curPage - 1) * 8;
@@ -137,7 +127,7 @@ function Review() {
 										<div>
 											<img src={img} alt="유저프로필사진" />
 										</div>
-										<div>{el.nickname}</div>
+										<div>{el.member!.nickname}</div>
 									</div>
 
 									<div>

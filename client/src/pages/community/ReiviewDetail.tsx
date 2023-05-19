@@ -16,8 +16,9 @@ import Answers from '../../Components/community/Answers';
 import MapApi from '../../Components/community/MapApi';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
+import { Ipost } from '../../type/Ipost';
 
 const ReviewContainer = styled.div`
 	height: 100vh;
@@ -165,26 +166,11 @@ const AnswerContainer = styled.div`
 	align-items: center;
 `;
 
-interface Review {
-	postId: number;
-	title: string;
-	content: string;
-	image: string[];
-	viewCount: number;
-	voteCount: number;
-	createdAt: string;
-	tag: string[];
-	member: {
-		nickname: string;
-		mbti: string;
-	};
-}
-
 function ReviewDetail() {
 	const navigate = useNavigate();
 
 	const { id } = useParams();
-	const [review, setReview] = useState<Review[]>([]);
+	const [review, setReview] = useState<Ipost[]>([]);
 	const [isLike, setIsLike] = useState<boolean>(false);
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;

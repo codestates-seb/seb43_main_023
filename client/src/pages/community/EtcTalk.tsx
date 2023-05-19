@@ -6,10 +6,11 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Pagination from '../../Components/ccc/Pagination';
-import SideBar from '../../Components/ccc/SideBar';
-import Tags from '../../Components/ccc/Tags';
+import Pagination from '../../Components/community/Pagination';
+import SideBar from '../../Components/community/SideBar';
+import Tags from '../../Components/community/Tags';
 import useAxios from '../../hooks/useAxios';
+import { Ipost } from '../../type/Ipost';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -156,18 +157,8 @@ const PaginationContainer = styled.div`
 `;
 
 function EtcTalk() {
-	interface Post {
-		postId: number;
-		subject: string;
-		title: string;
-		nickName: string;
-		voteCount: number;
-		createdAt: string;
-		content: string;
-		image: string[];
-	}
 	// eslint-disable-next-line prefer-const
-	const [posts, setPosts] = useState<Post[]>([]);
+	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
 	const { response } = useAxios({
@@ -210,11 +201,11 @@ function EtcTalk() {
 													<h3>{el.title}</h3>
 												</div>
 
-												{el.content.length > 70 ? (
+												{el.content!.length > 70 ? (
 													<p>
-														{`${el.content
-															.substring(0, 175)
-															.substring(0, el.content.lastIndexOf(' '))
+														{`${el
+															.content!.substring(0, 175)
+															.substring(0, el.content!.lastIndexOf(' '))
 															.trim()}...`}
 													</p>
 												) : (
@@ -222,7 +213,7 @@ function EtcTalk() {
 												)}
 											</Header>
 											<Info>
-												<div>{el.nickName}</div>
+												<div>{el.member.nickname}</div>
 												<div>16:15</div>
 												<div>조회 20</div>
 												<div>
