@@ -14,12 +14,12 @@ import styled from 'styled-components';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { Editor } from '@toast-ui/react-editor';
 
+import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/ccc/SearchPlace';
 import SubjectDropdown from '../../Components/ccc/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { Api } from '../../utils/customAPI';
 
 const Container = styled.div`
 	width: 100vw;

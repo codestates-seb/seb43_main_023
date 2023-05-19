@@ -3,7 +3,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import moment from 'moment';
 
-import { getCookie, removeCookie } from './cookie';
+import { getCookie, removeCookie } from '../utils/cookie';
 
 const refresh = async (
 	config: InternalAxiosRequestConfig,

@@ -15,12 +15,12 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Editor } from '@toast-ui/react-editor';
 
+import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/ccc/SearchPlace';
 import SubjectDropdown from '../../Components/ccc/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
 import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { Api } from '../../utils/customAPI';
 
 const Container = styled.div`
 	width: 100vw;

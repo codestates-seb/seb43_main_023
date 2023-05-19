@@ -9,12 +9,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
+import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
-import { Api } from '../../utils/customAPI';
 
 const Main = styled.div`
 	width: 100%;

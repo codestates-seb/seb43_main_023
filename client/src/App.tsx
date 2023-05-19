@@ -4,9 +4,9 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
+import OauthJoinHandler from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
-import OauthJoinHandler from './Components/mmm/OauthHandler';
 import Error from './pages/common/Error';
 import Landing from './pages/common/Landing';
 import Loading from './pages/common/Loading';

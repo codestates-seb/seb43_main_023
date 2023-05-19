@@ -7,10 +7,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
+import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
-import { Api } from '../../utils/customAPI';
 
 const Container = styled.div`
 	width: 100%;
