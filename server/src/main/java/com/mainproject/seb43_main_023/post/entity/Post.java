@@ -42,18 +42,18 @@ public class Post extends Auditable {
 
     private LocalDateTime postModifiedAt = postCreatedAt;
 
-    @Column(nullable = false)
-    private Long memberId;
+//    @Column(nullable = false)
+//    private Long memberId;
+//
+//    @Column(nullable = false)
+//    private String email;
+//
+//    @Column(nullable = false)
+//    private String nickname;
 
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String nickname;
-
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
     @ElementCollection
     private List<Long> voteList = new ArrayList<>();
@@ -61,10 +61,10 @@ public class Post extends Auditable {
     @ElementCollection
     private List<String> image = new ArrayList<>();
 
-    public void addMember(Post post,Member member) {
-        post.setMemberId(member.getMemberId());
-        post.setNickname(member.getNickname());
-        post.setEmail(member.getEmail());
-    }
+//    public void addMember(Post post,Member member) {
+//        post.setMemberId(member.getMemberId());
+//        post.setNickname(member.getNickname());
+//        post.setEmail(member.getEmail());
+//    }
 }
 

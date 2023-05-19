@@ -29,12 +29,14 @@ public class PostService {
     }
     public Post createPost(Post post, long memberId){
         Member member = memberService.findVerifiedMember(memberId);
-        post.addMember(post,member);
+//        post.addMember(post,member);
+        post.setMember(member);
         return postRepository.save(post);
     }
     public Post updatePost(Post post, long memberId){
         Post findPost = verifyPost(post.getPostId());
-        if(findPost.getMemberId().equals(memberId)) {
+//        if(findPost.getMemberId().equals(memberId)) {
+        if(findPost.getMember().getMemberId().equals(memberId)) {
             Optional.ofNullable(post.getSubject()).ifPresent(findPost::setSubject);
             Optional.ofNullable(post.getTitle()).ifPresent(findPost::setTitle);
             Optional.ofNullable(post.getContent()).ifPresent(findPost::setContent);
@@ -46,7 +48,8 @@ public class PostService {
     }
     public void removePost(long postId, long memberId){
         Post deletePost = verifyPost(postId);
-        if(memberId == deletePost.getMemberId()) {
+//        if(memberId == deletePost.getMemberId()) {
+        if(memberId == deletePost.getMember().getMemberId()){
             postRepository.delete(deletePost);
         } else throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
     }

@@ -160,7 +160,8 @@ public class MemberService {
         Member verifiedMember = findVerifiedMember(memberId);
 
         List<Post> posts = postRepository.findAll().stream()
-                .filter(post -> post.getMemberId() == memberId)
+//                .filter(post -> post.getMemberId() == memberId)
+                .filter(post -> post.getMember().getMemberId() == memberId)
                 .collect(Collectors.toList());
 
         List<Comment> comments = commentRepository.findAll().stream()

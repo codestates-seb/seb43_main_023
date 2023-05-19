@@ -35,9 +35,10 @@ public class PostDto {
     @Setter
     public static class postResponseDto {
         private long postId;
-        private long memberId;
-        private String email;
-        private String nickname;
+//        private long memberId;
+//        private String email;
+//        private String nickname;
+        private Member member;
         private String subject;
         private String title;
         private String content;
