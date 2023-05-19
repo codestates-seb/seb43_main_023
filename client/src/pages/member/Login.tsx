@@ -265,7 +265,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						onFocus={(e) => displayNameKeyFocus(e)}
 						onBlur={(e) => displayNameKeyBlur(e)}
 						name="password"
-						type="text"
+						type="password"
 						placeholder="Password"
 						required
 					/>

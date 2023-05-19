@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iposts } from '../../type/Ipost';
+import { Iuser } from '../../type/Iuser';
 
 const Container = styled.ul`
 	width: 95%;
@@ -88,34 +89,45 @@ const Writer = styled.div`
 function MyReview() {
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
-	interface ReviewInter {
-		email: string;
-		id: number;
-		subject: string;
-		title: string;
-		nickName: string;
-		voteCount: number;
-		createdAt: string;
-		tag: string;
-		image: string[];
-	}
+	const [reviews, setReviews] = useState<Iposts>([
+		{
+			postId: 0,
+			subject: '',
+			title: '',
+			content: '',
+			tag: [],
+			voteCount: 0,
+			viewCount: 0,
+			postCreatedAt: '',
+			postModifiedAt: '',
+			image: [],
+			member: {
+				email: '',
+				nickname: '',
+			},
+		},
+	]);
 
-	// eslint-disable-next-line prefer-const
-	let [reviews, setReviews] = useState<ReviewInter[]>([]);
 	useEffect(() => {
-		Api.get('/posts').then((res) => setReviews(res.data));
-	}, []);
-
-	reviews = reviews.filter(
-		(el) => el.subject === '여행리뷰' && el.email === userInfos.email,
-	);
+		Api.get('/posts').then((res) => {
+			const { data } = res;
+			setReviews(
+				data
+					.filter(
+						(post: { member: { email: string | undefined } }) =>
+							post.member.email === userInfos.email,
+					)
+					.filter((v: { subject: string }) => v.subject === '여행리뷰'),
+			);
+		});
+	}, [userInfos.email]);
 
 	return (
 		<Container>
 			{reviews &&
 				reviews.map((el) => (
-					<li key={el.id}>
-						<Link to={`/tripreview/${el.id}`}>
+					<li key={el.postId}>
+						<Link to={`/tripreview/${el.postId}`}>
 							<ReviewBox>
 								<div>
 									<img src={el.image[0]} alt="여행리뷰사진" />
@@ -126,7 +138,7 @@ function MyReview() {
 										<div>
 											<img src={userInfos.img} alt="유저프로필사진" />
 										</div>
-										<div>{el.nickName}</div>
+										<div>{el.member.nickname}</div>
 									</div>
 
 									<div>
