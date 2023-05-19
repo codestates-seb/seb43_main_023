@@ -191,7 +191,6 @@ function Search() {
 
 	useEffect(() => {
 		axios(tourUrl).then((res) => {
-			console.log(res.data.response.body.items.item);
 			setTourResult(res.data.response.body.items.item);
 		});
 
