@@ -52,10 +52,10 @@ const EtcTalkContainer = styled.div`
 
 const EtcTalkBody = styled.div`
 	margin-top: 35px;
-	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
 	height: fit-content;
+
 	/* min-height: 1000px;
 	max-height: 1000px; */
 `;

@@ -11,6 +11,7 @@ import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Ilogin } from '../../reducers/loginReducer';
 
 const Container = styled.div`
 	width: 100%;
@@ -132,6 +133,8 @@ function Answers() {
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
+
 	const postData = useAxios({
 		method: 'get',
 		url: `/posts/${id}`,
@@ -146,8 +149,8 @@ function Answers() {
 		setText(e.target.value);
 	};
 
-	const handleSubmit = (e: { key: string }) => {
-		if (e.key === 'Enter') {
+	const handleSubmit = () => {
+		if (login.isLogin) {
 			try {
 				Api.post('/comments', {
 					id: length.length + 1,
@@ -165,6 +168,25 @@ function Answers() {
 			} catch (error) {
 				navigate('/error');
 			}
+		} else {
+			const Toast = Swal.mixin({
+				toast: true,
+				position: 'top',
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				didOpen: (toast: {
+					addEventListener: (arg0: string, arg1: any) => void;
+				}) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer);
+					toast.addEventListener('mouseleave', Swal.resumeTimer);
+				},
+			});
+
+			Toast.fire({
+				icon: 'warning',
+				title: '로그인 상태가 아닙니다',
+			});
 		}
 	};
 
@@ -280,7 +302,11 @@ function Answers() {
 			<AnswerInput
 				placeholder="댓글을 남겨주세요"
 				onChange={(e) => handleInput(e)}
-				onKeyDown={handleSubmit}
+				onKeyPress={(e) => {
+					if (e.key === 'Enter') {
+						handleSubmit();
+					}
+				}}
 			/>
 
 			{answers &&
