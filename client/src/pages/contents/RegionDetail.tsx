@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import axios from 'axios';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsCloudFog } from 'react-icons/bs';
 import {
 	TiWeatherCloudy,
@@ -13,10 +13,8 @@ import {
 } from 'react-icons/ti';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface ImageProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import { IImageProps } from '../../type/IImageProps';
+import { TripInfoType } from '../../type/ITripInfo';
 
 interface IRegionData {
 	id: number;
@@ -29,13 +27,6 @@ interface IRegionData {
 	regionIntro: string;
 }
 
-type TripInfoType = {
-	contentid: number;
-	firstimage: string;
-	title: string;
-	addr1: string;
-};
-
 const RegionDetailContainer = styled.div`
 	width: 100vw;
 	height: 100%;
@@ -46,7 +37,7 @@ const RegionDetailContainer = styled.div`
 	align-items: center;
 `;
 
-const RegionDetailImage = styled.div<ImageProps>`
+const RegionDetailImage = styled.div<IImageProps>`
 	width: 100%;
 	height: 40vh;
 	display: flex;
@@ -83,7 +74,7 @@ const RegionInfo = styled.div`
 	}
 `;
 
-const RegionInfoImg = styled.div<ImageProps>`
+const RegionInfoImg = styled.div<IImageProps>`
 	width: 40%;
 	background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
 		center / cover no-repeat;
@@ -136,7 +127,7 @@ const RegionRecItem = styled.div`
 	margin: 20px;
 `;
 
-const RegionItemImg = styled.div<ImageProps>`
+const RegionItemImg = styled.div<IImageProps>`
 	height: 270px;
 	background-image: url(${(props) => (props.image ? props.image : '')});
 	background-position: center;

@@ -1,27 +1,11 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
-
-interface IReview {
-	postId: number;
-	member: any;
-	subject: string;
-	title: string;
-	content: string;
-	tag?: null | string;
-	image: string[];
-	voteCount: number;
-	viewCount: number;
-	createdAt: string;
-	modifiedAt: string;
-}
+import { IImageProps } from '../../type/IImageProps';
+import { Iposts } from '../../type/Ipost';
 
 const backgroundImg =
 	'https://images.unsplash.com/photo-1618237586696-d3690dad22e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80';
@@ -85,7 +69,7 @@ const HotReviewItem = styled.div`
 	}
 `;
 
-const HotReviewImg = styled.div<SlideItemProps>`
+const HotReviewImg = styled.div<IImageProps>`
 	width: 300px;
 	height: 300px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
@@ -141,7 +125,7 @@ const StyledLink = styled(Link)`
 `;
 
 function HotReview() {
-	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
+	const [filterdReview, setFilterReview] = useState<Iposts>([]);
 
 	const res: any = useAxios({
 		method: 'get',
