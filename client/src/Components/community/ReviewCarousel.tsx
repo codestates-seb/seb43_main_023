@@ -75,9 +75,9 @@ function ReviewCarousel() {
 		<div>
 			{review.length > 0 && (
 				<SlideContainer {...settings}>
-					<SlideItem image={review[0].image[0]} />
-					<SlideItem image={review[0].image[1]} />
-					<SlideItem image={review[0].image[2]} />
+					{review[0].image.map((el, idx) => (
+						<SlideItem image={review[0].image[idx]} />
+					))}
 				</SlideContainer>
 			)}
 		</div>
