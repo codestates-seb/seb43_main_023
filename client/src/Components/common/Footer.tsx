@@ -76,10 +76,9 @@ const Main = styled.div`
 const Content = styled.div`
 	width: 100%;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: flex-start;
 	background: rgba(0, 0, 0, 0.04);
-	padding: 0px 100px 10px 100px;
 	div {
 		display: flex;
 		flex-direction: column;
@@ -97,6 +96,9 @@ const Content = styled.div`
 	img {
 		width: 130px;
 		margin-bottom: 10px;
+		@media (max-width: 600px) {
+			width: 100px;
+		}
 	}
 	a {
 		text-decoration: none;
@@ -120,6 +122,15 @@ const Content = styled.div`
 		display: inline-block;
 		justify-content: center;
 		align-items: center;
+	}
+	.team {
+		@media (max-width: 370px) {
+			display: none;
+		}
+	}
+	.teamName {
+		color: rgba(0, 0, 0, 0.5);
+		font-size: 12px;
 	}
 `;
 function Footer() {
@@ -190,9 +201,7 @@ function Footer() {
 					<Link to="/main">
 						<img src={logo} alt="" />
 					</Link>
-					<Link to="https://github.com/codestates-seb/seb43_main_023">
-						Github
-					</Link>
+					<div className="teamName">TEAM 너의 이름은</div>
 				</div>
 				<div>
 					<span>SERVICE</span>
@@ -208,7 +217,7 @@ function Footer() {
 					<button>MBTI</button>
 					<button>잡담</button>
 				</div>
-				<div>
+				<div className="team">
 					<span>TEAM</span>
 					<div className="teamDivide">
 						<Link to="https://github.com/hihijin">

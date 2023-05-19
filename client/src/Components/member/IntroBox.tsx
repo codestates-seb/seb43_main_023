@@ -1,3 +1,5 @@
+import '../../Global.css';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -16,6 +18,11 @@ const Main = styled.div`
 	align-items: flex-end;
 	padding: 20px 50px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	@media (max-width: 430px) {
+		flex-direction: column;
+		justify-content: baseline;
+		align-items: flex-start;
+	}
 	.intro {
 		width: 100%;
 		display: flex;
@@ -40,6 +47,10 @@ const Main = styled.div`
 		&:hover {
 			cursor: pointer;
 			color: rgba(0, 0, 0, 0.5);
+		}
+		@media (max-width: 430px) {
+			width: auto;
+			margin-top: 10px;
 		}
 	}
 `;

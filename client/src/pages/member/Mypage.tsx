@@ -41,6 +41,9 @@ const Content = styled.div`
 		font-weight: bold;
 		margin: 30px;
 		padding-bottom: 5px;
+		@media (max-width: 350px) {
+			font-size: 13px;
+		}
 	}
 	.blue {
 		color: #0db4f3;
