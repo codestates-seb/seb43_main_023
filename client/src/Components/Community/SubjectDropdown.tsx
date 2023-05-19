@@ -31,6 +31,7 @@ const Li = styled.li`
 	width: inherit;
 	background-color: #fafafa;
 	padding: 10px;
+	list-style-type: none;
 
 	> button {
 		width: 100%;
