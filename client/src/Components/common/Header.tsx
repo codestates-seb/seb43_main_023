@@ -1,17 +1,18 @@
 /* eslint-disable no-nested-ternary */
 import '../../Global.css';
 
+import { useEffect, useState } from 'react';
+
+import axios from 'axios';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Ilogin } from '../../Reducers/loginReducer';
-import { IKeyword, KEYWORD } from '../../Reducers/searchKeywordReducer';
-import { RootState } from '../../Store/store';
 import logo from '../../assets/logo.png';
+import { Ilogin } from '../../rrr/loginReducer';
+import { IKeyword, KEYWORD } from '../../rrr/searchKeywordReducer';
+import { RootState } from '../../sss/store';
 
 interface ContainerProps {
 	hasResult: string[];

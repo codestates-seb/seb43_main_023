@@ -6,31 +6,31 @@ import { Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
-import OauthJoinHandler from './Components/Member/OauthHandler';
-import Error from './Pages/common/Error';
-import Landing from './Pages/common/Landing';
-import Loading from './Pages/common/Loading';
-import EtcTalk from './Pages/Community/EtcTalk';
-import Main from './Pages/Community/Main';
-import MBTI from './Pages/Community/MBTI';
-import PostDetail from './Pages/Community/PostDetail';
-import PostUpdate from './Pages/Community/PostUpdate';
-import PostUpload from './Pages/Community/PostUpload';
-import ReviewDetail from './Pages/Community/ReiviewDetail';
-import TripMate from './Pages/Community/TripMate';
-import TripReview from './Pages/Community/TripReview';
-import HotReview from './Pages/contents/HotReview';
-import NearbyPlace from './Pages/contents/NearbyPlace';
-import RegionRec from './Pages/contents/RegionRecommend';
-import Join from './Pages/Member/Join';
-import Login from './Pages/Member/Login';
-import Logout from './Pages/Member/Logout';
-import UserEdit from './Pages/Member/UserEdit';
-import Search from './Pages/Search';
+import OauthJoinHandler from './Components/mmm/OauthHandler';
+import EtcTalk from './ppp/ccc/EtcTalk';
+import Main from './ppp/ccc/Main';
+import MBTI from './ppp/ccc/MBTI';
+import PostDetail from './ppp/ccc/PostDetail';
+import PostUpdate from './ppp/ccc/PostUpdate';
+import PostUpload from './ppp/ccc/PostUpload';
+import ReviewDetail from './ppp/ccc/ReiviewDetail';
+import TripMate from './ppp/ccc/TripMate';
+import TripReview from './ppp/ccc/TripReview';
+import Error from './ppp/common/Error';
+import Landing from './ppp/common/Landing';
+import Loading from './ppp/common/Loading';
+import HotReview from './ppp/contents/HotReview';
+import NearbyPlace from './ppp/contents/NearbyPlace';
+import RegionRec from './ppp/contents/RegionRecommend';
+import Join from './ppp/mmm/Join';
+import Login from './ppp/mmm/Login';
+import Logout from './ppp/mmm/Logout';
+import UserEdit from './ppp/mmm/UserEdit';
+import Search from './ppp/Search';
 
-const MainPage = lazy(() => import('./Pages/common/MainPage'));
-const Mypage = lazy(() => import('./Pages/Member/Mypage'));
-const RegionDetail = lazy(() => import('./Pages/contents/RegionDetail'));
+const MainPage = lazy(() => import('./ppp/common/MainPage'));
+const Mypage = lazy(() => import('./ppp/mmm/Mypage'));
+const RegionDetail = lazy(() => import('./ppp/contents/RegionDetail'));
 
 function App() {
 	const url = new URL(window.location.href); // 현재 url 가져오기

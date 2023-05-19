@@ -1,11 +1,13 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Pagination from '../Components/Community/Pagination';
-import { IKeyword } from '../Reducers/searchKeywordReducer';
-import { RootState } from '../Store/store';
+
+import Pagination from '../Components/ccc/Pagination';
 import useAxios from '../hooks/useAxios';
+import { IKeyword } from '../rrr/searchKeywordReducer';
+import { RootState } from '../sss/store';
 
 const Container = styled.div`
 	min-height: 100vh;

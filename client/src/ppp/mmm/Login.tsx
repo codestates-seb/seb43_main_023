@@ -1,16 +1,20 @@
 import '../../Global.css';
 
-import { FocusEvent, useState } from 'react';
+import { FocusEvent } from 'react';
 
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { SiNaver } from 'react-icons/si';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
-import { Api } from '../../Util/customAPI';
+import { LOGIN } from '../../rrr/loginReducer';
+import { UPDATE } from '../../rrr/userInfoReducer';
+import { setCookie } from '../../uuu/cookie';
+import { Api } from '../../uuu/customAPI';
 
 const Main = styled.div`
 	width: 100%;
@@ -59,7 +63,6 @@ const Content = styled.div`
 			}
 		}
 		button {
-			margin-top: 20px;
 			border: none;
 			background: #0db4f3;
 			color: white;
@@ -69,22 +72,17 @@ const Content = styled.div`
 				background: #4ec9ff;
 			}
 		}
-		.check {
-			color: red;
-			font-size: 10px;
-			margin-top: 10px;
-		}
-		.keyUp {
-			font-size: 12px;
-			width: 98%;
-			color: #0db4f3;
-			text-align: left;
-			margin-top: 12px;
-			margin-bottom: -25px;
-		}
-		.hide {
-			display: none;
-		}
+	}
+	.keyUp {
+		font-size: 12px;
+		width: 98%;
+		color: #0db4f3;
+		text-align: left;
+		margin-top: 12px;
+		margin-bottom: -25px;
+	}
+	.hide {
+		display: none;
 	}
 	.lineBox {
 		color: #393737;
@@ -92,19 +90,32 @@ const Content = styled.div`
 		justify-content: center;
 		align-items: center;
 		font-size: 13px;
-		margin: 30px 0 20px 0;
+		margin: 30px 0;
 		.line {
 			width: 90px;
 			border-top: 1px solid #393737;
 			margin: 0 10px;
 		}
 	}
+	.gotoJoin {
+		color: rgba(0, 0, 0, 0.2);
+		margin-top: 20px;
+		font-size: 13px;
+	}
+	.gotoJoinBtn {
+		color: #0db4f3;
+		font-size: 13px;
+		margin-top: 7px;
+		&:hover {
+			color: #4ec9ff;
+		}
+	}
 `;
+
 const OauthBox = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	.oauth {
 		width: 80px;
 		height: 40px;
@@ -129,100 +140,89 @@ const OauthBox = styled.div`
 	}
 `;
 
-function Join() {
+function Login() {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
-	const [mbtiValid, setMbtiValid] = useState(true);
-	const [emailValid, setEmailValid] = useState(true);
-	const [passwordCheck, setpasswordCheck] = useState(true);
-	const [passwordValid, setPasswordValid] = useState(true);
-
-	const EMAIL_REGEX =
-		/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-	const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z]).{8,}/;
-
-	const MBTI_REGEX = [
-		'ISTP',
-		'ISFP',
-		'ESTP',
-		'ESFP',
-		'INFJ',
-		'INFP',
-		'ENFJ',
-		'ENFP',
-		'ISTJ',
-		'ISFJ',
-		'ESTJ',
-		'ESFJ',
-		'INTJ',
-		'INTP',
-		'ENTJ',
-		'ENTP',
-	];
-
-	function isMatch(password1: string, password2: string) {
-		if (password1 === password2) {
-			return true;
-		}
-		return false;
-	}
-
-	async function joinSubmit(e: React.FormEvent<HTMLFormElement>) {
+	const joinSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			if (!EMAIL_REGEX.test(el.email.value)) {
-				setEmailValid(false);
-				setMbtiValid(true);
-				setPasswordValid(true);
-				setpasswordCheck(true);
-			} else if (
-				MBTI_REGEX.find((v) => v === el.mbti.value.toUpperCase()) === undefined
-			) {
-				setMbtiValid(false);
-				setEmailValid(true);
-				setPasswordValid(true);
-				setpasswordCheck(true);
-			} else if (!PASSWORD_REGEX.test(el.password.value)) {
-				setPasswordValid(false);
-				setEmailValid(true);
-				setMbtiValid(true);
-				setpasswordCheck(true);
-			} else if (!isMatch(el.passwordCheck.value, el.password.value)) {
-				setpasswordCheck(false);
-				setEmailValid(true);
-				setMbtiValid(true);
-				setPasswordValid(true);
-			} else {
-				setEmailValid(true);
-				setMbtiValid(true);
-				setPasswordValid(true);
-				setpasswordCheck(true);
+			const loginData = await Api.post('/members/signin', {
+				email: el.email.value,
+				password: el.password.value,
+			});
+			const {
+				memberId,
+				accessToken,
+				refreshToken,
+				accessTokenExpirationTime,
+				refreshTokenExpirationTime,
+			} = loginData.data.data;
+			/*
+			const {
+				memberId,
+				accessToken,
+				refreshToken,
+				accessTokenExpirationTime,
+				refreshTokenExpirationTime,
+			} = loginData.headers;
+			*/
+			// axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-				const mbtiImg = await Api.get(
-					`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
-				);
-				await Api.post('/members/signup', {
-					nickname: el.displayName.value,
-					mbti: el.mbti.value.toUpperCase(),
-					email: el.email.value,
-					password: el.password.value,
-					img: mbtiImg.data.img,
+			// console.log(loginData, memberId, accessToken);
+			const userInfo = await Api.get(`/members/${memberId}`);
+			if (el.email.value !== userInfo.data.email) {
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast: {
+						addEventListener: (arg0: string, arg1: () => void) => void;
+					}) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer);
+						toast.addEventListener('mouseleave', Swal.resumeTimer);
+					},
 				});
+				Toast.fire({
+					icon: 'warning',
+					title: '아이디/비밀번호가 다릅니다.',
+				});
+			} else {
+				dispatch(
+					UPDATE({
+						id: userInfo.data.memberId,
+						email: userInfo.data.email,
+						nickname: userInfo.data.nickname,
+						mbti: userInfo.data.mbti,
+						img: userInfo.data.img,
+						badge: userInfo.data.badge,
+					}),
+				);
+				dispatch(LOGIN({ accessToken: `${accessToken}` }));
+				setCookie('refreshToken', refreshToken, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				localStorage.setItem('accessToken', accessToken);
+				localStorage.setItem('empiresAtAccess', accessTokenExpirationTime);
+				localStorage.setItem('empiresAtRefresh', refreshTokenExpirationTime);
 				Swal.fire({
-					title: '회원가입이 완료되었습니다',
-					text: '로그인 페이지로 이동합니다.',
 					icon: 'success',
+					title: '로그인되었습니다.',
+					text: '메인 페이지로 이동합니다.',
 				}).then((result) => {
-					if (result.value) {
-						navigate('/login');
+					if (result.isConfirmed) {
+						navigate('/main');
 					}
 				});
 			}
 		} catch (error) {
 			navigate('/error');
 		}
-	}
+	};
 
 	const displayNameKeyFocus = (e: FocusEvent<HTMLInputElement>) => {
 		const keyUp = e.target.previousSibling as HTMLDivElement;
@@ -249,29 +249,8 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 				<img className="logo" src={logo} alt="" />
 			</Link>
 			<Content>
-				<div>Sign Up</div>
+				<div>Log in</div>
 				<form onSubmit={(e) => joinSubmit(e)}>
-					<div className="keyUp hide">DisplayName</div>
-					<input
-						onFocus={(e) => displayNameKeyFocus(e)}
-						onBlur={(e) => displayNameKeyBlur(e)}
-						name="displayName"
-						type="text"
-						placeholder="Displayname"
-						required
-					/>
-					<div className="keyUp hide">MBTI</div>
-					<input
-						onFocus={(e) => displayNameKeyFocus(e)}
-						onBlur={(e) => displayNameKeyBlur(e)}
-						name="mbti"
-						type="text"
-						placeholder="MBTI"
-						required
-					/>
-					<div className="check">
-						{!mbtiValid && 'MBTI 형식으로 입력해주세요 ex.ISTJ'}
-					</div>
 					<div className="keyUp hide">Email</div>
 					<input
 						onFocus={(e) => displayNameKeyFocus(e)}
@@ -281,39 +260,20 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						placeholder="Email"
 						required
 					/>
-					<div className="check">
-						{!emailValid && '이메일 형식으로 입력해주세요'}
-					</div>
 					<div className="keyUp hide">Password</div>
 					<input
 						onFocus={(e) => displayNameKeyFocus(e)}
 						onBlur={(e) => displayNameKeyBlur(e)}
 						name="password"
-						type="password"
+						type="text"
 						placeholder="Password"
 						required
 					/>
-					<div className="check">
-						{!passwordValid &&
-							'비밀번호 형식은 영문+숫자 포함 8글자(특수문자제외)입니다'}
-					</div>
-					<div className="keyUp hide">Password확인</div>
-					<input
-						onFocus={(e) => displayNameKeyFocus(e)}
-						onBlur={(e) => displayNameKeyBlur(e)}
-						name="passwordCheck"
-						type="password"
-						placeholder="Password확인"
-						required
-					/>
-					<div className="check">
-						{!passwordCheck && '비밀번호가 일치하지 않습니다'}
-					</div>
-					<button type="submit">Sign up</button>
+					<button type="submit">Log in</button>
 				</form>
 				<div className="lineBox">
 					<span className="line" />
-					Or Sign up with
+					Or Log in with
 					<span className="line" />
 				</div>
 				<OauthBox>
@@ -326,9 +286,13 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						<span>Naver</span>
 					</button>
 				</OauthBox>
+				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
+				<Link to="/join">
+					<button className="gotoJoinBtn">Sign up</button>
+				</Link>
 			</Content>
 		</Main>
 	);
 }
 
-export default Join;
+export default Login;

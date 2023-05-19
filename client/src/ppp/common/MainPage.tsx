@@ -1,17 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
+
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import Banner from '../../Components/mainpage/Banner';
 import Carousel from '../../Components/mainpage/Carousel';
 import CarouselHotPlace from '../../Components/mainpage/CarouselNearbyPlace';
 import CarouselReview from '../../Components/mainpage/CarouselReview';
 import MainHeader from '../../Components/mainpage/MainHeader';
 import UserHeader from '../../Components/mainpage/UserHeader';
-
-import { Ilogin } from '../../Reducers/loginReducer';
-import { RootState } from '../../Store/store';
+import { Ilogin } from '../../rrr/loginReducer';
+import { RootState } from '../../sss/store';
 
 const MainContainer = styled.div`
 	width: 100vw;

@@ -1,11 +1,14 @@
+import '../../Global.css';
+
 import { useEffect, useState } from 'react';
+
 import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Pagination from '../../Components/Community/Pagination';
-import SideBar from '../../Components/Community/SideBar';
-import Tags from '../../Components/Community/Tags';
-import '../../Global.css';
+
+import Pagination from '../../Components/ccc/Pagination';
+import SideBar from '../../Components/ccc/SideBar';
+import Tags from '../../Components/ccc/Tags';
 import useAxios from '../../hooks/useAxios';
 
 const Explain = styled.div`
@@ -32,7 +35,7 @@ const Explain = styled.div`
 	}
 `;
 
-const TripMateContainer = styled.div`
+const MBTIContainer = styled.div`
 	height: 1000px;
 	display: flex;
 
@@ -47,7 +50,7 @@ const TripMateContainer = styled.div`
 	}
 `;
 
-const TripMateBody = styled.div`
+const MBTIBody = styled.div`
 	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
@@ -151,7 +154,7 @@ const PaginationContainer = styled.div`
 	width: 100%;
 `;
 
-function TripMate() {
+function MBTI() {
 	interface Post {
 		postId: number;
 		subject: string;
@@ -171,7 +174,7 @@ function TripMate() {
 
 	const { response } = useAxios({
 		method: 'get',
-		url: '/posts?subject=같이가요&page=1',
+		url: '/posts?subject=MBTI&page=1',
 	});
 
 	useEffect(() => {
@@ -183,20 +186,18 @@ function TripMate() {
 	return (
 		<div className="main">
 			<Explain>
-				<h1>같이가요</h1>
+				<h1>MBTI</h1>
 				<div>
-					혼자이고 싶지만 여행은 혼자이기 싫으신가요 ? <br />
-					여행계획이 취소되어 못가게 됐는데 아쉬우신가요 ?
+					MBTI 과몰입러를 위한 공간 ! <br />
+					자유롭게 나와 비슷한 성향을 가진 사람과 대화를 나눠보세요
 					<br />
-					안전하게 나와 비슷한 성향을 가진 사람과 함께 여행해보세요 ! 새로운
-					여행의 매력을 느낄지도 몰라요
+					또는 나와 다른 성향을 가진 사람에게 궁금한걸 물어보세요 !
 				</div>
 			</Explain>
-			<TripMateContainer>
+			<MBTIContainer>
 				<SideBar />
-
 				<div>
-					<TripMateBody>
+					<MBTIBody>
 						{posts &&
 							posts.slice(startIdx, endIdx).map((el) => (
 								<Link to={`/community/${el.postId}`}>
@@ -236,7 +237,7 @@ function TripMate() {
 									</Contentbody>
 								</Link>
 							))}
-					</TripMateBody>
+					</MBTIBody>
 
 					<PaginationContainer>
 						<Pagination
@@ -252,9 +253,9 @@ function TripMate() {
 				<TagContainer>
 					<Tags />
 				</TagContainer>
-			</TripMateContainer>
+			</MBTIContainer>
 		</div>
 	);
 }
 
-export default TripMate;
+export default MBTI;

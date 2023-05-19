@@ -1,19 +1,23 @@
-import { Viewer } from '@toast-ui/react-editor';
+import '../../Global.css';
+
 import { useEffect, useState } from 'react';
+
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
-import Answers from '../../Components/Community/Answers';
-import MapApi from '../../Components/Community/MapApi';
-import ReviewCarousel from '../../Components/Community/ReviewCarousel';
-import '../../Global.css';
-import { Iuser } from '../../Reducers/userInfoReducer';
-import { RootState } from '../../Store/store';
-import { Api } from '../../Util/customAPI';
+
+import { Viewer } from '@toast-ui/react-editor';
+
+import Answers from '../../Components/ccc/Answers';
+import MapApi from '../../Components/ccc/MapApi';
+import ReviewCarousel from '../../Components/ccc/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
+import { Iuser } from '../../rrr/userInfoReducer';
+import { RootState } from '../../sss/store';
+import { Api } from '../../uuu/customAPI';
 
 const ReviewContainer = styled.div`
 	height: 100vh;

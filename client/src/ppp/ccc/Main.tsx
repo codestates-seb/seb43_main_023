@@ -1,11 +1,14 @@
+import '../../Global.css';
+
 import { useEffect, useState } from 'react';
+
 import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Pagination from '../../Components/Community/Pagination';
-import SideBar from '../../Components/Community/SideBar';
-import Tags from '../../Components/Community/Tags';
-import '../../Global.css';
+
+import Pagination from '../../Components/ccc/Pagination';
+import SideBar from '../../Components/ccc/SideBar';
+import Tags from '../../Components/ccc/Tags';
 import useAxios from '../../hooks/useAxios';
 
 const Explain = styled.div`

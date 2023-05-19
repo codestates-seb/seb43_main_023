@@ -1,8 +1,10 @@
-import styled from 'styled-components';
-import SideBar from '../../Components/Community/SideBar';
-import Reviews from '../../Components/Community/Reviews';
-import Tags from '../../Components/Community/Tags';
 import '../../Global.css';
+
+import styled from 'styled-components';
+
+import Reviews from '../../Components/ccc/Reviews';
+import SideBar from '../../Components/ccc/SideBar';
+import Tags from '../../Components/ccc/Tags';
 
 const Explain = styled.div`
 	margin-top: 85px;

@@ -1,21 +1,25 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '../../Global.css';
+
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+
 import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import 'tui-color-picker/dist/tui-color-picker.css';
-import SearchPlace from '../../Components/Community/SearchPlace';
-import SubjectDropdown from '../../Components/Community/SubjectDropdown';
-import '../../Global.css';
-import { Iuser } from '../../Reducers/userInfoReducer';
-import { RootState } from '../../Store/store';
-import { Api } from '../../Util/customAPI';
+
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import { Editor } from '@toast-ui/react-editor';
+
+import SearchPlace from '../../Components/ccc/SearchPlace';
+import SubjectDropdown from '../../Components/ccc/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
+import { Iuser } from '../../rrr/userInfoReducer';
+import { RootState } from '../../sss/store';
+import { Api } from '../../uuu/customAPI';
 
 const Container = styled.div`
 	width: 100vw;
