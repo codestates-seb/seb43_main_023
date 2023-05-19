@@ -19,32 +19,60 @@ import { setLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
+	height: 100vh;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
+	overflow: hidden;
+	-ms-overflow-style: none;
+	::-webkit-scrollbar {
+		display: none;
+	}
+`;
+
+const ImgBox = styled.div`
+	overflow: hidden;
 	.airplane {
-		width: 50%;
-		height: 100vh;
+		width: 100%;
+		height: 101vh;
+		@media (max-width: 768px) {
+			display: none;
+		}
 	}
 	.logo {
 		width: 130px;
 		position: absolute;
 		top: 20px;
 		left: 20px;
+		@media (max-height: 700px) {
+			width: 100px;
+		}
+		@media (max-height: 650px) {
+			width: 90px;
+		}
 	}
 `;
 const Content = styled.div`
-	width: 50%;
+	width: 80%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background: #fafafa;
-	div {
+	@media (max-width: 1024px) {
+		width: 120%;
+	}
+	@media (max-height: 760px) {
+		margin-top: 30px;
+	}
+	h1 {
 		font-size: 40px;
 		font-weight: bold;
 		color: #393737;
+		@media (max-height: 760px) {
+			margin-bottom: -15px;
+		}
 	}
 	form {
 		display: flex;
@@ -62,8 +90,12 @@ const Content = styled.div`
 			&::placeholder {
 				color: rgba(0, 0, 0, 0.3);
 			}
+			@media (max-width: 335px) {
+				width: 250px;
+			}
 		}
 		button {
+			margin-top: 20px;
 			border: none;
 			background: #0db4f3;
 			color: white;
@@ -73,17 +105,17 @@ const Content = styled.div`
 				background: #4ec9ff;
 			}
 		}
-	}
-	.keyUp {
-		font-size: 12px;
-		width: 98%;
-		color: #0db4f3;
-		text-align: left;
-		margin-top: 12px;
-		margin-bottom: -25px;
-	}
-	.hide {
-		display: none;
+		.keyUp {
+			font-size: 12px;
+			width: 98%;
+			color: #0db4f3;
+			text-align: left;
+			margin-top: 12px;
+			margin-bottom: -25px;
+		}
+		.hide {
+			display: none;
+		}
 	}
 	.lineBox {
 		color: #393737;
@@ -91,7 +123,7 @@ const Content = styled.div`
 		justify-content: center;
 		align-items: center;
 		font-size: 13px;
-		margin: 30px 0;
+		margin: 30px 0 20px 0;
 		.line {
 			width: 90px;
 			border-top: 1px solid #393737;
@@ -245,12 +277,14 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 
 	return (
 		<Main>
-			<img className="airplane" src={airplane} alt="" />
-			<Link to="/main">
-				<img className="logo" src={logo} alt="" />
-			</Link>
+			<ImgBox>
+				<img className="airplane" src={airplane} alt="" />
+				<Link to="/main">
+					<img className="logo" src={logo} alt="" />
+				</Link>
+			</ImgBox>
 			<Content>
-				<div>Log in</div>
+				<h1>Log in</h1>
 				<form onSubmit={(e) => joinSubmit(e)}>
 					<div className="keyUp hide">Email</div>
 					<input
@@ -266,7 +300,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						onFocus={(e) => displayNameKeyFocus(e)}
 						onBlur={(e) => displayNameKeyBlur(e)}
 						name="password"
-						type="text"
+						type="password"
 						placeholder="Password"
 						required
 					/>

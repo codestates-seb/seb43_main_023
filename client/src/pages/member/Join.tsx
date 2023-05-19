@@ -14,32 +14,60 @@ import logo from '../../assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;
+	height: 100vh;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
+	overflow: hidden;
+	-ms-overflow-style: none;
+	::-webkit-scrollbar {
+		display: none;
+	}
+`;
+
+const ImgBox = styled.div`
+	overflow: hidden;
 	.airplane {
-		width: 50%;
-		height: 100vh;
+		width: 100%;
+		height: 101vh;
+		@media (max-width: 768px) {
+			display: none;
+		}
 	}
 	.logo {
 		width: 130px;
 		position: absolute;
 		top: 20px;
 		left: 20px;
+		@media (max-height: 700px) {
+			width: 100px;
+		}
+		@media (max-height: 650px) {
+			width: 90px;
+		}
 	}
 `;
 const Content = styled.div`
-	width: 50%;
+	width: 80%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background: #fafafa;
-	div {
+	@media (max-width: 1024px) {
+		width: 120%;
+	}
+	@media (max-height: 760px) {
+		margin-top: 30px;
+	}
+	h1 {
 		font-size: 40px;
 		font-weight: bold;
 		color: #393737;
+		@media (max-height: 760px) {
+			margin-bottom: -15px;
+		}
 	}
 	form {
 		display: flex;
@@ -56,6 +84,9 @@ const Content = styled.div`
 			border: 1px solid rgba(0, 0, 0, 0.2);
 			&::placeholder {
 				color: rgba(0, 0, 0, 0.3);
+			}
+			@media (max-width: 335px) {
+				width: 250px;
 			}
 		}
 		button {
@@ -275,12 +306,14 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 
 	return (
 		<Main>
-			<img className="airplane" src={airplane} alt="" />
-			<Link to="/main">
-				<img className="logo" src={logo} alt="" />
-			</Link>
+			<ImgBox>
+				<img className="airplane" src={airplane} alt="" />
+				<Link to="/main">
+					<img className="logo" src={logo} alt="" />
+				</Link>
+			</ImgBox>
 			<Content>
-				<div>Sign Up</div>
+				<h1>Sign Up</h1>
 				<form onSubmit={(e) => joinSubmit(e)}>
 					<div className="keyUp hide">DisplayName</div>
 					<input
