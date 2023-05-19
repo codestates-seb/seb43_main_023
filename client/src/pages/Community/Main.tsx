@@ -51,7 +51,6 @@ const Body = styled.div`
 `;
 
 const ContentContainer = styled.div`
-	height: calc(100vh - 400px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
 	height: fit-content;
@@ -91,7 +90,6 @@ const Contentbody = styled.div`
 
 const Header = styled.div`
 	padding: 5px;
-
 	> div {
 		display: flex;
 		-webkit-text-stroke: 0.4px black;
@@ -138,7 +136,7 @@ const PaginationContainer = styled.div`
 `;
 
 const TagContainer = styled.div`
-	height: calc(100vh - 400px);
+	height: 100%;
 	width: 230px;
 	margin-right: 20px;
 	display: flex;

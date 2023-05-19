@@ -547,17 +547,10 @@
   ],
   "comments": [
     {
-      "id": 2,
-      "postId": 1,
-      "content": "uu",
-      "author": "testnick",
-      "vote": 5
-    },
-    {
       "id": 3,
-      "postId": 1,
-      "content": "aa",
-      "author": "조베기",
+      "postId": 31,
+      "content": "댓글",
+      "author": "",
       "vote": 0
     }
   ],
