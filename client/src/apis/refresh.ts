@@ -1,17 +1,18 @@
 // post, update요청을 보내다가 accesstoken이 만료될 시 refreshtoken을 가지고 accesstoken을 발급해주는 함수
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { AxiosError, InternalAxiosRequestConfig } from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import moment from 'moment';
 
 import { getCookie, removeCookie } from '../utils/cookie';
+import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
+import { Api } from './customAPI';
 
 const refresh = async (
 	config: InternalAxiosRequestConfig,
 ): Promise<InternalAxiosRequestConfig> => {
 	const refreshToken = getCookie('refreshToken');
-	let expiresAtAccess = localStorage.getItem('expiresAtAccess');
-	const expiresAtRefresh = localStorage.getItem('expiresAtRefresh');
-	let accessToken = localStorage.getItem('accessToken');
+	const expiresAtAccess = getLocalStorage('expiresAtAccess');
+	const expiresAtRefresh = getLocalStorage('expiresAtRefresh');
 
 	// refreshToken, accessToken 모두 만료되었을 때
 	if (moment(Number(expiresAtRefresh)).diff(moment()) < 0) {
@@ -22,7 +23,7 @@ const refresh = async (
 	//  or if (error.response.status === 401)
 	else if (moment(Number(expiresAtAccess)).diff(moment()) < 0 && refreshToken) {
 		// 토큰 갱신 서버통신
-		const data = await axios.post('http://localhost:4000/members/reissue', {
+		const refreshData = await Api.post('/members/reissue', {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${refreshToken}`,
@@ -30,17 +31,12 @@ const refresh = async (
 			withCredentials: true,
 		});
 
-		accessToken = data.headers.Authorization;
-		expiresAtAccess = data.headers.AccessTokenExpirationTime;
-
-		localStorage.setItem('accessToken', data.data.accessToken);
-		localStorage.setItem(
-			'expiresAtAccess',
-			moment().add(1, 'hour').format('yyyy-MM-DD HH:mm:ss'),
-		);
+		setLocalStorage('accessToken', refreshData.data.accessToken);
+		setLocalStorage('expiresAtAccess', refreshData.data.empiresAtAccess);
+		setLocalStorage('empiresAtRefresh', refreshData.data.empiresAtRefresh);
 	}
 	// eslint-disable-next-line no-param-reassign
-	config.headers.Authorization = `Bearer ${accessToken}`;
+	config.headers.Authorization = `Bearer ${getLocalStorage('accessToken')}`;
 	return config;
 };
 

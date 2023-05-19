@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { LOGIN } from '../reducers/loginReducer';
 import { UPDATE } from '../reducers/userInfoReducer';
 import { setCookie } from '../utils/cookie';
+import { setLocalStorage } from '../utils/LocalStorage';
 import { Api } from './customAPI';
 
 export default function OauthJoinHandler() {
@@ -97,9 +98,9 @@ export default function OauthJoinHandler() {
 						sameSite: 'none',
 						secure: true,
 					});
-					localStorage.setItem('accessToken', accessToken);
-					localStorage.setItem('empiresAtAccess', accessTokenExpirationTime);
-					localStorage.setItem('empiresAtRefresh', refreshTokenExpirationTime);
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
 					Swal.fire({
 						icon: 'success',
 						title: '회원가입되었습니다.',
