@@ -5,10 +5,7 @@ import { persistReducer } from 'redux-persist';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import storage from 'redux-persist/lib/storage/session';
 
-import {
-	configureStore,
-	Store,
-} from '@reduxjs/toolkit';
+import { configureStore, Store } from '@reduxjs/toolkit';
 
 import loginReducer from '../reducers/loginReducer';
 import searchKeywordReducer, {

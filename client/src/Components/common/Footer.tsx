@@ -142,6 +142,7 @@ function Footer() {
 	if (locationNow.pathname === '/loading') return null;
 	if (locationNow.pathname === '/') return null;
 	if (locationNow.pathname === '/accounts/google/login/') return null;
+	if (locationNow.pathname === '/Api/Member/Oauth') return null;
 
 	const root = document.documentElement;
 
