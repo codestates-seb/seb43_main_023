@@ -14,7 +14,7 @@ const ScrollSnapWrap = styled.div`
 		display: none;
 	}
 	.page {
-		background-image: url('/Assets/airplane1.png');
+		background-image: url('../../assets/airplane1.png');
 		background-repeat: no-repeat;
 		width: 100vw;
 		height: 100vh;
@@ -28,7 +28,7 @@ const ScrollSnapWrap = styled.div`
 		}
 	}
 	.page2 {
-		background-image: url('/Assets/cloud.png');
+		background-image: url('../../assets/cloud.png');
 	}
 	.logo {
 		width: 27%;

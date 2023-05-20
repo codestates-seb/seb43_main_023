@@ -4,4 +4,6 @@ export interface IMbti {
 	mbti: string;
 	place: string;
 	placeImg: string;
+	description1?: string;
+	description2?: string;
 }
