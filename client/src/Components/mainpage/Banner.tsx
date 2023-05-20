@@ -70,7 +70,7 @@ function Banner() {
 	const navigate = useNavigate();
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=20230501`;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=20230501`;
 
 	useEffect(() => {
 		axios(tourUrl)
