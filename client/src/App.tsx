@@ -4,7 +4,7 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import OauthJoinHandler from './apis/OauthHandler';
+import { OauthGoogleHandler, OauthNaverHandler } from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
 import Empty from './Components/member/Empty';
@@ -36,8 +36,9 @@ const RegionDetail = lazy(() => import('./pages/contents/RegionDetail'));
 function App() {
 	// oauth google클릭 때만 실행되는 로직
 	if (new URL(window.location.href).pathname === '/accounts/google/login/')
-		OauthJoinHandler();
-
+		OauthGoogleHandler();
+	if (new URL(window.location.href).pathname === '/Api/Member/Oauth')
+		OauthNaverHandler();
 	return (
 		<div>
 			<Header />
@@ -68,6 +69,7 @@ function App() {
 					<Route path="/regiondetail/:id" element={<RegionDetail />} />
 					<Route path="/search" element={<Search />} />
 					<Route path="/accounts/google/login/*" element={<Empty />} />
+					<Route path="/Api/Member/Oauth/*" element={<Empty />} />
 				</Routes>
 			</Suspense>
 			<Footer />

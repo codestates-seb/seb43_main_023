@@ -71,11 +71,6 @@ function Logout() {
 		}).then(async (res) => {
 			if (res.isConfirmed) {
 				try {
-					/* oauth로그인 후 로그아웃하는 로직 - 오류나서 보류
-					await axios.post(
-						`https://oauth2.googleapis.com/revoke?token=${login.accessToken}`,
-					);
-					*/
 					removeLocalStorage('accessToken');
 					removeLocalStorage('empiresAtAccess');
 					removeLocalStorage('empiresAtRefresh');

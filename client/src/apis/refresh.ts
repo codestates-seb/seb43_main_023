@@ -1,7 +1,8 @@
 // post, update요청을 보내다가 accesstoken이 만료될 시 refreshtoken을 가지고 accesstoken을 발급해주는 함수
-import { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { InternalAxiosRequestConfig } from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 import { getCookie, removeCookie } from '../utils/cookie';
 import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
@@ -12,16 +13,10 @@ const refresh = async (
 ): Promise<InternalAxiosRequestConfig> => {
 	const refreshToken = getCookie('refreshToken');
 	const expiresAtAccess = getLocalStorage('expiresAtAccess');
-	const expiresAtRefresh = getLocalStorage('expiresAtRefresh');
 
-	// refreshToken, accessToken 모두 만료되었을 때
-	if (moment(Number(expiresAtRefresh)).diff(moment()) < 0) {
-		window.localStorage.clear();
-		window.location.href = '/login';
-	}
 	// 토큰이 만료되었고, refreshToken 이 저장되어 있을 때
 	//  or if (error.response.status === 401)
-	else if (moment(Number(expiresAtAccess)).diff(moment()) < 0 && refreshToken) {
+	if (moment(Number(expiresAtAccess)).diff(moment()) < 0 && refreshToken) {
 		// 토큰 갱신 서버통신
 		const refreshData = await Api.post('/members/reissue', {
 			headers: {
@@ -40,9 +35,22 @@ const refresh = async (
 	return config;
 };
 
-const refreshErrorHandle = (err: AxiosError) => {
+const refreshErrorHandle = () => {
 	removeCookie('refreshToken');
-	return Promise.reject(err);
+	return Swal.fire({
+		icon: 'warning',
+		title: '토큰만료',
+		text: '다시 로그인 하셔야 합니다.',
+		showCancelButton: true,
+		confirmButtonText: '로그인',
+		cancelButtonText: '취소',
+	}).then(async (res) => {
+		if (res.isConfirmed) {
+			window.location.assign('/login');
+		} else {
+			window.location.assign('/error');
+		}
+	});
 };
 
 export { refresh, refreshErrorHandle };

@@ -1,9 +1,7 @@
 import '../../Global.css';
 
-import { FocusEvent } from 'react';
+import { FocusEvent, useEffect } from 'react';
 
-import { AiOutlineGoogle } from 'react-icons/ai';
-import { SiNaver } from 'react-icons/si';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,6 +9,7 @@ import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
+import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
@@ -71,7 +70,10 @@ const Content = styled.div`
 		font-weight: bold;
 		color: #393737;
 		@media (max-height: 760px) {
-			margin-bottom: -15px;
+			margin-bottom: -5px;
+		}
+		@media (max-width: 430px) {
+			font-size: 35px;
 		}
 	}
 	form {
@@ -90,8 +92,11 @@ const Content = styled.div`
 			&::placeholder {
 				color: rgba(0, 0, 0, 0.3);
 			}
-			@media (max-width: 335px) {
+			@media (max-width: 430px) {
 				width: 250px;
+			}
+			@media (max-height: 700px) {
+				margin-top: 15px;
 			}
 		}
 		button {
@@ -111,8 +116,12 @@ const Content = styled.div`
 		width: 98%;
 		color: #0db4f3;
 		text-align: left;
-		margin-top: 12px;
+		margin-top: 11px;
 		margin-bottom: -25px;
+		@media (max-height: 700px) {
+			margin-top: 1px;
+			margin-bottom: -15px;
+		}
 	}
 	.hide {
 		display: none;
@@ -123,11 +132,14 @@ const Content = styled.div`
 		justify-content: center;
 		align-items: center;
 		font-size: 13px;
-		margin: 30px 0 20px 0;
+		margin: 20px 0 20px 0;
 		.line {
-			width: 90px;
+			width: 98px;
 			border-top: 1px solid #393737;
 			margin: 0 10px;
+			@media (max-width: 430px) {
+				width: 75px;
+			}
 		}
 	}
 	.gotoJoin {
@@ -150,10 +162,9 @@ const OauthBox = styled.div`
 	justify-content: center;
 	align-items: center;
 	.oauth {
-		width: 80px;
-		height: 40px;
+		width: 39px;
+		height: 39px;
 		background: none;
-		border: 1px solid rgba(0, 0, 0, 0.1);
 		margin: 0 5px;
 		color: #393737;
 		display: flex;
@@ -162,14 +173,20 @@ const OauthBox = styled.div`
 		border-radius: 5px;
 		font-size: 15px;
 		&:hover {
-			background: rgba(0, 0, 0, 0.04);
-			border: none;
+			transform: translateY(-3px);
 		}
 		span {
 			margin-left: 10px;
 		}
-		.google {
-			margin-left: 5px;
+		.googleIcon {
+			width: 25px;
+		}
+	}
+	.googleoauth {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		transform: translateY(-3px);
+		&:hover {
+			transform: translateY(-6px);
 		}
 	}
 `;
@@ -192,20 +209,40 @@ function Login() {
 				accessTokenExpirationTime,
 				refreshTokenExpirationTime,
 			} = loginData.data.data;
-			/*
-			const {
-				memberId,
-				accessToken,
-				refreshToken,
-				accessTokenExpirationTime,
-				refreshTokenExpirationTime,
-			} = loginData.headers;
-			*/
-			// axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-			// console.log(loginData, memberId, accessToken);
 			const userInfo = await Api.get(`/members/${memberId}`);
-			if (el.email.value !== userInfo.data.email) {
+			dispatch(
+				UPDATE({
+					id: userInfo.data.memberId,
+					email: userInfo.data.email,
+					nickname: userInfo.data.nickname,
+					mbti: userInfo.data.mbti,
+					img: userInfo.data.img,
+					badge: userInfo.data.badge,
+				}),
+			);
+			dispatch(LOGIN({ accessToken: `${accessToken}` }));
+			setCookie('refreshToken', refreshToken, {
+				path: '/',
+				sameSite: 'none',
+				secure: true,
+			});
+			setLocalStorage('accessToken', accessToken);
+			setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+			setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+			Swal.fire({
+				icon: 'success',
+				title: '로그인되었습니다.',
+				text: '메인 페이지로 이동합니다.',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					navigate('/main');
+				}
+			});
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (err: any) {
+			console.log(err);
+			if (err.response.status === 401) {
 				const Toast = Swal.mixin({
 					toast: true,
 					position: 'top',
@@ -224,37 +261,8 @@ function Login() {
 					title: '아이디/비밀번호가 다릅니다.',
 				});
 			} else {
-				dispatch(
-					UPDATE({
-						id: userInfo.data.memberId,
-						email: userInfo.data.email,
-						nickname: userInfo.data.nickname,
-						mbti: userInfo.data.mbti,
-						img: userInfo.data.img,
-						badge: userInfo.data.badge,
-					}),
-				);
-				dispatch(LOGIN({ accessToken: `${accessToken}` }));
-				setCookie('refreshToken', refreshToken, {
-					path: '/',
-					sameSite: 'none',
-					secure: true,
-				});
-				setLocalStorage('accessToken', accessToken);
-				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-				Swal.fire({
-					icon: 'success',
-					title: '로그인되었습니다.',
-					text: '메인 페이지로 이동합니다.',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						navigate('/main');
-					}
-				});
+				navigate('/error');
 			}
-		} catch (error) {
-			navigate('/error');
 		}
 	};
 
@@ -267,7 +275,7 @@ function Login() {
 		keyUp?.classList.add('hide');
 	};
 
-	// oauth 구현 url
+	// oauth google 구현 url
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
 redirect_uri=http://localhost:3000/accounts/google/login/&
@@ -275,6 +283,27 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 	const oAuthHandler = () => {
 		window.location.assign(oAuthURL);
 	};
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const { naver } = window as any;
+	// oauth naver
+	useEffect(() => {
+		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
+		const initializeNaverLogin = () => {
+			const naverLogin = new naver.LoginWithNaverId({
+				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
+				isPopup: false /* 팝업을 통한 연동처리 여부, true 면 팝업 */,
+				loginButton: {
+					color: 'green',
+					type: 1,
+					height: 37,
+				} /* 로그인 버튼의 타입을 지정 */,
+			});
+			naverLogin.init();
+		};
+		initializeNaverLogin();
+	}, [naver.LoginWithNaverId]);
 
 	return (
 		<Main>
@@ -313,13 +342,11 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<span className="line" />
 				</div>
 				<OauthBox>
-					<button className="oauth" onClick={oAuthHandler}>
-						<AiOutlineGoogle color="#393737" size="20px" />
-						<span className="google">Google</span>
+					<button className="oauth googleoauth" onClick={oAuthHandler}>
+						<img className="googleIcon" src={googleIcon} alt="" />
 					</button>
 					<button className="oauth">
-						<SiNaver color="#03c157" size="15px" />
-						<span>Naver</span>
+						<span id="naverIdLogin">Naver</span>
 					</button>
 				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>

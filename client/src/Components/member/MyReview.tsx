@@ -110,46 +110,55 @@ function MyReview() {
 
 	useEffect(() => {
 		Api.get('/posts').then((res) => {
-			const { data } = res;
-			setReviews(
-				data
+			setReviews(res.data);
+		});
+	}, [reviews]);
+
+	/* // 내가 쓴 글 filter -> useMemo hook 사용
+	const useMyPosts = useMemo(() => {
+		setReviews(
+			reviews.filter(
+				(post: { member: { email: string | undefined } }) =>
+					post.member.email === userInfos.email,
+			),
+		);
+		return reviews;
+	}, [reviews, userInfos.email]);
+*/
+	return (
+		<Container>
+			{reviews &&
+				reviews
 					.filter(
 						(post: { member: { email: string | undefined } }) =>
 							post.member.email === userInfos.email,
 					)
-					.filter((v: { subject: string }) => v.subject === '여행리뷰'),
-			);
-		});
-	}, [userInfos.email]);
-
-	return (
-		<Container>
-			{reviews &&
-				reviews.map((el) => (
-					<li key={el.postId}>
-						<Link to={`/tripreview/${el.postId}`}>
-							<ReviewBox>
-								<div>
-									<img src={el.image[0]} alt="여행리뷰사진" />
-								</div>
-								<div>{el.title}</div>
-								<Writer>
+					.filter((v: { subject: string }) => v.subject === '여행리뷰')
+					.map((el) => (
+						<li key={el.postId}>
+							<Link to={`/tripreview/${el.postId}`}>
+								<ReviewBox>
 									<div>
+										<img src={el.image[0]} alt="여행리뷰사진" />
+									</div>
+									<div>{el.title}</div>
+									<Writer>
 										<div>
-											<img src={userInfos.img} alt="유저프로필사진" />
+											<div>
+												<img src={userInfos.img} alt="유저프로필사진" />
+											</div>
+											<div>{el.member.nickname}</div>
 										</div>
-										<div>{el.member.nickname}</div>
-									</div>
 
-									<div>
-										<AiFillHeart color="#F24F1F" size={17} />
-										<p>{el.voteCount}</p>
-									</div>
-								</Writer>
-							</ReviewBox>
-						</Link>
-					</li>
-				))}
+										<div>
+											<AiFillHeart color="#F24F1F" size={17} />
+											<p>{el.voteCount}</p>
+										</div>
+									</Writer>
+								</ReviewBox>
+							</Link>
+						</li>
+					))}
 		</Container>
 	);
 }
