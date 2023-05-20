@@ -55,7 +55,7 @@ const HeaderText = styled.div`
 	@media (max-width: 768px) {
 		font-size: 2rem;
 	}
-	.nickName {
+	.emphasis {
 		color: #0db4f3;
 	}
 	> span {
@@ -98,18 +98,19 @@ function UserHeader() {
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
 			<HeaderText>
 				<span>
-					<span className="nickName">{userInfos.nickname}</span>님 어서오세요!
+					<span className="emphasis">{userInfos.nickname}</span>님 어서오세요!
 				</span>
-				<div>
-					{filterMbti
-						? filterMbti.description.split('\\n').map((item, key) => (
-								<>
-									{key > 0 && <br />}
-									{item}
-								</>
-						  ))
-						: ''}
-				</div>
+				{filterMbti ? (
+					<div>
+						{filterMbti.description1}
+						<br />
+						<span className="emphasis">{filterMbti.mbti}</span>에게 어울리는{' '}
+						<span className="emphasis">{filterMbti.place}</span>
+						{filterMbti.description2}
+					</div>
+				) : (
+					<div />
+				)}
 			</HeaderText>
 		</UserHeaderContainer>
 	);

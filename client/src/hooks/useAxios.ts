@@ -19,9 +19,8 @@ const useAxios = ({ url, method }: AxiosProps) => {
 			.then((res) => {
 				setResponse(res.data);
 			})
-			.catch((error) => {
+			.catch(() => {
 				console.log(`error: ${url}`);
-				console.log(error);
 				navigate('/error');
 			});
 	}, [method, navigate, url]);
