@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
+import { getLocalStorage } from '../utils/LocalStorage';
+
 // import { refresh, refreshErrorHandle } from './refresh';
 
 const baseURL = 'http://localhost:4000';
@@ -22,9 +24,7 @@ Api.interceptors.response.use(
 Api.interceptors.request.use(
 	(config) => {
 		// eslint-disable-next-line no-param-reassign
-		config.headers.Authorization = `Bearer ${localStorage.getItem(
-			'accessToken',
-		)}`;
+		config.headers.Authorization = `Bearer ${getLocalStorage('accessToken')}`;
 		return config;
 	},
 	(err) => {

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-import { Ilogin } from '../../reducers/loginReducer';
 import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 
 const PlaceTag = styled.div`
 	font-weight: 600;

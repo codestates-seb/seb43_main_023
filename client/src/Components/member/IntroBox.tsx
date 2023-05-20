@@ -1,3 +1,5 @@
+import '../../Global.css';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,7 +9,9 @@ import { Api } from '../../apis/customAPI';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 import { removeCookie } from '../../utils/cookie';
+import { removeLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
@@ -16,6 +20,11 @@ const Main = styled.div`
 	align-items: flex-end;
 	padding: 20px 50px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	@media (max-width: 430px) {
+		flex-direction: column;
+		justify-content: baseline;
+		align-items: flex-start;
+	}
 	.intro {
 		width: 100%;
 		display: flex;
@@ -41,6 +50,10 @@ const Main = styled.div`
 			cursor: pointer;
 			color: rgba(0, 0, 0, 0.5);
 		}
+		@media (max-width: 430px) {
+			width: auto;
+			margin-top: 10px;
+		}
 	}
 `;
 
@@ -48,7 +61,7 @@ function IntroBox() {
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
-	const userInfos = useSelector((state: RootState) => state.user);
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	// 회원 탈퇴 핸들러
 	const memberDeleteClick = () => {
@@ -63,9 +76,9 @@ function IntroBox() {
 			if (res.isConfirmed) {
 				try {
 					await Api.delete(`/members/${userInfos.id}`);
-					localStorage.removeItem('accessToken');
-					localStorage.removeItem('empiresAtAccess');
-					localStorage.removeItem('empiresAtRefresh');
+					removeLocalStorage('accessToken');
+					removeLocalStorage('empiresAtAccess');
+					removeLocalStorage('empiresAtRefresh');
 					removeCookie('refreshToken');
 					dispatch(DELETE());
 					dispatch(LOGOUT());

@@ -1,13 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface Iuser {
-	id?: number;
-	nickname: string;
-	email?: string;
-	mbti: string;
-	img?: string;
-	badge?: null | string;
-}
+import { Iuser } from '../type/Iuser';
 
 const initialState: Iuser = {
 	id: 0,

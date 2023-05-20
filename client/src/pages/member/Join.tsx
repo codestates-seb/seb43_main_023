@@ -1,45 +1,78 @@
 import '../../Global.css';
 
-import { FocusEvent, useState } from 'react';
+import { FocusEvent, useEffect, useState } from 'react';
 
-import { AiOutlineGoogle } from 'react-icons/ai';
-import { SiNaver } from 'react-icons/si';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
+import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
 
 const Main = styled.div`
 	width: 100%;
+	height: 100vh;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
+	overflow: hidden;
+	-ms-overflow-style: none;
+	::-webkit-scrollbar {
+		display: none;
+	}
+`;
+
+const ImgBox = styled.div`
+	overflow: hidden;
 	.airplane {
-		width: 50%;
-		height: 100vh;
+		width: 100%;
+		height: 101vh;
+		@media (max-width: 768px) {
+			display: none;
+		}
 	}
 	.logo {
 		width: 130px;
 		position: absolute;
 		top: 20px;
 		left: 20px;
+		@media (max-height: 700px) {
+			width: 100px;
+		}
+		@media (max-height: 650px) {
+			width: 90px;
+		}
+		@media (max-width: 430px) {
+			width: 80px;
+		}
 	}
 `;
 const Content = styled.div`
-	width: 50%;
+	width: 80%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background: #fafafa;
-	div {
+	@media (max-width: 1024px) {
+		width: 120%;
+	}
+	@media (max-height: 760px) {
+		margin-top: 30px;
+	}
+	h1 {
 		font-size: 40px;
 		font-weight: bold;
 		color: #393737;
+		@media (max-height: 760px) {
+			margin-bottom: -5px;
+		}
+		@media (max-width: 430px) {
+			font-size: 35px;
+		}
 	}
 	form {
 		display: flex;
@@ -57,6 +90,12 @@ const Content = styled.div`
 			&::placeholder {
 				color: rgba(0, 0, 0, 0.3);
 			}
+			@media (max-width: 430px) {
+				width: 250px;
+			}
+			@media (max-height: 700px) {
+				margin-top: 15px;
+			}
 		}
 		button {
 			margin-top: 20px;
@@ -73,14 +112,19 @@ const Content = styled.div`
 			color: red;
 			font-size: 10px;
 			margin-top: 10px;
+			margin-bottom: -10px;
 		}
 		.keyUp {
 			font-size: 12px;
 			width: 98%;
 			color: #0db4f3;
 			text-align: left;
-			margin-top: 12px;
+			margin-top: 11px;
 			margin-bottom: -25px;
+			@media (max-height: 700px) {
+				margin-top: 1px;
+				margin-bottom: -15px;
+			}
 		}
 		.hide {
 			display: none;
@@ -92,11 +136,27 @@ const Content = styled.div`
 		justify-content: center;
 		align-items: center;
 		font-size: 13px;
-		margin: 30px 0 20px 0;
+		margin: 20px 0 20px 0;
 		.line {
-			width: 90px;
+			width: 95px;
 			border-top: 1px solid #393737;
 			margin: 0 10px;
+			@media (max-width: 430px) {
+				width: 70px;
+			}
+		}
+	}
+	.gotoJoin {
+		color: rgba(0, 0, 0, 0.2);
+		margin-top: 20px;
+		font-size: 13px;
+	}
+	.gotoJoinBtn {
+		color: #0db4f3;
+		font-size: 13px;
+		margin-top: 7px;
+		&:hover {
+			color: #4ec9ff;
 		}
 	}
 `;
@@ -104,12 +164,10 @@ const OauthBox = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	.oauth {
-		width: 80px;
-		height: 40px;
+		width: 39px;
+		height: 39px;
 		background: none;
-		border: 1px solid rgba(0, 0, 0, 0.1);
 		margin: 0 5px;
 		color: #393737;
 		display: flex;
@@ -118,14 +176,20 @@ const OauthBox = styled.div`
 		border-radius: 5px;
 		font-size: 15px;
 		&:hover {
-			background: rgba(0, 0, 0, 0.04);
-			border: none;
+			transform: translateY(-3px);
 		}
 		span {
 			margin-left: 10px;
 		}
-		.google {
-			margin-left: 5px;
+		.googleIcon {
+			width: 25px;
+		}
+	}
+	.googleoauth {
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		transform: translateY(-3px);
+		&:hover {
+			transform: translateY(-6px);
 		}
 	}
 `;
@@ -273,14 +337,36 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		window.location.assign(oAuthURL);
 	};
 
+	const { naver } = window as any;
+	// oauth naver
+	useEffect(() => {
+		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
+		const initializeNaverLogin = () => {
+			const naverLogin = new naver.LoginWithNaverId({
+				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
+				isPopup: false /* 팝업을 통한 연동처리 여부, true 면 팝업 */,
+				loginButton: {
+					color: 'green',
+					type: 1,
+					height: 37,
+				} /* 로그인 버튼의 타입을 지정 */,
+			});
+			naverLogin.init();
+		};
+		initializeNaverLogin();
+	}, [naver.LoginWithNaverId]);
+
 	return (
 		<Main>
-			<img className="airplane" src={airplane} alt="" />
-			<Link to="/main">
-				<img className="logo" src={logo} alt="" />
-			</Link>
+			<ImgBox>
+				<img className="airplane" src={airplane} alt="" />
+				<Link to="/main">
+					<img className="logo" src={logo} alt="" />
+				</Link>
+			</ImgBox>
 			<Content>
-				<div>Sign Up</div>
+				<h1>Sign Up</h1>
 				<form onSubmit={(e) => joinSubmit(e)}>
 					<div className="keyUp hide">DisplayName</div>
 					<input
@@ -291,6 +377,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						placeholder="Displayname"
 						required
 					/>
+					<div className="check" />
 					<div className="keyUp hide">MBTI</div>
 					<input
 						onFocus={(e) => displayNameKeyFocus(e)}
@@ -348,15 +435,17 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<span className="line" />
 				</div>
 				<OauthBox>
-					<button className="oauth" onClick={oAuthHandler}>
-						<AiOutlineGoogle color="#393737" size="20px" />
-						<span className="google">Google</span>
+					<button className="oauth googleoauth" onClick={oAuthHandler}>
+						<img className="googleIcon" src={googleIcon} alt="" />
 					</button>
 					<button className="oauth">
-						<SiNaver color="#03c157" size="15px" />
-						<span>Naver</span>
+						<span id="naverIdLogin">Naver</span>
 					</button>
 				</OauthBox>
+				<span className="gotoJoin">이미 회원가입을 하셨나요?</span>
+				<Link to="/login">
+					<button className="gotoJoinBtn">Login</button>
+				</Link>
 			</Content>
 		</Main>
 	);

@@ -11,6 +11,7 @@ import { Api } from '../../apis/customAPI';
 import IntroBox from '../../Components/member/IntroBox';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 const Main = styled.div`
 	display: flex;
@@ -88,7 +89,7 @@ const Content = styled.div`
 function UserEdit() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const userInfos = useSelector((state: RootState) => state.user);
+	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	const [editname, setEditName] = useState<string>('');
 	const [editmbti, setEditMbti] = useState<string>('');

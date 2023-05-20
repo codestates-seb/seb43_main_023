@@ -1,17 +1,17 @@
 import '../../Global.css';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
-import { Ilogin, LOGOUT } from '../../reducers/loginReducer';
+import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
-import { RootState } from '../../store/Store';
 import { removeCookie } from '../../utils/cookie';
+import { removeLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
@@ -61,7 +61,6 @@ const Content = styled.div`
 function Logout() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const login = useSelector((state: RootState) => state.login) as Ilogin;
 	const logoutClick = () => {
 		Swal.fire({
 			icon: 'warning',
@@ -89,9 +88,9 @@ function Logout() {
 						);
 					}
 					*/
-					localStorage.removeItem('accessToken');
-					localStorage.removeItem('empiresAtAccess');
-					localStorage.removeItem('empiresAtRefresh');
+					removeLocalStorage('accessToken');
+					removeLocalStorage('empiresAtAccess');
+					removeLocalStorage('empiresAtRefresh');
 					dispatch(LOGOUT());
 					dispatch(DELETE());
 					removeCookie('refreshToken');
