@@ -62,14 +62,13 @@ const Explain = styled.div`
 	}
 `;
 const ReviewContainer = styled.div`
-	height: calc(100vh - 50px);
+	height: 1000px;
 	display: flex;
 `;
 
 const ReviewBody = styled.div`
 	width: calc(100vw - 230px);
-	max-height: 660px;
-	min-height: 660px;
+	height: inherit;
 `;
 
 const TagContainer = styled.div`

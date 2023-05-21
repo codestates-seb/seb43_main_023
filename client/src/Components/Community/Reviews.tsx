@@ -9,8 +9,7 @@ import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
 
 const Container = styled.div`
-	min-height: 600px;
-	max-height: 600px;
+	height: 1000px;
 	margin-left: 35px;
 	display: flex;
 	overflow: scroll;
@@ -109,8 +108,8 @@ function Review() {
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
-	const startIdx = (curPage - 1) * 8;
-	const endIdx = startIdx + 8;
+	const startIdx = (curPage - 1) * 12;
+	const endIdx = startIdx + 12;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -157,9 +156,9 @@ function Review() {
 				<Pagination
 					curPage={curPage}
 					setCurPage={setCurPage}
-					totalPage={Math.ceil(reviews.length / 8)}
+					totalPage={Math.ceil(reviews.length / 12)}
 					totalCount={reviews.length}
-					size={8}
+					size={12}
 					pageCount={5}
 				/>
 			</PaginationContainer>
