@@ -6,6 +6,8 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Swal from 'sweetalert2';
+import { FiChevronRight } from 'react-icons/fi';
 import Pagination from '../../Components/Community/Pagination';
 import SideBar from '../../Components/Community/SideBar';
 import Tags from '../../Components/Community/Tags';
@@ -22,16 +24,46 @@ const Explain = styled.div`
 	padding: 30px;
 	line-height: 1.5rem;
 
-	> h1 {
-		margin-top: 20px;
-		margin-bottom: 10px;
-	}
-
 	> div {
-		color: #595959;
-		font-size: 14px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid rgb(214, 217, 219);
+		> h1 {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		> div {
+			color: #595959;
+			font-size: 14px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid rgb(214, 217, 219);
+			display: flex;
+			justify-content: space-between;
+			align-items: end;
+
+			> button {
+				padding-bottom: 10px;
+				margin-right: 20px;
+
+				> span {
+					margin-right: 5px;
+					display: flex;
+					align-items: center;
+
+					> p {
+						display: flex;
+						align-items: center;
+					}
+				}
+
+				&:hover {
+					color: #0db4f3;
+
+					.arrow {
+						transform: translateX(4px);
+						transition: transform 0.3s ease-in-out;
+					}
+				}
+			}
+		}
 	}
 `;
 
@@ -177,6 +209,27 @@ function MBTI() {
 		url: '/posts',
 	});
 
+	const handleBtn = () => {
+		const Toast = Swal.mixin({
+			toast: true,
+			position: 'top',
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast: {
+				addEventListener: (arg0: string, arg1: any) => void;
+			}) => {
+				toast.addEventListener('mouseenter', Swal.stopTimer);
+				toast.addEventListener('mouseleave', Swal.resumeTimer);
+			},
+		});
+
+		Toast.fire({
+			icon: 'warning',
+			title: '로그인 상태가 아닙니다',
+		});
+	};
+
 	useEffect(() => {
 		if (response) {
 			setPosts(response);
@@ -188,12 +241,22 @@ function MBTI() {
 	return (
 		<div className="main">
 			<Explain>
-				<h1>MBTI</h1>
 				<div>
-					MBTI 과몰입러를 위한 공간 ! <br />
-					자유롭게 나와 비슷한 성향을 가진 사람과 대화를 나눠보세요
-					<br />
-					또는 나와 다른 성향을 가진 사람에게 궁금한걸 물어보세요 !
+					<h1>MBTI</h1>
+					<div>
+						MBTI 과몰입러를 위한 공간 ! <br />
+						자유롭게 나와 비슷한 성향을 가진 사람과 대화를 나눠보세요
+						<br />
+						또는 나와 다른 성향을 가진 사람에게 궁금한걸 물어보세요 !
+						<button onClick={handleBtn}>
+							<span>
+								작성하러 가기{' '}
+								<p className="arrow">
+									<FiChevronRight />
+								</p>
+							</span>
+						</button>
+					</div>
 				</div>
 			</Explain>
 			<MBTIContainer>

@@ -1,12 +1,11 @@
 import '../../Global.css';
 
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
-import { Ilogin } from '../../reducers/loginReducer';
-import { RootState } from '../../store/Store';
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
 
 const PlaceTag = styled.div`
 	font-weight: 600;
@@ -209,88 +208,40 @@ function Tags() {
 		),
 	);
 
-	const login = useSelector((state: RootState) => state.login) as Ilogin;
-
-	const handleBtn = () => {
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast: {
-				addEventListener: (arg0: string, arg1: any) => void;
-			}) => {
-				toast.addEventListener('mouseenter', Swal.stopTimer);
-				toast.addEventListener('mouseleave', Swal.resumeTimer);
-			},
-		});
-
-		Toast.fire({
-			icon: 'warning',
-			title: '로그인 상태가 아닙니다',
-		});
-	};
-
 	return (
-		<>
-			<div>
-				<PlaceTag>
-					<h4>장소</h4>
-					<div>
-						<Tag>#전주</Tag>
-						<Tag>#부산</Tag>
-						<Tag>#제주도</Tag>
-						<Tag>#하동</Tag>
-						<Tag>#양떼목장</Tag>
-						<Tag>#해수욕장</Tag>
-					</div>
-				</PlaceTag>
-				<ThemeTag>
-					<h4>테마</h4>
-					<div>
-						<Tag>#전주</Tag>
-						<Tag>#부산</Tag>
-						<Tag>#제주도</Tag>
-						<Tag>#하동</Tag>
-						<Tag>#양떼목장</Tag>
-						<Tag>#해수욕장</Tag>
-					</div>
-				</ThemeTag>
-				<MBTITags>
-					<h4>MBTI</h4>
-					<div>
-						{allMBTI.map((el, index) => (
-							// eslint-disable-next-line react/no-array-index-key
-							<MBTITag key={index}>{`#${el}`}</MBTITag>
-						))}
-					</div>
-				</MBTITags>
-			</div>
-			<div>
-				<PostBtn>
-					{login.isLogin ? (
-						<Link to="/community/create">
-							<button className="cta">
-								<span>작성하러 가기</span>
-								<svg viewBox="0 0 10 10" height="10px" width="15px">
-									<path d="M1,5 L11,5" />
-									<polyline points="8 1 12 5 8 9" />
-								</svg>
-							</button>
-						</Link>
-					) : (
-						<button className="cta" onClick={handleBtn}>
-							<span>작성하러 가기</span>
-							<svg viewBox="0 0 10 10" height="10px" width="15px">
-								<path d="M1,5 L11,5" />
-								<polyline points="8 1 12 5 8 9" />
-							</svg>
-						</button>
-					)}
-				</PostBtn>
-			</div>
-		</>
+		<Container>
+			<PlaceTag>
+				<h4>장소</h4>
+				<div>
+					<Tag>#전주</Tag>
+					<Tag>#부산</Tag>
+					<Tag>#제주도</Tag>
+					<Tag>#하동</Tag>
+					<Tag>#양떼목장</Tag>
+					<Tag>#해수욕장</Tag>
+				</div>
+			</PlaceTag>
+			<ThemeTag>
+				<h4>테마</h4>
+				<div>
+					<Tag>#전주</Tag>
+					<Tag>#부산</Tag>
+					<Tag>#제주도</Tag>
+					<Tag>#하동</Tag>
+					<Tag>#양떼목장</Tag>
+					<Tag>#해수욕장</Tag>
+				</div>
+			</ThemeTag>
+			<MBTITags>
+				<h4>MBTI</h4>
+				<div>
+					{allMBTI.map((el, index) => (
+						// eslint-disable-next-line react/no-array-index-key
+						<MBTITag key={index}>{`#${el}`}</MBTITag>
+					))}
+				</div>
+			</MBTITags>
+		</Container>
 	);
 }
 
