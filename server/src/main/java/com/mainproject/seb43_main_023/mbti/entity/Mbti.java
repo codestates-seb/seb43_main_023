@@ -17,7 +17,9 @@ public class Mbti {
     private String mbti;
     private String img;
     private String place;
-    private String description;
+    private String description1;
+    @Column(length = 3000,nullable = false)
+    private String description2;
     @Column(length = 3000,nullable = false)
     private String placeImg;
 }
