@@ -181,6 +181,7 @@ function Header() {
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setChange(true);
+		dispatch(KEYWORD({ keyword: '' }));
 		setValue(e.target.value);
 	};
 
