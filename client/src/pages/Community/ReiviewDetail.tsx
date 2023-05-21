@@ -21,7 +21,7 @@ import { RootState } from '../../store/Store';
 import TopBar from '../../Components/Community/TopBar';
 
 const TopBarContainer = styled.div`
-	margin-top: -16px;
+	margin-top: -80px;
 	width: inherit;
 	display: flex;
 	justify-content: center;
@@ -32,8 +32,18 @@ const TopBarContainer = styled.div`
 	}
 `;
 
+const Container = styled.div`
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		display: flex;
+	}
+`;
+
 const ReviewContainer = styled.div`
-	height: 100vh;
+	/* height: 100vh; */
 	width: 100vw;
 	display: flex;
 	flex-direction: column;
@@ -155,14 +165,11 @@ const MapContainer = styled.div`
 	height: fit-content;
 	display: flex;
 	justify-content: center;
-`;
-
-const Map = styled.div`
-	width: calc(100vw - 229px);
+	width: 100%;
 `;
 
 const AnswerContainer = styled.div`
-	width: calc(100vw - 229px);
+	width: 100%;
 	margin-top: 30px;
 	height: fit-content;
 	display: flex;
@@ -276,71 +283,72 @@ function ReviewDetail() {
 				<ReviewBody>
 					{review &&
 						review.map((el) => (
-							<div>
-								<ImgContainer>
-									<ReviewCarousel />
-								</ImgContainer>
+							<Container>
+								<div>
+									<ImgContainer>
+										<ReviewCarousel />
+									</ImgContainer>
 
-								<ContentContainer>
-									<Writer>
-										<div />
-										{el.nickName}
-									</Writer>
-									<Title>{el.title}</Title>
-									<Content>
-										<Viewer initialValue={el.content || ''} />
-									</Content>
-									<Vote>
-										{isLike && el.id === Number(id) ? (
-											<AiFillHeart
-												size={21}
-												onClick={handleDisLike}
-												color="#fe6464"
-											/>
-										) : (
-											<AiOutlineHeart
-												color="#646464"
-												size={21}
-												onClick={handleLike}
-											/>
-										)}
-										<span>
-											{el.voteCount}
-											명이 좋아합니다.
-										</span>
-									</Vote>
-									<TagContainer>
-										<span># 태그</span>
+									<ContentContainer>
+										<Writer>
+											<div />
+											{el.nickName}
+										</Writer>
+										<Title>{el.title}</Title>
+										<Content>
+											<Viewer initialValue={el.content || ''} />
+										</Content>
+										<Vote>
+											{isLike && el.id === Number(id) ? (
+												<AiFillHeart
+													size={21}
+													onClick={handleDisLike}
+													color="#fe6464"
+												/>
+											) : (
+												<AiOutlineHeart
+													color="#646464"
+													size={21}
+													onClick={handleLike}
+												/>
+											)}
+											<span>
+												{el.voteCount}
+												명이 좋아합니다.
+											</span>
+										</Vote>
+										<TagContainer>
+											<span># 태그</span>
 
-										<div>
 											<div>
-												{el.tag.map((t) => (
-													<Tag>{t}</Tag>
-												))}
-											</div>
-
-											{el.nickName === userInfos.nickname ? (
 												<div>
-													<Link to={`/tripreview/${id}/update`}>
-														<BsPencilSquare color="gray" />
-													</Link>
-													<BsTrash onClick={deletePost} color="gray" />
+													{el.tag.map((t) => (
+														<Tag>{t}</Tag>
+													))}
 												</div>
-											) : null}
-										</div>
-									</TagContainer>
-								</ContentContainer>
-							</div>
-						))}
-					<MapContainer>
-						<Map>
-							<MapApi />
-						</Map>
-					</MapContainer>
 
-					<AnswerContainer>
-						<Answers />
-					</AnswerContainer>
+												{el.nickName === userInfos.nickname ? (
+													<div>
+														<Link to={`/tripreview/${id}/update`}>
+															<BsPencilSquare color="gray" />
+														</Link>
+														<BsTrash onClick={deletePost} color="gray" />
+													</div>
+												) : null}
+											</div>
+										</TagContainer>
+									</ContentContainer>
+								</div>
+
+								<MapContainer>
+									<MapApi />
+								</MapContainer>
+
+								<AnswerContainer>
+									<Answers />
+								</AnswerContainer>
+							</Container>
+						))}
 				</ReviewBody>
 			</ReviewContainer>
 		</div>
