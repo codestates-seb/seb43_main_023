@@ -22,7 +22,6 @@ const MainHeaderContainer = styled.div`
 		opacity: 0.5;
 		z-index: -1;
 		@media (max-width: 583px) {
-			padding: 20px;
 			height: 300px;
 		}
 		@media (max-width: 768px) {
@@ -30,7 +29,6 @@ const MainHeaderContainer = styled.div`
 		}
 	}
 	@media (max-width: 583px) {
-		padding: 20px;
 		height: 300px;
 	}
 	@media (max-width: 768px) {
