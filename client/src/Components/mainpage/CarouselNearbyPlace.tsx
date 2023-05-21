@@ -4,20 +4,11 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import axios from 'axios';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
-
-type TripInfoType = {
-	contentid: number;
-	firstimage: string;
-	title: string;
-	addr1: string;
-};
+import { IImageProps } from '../../type/IImageProps';
+import { TripInfoType } from '../../type/ITripInfo';
 
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;
@@ -37,7 +28,7 @@ const SlideContainer = styled(Slider)`
 	}
 `;
 
-const SlideItem = styled.div<SlideItemProps>`
+const SlideItem = styled.div<IImageProps>`
 	width: 220px;
 	height: 220px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
@@ -90,15 +81,12 @@ function CarouselNearbyPlace() {
 		],
 	};
 
-	useEffect(() => {
-		navigator.geolocation.getCurrentPosition((position) => {
-			setMyLocation({
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude,
-			});
-			console.log(myLocation);
+	navigator.geolocation.getCurrentPosition((position) => {
+		setMyLocation({
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude,
 		});
-	}, [myLocation]);
+	});
 
 	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=6&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=10000&contentTypeId=12`;

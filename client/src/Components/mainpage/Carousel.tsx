@@ -3,13 +3,9 @@ import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import { IImageProps } from '../../type/IImageProps';
 
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;
@@ -26,7 +22,7 @@ const SlideContainer = styled(Slider)`
 	}
 `;
 
-const SlideItem = styled.div<SlideItemProps>`
+const SlideItem = styled.div<IImageProps>`
 	width: 100%;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
