@@ -194,6 +194,14 @@ function Header() {
 	};
 
 	const locationNow = useLocation();
+
+	useEffect(() => {
+		if (locationNow.pathname === '/community') {
+			dispatch(KEYWORD({ keyword: '' }));
+			setValue('');
+		}
+	}, [dispatch, locationNow.pathname]);
+
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
 	if (locationNow.pathname === '/join') return null;
@@ -212,7 +220,7 @@ function Header() {
 					placeholder="여행지를 검색해보세요"
 					onChange={handleInputChange}
 					autoComplete="off"
-					value={value}
+					value={value || keyword.keyword}
 					// defaultValue={selected}
 				/>
 
