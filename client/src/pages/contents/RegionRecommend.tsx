@@ -1,10 +1,7 @@
-import { HTMLAttributes, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import { IImageProps } from '../../type/IImageProps';
 
 interface IRegion {
 	id: number;
@@ -59,7 +56,7 @@ const RegionRecItemContainer = styled.div`
 	}
 `;
 
-const RegionRecImg = styled.div<SlideItemProps>`
+const RegionRecImg = styled.div<IImageProps>`
 	width: 260px;
 	height: 260px;
 	background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
@@ -191,7 +188,7 @@ function RegionRec() {
 	return (
 		<RegionRecContainer>
 			<RegionRecImage>
-				<span>지역별 추천 여행 명소</span>
+				<span>🗺️ 지역별 추천 여행 명소</span>
 			</RegionRecImage>
 			<RegionRecItemContainer>
 				{regionInfo

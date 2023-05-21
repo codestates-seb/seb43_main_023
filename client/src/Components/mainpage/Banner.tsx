@@ -1,16 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import axios from 'axios';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import styled from 'styled-components';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import { IImageProps } from '../../type/IImageProps';
 
 const SlideContainer = styled(Slider)`
 	width: 100%;
@@ -27,7 +24,7 @@ const SlideContainer = styled(Slider)`
 	}
 `;
 
-const SlideItem = styled.div<SlideItemProps>`
+const SlideItem = styled.div<IImageProps>`
 	width: 100%;
 	height: 180px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /

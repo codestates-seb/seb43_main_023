@@ -1,7 +1,7 @@
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 /* eslint-disable react/jsx-props-no-spreading */
@@ -9,10 +9,7 @@ import Slider, { Settings } from 'react-slick';
 import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import { IImageProps } from '../../type/IImageProps';
 
 interface IReview {
 	id: number;
@@ -53,7 +50,7 @@ const ReviewContainer = styled.div`
 	text-align: start;
 `;
 
-const ReviewImg = styled.div<SlideItemProps>`
+const ReviewImg = styled.div<IImageProps>`
 	width: 100%;
 	height: 140px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /

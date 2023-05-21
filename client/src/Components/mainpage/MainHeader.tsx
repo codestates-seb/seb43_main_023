@@ -22,26 +22,23 @@ const MainHeaderContainer = styled.div`
 		height: 40vh;
 		opacity: 0.5;
 		z-index: -1;
+		@media (max-width: 583px) {
+			height: 300px;
+		}
+		@media (max-width: 768px) {
+			height: 35vh;
+		}
 	}
 	@media (max-width: 583px) {
-		padding: 20px;
 		height: 300px;
 	}
 	@media (max-width: 768px) {
+		padding: 20px;
 		height: 35vh;
 	}
-}
-@media (max-width: 583px) {
-	padding: 20px;
-	height: 300px;
-}
-@media (max-width: 768px) {
-	padding: 20px;
-	height: 35vh;
-}
-@media (max-width: 1024px) {
-	padding: 40px;
-}
+	@media (max-width: 1024px) {
+		padding: 40px;
+	}
 `;
 
 const MainText = styled.div`

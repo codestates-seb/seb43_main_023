@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import axios from 'axios';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsCloudFog } from 'react-icons/bs';
 import {
 	TiWeatherCloudy,
@@ -14,17 +14,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../../Components/mainpage/Modal';
-
-interface ImageProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
-
-type TripInfoType = {
-	contentid: number;
-	firstimage: string;
-	title: string;
-	addr1: string;
-};
+import { IImageProps } from '../../type/IImageProps';
+import { TripInfoType } from '../../type/ITripInfo';
 
 const NearbyPlaceContainer = styled.div`
 	width: 100vw;
@@ -36,7 +27,7 @@ const NearbyPlaceContainer = styled.div`
 	align-items: center;
 `;
 
-const NearbyPlaceDetailImage = styled.div<ImageProps>`
+const NearbyPlaceDetailImage = styled.div<IImageProps>`
 	width: 100%;
 	height: 40vh;
 	display: flex;
@@ -73,7 +64,7 @@ const NearbyPlaceInfo = styled.div`
 	}
 `;
 
-const NearbyPlaceInfoImg = styled.div<ImageProps>`
+const NearbyPlaceInfoImg = styled.div<IImageProps>`
 	width: 40%;
 	background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
 		center / cover no-repeat;
@@ -126,7 +117,7 @@ const NearbyPlaceRecItem = styled.div`
 	margin: 20px;
 `;
 
-const NearbyPlaceItemImg = styled.div<ImageProps>`
+const NearbyPlaceItemImg = styled.div<IImageProps>`
 	height: 270px;
 	background-image: url(${(props) => (props.image ? props.image : '')});
 	background-position: center;
@@ -276,28 +267,11 @@ function NearbyPlace() {
 			});
 	};
 
-	// const handleHover = (e: number | string) => {
-	// 	const infoUrl = `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=xxX98WzuruiLkUpHRO1aF2fTMT2LMrHfz62vItLgl901peg7v8IerpFAaTlujQijG7UMxbtM0oudo6wO3gN5%2BA%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${e}&overviewYN=Y`;
-	// 	axios(infoUrl)
-	// 		.then((response) => {
-	// 			const { data } = response;
-	// 			const intro = data.response.body.items.item[0].overview;
-	// 			console.log(intro);
-	// 		})
-	// 		.catch(() => {
-	// 			navigate('/error');
-	// 		});
-	// };
-
-	// const handleHoverLeave = () => {
-	// 	console.log('bye');
-	// };
-
 	return (
 		<NearbyPlaceContainer>
 			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
 			<NearbyPlaceDetailImage image={backgroundImg}>
-				<span>우리 동네 추천 명소</span>
+				<span>🧭 우리 동네 추천 명소</span>
 			</NearbyPlaceDetailImage>
 			<NearbyPlaceInfo>
 				<NearbyPlaceInfoImg image={backgroundImg} />

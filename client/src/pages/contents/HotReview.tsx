@@ -1,13 +1,10 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import { IImageProps } from '../../type/IImageProps';
 
 interface IReview {
 	id: number;
@@ -85,7 +82,7 @@ const HotReviewItem = styled.div`
 	}
 `;
 
-const HotReviewImg = styled.div<SlideItemProps>`
+const HotReviewImg = styled.div<IImageProps>`
 	width: 300px;
 	height: 300px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /

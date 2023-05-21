@@ -4,20 +4,11 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import axios from 'axios';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
-
-type TripInfoType = {
-	contentid: number;
-	firstimage: string;
-	title: string;
-	addr1: string;
-};
+import { IImageProps } from '../../type/IImageProps';
+import { TripInfoType } from '../../type/ITripInfo';
 
 const SlideContainer = styled(Slider)`
 	padding: 0 10px;
@@ -37,7 +28,7 @@ const SlideContainer = styled(Slider)`
 	}
 `;
 
-const SlideItem = styled.div<SlideItemProps>`
+const SlideItem = styled.div<IImageProps>`
 	width: 220px;
 	height: 220px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /

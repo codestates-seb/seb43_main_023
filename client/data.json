@@ -607,6 +607,22 @@
       "email": "choalstn@gmail.com",
       "password": "cmsdean1224",
       "img": "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg"
+    },
+    {
+      "id": 0.27911076754176856,
+      "nickname": "SEB_FE_43_윤정훈",
+      "mbti": "ENTJ",
+      "email": "yjh44242168@gmail.com",
+      "password": "1q2w3e4r",
+      "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjk4/MDAxNjI1NjQzNzM1NTY0.N3UM1sVKMyNXTav-dRBXnGHe7FYMJpAA1h_Ko8NvFrgg.Y1fST4Lphu6ypeTYQKIDoihjp4-gJSILP0SqZdDnUxcg.PNG.im_worry/3.png?type=w800"
+    },
+    {
+      "id": 0.3834583155285587,
+      "nickname": "테스트합니다",
+      "mbti": "INFJ",
+      "email": "naru@gmail.com",
+      "password": "1q2w3e4r",
+      "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjU3/MDAxNjI1NjQzNzI2ODgw.4SALKzLC-iLP3PvUs3bDFlijYO-VfVewp1c7tbrP4qcg.JWMyIWCXSJn_aKSXOAJtwb1Wi9w-TnwZ3peJU6YR9m4g.PNG.im_worry/5.png?type=w800"
     }
   ],
   "mbtiInfo": [
@@ -623,7 +639,7 @@
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTAx/MDAxNjI1NjQzNzMxNjcz.VRNdIWkBVdxoiU8K67Ea3SDmZkk2MTPIvUR7cE-qHWUg.jGP1Wtzs1-O4GiFeX-6RRodA25OgjRWemvcWeyR8jwsg.PNG.im_worry/9.png?type=w800",
       "place": "경주 역사지구",
       "description1": "계획적으로 움직이며 꼼꼼하게 여행지에 대해 공부해가는",
-      "description2":"는 어떠신가요?",
+      "description2": "는 어떠신가요?",
       "placeImg": "https://t1.daumcdn.net/cfile/tistory/1663884050218C690B"
     },
     {
@@ -631,7 +647,7 @@
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTE2/MDAxNjI1NjQzNzMxNjcz.-fCJ7FzEwIE4Y24rzoSn641sdAe3WAoewHAoUJWd6Tog.JjqTenmJW-iu_PIhenanymzwOMBKBwpRkiTHsjJIsZEg.PNG.im_worry/10.png?type=w800",
       "place": "전주 한옥마을",
       "description1": "계획적으로 움직이며 동행을 챙기는 스타일의",
-      "description2":"은 어떠신가요?",
+      "description2": "은 어떠신가요?",
       "placeImg": "https://t1.daumcdn.net/thumb/R720x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/3nyp/image/7QuKqsLRQEHPZtZEscAu1BIgP-A.jpg"
     },
     {
@@ -711,7 +727,7 @@
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMTUw/MDAxNjI1NjQzNzI2ODg1.L-DchchvLkF9L9zcR9x7QqcUqmjHPh5Gt9g9iAaQrdog.deaDOAh1s39e11QIFDubPUHF77alwRuSDMALvcBx3tMg.PNG.im_worry/8.png?type=w800",
       "place": "강원도 양양",
       "description1": "사람들과 어울리기를 좋아하는 인싸! 에너자이저 스타일의",
-      "description2":"은 어떠신가요?",
+      "description2": "은 어떠신가요?",
       "placeImg": "https://t1.daumcdn.net/cfile/tistory/99CC584E5B75287936"
     },
     {
@@ -719,7 +735,7 @@
       "img": "https://mblogthumb-phinf.pstatic.net/MjAyMTA3MDdfMjk4/MDAxNjI1NjQzNzM1NTY0.EMxwFt8BJlyxhLtYKL41nqw9FuN5Nz4OthaCRgw2_Vsg.wRhGFl1hEh6F7JqzjkUQOdmICqbnvjPqMAWnkMlh0kwg.PNG.im_worry/4.png?type=w800",
       "place": "부산",
       "description1": "느긋하고 관대하며, 위기 상황에서 판단을 잘하고 선입견이 없는",
-      "description2":"은 어떠신가요?",
+      "description2": "은 어떠신가요?",
       "placeImg": "https://www.bsmeditour.go.kr/img/sub/img_intro_busan.jpg"
     },
     {
