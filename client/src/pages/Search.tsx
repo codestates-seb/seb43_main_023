@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { RootState } from '../store/Store';
 import { IKeyword } from '../reducers/searchKeywordReducer';
 import useAxios from '../hooks/useAxios';
-import Pagination from '../Components/ccc/Pagination';
+import Pagination from '../Components/community/Pagination';
 
 const TopBarContainer = styled.div`
 	width: 90%;
