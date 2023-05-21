@@ -7,8 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
-import IntroBox from '../../Components/member/IntroBox';
-import MyReview from '../../Components/member/MyReview';
+import IntroBox from '../../ccc/member/IntroBox';
+import MyReview from '../../ccc/member/MyReview';
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
