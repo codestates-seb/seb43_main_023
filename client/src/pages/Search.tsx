@@ -276,7 +276,6 @@ function Search() {
 
 	const handleMenu = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.target as HTMLButtonElement;
-		console.log(target.textContent);
 		setMenu(target.textContent!);
 	};
 
@@ -286,6 +285,18 @@ function Search() {
 
 	const handleViewAllPost = () => {
 		setMenu('게시글');
+	};
+
+	const checkBatchimEnding = (word: string) => {
+		if (typeof word !== 'string') return null;
+
+		const lastLetter = word[word.length - 1];
+		const uni = lastLetter.charCodeAt(0);
+		console.log(uni);
+
+		if (uni < 44032 || uni > 55203) return null;
+
+		return (uni - 44032) % 28 !== 0;
 	};
 
 	useEffect(() => {
@@ -356,7 +367,8 @@ function Search() {
 					<SearchResult>
 						<div className="title">
 							<div>
-								<span className="keyword">{keyword.keyword}</span>가 포함된
+								<span className="keyword">{keyword.keyword}</span>
+								{checkBatchimEnding(keyword.keyword) ? '이' : '가'} 포함된
 								게시글 💭
 							</div>
 							<span className="all">
