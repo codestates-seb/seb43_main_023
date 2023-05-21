@@ -5,11 +5,12 @@ const Container = styled.ul`
 	width: 170px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
 	margin-top: -1.9rem;
 	font-weight: 600;
 	font-size: 15px;
+	height: 820px;
 
 	> li {
 		padding: 8px 0;
