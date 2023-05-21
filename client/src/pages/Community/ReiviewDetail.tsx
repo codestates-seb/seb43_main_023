@@ -18,6 +18,19 @@ import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import TopBar from '../../Components/Community/TopBar';
+
+const TopBarContainer = styled.div`
+	margin-top: -16px;
+	width: inherit;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 15px;
+
+	> div {
+		width: 90%;
+	}
+`;
 
 const ReviewContainer = styled.div`
 	height: 100vh;
@@ -255,6 +268,11 @@ function ReviewDetail() {
 	return (
 		<div className="main">
 			<ReviewContainer>
+				<TopBarContainer>
+					<div>
+						<TopBar />
+					</div>
+				</TopBarContainer>
 				<ReviewBody>
 					{review &&
 						review.map((el) => (

@@ -17,6 +17,12 @@ import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import TopBar from '../../Components/Community/TopBar';
+
+const TopBarContainer = styled.div`
+	border: 1px solid red;
+	width: 90%;
+`;
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -24,6 +30,7 @@ const PostContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 `;
 
 const PostBody = styled.div`
@@ -262,6 +269,9 @@ function PostDetail() {
 	return (
 		<div className="main">
 			<PostContainer>
+				<TopBarContainer>
+					<TopBar />
+				</TopBarContainer>
 				<PostBody>
 					{post &&
 						post.map((el) => (
