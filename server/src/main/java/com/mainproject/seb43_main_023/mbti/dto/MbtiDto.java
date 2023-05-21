@@ -10,7 +10,8 @@ public class MbtiDto {
     private String mbti;
     private String img;
     private String place;
-    private String description;
+    private String description1;
+    private String description2;
     private String placeImg;
     }
 }
