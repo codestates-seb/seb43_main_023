@@ -8,9 +8,9 @@ import styled from 'styled-components';
 
 import Swal from 'sweetalert2';
 import { FiChevronRight } from 'react-icons/fi';
-import Pagination from '../../Components/Community/Pagination';
-import SideBar from '../../Components/Community/SideBar';
-import Tags from '../../Components/Community/Tags';
+import Pagination from '../../Components/ccc/Pagination';
+import SideBar from '../../Components/ccc/SideBar';
+import Tags from '../../Components/ccc/Tags';
 import useAxios from '../../hooks/useAxios';
 
 const Explain = styled.div`
