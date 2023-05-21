@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import SideBar from '../../ccc/community/SideBar';
-import Reviews from '../../ccc/community/Reviews';
-import Tags from '../../ccc/community/Tags';
+import SideBar from '../../Components/community/SideBar';
+import Reviews from '../../Components/community/Reviews';
+import Tags from '../../Components/community/Tags';
 import '../../Global.css';
 // eslint-disable-next-line import/order
 import Swal from 'sweetalert2';

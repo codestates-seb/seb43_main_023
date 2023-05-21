@@ -5,12 +5,12 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Banner from '../../ccc/mainpage/Banner';
-import Carousel from '../../ccc/mainpage/Carousel';
-import CarouselNearbyPlace from '../../ccc/mainpage/CarouselNearbyPlace';
-import CarouselReview from '../../ccc/mainpage/CarouselReview';
-import MainHeader from '../../ccc/mainpage/MainHeader';
-import UserHeader from '../../ccc/mainpage/UserHeader';
+import Banner from '../../Components/mainpage/Banner';
+import Carousel from '../../Components/mainpage/Carousel';
+import CarouselNearbyPlace from '../../Components/mainpage/CarouselNearbyPlace';
+import CarouselReview from '../../Components/mainpage/CarouselReview';
+import MainHeader from '../../Components/mainpage/MainHeader';
+import UserHeader from '../../Components/mainpage/UserHeader';
 import { Ilogin } from '../../reducers/loginReducer';
 import { RootState } from '../../store/Store';
 

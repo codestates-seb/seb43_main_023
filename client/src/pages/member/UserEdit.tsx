@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
-import IntroBox from '../../ccc/member/IntroBox';
+import IntroBox from '../../Components/member/IntroBox';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 

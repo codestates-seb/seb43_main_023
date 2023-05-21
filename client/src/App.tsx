@@ -5,9 +5,9 @@ import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import OauthJoinHandler from './apis/OauthHandler';
-import Footer from './ccc/common/Footer';
-import Header from './ccc/common/Header';
-import Empty from './ccc/member/Empty';
+import Footer from './Components/common/Footer';
+import Header from './Components/common/Header';
+import Empty from './Components/member/Empty';
 import Error from './pages/common/Error';
 import Landing from './pages/common/Landing';
 import Loading from './pages/common/Loading';
