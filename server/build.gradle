@@ -39,6 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'it.ozimov:embedded-redis:0.7.2' // 테스트 용도로 내장 서버 Redis 환경 구성
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'mysql:mysql-connector-java:8.0.26'
 }
 
 tasks.named('test') {
