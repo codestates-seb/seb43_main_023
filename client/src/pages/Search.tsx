@@ -198,7 +198,7 @@ const ResultImg = styled.img`
 `;
 
 const NotResult = styled.div`
-	margin: 40px 0;
+	margin: 80px 0;
 	line-height: 40px;
 
 	> div:nth-child(4) {
@@ -292,7 +292,6 @@ function Search() {
 
 		const lastLetter = word[word.length - 1];
 		const uni = lastLetter.charCodeAt(0);
-		console.log(uni);
 
 		if (uni < 44032 || uni > 55203) return null;
 
@@ -372,7 +371,12 @@ function Search() {
 								게시글 💭
 							</div>
 							<span className="all">
-								{menu === '게시글' ? null : (
+								{menu === '게시글' ||
+								posts.filter(
+									(el: postType) =>
+										el.title.includes(keyword.keyword) ||
+										el.content.includes(keyword.keyword),
+								).length === 0 ? null : (
 									<button onClick={handleViewAllPost}>전체보기</button>
 								)}
 							</span>
@@ -495,7 +499,7 @@ function Search() {
 											여행하셨거나 여러 도움이 필요하다면, 새로운 글을 작성하러
 											가볼까요 ?{' '}
 										</div>
-										<div>다른 사람들에게 도움이 될지 몰라요 ☺️</div>
+										<div>다른 사람들에게도 도움이 될지 몰라요 ☺️</div>
 
 										<CreateBtn onClick={handleCreate}>
 											작성하러가기 <IoIosArrowForward />{' '}
