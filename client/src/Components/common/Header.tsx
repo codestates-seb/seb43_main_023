@@ -1,17 +1,18 @@
 /* eslint-disable no-nested-ternary */
 import '../../Global.css';
 
+import { useEffect, useState } from 'react';
+
+import axios from 'axios';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import logo from '../../assets/logo.png';
-import { Ilogin } from '../../reducers/loginReducer';
-import { RootState } from '../../store/Store';
 import { IKeyword, KEYWORD } from '../../reducers/searchKeywordReducer';
+import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 
 interface ContainerProps {
 	hasResult: string[];
@@ -27,8 +28,20 @@ const Content = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 40px;
+	@media (max-width: 768px) {
+		padding: 10px 25px;
+	}
+	@media (max-width: 480px) {
+		padding: 10px 10px;
+	}
 	img {
 		width: 130px;
+		@media (max-width: 768px) {
+			width: 100px;
+		}
+		@media (max-width: 480px) {
+			width: 70px;
+		}
 	}
 	form {
 		border: 3px solid #0db4f3;
@@ -40,14 +53,25 @@ const Content = styled.div`
 		justify-content: baseline;
 		align-items: center;
 		position: relative;
+		@media (max-width: 768px) {
+			margin: 0 10px;
+		}
+		@media (max-width: 480px) {
+			padding: 5px 5px;
+		}
 		input {
 			background: none;
-			width: 900px;
+			width: 100%;
 			border: none;
 			margin-left: 10px;
 			outline: none;
 			&::placeholder {
 				color: rgba(0, 0, 0, 0.3);
+			}
+			@media (max-width: 480px) {
+				&::placeholder {
+					font-size: 12px;
+				}
 			}
 		}
 		button {
@@ -55,6 +79,12 @@ const Content = styled.div`
 			right: 0px;
 			font-weight: bold;
 			font-size: 13px;
+			@media (max-width: 480px) {
+				font-size: 11px;
+			}
+			@media (max-width: 380px) {
+				display: none;
+			}
 		}
 	}
 	div {
@@ -69,6 +99,10 @@ const Content = styled.div`
 		width: 80px;
 		&:hover {
 			color: #0db4f3;
+		}
+		@media (max-width: 768px) {
+			font-size: 12px;
+			width: 50px;
 		}
 	}
 `;

@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
