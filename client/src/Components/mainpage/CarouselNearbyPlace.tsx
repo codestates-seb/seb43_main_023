@@ -90,15 +90,12 @@ function CarouselNearbyPlace() {
 		],
 	};
 
-	useEffect(() => {
-		navigator.geolocation.getCurrentPosition((position) => {
-			setMyLocation({
-				latitude: position.coords.latitude,
-				longitude: position.coords.longitude,
-			});
-			console.log(myLocation);
+	navigator.geolocation.getCurrentPosition((position) => {
+		setMyLocation({
+			latitude: position.coords.latitude,
+			longitude: position.coords.longitude,
 		});
-	}, [myLocation]);
+	});
 
 	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=6&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=10000&contentTypeId=12`;
