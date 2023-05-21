@@ -1,12 +1,45 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { RootState } from '../store/Store';
 import { IKeyword } from '../reducers/searchKeywordReducer';
 import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/Community/Pagination';
+
+const TopBarContainer = styled.div`
+	width: 90%;
+	box-shadow: 0 4px 4px -4px rgb(214, 217, 219);
+`;
+
+const UL = styled.ul`
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	font-weight: 600;
+	font-size: 15px;
+	box-shadow: 0 4px 4px -4px rgb(214, 217, 219);
+
+	> li {
+		padding: 10px 0;
+		width: 80px;
+		display: flex;
+		justify-content: center;
+		color: black;
+
+		&:hover {
+			border-bottom: 3px solid #0db4f3;
+			cursor: pointer;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+`;
 
 const Container = styled.div`
 	min-height: 100vh;
@@ -26,7 +59,6 @@ const SearchContainer = styled.div`
 const SearchAPI = styled.div`
 	margin-top: 30px;
 	width: 90%;
-	border: 1px solid #d9d9d9;
 	border-radius: 15px;
 	padding: 20px;
 	display: flex;
@@ -43,28 +75,6 @@ const APIContainer = styled.div`
 	display: flex;
 	justify-content: center;
 `;
-
-const SearchAd = styled.div`
-	margin-top: 50px;
-	width: 90%;
-	border: 1px solid #d9d9d9;
-	border-radius: 15px;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	font-size: 24px;
-	font-weight: 700;
-	.keyword {
-		color: #0db4f3;
-	}
-`;
-
-const AdItemContainer = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-`;
-
 const AdItem = styled.div`
 	width: 20%;
 	height: 300px;
@@ -94,7 +104,6 @@ const AdItem = styled.div`
 
 const SearchResult = styled.div`
 	width: 90%;
-	border: 1px solid #d9d9d9;
 	border-radius: 15px;
 	margin-top: 50px;
 	padding: 20px;
@@ -196,6 +205,7 @@ function Search() {
 	const [tourResult, setTourResult] = useState([]);
 	const [posts, setPosts] = useState([]);
 	const [curPage, setCurPage] = useState<number>(1);
+	const [menu, setMenu] = useState<string>('전체');
 
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;
@@ -227,6 +237,12 @@ function Search() {
 			'noopener, noreferrer',
 		);
 	};
+
+	const handleMenu = (e: MouseEvent<HTMLButtonElement>) => {
+		const target = e.target as HTMLButtonElement;
+		console.log(target.textContent);
+		setMenu(target.textContent!);
+	};
 	useEffect(() => {
 		axios(tourUrl).then((res) => {
 			setTourResult(res.data.response.body.items.item);
@@ -240,103 +256,121 @@ function Search() {
 	return (
 		<Container>
 			<SearchContainer>
-				{tourResult && tourResult.length > 0 && (
-					<SearchAPI>
+				<TopBarContainer>
+					<UL>
+						<li>
+							<button onClick={(e) => handleMenu(e)}>전체</button>
+						</li>
+						<li>
+							<button onClick={(e) => handleMenu(e)}>여행지 추천</button>
+						</li>
+
+						<li>
+							<button onClick={(e) => handleMenu(e)}>게시글</button>
+						</li>
+					</UL>
+				</TopBarContainer>
+				{tourResult &&
+					tourResult.length > 0 &&
+					(menu === '전체' || menu === '여행지 추천') && (
+						<SearchAPI>
+							<div className="title">
+								<span className="keyword">{keyword.keyword}</span> 추천 여행지 🏝
+							</div>
+							<APIContainer>
+								{tourResult.map((el: tourAPIType, idx) => (
+									<AdItem onClick={() => handleResultClicked(el.title)}>
+										<img src={el.firstimage} alt="사진" className="adimg" />
+										<div className="adtext">{el.title}</div>
+									</AdItem>
+								))}
+							</APIContainer>
+						</SearchAPI>
+					)}
+
+				{menu === '전체' || menu === '게시글' ? (
+					<SearchResult>
 						<div className="title">
-							<span className="keyword">{keyword.keyword}</span> 추천 여행지 🏝
+							<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
+							💭
 						</div>
-						<APIContainer>
-							{tourResult.map((el: tourAPIType, idx) => (
-								<AdItem onClick={() => handleResultClicked(el.title)}>
-									<img src={el.firstimage} alt="사진" className="adimg" />
-									<div className="adtext">{el.title}</div>
-								</AdItem>
-							))}
-						</APIContainer>
-					</SearchAPI>
-				)}
-
-				<SearchResult>
-					<div className="title">
-						<span className="keyword">{keyword.keyword}</span>가 포함된 게시글
-						💭
-					</div>
-					<ResultContainer>
-						{posts.filter(
-							(el: postType) =>
-								el.title.includes(keyword.keyword) ||
-								el.content.includes(keyword.keyword),
-						).length > 0 ? (
-							posts
-								.filter(
-									(el: postType) =>
-										el.title.includes(keyword.keyword) ||
-										el.content.includes(keyword.keyword),
-								)
-								.map((post: postType) => (
-									<ResultItem
-										onClick={() => handlePostClick(post.subject, post.id)}
-									>
-										<ResultText>
-											<div className="resultInfo">
-												<span className="subject">[{post.subject}]</span>
-												<span className="title">{post.title}</span>
-											</div>
-											<div className="content">{post.content}</div>
-											<span className="author">{post.nickName}</span>
-										</ResultText>
-										{post.img.length > 0 && (
-											<ResultImg
-												src={post.img[0]}
-												alt="검색결과 사진 미리보기"
-											/>
-										)}
-									</ResultItem>
-								))
-						) : (
-							<NotResult>
-								<div>아직 작성된 게시글이 없어요 </div>
-								<div>
-									<span className="keyword">{keyword.keyword}</span> 이곳을
-									여행하셨거나 여러 도움이 필요하다면, 새로운 글을 작성하러
-									가볼까요 ?{' '}
-								</div>
-								<div>다른 사람들에게 도움이 될지 몰라요 ☺️</div>
-
-								<CreateBtn onClick={handleCreate}>
-									작성하러가기 <IoIosArrowForward />{' '}
-								</CreateBtn>
-							</NotResult>
-						)}
-
-						{posts.filter(
-							(el: postType) =>
-								el.title.includes(keyword.keyword) ||
-								el.content.includes(keyword.keyword),
-						).length > 0 ? (
-							<Pagination
-								curPage={curPage}
-								setCurPage={setCurPage}
-								totalPage={Math.ceil(
-									posts.filter(
+						<ResultContainer>
+							{posts.filter(
+								(el: postType) =>
+									el.title.includes(keyword.keyword) ||
+									el.content.includes(keyword.keyword),
+							).length > 0 ? (
+								posts
+									.filter(
 										(el: postType) =>
 											el.title.includes(keyword.keyword) ||
 											el.content.includes(keyword.keyword),
-									).length / 5,
-								)}
-								totalCount={
-									posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length
-								}
-								size={5}
-								pageCount={5}
-							/>
-						) : null}
-					</ResultContainer>
-				</SearchResult>
+									)
+									.map((post: postType) => (
+										<ResultItem
+											onClick={() => handlePostClick(post.subject, post.id)}
+										>
+											<ResultText>
+												<div className="resultInfo">
+													<span className="subject">[{post.subject}]</span>
+													<span className="title">{post.title}</span>
+												</div>
+												<div className="content">{post.content}</div>
+												<span className="author">{post.nickName}</span>
+											</ResultText>
+											{post.img.length > 0 && (
+												<ResultImg
+													src={post.img[0]}
+													alt="검색결과 사진 미리보기"
+												/>
+											)}
+										</ResultItem>
+									))
+							) : (
+								<NotResult>
+									<div>아직 작성된 게시글이 없어요 </div>
+									<div>
+										<span className="keyword">{keyword.keyword}</span> 이곳을
+										여행하셨거나 여러 도움이 필요하다면, 새로운 글을 작성하러
+										가볼까요 ?{' '}
+									</div>
+									<div>다른 사람들에게 도움이 될지 몰라요 ☺️</div>
+
+									<CreateBtn onClick={handleCreate}>
+										작성하러가기 <IoIosArrowForward />{' '}
+									</CreateBtn>
+								</NotResult>
+							)}
+
+							{posts.filter(
+								(el: postType) =>
+									el.title.includes(keyword.keyword) ||
+									el.content.includes(keyword.keyword),
+							).length > 0 ? (
+								<Pagination
+									curPage={curPage}
+									setCurPage={setCurPage}
+									totalPage={Math.ceil(
+										posts.filter(
+											(el: postType) =>
+												el.title.includes(keyword.keyword) ||
+												el.content.includes(keyword.keyword),
+										).length / 5,
+									)}
+									totalCount={
+										posts.filter(
+											(el: postType) =>
+												el.title.includes(keyword.keyword) ||
+												el.content.includes(keyword.keyword),
+										).length
+									}
+									size={5}
+									pageCount={5}
+								/>
+							) : null}
+						</ResultContainer>
+					</SearchResult>
+				) : null}
 			</SearchContainer>
 		</Container>
 	);

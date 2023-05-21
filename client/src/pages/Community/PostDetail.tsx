@@ -20,7 +20,6 @@ import { RootState } from '../../store/Store';
 import TopBar from '../../Components/Community/TopBar';
 
 const TopBarContainer = styled.div`
-	border: 1px solid red;
 	width: 90%;
 `;
 
