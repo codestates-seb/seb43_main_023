@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -75,12 +76,14 @@ function SearchPlace({ handlePlace }: Prop) {
 		setChange(false);
 	};
 
+	const key = process.env.REACT_APP_KAKAO_MAP_KEY;
+
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			if (query) {
 				const API_URL = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`;
 				const headers = {
-					Authorization: 'KakaoAK 3fec145e783ad1c5b4a50d9ce262b0d6',
+					Authorization: `KakaoAK ${key}`,
 				};
 				axios.get(API_URL, { headers }).then((response) => {
 					setSearchResult(response.data.documents);
@@ -92,7 +95,7 @@ function SearchPlace({ handlePlace }: Prop) {
 		}, 10);
 
 		return () => clearTimeout(delayDebounceFn);
-	}, [handlePlace, query]);
+	}, [handlePlace, query, key]);
 
 	return (
 		<div>

@@ -24,7 +24,7 @@ function MapContainer() {
 	useEffect(() => {
 		if (postData.response) {
 			const data: Type = postData.response;
-			const markerPosition = new window.kakao.maps.LatLng(
+			const markerPosition = new window.kakao!.maps.LatLng(
 				Number(data.locationY),
 				Number(data.locationX),
 			);
@@ -49,7 +49,7 @@ function MapContainer() {
 		}
 	}, [postData.response]);
 
-	return <div id="map" style={{ width: '84vw', height: '20vh' }} />;
+	return <div id="map" style={{ width: 'inherit', height: '20vh' }} />;
 }
 
 export default MapContainer;
