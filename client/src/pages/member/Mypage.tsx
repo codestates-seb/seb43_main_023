@@ -10,7 +10,7 @@ import { Api } from '../../apis/customAPI';
 import { SweetAlert1 } from '../../Components/common/SweetAlert';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Iposts } from '../../type/Ipost';
@@ -209,10 +209,13 @@ function Mypage() {
 	]);
 
 	// 커뮤니티 내글 get요청(useAxios 사용)
+	/*
 	const { response } = useAxios({
 		method: 'get',
 		url: '/posts',
 	});
+	*/
+	const response = useGet('');
 
 	useEffect(() => {
 		if (response !== null) {
