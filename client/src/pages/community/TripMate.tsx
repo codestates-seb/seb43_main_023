@@ -17,6 +17,7 @@ import { Ipost } from '../../type/Ipost';
 import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
+import useGet from '../../hooks/useGet';
 
 function TripMate() {
 	// eslint-disable-next-line prefer-const
@@ -54,10 +55,7 @@ function TripMate() {
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts?subject=같이가요&page=1',
-	});
+	const response = useGet('?subject=같이가요&page=1');
 
 	useEffect(() => {
 		if (response) {
