@@ -133,6 +133,7 @@ function CarouselReview() {
 
 	useEffect(() => {
 		if (res !== null) {
+			console.log(res);
 			const newArr = res.filter(
 				(item: { subject: string }) => item.subject === '여행리뷰',
 			);
@@ -143,6 +144,8 @@ function CarouselReview() {
 			setFilterReview(newArr.slice(0, 5));
 		}
 	}, [res]);
+
+	console.log(filterdReview);
 
 	return (
 		<div>

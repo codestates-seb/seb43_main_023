@@ -25,9 +25,7 @@ Api.interceptors.response.use(
 Api.interceptors.request.use(
 	(config) => {
 		// eslint-disable-next-line no-param-reassign
-		config.headers.Authorization = `Bearer ${(config.headers.Authorization = `Bearer ${getLocalStorage(
-			'accessToken',
-		)}`)}`;
+		config.headers.Authorization = `Bearer ${getLocalStorage('accessToken')}`;
 		return config;
 	},
 	(err) => {
