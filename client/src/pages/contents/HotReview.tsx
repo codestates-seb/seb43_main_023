@@ -132,18 +132,15 @@ function HotReview() {
 	// 	url: '/posts',
 	// }).response;
 
-	const response: any = useGet('');
+	const response: any = useGet('?subject=여행리뷰&page=1');
 
 	useEffect(() => {
 		if (response !== null) {
-			const newArr = response.filter(
-				(item: { subject: string }) => item.subject === '여행리뷰',
-			);
-			newArr.sort(
+			response.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(newArr.slice(0, 5));
+			setFilterReview(response.slice(0, 5));
 		}
 	}, [response]);
 
