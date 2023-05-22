@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Api } from '../../apis/customAPI';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
@@ -78,7 +79,7 @@ function IntroBox() {
 				removeLocalStorage('kakao');
 			}
 			try {
-				// await Api.delete(`/members/${userInfos.id}`);
+				await Api.delete(`/members/${userInfos.id}`);
 				removeLocalStorage('accessToken');
 				removeLocalStorage('empiresAtAccess');
 				removeLocalStorage('empiresAtRefresh');

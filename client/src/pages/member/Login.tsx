@@ -2,7 +2,7 @@ import '../../Global.css';
 
 import { FocusEvent, useEffect } from 'react';
 
-import KakaoLogin from 'react-kakao-login';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -191,6 +191,14 @@ const OauthBox = styled.div`
 			transform: translateY(-6px);
 		}
 	}
+	.kakaoBtn {
+		background: #fbe300;
+		margin-right: 0px;
+		transform: translateY(-3px);
+		&:hover {
+			transform: translateY(-6px);
+		}
+	}
 `;
 
 function Login() {
@@ -289,8 +297,16 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
 
-	/*
 	// 카카오 oauth
+	// 방법1 : code가 있는 url로 redirect, 현재 정보 선택!
+	const { Kakao } = window as any;
+	const loginWithKakao = () => {
+		Kakao.Auth.authorize({
+			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+		});
+	};
+
+	/* // 방법2 : code가 있는 url로 redirect, 과거 정보
 	const RestApiKey = process.env.REACT_APP_KAKAO_CLIENT_ID;
 	const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 	// oauth 요청 URL
@@ -300,21 +316,57 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 	};
 	*/
 
-	const { Kakao } = window as any;
-	const loginWithKakao = () => {
+	/* // 방법3 : KakaoLogin 컴포넌트 바로 사용해서 token, profile얻기, authorize에 문제!
+	const kakaoClientId = `${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}`;
+	const kakaoOnSuccess = async (data: any): Promise<void> => {
+		console.log(data);
+		const { response, profile } = data;
+		const {
+			// eslint-disable-next-line camelcase
+			access_token,
+			// eslint-disable-next-line camelcase
+			refresh_token,
+			// eslint-disable-next-line camelcase
+			expires_in,
+			// eslint-disable-next-line camelcase
+			refresh_token_expires_in,
+		} = response;
+		// eslint-disable-next-line camelcase
+		const { id, kakao_account, properties } = profile;
+		// eslint-disable-next-line camelcase
+		const { email } = kakao_account;
+		// eslint-disable-next-line camelcase
+		const { nickname } = properties;
+		setCookie('refreshToken', refresh_token, {
+			path: '/',
+			sameSite: 'none',
+			secure: true,
+		});
+		setLocalStorage('accessToken', access_token);
+		setLocalStorage('kakao', 'true'); // 카카오 로그인 구분
+		setLocalStorage('empiresAtAccess', expires_in);
+		setLocalStorage('empiresAtRefresh', refresh_token_expires_in);
+		const mbtiImg = await Api.get('/mbtiInfo/INFP');
+		dispatch(
+			UPDATE({
+				id,
+				nickname,
+				mbti: 'INFP',
+				email,
+				img: mbtiImg.data.img,
+			}),
+		);
+		dispatch(LOGIN({ accessToken: `${getLocalStorage('accessToken')}` }));
+		Kakao.Auth.setAccessToken(access_token);
+		// 인가code있는 url로 redirect -> 회원가입, 로그인 로직 다름
 		Kakao.Auth.authorize({
 			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
 		});
 	};
-
-	const kakaoClientId = '7983ccc97f8347199573880ef399dc38';
-	const kakaoOnSuccess = async (data: any) => {
-		console.log(data);
-		const idToken = data.response.id_token; // 인가코드 백엔드로 전달
-	};
 	const kakaoOnFailure = (error: any) => {
 		console.log(error);
 	};
+	*/
 
 	return (
 		<Main>
@@ -356,15 +408,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<button className="oauth googleoauth" onClick={oAuthHandler}>
 						<img className="googleIcon" src={googleIcon} alt="" />
 					</button>
+					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
+						<RiKakaoTalkFill size={32} color="#3b1e1e" />
+					</button>
 					<button className="oauth">
 						<span id="naverIdLogin">Naver</span>
 					</button>
-					<button onClick={loginWithKakao}>카카오 로그인</button>
-					<KakaoLogin
-						token={kakaoClientId}
-						onSuccess={kakaoOnSuccess}
-						onFail={kakaoOnFailure}
-					/>
 				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
 				<Link to="/join">
