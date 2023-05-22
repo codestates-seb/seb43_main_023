@@ -210,12 +210,10 @@ function Mypage() {
 	const response = useGet('');
 
 	useEffect(() => {
-		if (response === null) return;
-		const data = response as [];
-		setPosts(
-			data.filter((v: { email: string }) => v.email === userInfos.email),
-		);
-	}, [response, userInfos.email]);
+		if (response !== null) {
+			setPosts(response);
+		}
+	}, [response]);
 
 	// 내가 쓴 글 filter -> useMemo hook 사용
 	const filteredPosts = useMemo(
