@@ -7,12 +7,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
+import { Api } from '../../apis/customAPI';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
-import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
-import { Iuser, UPDATE } from '../../reducers/userInfoReducer';
+import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Ipost } from '../../type/Ipost';
+import { Iuser } from '../../type/Iuser';
 
 const Main = styled.div`
 	display: flex;
@@ -39,6 +41,9 @@ const Content = styled.div`
 		font-weight: bold;
 		margin: 30px;
 		padding-bottom: 5px;
+		@media (max-width: 350px) {
+			font-size: 13px;
+		}
 	}
 	.blue {
 		color: #0db4f3;
@@ -148,20 +153,6 @@ const UserWriting = styled.div`
 		}
 	}
 `;
-
-interface Ipost {
-	id: number;
-	subject: string;
-	title: string;
-	content?: string;
-	nickname: string;
-	email: string;
-	tag?: null;
-	voteCount?: number;
-	viewCount?: number;
-	createdAt?: string;
-	modifiedAt?: string;
-}
 
 function Mypage() {
 	const dispatch = useDispatch();

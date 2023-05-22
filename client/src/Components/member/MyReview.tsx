@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { Iuser } from '../../type/Iuser';
 
 const Container = styled.ul`
 	width: 95%;

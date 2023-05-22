@@ -3,10 +3,11 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
 import styled from 'styled-components';
-import { RootState } from '../store/Store';
+
 import { IKeyword } from '../reducers/searchKeywordReducer';
 import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/community/Pagination';
+import { RootState } from '../store/Store';
 
 const TopBarContainer = styled.div`
 	width: 90%;

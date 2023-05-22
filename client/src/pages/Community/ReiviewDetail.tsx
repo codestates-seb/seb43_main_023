@@ -16,9 +16,9 @@ import MapApi from '../../Components/community/MapApi';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import TopBar from '../../Components/community/TopBar';
+import { Iuser } from '../../type/Iuser';
 
 const TopBarContainer = styled.div`
 	margin-top: -80px;

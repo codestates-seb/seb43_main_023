@@ -11,8 +11,8 @@ import CarouselNearbyPlace from '../../Components/mainpage/CarouselNearbyPlace';
 import CarouselReview from '../../Components/mainpage/CarouselReview';
 import MainHeader from '../../Components/mainpage/MainHeader';
 import UserHeader from '../../Components/mainpage/UserHeader';
-import { Ilogin } from '../../reducers/loginReducer';
 import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 
 const MainContainer = styled.div`
 	width: 100vw;
@@ -42,8 +42,8 @@ const MainTab = styled.div`
 		height: 180px;
 		justify-content: center;
 	}
-	@media (max-width: 582px) {
-		height: 164px;
+	@media (max-width: 425px) {
+		flex-wrap: nowrap;
 	}
 `;
 
@@ -60,6 +60,10 @@ const MainTabButton = styled.div`
 	}
 	@media (max-width: 720px) {
 		font-size: 20px;
+	}
+	@media (max-width: 425px) {
+		padding: 5px;
+		margin-top: 10px;
 	}
 `;
 
@@ -161,16 +165,16 @@ function MainPage() {
 			{login.isLogin ? <UserHeader /> : <MainHeader />}
 			<MainTab>
 				<MainTabButton onClick={() => handleTabClick(0)}>
-					지역별 추천 여행 명소
+					🗺️ 지역별 추천 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(1)}>
-					우리 동네 여행 명소
+					🧭 우리 동네 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(2)}>
-					인기 여행 리뷰글
+					🔥 인기 여행 리뷰글
 				</MainTabButton>
 				<StyledLink to="/community" style={{ textDecoration: 'none' }}>
-					<MainTabButton>커뮤니티</MainTabButton>
+					<MainTabButton>💬 커뮤니티</MainTabButton>
 				</StyledLink>
 			</MainTab>
 			<MainContentsContainer>

@@ -15,9 +15,9 @@ import Answers from '../../Components/community/Answers';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import TopBar from '../../Components/community/TopBar';
+import { Iuser } from '../../type/Iuser';
 
 const TopBarContainer = styled.div`
 	width: 90%;

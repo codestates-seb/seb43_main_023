@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable radix */
 import axios from 'axios';
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsCloudFog } from 'react-icons/bs';
 import {
 	TiWeatherCloudy,
@@ -13,10 +13,9 @@ import {
 } from 'react-icons/ti';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-interface ImageProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
+import Modal from '../../Components/mainpage/Modal';
+import { IImageProps } from '../../type/IImageProps';
+import { TripInfoType } from '../../type/ITripInfo';
 
 interface IRegionData {
 	id: number;
@@ -29,13 +28,6 @@ interface IRegionData {
 	regionIntro: string;
 }
 
-type TripInfoType = {
-	contentid: number;
-	firstimage: string;
-	title: string;
-	addr1: string;
-};
-
 const RegionDetailContainer = styled.div`
 	width: 100vw;
 	height: 100%;
@@ -46,7 +38,7 @@ const RegionDetailContainer = styled.div`
 	align-items: center;
 `;
 
-const RegionDetailImage = styled.div<ImageProps>`
+const RegionDetailImage = styled.div<IImageProps>`
 	width: 100%;
 	height: 40vh;
 	display: flex;
@@ -83,7 +75,7 @@ const RegionInfo = styled.div`
 	}
 `;
 
-const RegionInfoImg = styled.div<ImageProps>`
+const RegionInfoImg = styled.div<IImageProps>`
 	width: 40%;
 	background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
 		center / cover no-repeat;
@@ -136,7 +128,7 @@ const RegionRecItem = styled.div`
 	margin: 20px;
 `;
 
-const RegionItemImg = styled.div<ImageProps>`
+const RegionItemImg = styled.div<IImageProps>`
 	height: 270px;
 	background-image: url(${(props) => (props.image ? props.image : '')});
 	background-position: center;
@@ -465,8 +457,26 @@ function RegionDetail() {
 			});
 	}, [navigate, tourUrl]);
 
+	const [isOpen, setIsOpen] = useState(false);
+	const [tourText, setTourText] = useState('');
+
+	const handleClick = (e: number) => {
+		const infoUrl = `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=xxX98WzuruiLkUpHRO1aF2fTMT2LMrHfz62vItLgl901peg7v8IerpFAaTlujQijG7UMxbtM0oudo6wO3gN5%2BA%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${e}&overviewYN=Y`;
+		axios(infoUrl)
+			.then((response) => {
+				const { data } = response;
+				const intro = data.response.body.items.item[0].overview;
+				setIsOpen(true);
+				setTourText(intro);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	};
+
 	return (
 		<RegionDetailContainer>
+			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
 			<RegionDetailImage image={selectedRegion[0].header}>
 				<span>{selectedRegion[0].name} 여행 추천 명소</span>
 			</RegionDetailImage>
@@ -494,7 +504,10 @@ function RegionDetail() {
 				{tripInfo
 					? tripInfo.map((item: TripInfoType) => {
 							return (
-								<RegionRecItem key={item.contentid}>
+								<RegionRecItem
+									onClick={() => handleClick(item.contentid)}
+									key={item.contentid}
+								>
 									<RegionItemImg image={item.firstimage} />
 									<RegionItemText>
 										<span>{item.title}</span>

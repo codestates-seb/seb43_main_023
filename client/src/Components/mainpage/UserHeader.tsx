@@ -1,17 +1,15 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import { IImageProps } from '../../type/IImageProps';
+import { IMbti } from '../../type/IMbti';
+import { Iuser } from '../../type/Iuser';
 
-interface UserHeaderImgProps extends HTMLAttributes<HTMLDivElement> {
-	image?: string;
-}
-
-const UserHeaderContainer = styled.div<UserHeaderImgProps>`
+const UserHeaderContainer = styled.div<IImageProps>`
 	width: 100vw;
 	height: 40vh;
 	padding: 100px;
@@ -57,7 +55,7 @@ const HeaderText = styled.div`
 	@media (max-width: 768px) {
 		font-size: 2rem;
 	}
-	.nickName {
+	.emphasis {
 		color: #0db4f3;
 	}
 	> span {
@@ -75,16 +73,8 @@ const HeaderText = styled.div`
 	}
 `;
 
-interface IuserMbti {
-	description: string;
-	img: string;
-	mbti: string;
-	place: string;
-	placeImg: string;
-}
-
 function UserHeader() {
-	const [filterMbti, setFilterMbti] = useState<IuserMbti>({
+	const [filterMbti, setFilterMbti] = useState<IMbti>({
 		description: '',
 		img: '',
 		mbti: '',
@@ -100,9 +90,7 @@ function UserHeader() {
 
 	useEffect(() => {
 		if (res !== null) {
-			const newData = res.filter(
-				(item: IuserMbti) => item.mbti === userInfos.mbti,
-			);
+			const newData = res.filter((item: IMbti) => item.mbti === userInfos.mbti);
 			setFilterMbti(newData[0]);
 		}
 	}, [res, userInfos.mbti]);
@@ -111,18 +99,19 @@ function UserHeader() {
 		<UserHeaderContainer image={filterMbti ? filterMbti.placeImg : ''}>
 			<HeaderText>
 				<span>
-					<span className="nickName">{userInfos.nickname}</span>님 어서오세요!
+					<span className="emphasis">{userInfos.nickname}</span>님 어서오세요!
 				</span>
-				<div>
-					{filterMbti
-						? filterMbti.description.split('\\n').map((item, key) => (
-								<>
-									{key > 0 && <br />}
-									{item}
-								</>
-						  ))
-						: ''}
-				</div>
+				{filterMbti ? (
+					<div>
+						{filterMbti.description1}
+						<br />
+						<span className="emphasis">{filterMbti.mbti}</span>에게 어울리는{' '}
+						<span className="emphasis">{filterMbti.place}</span>
+						{filterMbti.description2}
+					</div>
+				) : (
+					<div />
+				)}
 			</HeaderText>
 		</UserHeaderContainer>
 	);
