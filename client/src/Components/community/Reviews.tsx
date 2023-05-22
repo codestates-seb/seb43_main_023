@@ -7,6 +7,7 @@ import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
 import { Ipost } from '../../type/Ipost';
 import * as style from './CommunityStyle';
+import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
 	height: fit-content;
@@ -91,10 +92,7 @@ function Review() {
 	const startIdx = (curPage - 1) * 12;
 	const endIdx = startIdx + 12;
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts?subject=여행리뷰&page=1',
-	});
+	const response = useGet('?subject=여행리뷰&page=1');
 
 	useEffect(() => {
 		if (response) {
