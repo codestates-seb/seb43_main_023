@@ -20,7 +20,8 @@ const ModalButton = styled.button`
 	background-color: #0db4f3;
 	color: white;
 	margin-top: 10px;
-	width: 60px;
+	width: 15%;
+	padding: 10px;
 	border-radius: 15px;
 `;
 
@@ -29,13 +30,17 @@ const ModalView = styled.div`
 	top: 30vh;
 	left: 15vw;
 	width: 70%;
+	height: 40%;
+	overflow-y: scroll;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	border-radius: 15px;
-	padding: 20px;
+	padding: 20px 30px 30px 30px;
+	line-height: 1.5;
+	font-size: 1.3em;
 `;
 
 type ModalProps = {
@@ -62,8 +67,8 @@ function Modal({ text, isOpen, setIsOpen }: ModalProps) {
 							event.stopPropagation();
 						}}
 					>
-						{text}
-						<ModalButton onClick={modalHandler}>🛩️닫기</ModalButton>
+						<span className="explanation">{text}</span>
+						<ModalButton onClick={modalHandler}>🛩️ 닫기</ModalButton>
 					</ModalView>
 				</ModalBackdrop>
 			) : null}

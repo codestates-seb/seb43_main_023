@@ -75,7 +75,6 @@ function MainHeader() {
 	});
 
 	useEffect(() => {
-		console.log(response);
 		if (response) {
 			setUserCount(response);
 		}

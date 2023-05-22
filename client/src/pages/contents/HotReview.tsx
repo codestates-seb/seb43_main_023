@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { IImageProps } from '../../type/IImageProps';
 import { Iposts } from '../../type/Ipost';
 
@@ -127,14 +127,16 @@ const StyledLink = styled(Link)`
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<Iposts>([]);
 
-	const res: any = useAxios({
-		method: 'get',
-		url: '/posts',
-	}).response;
+	// const res: any = useAxios({
+	// 	method: 'get',
+	// 	url: '/posts',
+	// }).response;
+
+	const response: any = useGet('');
 
 	useEffect(() => {
-		if (res !== null) {
-			const newArr = res.filter(
+		if (response !== null) {
+			const newArr = response.filter(
 				(item: { subject: string }) => item.subject === '여행리뷰',
 			);
 			newArr.sort(
@@ -143,7 +145,7 @@ function HotReview() {
 			);
 			setFilterReview(newArr.slice(0, 5));
 		}
-	}, [res]);
+	}, [response]);
 
 	return (
 		<HotReviewContainer>
