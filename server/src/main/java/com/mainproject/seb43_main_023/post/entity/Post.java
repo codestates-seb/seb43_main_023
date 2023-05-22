@@ -66,6 +66,9 @@ public class Post extends Auditable {
     @ElementCollection
     private List<String> image = new ArrayList<>();
 
+    @ElementCollection
+    private List<String> tag = new ArrayList<>();
+
 //    public void addMember(Post post,Member member) {
 //        post.setMemberId(member.getMemberId());
 //        post.setNickname(member.getNickname());

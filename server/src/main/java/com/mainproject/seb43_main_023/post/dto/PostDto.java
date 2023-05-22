@@ -31,6 +31,8 @@ public class PostDto {
 
         private List<String> image;
 
+        private List<String> tag;
+
 /**    TODO
  *      private String tag;
  *      뱃지
@@ -53,6 +55,7 @@ public class PostDto {
 
         private String locationX;
         private List<String> image;
+        private List<String> tag;
         private long viewCount;
         private long voteCount;
         private LocalDateTime postCreatedAt;
@@ -69,7 +72,6 @@ public class PostDto {
 
         private String locationX;
         private List<String> image;
-//        private String tag;
-//        추가예정
+        private List<String> tag;
     }
 }
