@@ -12,7 +12,7 @@ import { RootState } from '../../store/Store';
 import { Ianswer } from '../../type/Ianswer';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
-import { SweetAlert1, SweetAlert2 } from '../common/SweetAlert';
+import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
 
 const Container = styled.div`
 	width: 100%;

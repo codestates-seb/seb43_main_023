@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { Viewer } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
-import { SweetAlert1, SweetAlert2 } from '../../Components/common/SweetAlert';
 import Answers from '../../Components/community/Answers';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
@@ -19,6 +18,7 @@ import { RootState } from '../../store/Store';
 import { Ianswer } from '../../type/Ianswer';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
+import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
 
 const PostContainer = styled.div`
 	height: fit-content;

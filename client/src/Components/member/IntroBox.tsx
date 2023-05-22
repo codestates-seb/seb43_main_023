@@ -10,7 +10,7 @@ import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { removeCookie } from '../../utils/cookie';
 import { getLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
-import { SweetAlert1 } from '../common/SweetAlert';
+import { SweetAlert1 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
 	width: 100%;

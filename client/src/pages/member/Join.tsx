@@ -10,14 +10,14 @@ import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
-import { SweetAlert2 } from '../../Components/common/SweetAlert';
 import ToastAlert from '../../Components/common/ToastAlert';
+import { SweetAlert2 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
 	width: 100%;
 	height: 100vh;
 	display: flex;
-	justify-content: center;
+	justify-content: center../../utils/ToastAlert
 	align-items: center;
 	overflow: hidden;
 	-ms-overflow-style: none;

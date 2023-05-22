@@ -7,10 +7,10 @@ import styled from 'styled-components';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
-import { SweetAlert1 } from '../../Components/common/SweetAlert';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { removeCookie } from '../../utils/cookie';
 import { getLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
+import { SweetAlert1 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
 	width: 100%;

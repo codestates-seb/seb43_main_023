@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
-import { SweetAlert1 } from '../../Components/common/SweetAlert';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
 import useGet from '../../hooks/useGet';
@@ -15,6 +14,7 @@ import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Iposts } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
+import { SweetAlert1 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
 	display: flex;
