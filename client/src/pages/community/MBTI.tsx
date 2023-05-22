@@ -17,6 +17,7 @@ import { Ipost } from '../../type/Ipost';
 import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
+import useGet from '../../hooks/useGet';
 
 function MBTI() {
 	// eslint-disable-next-line prefer-const
@@ -54,10 +55,7 @@ function MBTI() {
 		}
 	};
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts?subject=MBTI&page=1',
-	});
+	const response = useGet('?subject=MBTI&page=1');
 
 	useEffect(() => {
 		if (response) {

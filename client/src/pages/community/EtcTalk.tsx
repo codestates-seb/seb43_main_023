@@ -17,6 +17,7 @@ import { Ipost } from '../../type/Ipost';
 import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
+import useGet from '../../hooks/useGet';
 
 function EtcTalk() {
 	// eslint-disable-next-line prefer-const
@@ -51,10 +52,7 @@ function EtcTalk() {
 		}
 	};
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts?subject=잡담&page=1',
-	});
+	const response = useGet('?subject=잡담&page=1');
 
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;
