@@ -3,20 +3,19 @@ import '../../Global.css';
 import { useEffect, useState } from 'react';
 
 import { AiFillHeart } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
-
 import { FiChevronRight } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+
+import * as style from '../../Components/community/CommunityStyle';
 import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
-import useAxios from '../../hooks/useAxios';
-import { Ipost } from '../../type/Ipost';
-
-import * as style from '../../Components/community/CommunityStyle';
+import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
+import { Ipost } from '../../type/Ipost';
 
 function Main() {
 	// eslint-disable-next-line prefer-const
@@ -54,10 +53,13 @@ function Main() {
 		}
 	};
 
+	const response = useGet('?subject=여행고민&page=1');
+	/*
 	const { response } = useAxios({
 		method: 'get',
 		url: '/posts?subject=여행고민&page=1',
 	});
+	*/
 
 	useEffect(() => {
 		if (response) {
