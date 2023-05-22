@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { AiFillHeart } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Api } from '../../apis/customAPI';
+import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Iuser } from '../../type/Iuser';
 
@@ -100,18 +100,28 @@ function MyReview() {
 
 	// eslint-disable-next-line prefer-const
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
-	useEffect(() => {
-		Api.get('/posts').then((res) => setReviews(res.data));
-	}, []);
 
-	reviews = reviews.filter(
-		(el) => el.subject === '여행리뷰' && el.email === userInfos.email,
+	const response = useGet('');
+
+	useEffect(() => {
+		if (response !== null) {
+			setReviews(response);
+		}
+	}, [response]);
+
+	// 내가 쓴 글 + 여행리뷰 filter -> useMemo hook 사용
+	const filteredReviews = useMemo(
+		() =>
+			reviews.filter(
+				(el) => el.subject === '여행리뷰' && el.email === userInfos.email,
+			),
+		[reviews, userInfos.email],
 	);
 
 	return (
 		<Container>
-			{reviews &&
-				reviews.map((el) => (
+			{filteredReviews &&
+				filteredReviews.map((el) => (
 					<li key={el.id}>
 						<Link to={`/tripreview/${el.id}`}>
 							<ReviewBox>
