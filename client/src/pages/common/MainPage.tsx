@@ -42,8 +42,8 @@ const MainTab = styled.div`
 		height: 180px;
 		justify-content: center;
 	}
-	@media (max-width: 582px) {
-		height: 164px;
+	@media (max-width: 425px) {
+		flex-wrap: nowrap;
 	}
 `;
 
@@ -60,6 +60,10 @@ const MainTabButton = styled.div`
 	}
 	@media (max-width: 720px) {
 		font-size: 20px;
+	}
+	@media (max-width: 425px) {
+		padding: 5px;
+		margin-top: 10px;
 	}
 `;
 

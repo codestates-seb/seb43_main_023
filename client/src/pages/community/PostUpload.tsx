@@ -300,19 +300,13 @@ function PostUpload() {
 			// json-server용 api 요청
 			try {
 				Api.post(`/posts/${userInfos.id}`, {
-					nickName: userInfos.nickname,
 					subject,
 					title,
 					content,
 					tag: tags,
 					image: Images,
-					voteCount: 0,
-					viewCount: 0,
-					createdAt: '23-05-01T000000',
-					modifiedAt: '23-05-01T000000',
 					locationX: x,
 					locationY: y,
-					email: userInfos.email,
 				});
 				const myposts = posts.filter(
 					(post) => post.member.email === userInfos.email,
@@ -391,8 +385,6 @@ function PostUpload() {
 			}
 		}
 	};
-
-	console.log(postData.response);
 
 	useEffect(() => {
 		if (postData.response) {

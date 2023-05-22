@@ -1,16 +1,13 @@
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-const Container = styled.ul`
-	width: 170px;
+const UL = styled.ul`
 	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	align-items: center;
-	margin-top: -1.9rem;
 	font-weight: 600;
 	font-size: 15px;
-	height: 820px;
+	padding: 10px 0;
 
 	> li {
 		padding: 8px 0;
@@ -23,6 +20,7 @@ const Container = styled.ul`
 		&:hover {
 			background-color: #0db4f3;
 			color: white;
+			cursor: pointer;
 		}
 
 		a {
@@ -37,9 +35,9 @@ const Container = styled.ul`
 	}
 `;
 
-function SideBar() {
+function TopBar() {
 	return (
-		<Container>
+		<UL>
 			<li>
 				<Link to="/tripreview">여행리뷰 </Link>
 			</li>
@@ -56,8 +54,8 @@ function SideBar() {
 			<li>
 				<Link to="/etctalk">잡담</Link>
 			</li>
-		</Container>
+		</UL>
 	);
 }
 
-export default SideBar;
+export default TopBar;

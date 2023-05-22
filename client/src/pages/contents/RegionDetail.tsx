@@ -13,6 +13,7 @@ import {
 } from 'react-icons/ti';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Modal from '../../Components/mainpage/Modal';
 import { IImageProps } from '../../type/IImageProps';
 import { TripInfoType } from '../../type/ITripInfo';
 
@@ -456,8 +457,26 @@ function RegionDetail() {
 			});
 	}, [navigate, tourUrl]);
 
+	const [isOpen, setIsOpen] = useState(false);
+	const [tourText, setTourText] = useState('');
+
+	const handleClick = (e: number) => {
+		const infoUrl = `https://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=xxX98WzuruiLkUpHRO1aF2fTMT2LMrHfz62vItLgl901peg7v8IerpFAaTlujQijG7UMxbtM0oudo6wO3gN5%2BA%3D%3D&MobileOS=ETC&MobileApp=AppTest&_type=json&contentId=${e}&overviewYN=Y`;
+		axios(infoUrl)
+			.then((response) => {
+				const { data } = response;
+				const intro = data.response.body.items.item[0].overview;
+				setIsOpen(true);
+				setTourText(intro);
+			})
+			.catch(() => {
+				navigate('/error');
+			});
+	};
+
 	return (
 		<RegionDetailContainer>
+			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
 			<RegionDetailImage image={selectedRegion[0].header}>
 				<span>{selectedRegion[0].name} 여행 추천 명소</span>
 			</RegionDetailImage>
@@ -485,7 +504,10 @@ function RegionDetail() {
 				{tripInfo
 					? tripInfo.map((item: TripInfoType) => {
 							return (
-								<RegionRecItem key={item.contentid}>
+								<RegionRecItem
+									onClick={() => handleClick(item.contentid)}
+									key={item.contentid}
+								>
 									<RegionItemImg image={item.firstimage} />
 									<RegionItemText>
 										<span>{item.title}</span>
