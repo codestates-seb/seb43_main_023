@@ -12,7 +12,7 @@ export interface Ipost {
 	member: {
 		createdAt?: string;
 		modifiedAt?: string;
-		memberId?: 1;
+		memberId?: number;
 		email: string;
 		password?: string;
 		nickname?: string;

@@ -1,6 +1,6 @@
 import '../../Global.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -209,12 +209,6 @@ function Mypage() {
 	]);
 
 	// 커뮤니티 내글 get요청(useAxios 사용)
-	/*
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts',
-	});
-	*/
 	const response = useGet('');
 
 	useEffect(() => {
@@ -222,6 +216,12 @@ function Mypage() {
 			setPosts(response);
 		}
 	}, [response]);
+
+	// 내가 쓴 글 filter -> useMemo hook 사용
+	const filteredPosts = useMemo(
+		() => posts.filter((post) => post.member.email === userInfos.email),
+		[posts, userInfos.email],
+	);
 
 	// 마이페이지 내가 쓴 글 삭제 핸들러 +
 	// 초보여행자 뱃지가 있고, 삭제 후 글이 5개 미만이 되는 경우 -> 뱃지 null로 업데이트
@@ -334,34 +334,32 @@ function Mypage() {
 					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
-								{posts
-									.filter((post) => post.member.email === userInfos.email)
-									.map((post) => {
-										return (
-											<li key={post.postId}>
-												<div className="writingHead">[{post.subject}]</div>
+								{filteredPosts.map((post) => {
+									return (
+										<li key={post.postId}>
+											<div className="writingHead">[{post.subject}]</div>
+											<Link
+												to={{ pathname: `/community/${post.postId}` }}
+												style={{ textDecoration: 'none' }}
+											>
+												<div className="writingBody">{post.title}</div>
+											</Link>
+											<div>
 												<Link
-													to={{ pathname: `/community/${post.postId}` }}
+													to={{
+														pathname: `/community/${post.postId}/update`,
+													}}
 													style={{ textDecoration: 'none' }}
 												>
-													<div className="writingBody">{post.title}</div>
+													<button>Edit</button>
 												</Link>
-												<div>
-													<Link
-														to={{
-															pathname: `/community/${post.postId}/update`,
-														}}
-														style={{ textDecoration: 'none' }}
-													>
-														<button>Edit</button>
-													</Link>
-													<button onClick={() => postDeleteClick(post.postId)}>
-														Delete
-													</button>
-												</div>
-											</li>
-										);
-									})}
+												<button onClick={() => postDeleteClick(post.postId)}>
+													Delete
+												</button>
+											</div>
+										</li>
+									);
+								})}
 							</ul>
 						</UserWriting>
 					)}
