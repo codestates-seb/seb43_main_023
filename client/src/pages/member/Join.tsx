@@ -4,12 +4,13 @@ import { FocusEvent, useEffect, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
+import { SweetAlert2 } from '../../Components/common/SweetAlert';
+import ToastAlert from '../../Components/common/ToastAlert';
 
 const Main = styled.div`
 	width: 100%;
@@ -275,37 +276,20 @@ function Join() {
 					password: el.password.value,
 					img: mbtiImg.data.img,
 				});
-				Swal.fire({
-					title: '회원가입이 완료되었습니다',
-					text: '로그인 페이지로 이동합니다.',
-					icon: 'success',
-				}).then((result) => {
-					if (result.value) {
-						navigate('/login');
-					}
-				});
+				const sweetAlert2 = await SweetAlert2(
+					'회원가입이 완료되었습니다.',
+					'로그인 페이지로 이동합니다.',
+				);
+				if (sweetAlert2.isConfirmed) {
+					navigate('/login');
+				}
 			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			console.log(err);
 			if (err.response.status === 500) {
-				const Toast = Swal.mixin({
-					toast: true,
-					position: 'top',
-					showConfirmButton: false,
-					timer: 3000,
-					timerProgressBar: true,
-					didOpen: (toast: {
-						addEventListener: (arg0: string, arg1: () => void) => void;
-					}) => {
-						toast.addEventListener('mouseenter', Swal.stopTimer);
-						toast.addEventListener('mouseleave', Swal.resumeTimer);
-					},
-				});
-				Toast.fire({
-					icon: 'warning',
-					title: '이미 가입한 회원입니다.',
-				});
+				console.log(err);
+				ToastAlert('이미 가입한 회원입니다.');
 			} else {
 				navigate('/error');
 			}

@@ -19,10 +19,10 @@ import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../type/Iuser';
+import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
-import { UPDATE } from '../../reducers/userInfoReducer';
+import { Iuser } from '../../type/Iuser';
 
 const Container = styled.div`
 	width: 100vw;
@@ -349,13 +349,13 @@ function PostUpload() {
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
 			try {
-				Api.post(`/posts/${userInfos.id}`, {
+				Api.post(`/posts/9`, {
 					subject,
 					title,
 					content,
 					tag: tags,
-					image: Images,
 				});
+				console.log('hello');
 				const myposts = posts.filter(
 					(post) => post.member.email === userInfos.email,
 				);
@@ -386,6 +386,7 @@ function PostUpload() {
 					document.location.href = `/community/${posts[0].postId + 1}`;
 				}
 			} catch (error) {
+				console.log('hi');
 				navigate('/error');
 			}
 		}

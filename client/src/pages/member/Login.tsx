@@ -2,15 +2,17 @@ import '../../Global.css';
 
 import { FocusEvent, useEffect } from 'react';
 
+import KakaoLogin from 'react-kakao-login';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
+import { SweetAlert2 } from '../../Components/common/SweetAlert';
+import ToastAlert from '../../Components/common/ToastAlert';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
@@ -230,36 +232,18 @@ function Login() {
 			setLocalStorage('accessToken', accessToken);
 			setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 			setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-			Swal.fire({
-				icon: 'success',
-				title: '로그인되었습니다.',
-				text: '메인 페이지로 이동합니다.',
-			}).then((result) => {
-				if (result.isConfirmed) {
-					navigate('/main');
-				}
-			});
+			const sweetAlert2 = await SweetAlert2(
+				'로그인되었습니다.',
+				'메인 페이지로 이동합니다.',
+			);
+			if (sweetAlert2.isConfirmed) {
+				navigate('/main');
+			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			console.log(err);
 			if (err.response.status === 401) {
-				const Toast = Swal.mixin({
-					toast: true,
-					position: 'top',
-					showConfirmButton: false,
-					timer: 3000,
-					timerProgressBar: true,
-					didOpen: (toast: {
-						addEventListener: (arg0: string, arg1: () => void) => void;
-					}) => {
-						toast.addEventListener('mouseenter', Swal.stopTimer);
-						toast.addEventListener('mouseleave', Swal.resumeTimer);
-					},
-				});
-				Toast.fire({
-					icon: 'warning',
-					title: '아이디/비밀번호가 다릅니다.',
-				});
+				ToastAlert('아이디/비밀번호가 다릅니다.');
 			} else {
 				navigate('/error');
 			}
@@ -275,7 +259,7 @@ function Login() {
 		keyUp?.classList.add('hide');
 	};
 
-	// oauth google 구현 url
+	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
 redirect_uri=http://localhost:3000/accounts/google/login/&
@@ -286,7 +270,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const { naver } = window as any;
-	// oauth naver
+	// 네이버 oauth
 	useEffect(() => {
 		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
 		const initializeNaverLogin = () => {
@@ -304,6 +288,33 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		};
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
+
+	/*
+	// 카카오 oauth
+	const RestApiKey = process.env.REACT_APP_KAKAO_CLIENT_ID;
+	const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+	// oauth 요청 URL
+	const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${RestApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+	const handleLogin = () => {
+		window.location.href = kakaoURL;
+	};
+	*/
+
+	const { Kakao } = window as any;
+	const loginWithKakao = () => {
+		Kakao.Auth.authorize({
+			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+		});
+	};
+
+	const kakaoClientId = '7983ccc97f8347199573880ef399dc38';
+	const kakaoOnSuccess = async (data: any) => {
+		console.log(data);
+		const idToken = data.response.id_token; // 인가코드 백엔드로 전달
+	};
+	const kakaoOnFailure = (error: any) => {
+		console.log(error);
+	};
 
 	return (
 		<Main>
@@ -348,6 +359,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<button className="oauth">
 						<span id="naverIdLogin">Naver</span>
 					</button>
+					<button onClick={loginWithKakao}>카카오 로그인</button>
+					<KakaoLogin
+						token={kakaoClientId}
+						onSuccess={kakaoOnSuccess}
+						onFail={kakaoOnFailure}
+					/>
 				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
 				<Link to="/join">

@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
+import { SweetAlert1 } from '../../Components/common/SweetAlert';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
 import useAxios from '../../hooks/useAxios';
@@ -222,42 +222,39 @@ function Mypage() {
 
 	// 마이페이지 내가 쓴 글 삭제 핸들러 +
 	// 초보여행자 뱃지가 있고, 삭제 후 글이 5개 미만이 되는 경우 -> 뱃지 null로 업데이트
-	const postDeleteClick = (id: number) => {
-		Swal.fire({
-			icon: 'warning',
-			title: '삭제',
-			text: `글을 삭제하시겠습니까?`,
-			showCancelButton: true,
-			confirmButtonText: '삭제',
-			cancelButtonText: '취소',
-		}).then(async (res) => {
-			if (res.isConfirmed) {
-				try {
-					await Api.delete(`/posts/${id}/${userInfos.id}`);
-					if (userInfos.badge !== null && posts.length <= 5) {
-						Api.patch(`/members/${userInfos.id}`, {
+	const postDeleteClick = async (id: number) => {
+		const sweetAlert1 = await SweetAlert1(
+			'삭제',
+			'글을 삭제하시겠습니까?',
+			'삭제',
+			'취소',
+		);
+		if (sweetAlert1.isConfirmed) {
+			try {
+				await Api.delete(`/posts/${id}/${userInfos.id}`);
+				if (userInfos.badge !== null && posts.length <= 5) {
+					Api.patch(`/members/${userInfos.id}`, {
+						nickname: userInfos.nickname,
+						mbti: userInfos.mbti,
+						img: userInfos.img,
+						badge: null,
+					});
+					dispatch(
+						UPDATE({
 							nickname: userInfos.nickname,
 							mbti: userInfos.mbti,
 							img: userInfos.img,
 							badge: null,
-						});
-						dispatch(
-							UPDATE({
-								nickname: userInfos.nickname,
-								mbti: userInfos.mbti,
-								img: userInfos.img,
-								badge: null,
-							}),
-						);
-					}
-					window.location.reload();
-				} catch (error) {
-					navigate('/error');
+						}),
+					);
 				}
-			} else {
-				navigate('/mypage');
+				window.location.reload();
+			} catch (error) {
+				navigate('/error');
 			}
-		});
+		} else {
+			navigate('/mypage');
+		}
 	};
 
 	// 마이페이지 뱃지 호버 시 뱃지 기준 설명 박스가 나오는 핸들러

@@ -1,11 +1,13 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import { HTMLAttributes, useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
+/* eslint-disable react/jsx-props-no-spreading */
+import Slider from 'react-slick';
 import styled from 'styled-components';
+
 import useAxios from '../../hooks/useAxios';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -14,6 +16,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 
 const SlideContainer = styled(Slider)`
 	display: flex;
+	flex-direction: column;
 	.slick-prev::before {
 		color: #0db4f3;
 	}

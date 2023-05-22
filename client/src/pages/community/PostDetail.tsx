@@ -7,18 +7,18 @@ import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Viewer } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
+import { SweetAlert1, SweetAlert2 } from '../../Components/common/SweetAlert';
 import Answers from '../../Components/community/Answers';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
-import { Ipost } from '../../type/Ipost';
 import { Ianswer } from '../../type/Ianswer';
+import { Ipost } from '../../type/Ipost';
+import { Iuser } from '../../type/Iuser';
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -168,33 +168,25 @@ function PostDetail() {
 		url: `/posts/${id}/comments`,
 	});
 
-	const deletePost = () => {
-		Swal.fire({
-			title: '정말로 삭제하시겠습니까 ?',
-			text: '다신 되돌릴 수 없습니다',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#0db4f3',
-			cancelButtonColor: '#f37676',
-			confirmButtonText: 'Delete',
-		}).then((result) => {
-			if (result.isConfirmed) {
-				try {
-					Api.delete(`/posts/${id}/${userInfos.id}`)
-						.then(() =>
-							Swal.fire({
-								title: 'Deleted!',
-								text: '삭제되었습니다',
-								icon: 'success',
-								confirmButtonColor: '#0db4f3',
-							}),
-						) // eslint-disable-next-line no-return-assign
-						.then(() => (document.location.href = '/community'));
-				} catch (error) {
-					navigate('/error');
-				}
+	const deletePost = async () => {
+		const sweetAlert1 = await SweetAlert1(
+			'정말로 삭제하시겠습니까 ?',
+			'다신 되돌릴 수 없습니다',
+			'Delete',
+			'Cancle',
+		);
+		if (sweetAlert1.isConfirmed) {
+			try {
+				Api.delete(`/posts/${id}/${userInfos.id}`).then(async () => {
+					const sweetAlert2 = await SweetAlert2('Deleted!', '삭제되었습니다');
+					if (sweetAlert2.isConfirmed) {
+						navigate('/community');
+					}
+				});
+			} catch (error) {
+				navigate('/error');
 			}
-		});
+		}
 	};
 
 	const handleLike = () => {

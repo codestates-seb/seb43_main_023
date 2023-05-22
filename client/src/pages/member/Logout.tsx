@@ -4,13 +4,13 @@ import '../../Global.css';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
+import { SweetAlert1 } from '../../Components/common/SweetAlert';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { removeCookie } from '../../utils/cookie';
-import { removeLocalStorage } from '../../utils/LocalStorage';
+import { getLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
@@ -56,34 +56,35 @@ const Content = styled.div`
 		}
 	}
 `;
-
+const { Kakao } = window as any;
 function Logout() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const logoutClick = () => {
-		Swal.fire({
-			icon: 'warning',
-			title: '로그아웃',
-			text: '로그아웃하시겠습니까?',
-			showCancelButton: true,
-			confirmButtonText: '로그아웃',
-			cancelButtonText: '취소',
-		}).then(async (res) => {
-			if (res.isConfirmed) {
-				try {
-					removeLocalStorage('accessToken');
-					removeLocalStorage('empiresAtAccess');
-					removeLocalStorage('empiresAtRefresh');
-					dispatch(LOGOUT());
-					removeCookie('refreshToken');
-					navigate('/main');
-				} catch (error) {
-					navigate('/error');
-				}
-			} else {
-				navigate('/logout');
+	const logoutClick = async () => {
+		const sweetAlert1 = await SweetAlert1(
+			'로그아웃',
+			'로그아웃하시겠습니까?',
+			'로그아웃',
+			'취소',
+		);
+		if (sweetAlert1.isConfirmed) {
+			if (getLocalStorage('kakao')) {
+				Kakao.Auth.logout();
+				removeLocalStorage('kakao');
 			}
-		});
+			try {
+				removeLocalStorage('accessToken');
+				removeLocalStorage('empiresAtAccess');
+				removeLocalStorage('empiresAtRefresh');
+				dispatch(LOGOUT());
+				removeCookie('refreshToken');
+				navigate('/main');
+			} catch (error) {
+				navigate('/error');
+			}
+		} else {
+			navigate('/logout');
+		}
 	};
 
 	return (

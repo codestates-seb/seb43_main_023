@@ -1,6 +1,6 @@
 import '../../Global.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { AiFillHeart } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
@@ -114,25 +114,20 @@ function MyReview() {
 		});
 	}, [reviews]);
 
-	/* // 내가 쓴 글 filter -> useMemo hook 사용
-	const useMyPosts = useMemo(() => {
-		setReviews(
+	// 내가 쓴 글 filter -> useMemo hook 사용
+	const filteredReviews = useMemo(
+		() =>
 			reviews.filter(
 				(post: { member: { email: string | undefined } }) =>
 					post.member.email === userInfos.email,
 			),
-		);
-		return reviews;
-	}, [reviews, userInfos.email]);
-*/
+		[reviews, userInfos.email],
+	);
+
 	return (
 		<Container>
 			{reviews &&
-				reviews
-					.filter(
-						(post: { member: { email: string | undefined } }) =>
-							post.member.email === userInfos.email,
-					)
+				filteredReviews
 					.filter((v: { subject: string }) => v.subject === '여행리뷰')
 					.map((el) => (
 						<li key={el.postId}>

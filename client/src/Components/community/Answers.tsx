@@ -5,14 +5,14 @@ import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
-import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
 import { Ianswer } from '../../type/Ianswer';
 import { Ipost } from '../../type/Ipost';
+import { Iuser } from '../../type/Iuser';
+import { SweetAlert1, SweetAlert2 } from '../common/SweetAlert';
 
 const Container = styled.div`
 	width: 100%;
@@ -165,40 +165,29 @@ function Answers() {
 		}
 	};
 
-	const handleDelete = (answerId: number) => {
-		Swal.fire({
-			title: '정말로 삭제하시겠습니까 ?',
-			text: '다신 되돌릴 수 없습니다',
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#0db4f3',
-			cancelButtonColor: '#f37676',
-			confirmButtonText: 'Delete',
-		}).then((result) => {
-			if (result.isConfirmed) {
-				try {
-					Api.delete(`/posts/${id}/comments/${answerId}`)
-						.then(() =>
-							Swal.fire({
-								title: 'Deleted!',
-								text: '삭제되었습니다',
-								icon: 'success',
-								confirmButtonColor: '#0db4f3',
-							}),
-						)
-						// eslint-disable-next-line no-return-assign
-						.then(() => {
-							if (review[0].subject === '여행리뷰') {
-								document.location.href = `/tripreview/${id}`;
-							} else {
-								document.location.href = `/community/${id}`;
-							}
-						});
-				} catch (error) {
-					navigate('/error');
-				}
+	const handleDelete = async (answerId: number) => {
+		const sweetAlert1 = await SweetAlert1(
+			'정말로 삭제하시겠습니까 ?',
+			'다신 되돌릴 수 없습니다',
+			'Delete',
+			'Cancle',
+		);
+		if (sweetAlert1.isConfirmed) {
+			try {
+				Api.delete(`/posts/${id}/${userInfos.id}`).then(async () => {
+					const sweetAlert2 = await SweetAlert2('Deleted!', '삭제되었습니다');
+					if (sweetAlert2.isConfirmed) {
+						if (review[0].subject === '여행리뷰') {
+							document.location.href = `/tripreview/${id}`;
+						} else {
+							document.location.href = `/community/${id}`;
+						}
+					}
+				});
+			} catch (error) {
+				navigate('/error');
 			}
-		});
+		}
 	};
 
 	const handleEdit = (answerId: number) => {
