@@ -14,6 +14,7 @@ public class CommentDto {
     public static class CommentPostDto {
         @NotBlank(message = "댓글 내용을 작성해야 합니다.")
         private String content;
+        private String nickname;
         private long memberId;
         private long postId;
 
@@ -26,6 +27,7 @@ public class CommentDto {
     public static class CommentPatchDto {
         @NotBlank(message = "댓글 내용을 작성해야 합니다.")
         private String content;
+        private String nickname;
         private long memberId;
         private long postId;
     }
@@ -37,6 +39,7 @@ public class CommentDto {
     public static class CommentResponseDto {
         private long commentId;
         private String content;
+        private String nickname;
         private long voteCount;
         private String createdAt;
         private String modifiedAt;

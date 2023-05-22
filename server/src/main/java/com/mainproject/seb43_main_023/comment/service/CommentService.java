@@ -6,6 +6,7 @@ import com.mainproject.seb43_main_023.exception.BusinessLogicException;
 import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -35,6 +36,7 @@ public class CommentService {
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
+    @Transactional
     public Comment voteComment(long commentId,long memberId) {
         Comment comment = findVerifiedComment(commentId);
         Set<Long> voteList = new HashSet<>(comment.getVoteList());

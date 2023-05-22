@@ -37,7 +37,8 @@ public class DataLoader {
         );
         memberRepository.saveAll(members);
         List<Post> posts = Arrays.asList(
-                new Post(1L,"여행리뷰","여행리뷰제목1","내용1",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member1,null,null),
+                new Post(1L,"여행리뷰","여행리뷰제목1","내용1",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member1,null,null,null)
+/*
                 new Post(2L,"여행리뷰","여행사진제목2","내용2",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
                 new Post(3L,"여행추천","여행추천제목3","내용3",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
                 new Post(4L,"여행추천","여행인기제목4","내용4",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
@@ -74,44 +75,25 @@ public class DataLoader {
 //                new Post(34L,"잡담","잡담여행11","내용11",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null,null),
 //                new Post(35L,"잡담","잡담여행12","내용12",0,0,LocalDateTime.now(),LocalDateTime.now(),1L,"test1@gmail.com","testNick1",null,null),
 //                new Post(36L,"잡담","잡담MBTI13","내용13",0,0,LocalDateTime.now(),LocalDateTime.now(),2L,"test2@gmail.com","testNick2",null,null)
+
+ */
         );
         postRepository.saveAll(posts);
         List<Comment> comments = Arrays.asList(
-                new Comment(1L,"댓글1234",0,1,1,null),
-                new Comment(2L,"댓글2",0,2,2,null),
-                new Comment(3L,"댓글1234",0,1,1,null),
-                new Comment(4L,"댓글1234",0,1,1,null),
-                new Comment(5L,"댓글1234",0,1,1,null),
-                new Comment(6L,"댓글1234",0,1,1,null),
-                new Comment(7L,"댓글1234",0,1,1,null),
-                new Comment(8L,"댓글1234",0,1,1,null),
-                new Comment(9L,"댓글1234",0,1,1,null),
-                new Comment(10L,"댓글1234",0,1,1,null),
-                new Comment(11L,"댓글1234",0,1,1,null),
-                new Comment(12L,"댓글1234",0,1,1,null),
-                new Comment(13L,"댓글1234",0,1,1,null),
-                new Comment(14L,"댓글1234",0,1,1,null),
-                new Comment(15L,"댓글1234",0,1,1,null),
-                new Comment(16L,"댓글1234",0,1,1,null),
-                new Comment(17L,"댓글1234",0,1,1,null),
-                new Comment(18L,"댓글1234",0,1,1,null),
-                new Comment(19L,"댓글1234",0,1,1,null),
-                new Comment(20L,"댓글1234",0,1,1,null),
-                new Comment(21L,"댓글1234",0,1,1,null),
-                new Comment(22L,"댓글1234",0,1,1,null),
-                new Comment(23L,"댓글1234",0,1,1,null),
-                new Comment(24L,"댓글1234",0,1,1,null),
-                new Comment(25L,"댓글1234",0,1,1,null),
-                new Comment(26L,"댓글1234",0,1,1,null),
-                new Comment(27L,"댓글1234",0,1,1,null),
-                new Comment(28L,"댓글1234",0,1,1,null),
-                new Comment(29L,"댓글1234",0,1,1,null),
-                new Comment(30L,"댓글1234",0,1,1,null),
-                new Comment(31L,"댓글1234",0,1,1,null),
-                new Comment(32L,"댓글1234",0,1,1,null),
-                new Comment(33L,"댓글1234",0,1,1,null),
-                new Comment(34L,"댓글1234",0,1,1,null)
-
+                new Comment(1L,"댓글1111",0,"test1",1,1,null),
+                new Comment(2L,"댓글1111",0,"test1",1,1,null),
+                new Comment(3L,"댓글2222",0,"test2",1,2,null),
+                new Comment(4L,"댓글2222",0,"test2",2,2,null),
+                new Comment(5L,"댓글2222",0,"test2",3,2,null),
+                new Comment(5L,"댓글3333",0,"test3",1,3,null),
+                new Comment(6L,"댓글3333",0,"test3",2,3,null),
+                new Comment(7L,"댓글3333",0,"test3",3,3,null),
+                new Comment(8L,"댓글3333",0,"test3",4,3,null),
+                new Comment(9L,"댓글4444",0,"test4",1,4,null),
+                new Comment(10L,"댓글4444",0,"test4",2,4,null),
+                new Comment(11L,"댓글4444",0,"test4",3,4,null),
+                new Comment(12L,"댓글4444",0,"test4",4,4,null),
+                new Comment(13L,"댓글4444",0,"test4",5,4,null)
         );
         commentRepository.saveAll(comments);
     }
