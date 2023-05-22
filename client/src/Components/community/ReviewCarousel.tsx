@@ -16,6 +16,7 @@ interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 
 const SlideContainer = styled(Slider)`
 	display: flex;
+	flex-direction: column;
 	.slick-prev::before {
 		color: #0db4f3;
 	}

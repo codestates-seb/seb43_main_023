@@ -4,12 +4,13 @@ import { FocusEvent, useEffect, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
+import { SweetAlert2 } from '../../utils/SweetAlert';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Main = styled.div`
 	width: 100%;
@@ -138,11 +139,11 @@ const Content = styled.div`
 		font-size: 13px;
 		margin: 20px 0 20px 0;
 		.line {
-			width: 95px;
+			width: 98px;
 			border-top: 1px solid #393737;
 			margin: 0 10px;
 			@media (max-width: 430px) {
-				width: 70px;
+				width: 75px;
 			}
 		}
 	}
@@ -276,17 +277,16 @@ function Join() {
 						(v: { mbti: string }) => v.mbti === el.mbti.value.toUpperCase(),
 					).img,
 				});
-				Swal.fire({
-					title: '회원가입이 완료되었습니다',
-					text: '로그인 페이지로 이동합니다.',
-					icon: 'success',
-				}).then((result) => {
-					if (result.value) {
-						navigate('/login');
-					}
-				});
+				const sweetAlert2 = await SweetAlert2(
+					'회원가입이 완료되었습니다.',
+					'로그인 페이지로 이동합니다.',
+				);
+				if (sweetAlert2.isConfirmed) {
+					navigate('/login');
+				}
 			}
 		} catch (error) {
+			ToastAlert('이미 가입한 회원입니다.');
 			navigate('/error');
 		}
 	}

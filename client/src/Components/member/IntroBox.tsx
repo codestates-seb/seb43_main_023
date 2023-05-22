@@ -3,7 +3,6 @@ import '../../Global.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import { LOGOUT } from '../../reducers/loginReducer';
@@ -12,6 +11,7 @@ import { RootState } from '../../store/Store';
 import { Iuser } from '../../type/Iuser';
 import { removeCookie } from '../../utils/cookie';
 import { removeLocalStorage } from '../../utils/LocalStorage';
+import { SweetAlert1 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
 	width: 100%;
@@ -64,32 +64,29 @@ function IntroBox() {
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
 	// 회원 탈퇴 핸들러
-	const memberDeleteClick = () => {
-		Swal.fire({
-			icon: 'warning',
-			title: '삭제',
-			text: `[${userInfos.nickname}]님 회원 탈퇴하시겠습니까?`,
-			showCancelButton: true,
-			confirmButtonText: '삭제',
-			cancelButtonText: '취소',
-		}).then(async (res) => {
-			if (res.isConfirmed) {
-				try {
-					await Api.delete(`/members/${userInfos.id}`);
-					removeLocalStorage('accessToken');
-					removeLocalStorage('empiresAtAccess');
-					removeLocalStorage('empiresAtRefresh');
-					removeCookie('refreshToken');
-					dispatch(DELETE());
-					dispatch(LOGOUT());
-					navigate('/main');
-				} catch (error) {
-					navigate('/error');
-				}
-			} else {
-				navigate('/mypage');
+	const memberDeleteClick = async () => {
+		const sweetAlert1 = await SweetAlert1(
+			'회원탈퇴',
+			`[${userInfos.nickname}]님 회원 탈퇴하시겠습니까?`,
+			'탈퇴',
+			'취소',
+		);
+		if (sweetAlert1.isConfirmed) {
+			try {
+				await Api.delete(`/members/${userInfos.id}`);
+				removeLocalStorage('accessToken');
+				removeLocalStorage('empiresAtAccess');
+				removeLocalStorage('empiresAtRefresh');
+				removeCookie('refreshToken');
+				dispatch(DELETE());
+				dispatch(LOGOUT());
+				navigate('/main');
+			} catch (error) {
+				navigate('/error');
 			}
-		});
+		} else {
+			navigate('/mypage');
+		}
 	};
 	return (
 		<Main>

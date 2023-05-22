@@ -5,7 +5,6 @@ import { FocusEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
@@ -15,6 +14,8 @@ import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
 import { setLocalStorage } from '../../utils/LocalStorage';
+import { SweetAlert2 } from '../../utils/SweetAlert';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Main = styled.div`
 	width: 100%;
@@ -221,23 +222,7 @@ function Login() {
 				el.email.value !== userInfo.data.email ||
 				el.password.value !== userInfo.data.password
 			) {
-				const Toast = Swal.mixin({
-					toast: true,
-					position: 'top',
-					showConfirmButton: false,
-					timer: 3000,
-					timerProgressBar: true,
-					didOpen: (toast: {
-						addEventListener: (arg0: string, arg1: () => void) => void;
-					}) => {
-						toast.addEventListener('mouseenter', Swal.stopTimer);
-						toast.addEventListener('mouseleave', Swal.resumeTimer);
-					},
-				});
-				Toast.fire({
-					icon: 'warning',
-					title: '아이디/비밀번호가 다릅니다.',
-				});
+				ToastAlert('아이디/비밀번호가 다릅니다.');
 			} else {
 				dispatch(
 					UPDATE({
@@ -258,18 +243,16 @@ function Login() {
 				setLocalStorage('accessToken', accessToken);
 				setLocalStorage('empiresAtAccess', '1800000');
 				setLocalStorage('empiresAtRefresh', '9900000');
-				Swal.fire({
-					icon: 'success',
-					title: '로그인되었습니다.',
-					text: '메인 페이지로 이동합니다.',
-				}).then((result) => {
-					if (result.isConfirmed) {
-						// 만약 모달창에서 confirm 버튼을 눌렀다면
-						navigate('/main');
-					}
-				});
+				const sweetAlert2 = await SweetAlert2(
+					'로그인되었습니다.',
+					'메인 페이지로 이동합니다.',
+				);
+				if (sweetAlert2.isConfirmed) {
+					navigate('/main');
+				}
 			}
 		} catch (error) {
+			ToastAlert('아이디/비밀번호가 다릅니다.');
 			navigate('/error');
 		}
 	};
