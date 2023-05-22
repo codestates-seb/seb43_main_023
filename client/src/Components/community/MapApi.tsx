@@ -48,7 +48,7 @@ function MapContainer() {
 		}
 	}, [postData.response]);
 
-	return <div id="map" style={{ width: '84vw', height: '20vh' }} />;
+	return <div id="map" style={{ width: 'inherit', height: '20vh' }} />;
 }
 
 export default MapContainer;

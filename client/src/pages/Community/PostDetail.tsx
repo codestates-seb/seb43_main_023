@@ -11,12 +11,17 @@ import Swal from 'sweetalert2';
 
 import { Viewer } from '@toast-ui/react-editor';
 
+import Answers from '../../Components/community/Answers';
+import ReviewCarousel from '../../Components/community/ReviewCarousel';
 import { Api } from '../../apis/customAPI';
-import Answers from '../../Components/Community/Answers';
-import ReviewCarousel from '../../Components/Community/ReviewCarousel';
 import useAxios from '../../hooks/useAxios';
 import { RootState } from '../../store/Store';
+import TopBar from '../../Components/community/TopBar';
 import { Iuser } from '../../type/Iuser';
+
+const TopBarContainer = styled.div`
+	width: 90%;
+`;
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -24,6 +29,7 @@ const PostContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 `;
 
 const PostBody = styled.div`
@@ -262,6 +268,9 @@ function PostDetail() {
 	return (
 		<div className="main">
 			<PostContainer>
+				<TopBarContainer>
+					<TopBar />
+				</TopBarContainer>
 				<PostBody>
 					{post &&
 						post.map((el) => (

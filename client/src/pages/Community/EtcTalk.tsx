@@ -6,9 +6,11 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Pagination from '../../Components/Community/Pagination';
-import SideBar from '../../Components/Community/SideBar';
-import Tags from '../../Components/Community/Tags';
+import Swal from 'sweetalert2';
+import { FiChevronRight } from 'react-icons/fi';
+import Pagination from '../../Components/community/Pagination';
+import SideBar from '../../Components/community/SideBar';
+import Tags from '../../Components/community/Tags';
 import useAxios from '../../hooks/useAxios';
 
 const Explain = styled.div`
@@ -22,16 +24,46 @@ const Explain = styled.div`
 	padding: 30px;
 	line-height: 1.5rem;
 
-	> h1 {
-		margin-top: 20px;
-		margin-bottom: 10px;
-	}
-
 	> div {
-		color: #595959;
-		font-size: 14px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid rgb(214, 217, 219);
+		> h1 {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+
+		> div {
+			color: #595959;
+			font-size: 14px;
+			padding-bottom: 10px;
+			border-bottom: 1px solid rgb(214, 217, 219);
+			display: flex;
+			justify-content: space-between;
+			align-items: end;
+
+			> button {
+				padding-bottom: 10px;
+				margin-right: 20px;
+
+				> span {
+					margin-right: 5px;
+					display: flex;
+					align-items: center;
+
+					> p {
+						display: flex;
+						align-items: center;
+					}
+				}
+
+				&:hover {
+					color: #0db4f3;
+
+					.arrow {
+						transform: translateX(4px);
+						transition: transform 0.3s ease-in-out;
+					}
+				}
+			}
+		}
 	}
 `;
 
@@ -178,6 +210,27 @@ function EtcTalk() {
 		url: '/posts',
 	});
 
+	const handleBtn = () => {
+		const Toast = Swal.mixin({
+			toast: true,
+			position: 'top',
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast: {
+				addEventListener: (arg0: string, arg1: any) => void;
+			}) => {
+				toast.addEventListener('mouseenter', Swal.stopTimer);
+				toast.addEventListener('mouseleave', Swal.resumeTimer);
+			},
+		});
+
+		Toast.fire({
+			icon: 'warning',
+			title: '로그인 상태가 아닙니다',
+		});
+	};
+
 	useEffect(() => {
 		if (response) {
 			setPosts(response);
@@ -189,12 +242,22 @@ function EtcTalk() {
 	return (
 		<div className="main">
 			<Explain>
-				<h1>잡담</h1>
 				<div>
-					여행과 MBTI 관련 외 여러 대화를 나누고 싶다면 ? <br />
-					이 공간에서 여러 사람들과 자유롭게 대화를 나눠보세요
-					<br />
-					타인에게 예민하거나 안전하지 않은 내용은 지양해주세요
+					<h1>잡담</h1>
+					<div>
+						여행과 MBTI 관련 외 여러 대화를 나누고 싶다면 ? <br />
+						이 공간에서 여러 사람들과 자유롭게 대화를 나눠보세요
+						<br />
+						타인에게 예민하거나 안전하지 않은 내용은 지양해주세요
+						<button onClick={handleBtn}>
+							<span>
+								작성하러 가기{' '}
+								<p className="arrow">
+									<FiChevronRight />
+								</p>
+							</span>
+						</button>
+					</div>
 				</div>
 			</Explain>
 			<EtcTalkContainer>
