@@ -10,7 +10,7 @@ import { DELETE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Iuser } from '../../type/Iuser';
 import { removeCookie } from '../../utils/cookie';
-import { removeLocalStorage } from '../../utils/LocalStorage';
+import { getLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
 import { SweetAlert1 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
@@ -58,6 +58,7 @@ const Main = styled.div`
 `;
 
 function IntroBox() {
+	const { Kakao } = window as any;
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
@@ -72,6 +73,12 @@ function IntroBox() {
 			'취소',
 		);
 		if (sweetAlert1.isConfirmed) {
+			if (getLocalStorage('kakao')) {
+				Kakao.API.request({
+					url: '/v1/user/unlink',
+				});
+				removeLocalStorage('kakao');
+			}
 			try {
 				await Api.delete(`/members/${userInfos.id}`);
 				removeLocalStorage('accessToken');

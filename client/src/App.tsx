@@ -4,7 +4,11 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { OauthGoogleHandler, OauthNaverHandler } from './apis/OauthHandler';
+import {
+	KakaoRedirectHandler,
+	OauthGoogleHandler,
+	OauthNaverHandler,
+} from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
 import Empty from './Components/member/Empty';
@@ -39,6 +43,8 @@ function App() {
 		OauthGoogleHandler();
 	if (new URL(window.location.href).pathname === '/Api/Member/Oauth')
 		OauthNaverHandler();
+	if (new URL(window.location.href).pathname === '/oauth')
+		KakaoRedirectHandler();
 	return (
 		<div>
 			<Header />
@@ -70,6 +76,7 @@ function App() {
 					<Route path="/search" element={<Search />} />
 					<Route path="/accounts/google/login/*" element={<Empty />} />
 					<Route path="/Api/Member/Oauth/*" element={<Empty />} />
+					<Route path="/oauth/*" element={<Empty />} />
 				</Routes>
 			</Suspense>
 			<Footer />

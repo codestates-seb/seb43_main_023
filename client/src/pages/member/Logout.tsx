@@ -10,7 +10,7 @@ import logo from '../../assets/logo.png';
 import { LOGOUT } from '../../reducers/loginReducer';
 import { DELETE } from '../../reducers/userInfoReducer';
 import { removeCookie } from '../../utils/cookie';
-import { removeLocalStorage } from '../../utils/LocalStorage';
+import { getLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
 import { SweetAlert1 } from '../../utils/SweetAlert';
 
 const Main = styled.div`
@@ -61,6 +61,7 @@ const Content = styled.div`
 function Logout() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { Kakao } = window as any;
 	const logoutClick = async () => {
 		const sweetAlert1 = await SweetAlert1(
 			'로그아웃',
@@ -69,6 +70,10 @@ function Logout() {
 			'취소',
 		);
 		if (sweetAlert1.isConfirmed) {
+			if (getLocalStorage('kakao')) {
+				Kakao.Auth.logout();
+				removeLocalStorage('kakao');
+			}
 			try {
 				/* oauth로그인 후 로그아웃하는 로직 - 오류나서 보류
 					const oauthInfo = await axios.get(

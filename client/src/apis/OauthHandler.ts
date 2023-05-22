@@ -281,3 +281,143 @@ export function OauthNaverHandler() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch, navigate]);
 }
+
+// 카카오 oauth(javascript sdk 방식)
+const { Kakao } = window as any;
+export const KakaoRedirectHandler = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const code = new URL(document.location.toString()).searchParams.get('code');
+		const grantType = 'authorization_code';
+		const clientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
+		const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+
+		const getData = async () => {
+			try {
+				// 카카오에 로그인 요청 -> 토큰을 받는다.
+				const resToken = await axios.post(
+					`https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${clientId}&redirect_uri=${redirectUri}&code=${code}`,
+					{
+						headers: {
+							'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+						},
+					},
+				);
+
+				const {
+					// eslint-disable-next-line camelcase
+					refresh_token,
+					// eslint-disable-next-line camelcase
+					access_token,
+					// eslint-disable-next-line camelcase
+					expires_in,
+					// eslint-disable-next-line camelcase
+					refresh_token_expires_in,
+				} = resToken.data;
+
+				// 토큰 저장
+				setCookie('refreshToken', refresh_token, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				setLocalStorage('accessToken', access_token);
+				setLocalStorage('kakao', 'true');
+				setLocalStorage('empiresAtAccess', expires_in);
+				setLocalStorage('empiresAtRefresh', refresh_token_expires_in);
+				Kakao.Auth.setAccessToken(access_token);
+
+				// 유저 정보 요청 -> id, email, nickname을 받는다.
+				const resUserInfo = await axios.post(
+					'https://kapi.kakao.com/v2/user/me',
+					{},
+					{
+						headers: {
+							// eslint-disable-next-line camelcase
+							Authorization: `Bearer ${access_token}`,
+							'Content-Type': 'application/x-www-form-urlencoded',
+						},
+					},
+				);
+				// 유저 정보 저장
+				const {
+					id,
+					kakao_account: { profile, email },
+				} = resUserInfo.data;
+				const { nickname } = profile;
+				const mbtiImg = await Api.get('/mbtiInfo');
+				dispatch(
+					UPDATE({
+						id,
+						nickname,
+						mbti: 'INFP',
+						email,
+						img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+							.img,
+					}),
+				);
+				dispatch(LOGIN({ accessToken: `${getLocalStorage('accessToken')}` }));
+
+				// 회원가입 아직 안했을 경우 -> 유저 수정 페이지로 이동
+				try {
+					await Api.post('/members', {
+						id,
+						nickname,
+						mbti: 'INFP',
+						email,
+						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+						img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
+							.img,
+					});
+					Swal.fire({
+						icon: 'success',
+						title: '회원가입되었습니다.',
+						text: '마이페이지에서 정보를 수정해주세요.',
+					}).then((result) => {
+						if (result.isConfirmed) {
+							navigate('/useredit');
+						}
+					});
+				} catch (err: any) {
+					// 회원가입 이미 해서 에러인 경우 -> 로그인 후 메인페이지로 이동
+					if (err.response.status === 500) {
+						/* 서버 연결 코드
+						const loginData = await Api.post('/members', {
+							email,
+							password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+						});
+						*/
+						const userData = await Api.get(`/members/${id}`);
+						// 유저 정보 저장
+						dispatch(
+							UPDATE({
+								id: userData.data.id,
+								email: userData.data.email,
+								nickname: userData.data.nickname,
+								mbti: userData.data.mbti,
+								img: userData.data.img,
+								badge: userData.data.badge,
+							}),
+						);
+						Swal.fire({
+							icon: 'success',
+							title: '로그인되었습니다.',
+							text: '메인 페이지로 이동합니다.',
+						}).then((result) => {
+							if (result.isConfirmed) {
+								navigate('/main');
+							}
+						});
+					} else {
+						navigate('/error');
+					}
+				} // catch 까지
+			} catch {
+				navigate('/error');
+			}
+		};
+		getData();
+	}, [dispatch, navigate]);
+};
