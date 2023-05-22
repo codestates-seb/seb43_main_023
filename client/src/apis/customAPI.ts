@@ -4,8 +4,7 @@ import { getLocalStorage } from '../utils/LocalStorage';
 
 // import { refresh, refreshErrorHandle } from './refresh';
 
-const baseURL =
-	'http://ec2-43-201-98-15.ap-northeast-2.compute.amazonaws.com:8080';
+const baseURL = process.env.REACT_APP_API_URL;
 
 // eslint-disable-next-line import/prefer-default-export
 export const Api: AxiosInstance = axios.create({
