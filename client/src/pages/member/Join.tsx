@@ -10,14 +10,14 @@ import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
-import ToastAlert from '../../Components/common/ToastAlert';
 import { SweetAlert2 } from '../../utils/SweetAlert';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Main = styled.div`
 	width: 100%;
 	height: 100vh;
 	display: flex;
-	justify-content: center../../utils/ToastAlert
+	justify-content: center
 	align-items: center;
 	overflow: hidden;
 	-ms-overflow-style: none;
@@ -297,7 +297,6 @@ function Join() {
 		} catch (err: any) {
 			console.log(err);
 			if (err.response.status === 500) {
-				console.log(err);
 				ToastAlert('이미 가입한 회원입니다.');
 			} else {
 				navigate('/error');

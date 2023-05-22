@@ -1,30 +1,23 @@
 import '../../Global.css';
 
-import {
-	FocusEvent,
-	useEffect,
-} from 'react';
+import { FocusEvent, useEffect } from 'react';
 
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
-import {
-	Link,
-	useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
-import ToastAlert from '../../Components/common/ToastAlert';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
 import { setLocalStorage } from '../../utils/LocalStorage';
 import { SweetAlert2 } from '../../utils/SweetAlert';
+import ToastAlert from '../../utils/ToastAlert';
 
-../../utils/ToastAlert
 const Main = styled.div`
 	width: 100%;
 	height: 100vh;
