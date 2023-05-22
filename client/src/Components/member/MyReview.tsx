@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Api } from '../../apis/customAPI';
+import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Iposts } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
@@ -108,11 +108,13 @@ function MyReview() {
 		},
 	]);
 
+	const response = useGet('');
+
 	useEffect(() => {
-		Api.get('/posts').then((res) => {
-			setReviews(res.data);
-		});
-	}, [reviews]);
+		if (response !== null) {
+			setReviews(response);
+		}
+	}, [response]);
 
 	// 내가 쓴 글 filter -> useMemo hook 사용
 	const filteredReviews = useMemo(
