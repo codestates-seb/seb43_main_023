@@ -7,6 +7,7 @@ import { HTMLAttributes, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useAxios from '../../hooks/useAxios';
+import { Ipost } from '../../type/Ipost';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -47,19 +48,8 @@ function ReviewCarousel() {
 		slidesToShow: 1,
 		pauseOnHover: true,
 	};
-
-	interface Review {
-		postId: number;
-		title: string;
-		content: string;
-		nickName: string;
-		image: string[];
-		viewCount: number;
-		voteCount: number;
-		createdAt: string;
-	}
 	const { id } = useParams();
-	const [review, setReview] = useState<Review[]>([]);
+	const [review, setReview] = useState<Ipost[]>([]);
 
 	const postData = useAxios({
 		method: 'get',

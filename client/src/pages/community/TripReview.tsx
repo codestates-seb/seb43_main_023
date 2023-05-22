@@ -2,82 +2,85 @@ import '../../Global.css';
 
 import styled from 'styled-components';
 
+import { useNavigate } from 'react-router-dom';
+import { FiChevronRight } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import Reviews from '../../Components/community/Reviews';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
-
-const Explain = styled.div`
-	margin-top: 85px;
-	height: 130px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	margin-left: 20px;
-	margin-bottom: 40px;
-	padding: 30px;
-	line-height: 1.5rem;
-
-	> h1 {
-		margin-top: 20px;
-		margin-bottom: 10px;
-	}
-
-	> div {
-		color: #595959;
-		font-size: 14px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid rgb(214, 217, 219);
-	}
-`;
+import * as style from '../../Components/community/CommunityStyle';
+import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 
 const ReviewContainer = styled.div`
-	height: calc(100vh - 220px);
+	height: 1000px;
 	display: flex;
 `;
 
 const ReviewBody = styled.div`
 	width: calc(100vw - 230px);
-	max-height: 660px;
-	min-height: 660px;
-`;
-
-const TagContainer = styled.div`
-	height: 100%;
-	margin-top: 55px;
-	width: 230px;
-	margin-right: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-
-	> div:last-child {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+	height: inherit;
 `;
 
 function TripReview() {
+	const navigate = useNavigate();
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
+
+	const handleBtn = () => {
+		const Toast = Swal.mixin({
+			toast: true,
+			position: 'top',
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast: {
+				addEventListener: (arg0: string, arg1: any) => void;
+			}) => {
+				toast.addEventListener('mouseenter', Swal.stopTimer);
+				toast.addEventListener('mouseleave', Swal.resumeTimer);
+			},
+		});
+
+		if (login.isLogin) {
+			navigate('/community/create');
+		} else {
+			Toast.fire({
+				icon: 'warning',
+				title: '로그인 상태가 아닙니다',
+			});
+		}
+	};
 	return (
 		<div className="main">
-			<Explain>
-				<h1>여행리뷰</h1>
+			<style.Explain>
 				<div>
-					행복은 나누면 두배 ! <br />
-					내 여행도 기록하고, 다른 사람들의 여행 기록을 살펴보세요
-					<br />
-					여러 기록들을 살펴보며 나에게 꼭 맞는 여행지를 발견할지도 몰라요
+					<h1>여행리뷰</h1>
+					<div>
+						행복은 나누면 두배 ! <br />
+						내 여행도 기록하고, 다른 사람들의 여행 기록을 살펴보세요
+						<br />
+						여러 기록들을 살펴보며 나에게 꼭 맞는 여행지를 발견할지도 몰라요
+						<button onClick={handleBtn}>
+							<span>
+								작성하러 가기{' '}
+								<p className="arrow">
+									<FiChevronRight />
+								</p>
+							</span>
+						</button>
+					</div>
 				</div>
-			</Explain>
+			</style.Explain>
 			<ReviewContainer>
 				<SideBar />
 				<ReviewBody>
 					<Reviews />
 				</ReviewBody>
 
-				<TagContainer>
+				<style.TagContainer>
 					<Tags />
-				</TagContainer>
+				</style.TagContainer>
 			</ReviewContainer>
 		</div>
 	);

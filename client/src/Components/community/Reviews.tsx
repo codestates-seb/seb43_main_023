@@ -6,10 +6,10 @@ import img from '../../assets/jeonju.jpg';
 import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
 import { Ipost } from '../../type/Ipost';
+import * as style from './CommunityStyle';
 
 const Container = styled.div`
-	min-height: 600px;
-	max-height: 600px;
+	height: fit-content;
 	margin-left: 35px;
 	display: flex;
 	overflow: scroll;
@@ -83,22 +83,13 @@ const Writer = styled.div`
 	}
 `;
 
-const PaginationContainer = styled.div`
-	margin-top: 10px;
-	height: 32px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-`;
-
 function Review() {
 	// eslint-disable-next-line prefer-const
 	const [reviews, setReviews] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
-	const startIdx = (curPage - 1) * 8;
-	const endIdx = startIdx + 8;
+	const startIdx = (curPage - 1) * 12;
+	const endIdx = startIdx + 12;
 
 	const { response } = useAxios({
 		method: 'get',
@@ -139,16 +130,18 @@ function Review() {
 						</Link>
 					))}
 			</Container>
-			<PaginationContainer>
-				<Pagination
-					curPage={curPage}
-					setCurPage={setCurPage}
-					totalPage={Math.ceil(reviews.length / 8)}
-					totalCount={reviews.length}
-					size={8}
-					pageCount={5}
-				/>
-			</PaginationContainer>
+			<style.PaginationContainer>
+				{reviews.length > 0 ? (
+					<Pagination
+						curPage={curPage}
+						setCurPage={setCurPage}
+						totalPage={Math.ceil(reviews.length / 12)}
+						totalCount={reviews.length}
+						size={12}
+						pageCount={5}
+					/>
+				) : null}
+			</style.PaginationContainer>
 		</>
 	);
 }
