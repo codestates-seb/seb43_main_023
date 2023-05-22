@@ -60,9 +60,9 @@ public class PostService {
         post.setViewCount(post.getViewCount()+1);
         return postRepository.save(post);
     }
-    public Page<Post> searchPosts(int page,String title,String subject){
+    public Page<Post> searchPosts(int page,int size,String title,String subject){
         return postRepository.findByTitleContainingAndSubjectContaining
-                (title, subject, PageRequest.of(page, 8,Sort.by("postId").descending()));
+                (title, subject, PageRequest.of(page,size,Sort.by("postId").descending()));
     }
     @Transient
     public Post votePost(long postId, long memberId){
