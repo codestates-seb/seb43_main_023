@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Iuser } from '../../type/Iuser';
 
@@ -101,10 +101,7 @@ function MyReview() {
 	// eslint-disable-next-line prefer-const
 	let [reviews, setReviews] = useState<ReviewInter[]>([]);
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts',
-	});
+	const response = useGet('');
 
 	useEffect(() => {
 		if (response !== null) {
@@ -112,7 +109,7 @@ function MyReview() {
 		}
 	}, [response]);
 
-	// 내가 쓴 글 filter -> useMemo hook 사용
+	// 내가 쓴 글 + 여행리뷰 filter -> useMemo hook 사용
 	const filteredReviews = useMemo(
 		() =>
 			reviews.filter(
