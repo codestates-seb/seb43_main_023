@@ -42,6 +42,7 @@ public class PostService {
             Optional.ofNullable(post.getTitle()).ifPresent(findPost::setTitle);
             Optional.ofNullable(post.getContent()).ifPresent(findPost::setContent);
             Optional.ofNullable(post.getImage()).ifPresent(findPost::setImage);
+            Optional.ofNullable(post.getTag()).ifPresent(findPost::setTag);
             Optional.ofNullable(post.getLocationX()).ifPresent(findPost::setLocationX);
             Optional.ofNullable(post.getLocationY()).ifPresent(findPost::setLocationY);
             findPost.setPostModifiedAt(LocalDateTime.now());
