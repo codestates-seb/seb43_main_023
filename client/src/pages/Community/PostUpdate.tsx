@@ -41,6 +41,11 @@ const Body = styled.div`
 	}
 `;
 
+const StyledEditorContainer = styled.div`
+	margin-top: 15px;
+	padding: 0;
+`;
+
 const StyledEditor = styled(Editor)`
 	font-size: 16px;
 `;
@@ -50,7 +55,6 @@ const DropDownContainer = styled.div`
 `;
 
 const TitleInput = styled.input`
-	margin-bottom: 15px;
 	width: 100%;
 	padding: 10px;
 	font-size: 13px;
@@ -263,7 +267,9 @@ function PostUpdate() {
 		setTitle(event.target.value);
 	};
 
-	const handlePlace = (data: any) => {
+	const handlePlace = (data: any, selected: string) => {
+		console.log('data', data);
+		console.log('sle', selected);
 		setX(data[0].x);
 		setY(data[0].y);
 	};
@@ -320,30 +326,32 @@ function PostUpdate() {
 							placeholder="제목을 입력해주세요"
 							onChange={handleTitle}
 							defaultValue={post.title}
-							value={post.title}
+							value={title}
 						/>
 
 						{subject === '여행리뷰' ? (
-							<SearchPlace handlePlace={handlePlace} />
+							<SearchPlace handlePlace={handlePlace} from="update" id={id} />
 						) : null}
 
-						<StyledEditor
-							initialValue={post.content}
-							ref={editorRef} // ref 연결
-							placeholder="내용을 입력해주세요."
-							previewStyle="vertical" // 미리보기 스타일 지정
-							height="300px" // 에디터 창 높이
-							initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-							toolbarItems={[
-								// 툴바 옵션 설정
-								['heading', 'bold', 'italic', 'strike'],
-								['hr', 'quote'],
-								['ul', 'ol', 'task', 'indent', 'outdent'],
-								['table', 'link'],
-								['code', 'codeblock'],
-							]}
-							plugins={[colorSyntax]}
-						/>
+						<StyledEditorContainer>
+							<StyledEditor
+								initialValue={post.content}
+								ref={editorRef} // ref 연결
+								placeholder="내용을 입력해주세요."
+								previewStyle="vertical" // 미리보기 스타일 지정
+								height="300px" // 에디터 창 높이
+								initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+								toolbarItems={[
+									// 툴바 옵션 설정
+									['heading', 'bold', 'italic', 'strike'],
+									['hr', 'quote'],
+									['ul', 'ol', 'task', 'indent', 'outdent'],
+									['table', 'link'],
+									['code', 'codeblock'],
+								]}
+								plugins={[colorSyntax]}
+							/>
+						</StyledEditorContainer>
 
 						<TagContainer>
 							{tags.map((e, i) => (
