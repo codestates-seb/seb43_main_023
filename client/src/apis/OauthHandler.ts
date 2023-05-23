@@ -313,6 +313,7 @@ export function OauthNaverHandler() {
 }
 
 // 카카오 oauth(javascript sdk 방식)
+const { Kakao } = window as any;
 export const KakaoRedirectHandler = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();

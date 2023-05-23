@@ -23,6 +23,15 @@ const ModalButton = styled.button`
 	width: 15%;
 	padding: 10px;
 	border-radius: 15px;
+	@media (max-width: 768px) {
+		width: 20%;
+	}
+	@media (max-width: 425px) {
+		width: 35%;
+	}
+	@media (max-width: 335px) {
+		width: 40%;
+	}
 `;
 
 const ModalView = styled.div`
@@ -41,6 +50,10 @@ const ModalView = styled.div`
 	padding: 20px 30px 30px 30px;
 	line-height: 1.5;
 	font-size: 1.3em;
+	@media (max-width: 425px) {
+		width: 80%;
+		left: 10vw;
+	}
 `;
 
 type ModalProps = {

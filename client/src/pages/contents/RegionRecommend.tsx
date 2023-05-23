@@ -39,6 +39,12 @@ const RegionRecImage = styled.div`
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 768px) {
+			font-size: 38px;
+		}
+		@media (max-width: 425px) {
+			font-size: 30px;
+		}
 	}
 	@media (max-width: 768px) {
 		height: 30vh;
