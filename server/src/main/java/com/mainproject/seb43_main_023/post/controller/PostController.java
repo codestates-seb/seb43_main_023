@@ -24,6 +24,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final PostMapper mapper;
+    private final MemberService memberService;
 
     @PostMapping("/{member-id}")//게시글 작성(member-id 임시로사용)
     public ResponseEntity postPost(@RequestBody @Valid PostDto.postPostDto postPostDto,
@@ -54,10 +55,12 @@ public class PostController {
         return new ResponseEntity(HttpStatus.OK);
     }
     @GetMapping// 게시글 목록조회 + 게시글 검색기능 추가
-    public ResponseEntity searchPosts(@RequestParam(value = "title",defaultValue = "") String title,
-                                      @RequestParam(value = "subject",defaultValue = "") String subject,
-                                      @Positive @RequestParam(defaultValue = "1") int page) {
-        Page<Post> posts = postService.searchPosts(page-1,title,subject);
+    public  ResponseEntity PopularPosts(@RequestParam(value = "title",defaultValue = "") String title,
+                                        @RequestParam(value = "subject",defaultValue = "") String subject,
+                                        @RequestParam(value = "date",defaultValue = "1m") String date,
+                                        @Positive @RequestParam(defaultValue = "1") int page,
+                                        @Positive @RequestParam(defaultValue = "8") int size){
+        Page<Post> posts = postService.searchPostsMonth(page-1,size,title,subject,date);
         List<Post> content = posts.getContent();
 
         return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
