@@ -430,16 +430,16 @@ function MBTI() {
 											<Link to="/tripreview">여행리뷰 </Link>
 										</MenuItem>
 										<MenuItem>
-											<Link to="/tripreview">여행고민 </Link>
+											<Link to="/community">여행고민 </Link>
 										</MenuItem>
 										<MenuItem>
-											<Link to="/tripreview">같이가요 </Link>
+											<Link to="/tripmate">같이가요 </Link>
 										</MenuItem>
 										<MenuItem>
-											<Link to="/tripreview">MBTI </Link>
+											<Link to="/mbti">MBTI </Link>
 										</MenuItem>
 										<MenuItem>
-											<Link to="/tripreview">잡담</Link>
+											<Link to="/etctalk">잡담</Link>
 										</MenuItem>
 									</MenuItems>
 								</>
