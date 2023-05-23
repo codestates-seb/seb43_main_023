@@ -37,14 +37,14 @@ public class DataLoader {
         );
         memberRepository.saveAll(members);
         List<Post> posts = Arrays.asList(
-                new Post(1L,"여행리뷰","여행리뷰제목1","내용1",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member1,null,null,null)
-                new Post(2L,"여행리뷰","여행사진제목2","내용2",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
-                new Post(3L,"여행추천","여행추천제목3","내용3",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
-                new Post(4L,"여행추천","여행인기제목4","내용4",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
-                new Post(5L,"여행추천","여행제목5","내용5",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
-                new Post(6L,"MBTI","MBTI제목6","내용6",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
-                new Post(7L,"MBTI","MBTI제목7","내용7",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null),
-                new Post(8L,"MBTI","MBTI제목8","내용8",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null)
+                new Post(1L,"여행리뷰","여행리뷰제목1","내용1",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member1,null,null,null),
+                new Post(2L,"여행리뷰","여행사진제목2","내용2",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null),
+                new Post(3L,"여행추천","여행추천제목3","내용3",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null),
+                new Post(4L,"여행추천","여행인기제목4","내용4",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null),
+                new Post(5L,"여행추천","여행제목5","내용5",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null),
+                new Post(6L,"MBTI","MBTI제목6","내용6",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null),
+                new Post(7L,"MBTI","MBTI제목7","내용7",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null),
+                new Post(8L,"MBTI","MBTI제목8","내용8",0,0,LocalDateTime.now(),LocalDateTime.now(),null,null,member2,null,null,null)
         );
         postRepository.saveAll(posts);
         List<Comment> comments = Arrays.asList(
