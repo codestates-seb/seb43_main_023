@@ -1,6 +1,8 @@
 package com.mainproject.seb43_main_023.member.controller;
 
 import com.mainproject.seb43_main_023.dto.ApiResponse;
+import com.mainproject.seb43_main_023.exception.BusinessLogicException;
+import com.mainproject.seb43_main_023.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.member.dto.MemberDto;
 import com.mainproject.seb43_main_023.member.entity.Member;
 import com.mainproject.seb43_main_023.member.mapper.MemberMapper;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -33,6 +36,11 @@ public class MemberController {
     @PostMapping("/signin")
     public ResponseEntity signIn(HttpServletRequest request,
                                  @RequestBody @Valid MemberDto.SignIn signIn, Errors errors) {
+        Member member = memberService.findVerifiedMemberByEmail(signIn.getEmail());
+        if (member.getMemberStatus().equals(Member.MemberStatus.MEMBER_QUIT)) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+
         if (errors.hasErrors()) {
             return apiResponse.fail(errors);
         }
@@ -55,6 +63,12 @@ public class MemberController {
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(updatedMember), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity getMembers() {
+        List<Member> members = memberService.getMembers();
+        return new ResponseEntity<>(members, HttpStatus.OK);
+    }
+
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") long memberId) {
         Member verifiedMember = memberService.findVerifiedMember(memberId);
@@ -62,8 +76,8 @@ public class MemberController {
     }
 
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(@PathVariable("member-id") long memberId) {
-        memberService.deleteMember(memberId);
+    public ResponseEntity deleteMember(HttpServletRequest request, @PathVariable("member-id") long memberId) {
+        memberService.deleteMember(request, memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

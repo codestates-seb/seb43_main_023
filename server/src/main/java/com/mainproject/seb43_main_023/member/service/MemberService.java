@@ -16,6 +16,7 @@ import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.repository.PostRepository;
 import com.mainproject.seb43_main_023.redis.entity.RefreshToken;
 import com.mainproject.seb43_main_023.redis.repository.RefreshTokenRedisRepository;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -129,7 +130,18 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public void deleteMember(long memberId) {
+    public List<Member> getMembers() {
+        return memberRepository.findAll();
+    }
+
+    public void deleteMember(HttpServletRequest request, long memberId) {
+        String accessToken = request.getHeader("Authorization").substring(7);
+        Claims claims = jwtTokenProvider.parseClaims(accessToken);
+        String email = claims.getSubject();
+        Member member = findVerifiedMemberByEmail(email);
+        if (memberId != member.getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
+        }
         Member verifiedMember = findVerifiedMember(memberId);
         verifiedMember.setMemberStatus(Member.MemberStatus.MEMBER_QUIT);
         memberRepository.save(verifiedMember);
@@ -161,6 +173,14 @@ public class MemberService {
         if (member.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.NICKNAME_EXISTS);
         }
+    }
+
+    public long getUserNum(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent()) {
+            return member.get().getMemberId();
+        }
+        else return 0;
     }
 
     public void grantBadge(long memberId) {
