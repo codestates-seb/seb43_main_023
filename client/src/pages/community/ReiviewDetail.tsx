@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { Viewer } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
-import { SweetAlert1, SweetAlert2 } from '../../Components/common/SweetAlert';
 import Answers from '../../Components/community/Answers';
 import MapApi from '../../Components/community/MapApi';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
@@ -20,6 +19,7 @@ import useAxios from '../../hooks/useAxios';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
+import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
 
 const TopBarContainer = styled.div`
 	margin-top: -80px;

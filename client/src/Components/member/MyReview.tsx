@@ -128,7 +128,7 @@ function MyReview() {
 
 	return (
 		<Container>
-			{reviews &&
+			{filteredReviews &&
 				filteredReviews
 					.filter((v: { subject: string }) => v.subject === '여행리뷰')
 					.map((el) => (

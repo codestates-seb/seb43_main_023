@@ -2,7 +2,7 @@ import '../../Global.css';
 
 import { FocusEvent, useEffect } from 'react';
 
-import KakaoLogin from 'react-kakao-login';
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,12 +11,12 @@ import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
-import { SweetAlert2 } from '../../Components/common/SweetAlert';
-import ToastAlert from '../../Components/common/ToastAlert';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
 import { setLocalStorage } from '../../utils/LocalStorage';
+import { SweetAlert2 } from '../../utils/SweetAlert';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Main = styled.div`
 	width: 100%;
@@ -191,6 +191,14 @@ const OauthBox = styled.div`
 			transform: translateY(-6px);
 		}
 	}
+	.kakaoBtn {
+		background: #fbe300;
+		margin-right: 0px;
+		transform: translateY(-3px);
+		&:hover {
+			transform: translateY(-6px);
+		}
+	}
 `;
 
 function Login() {
@@ -289,31 +297,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
 
-	/*
 	// 카카오 oauth
-	const RestApiKey = process.env.REACT_APP_KAKAO_CLIENT_ID;
-	const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-	// oauth 요청 URL
-	const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${RestApiKey}&redirect_uri=${redirectUri}&response_type=code`;
-	const handleLogin = () => {
-		window.location.href = kakaoURL;
-	};
-	*/
-
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
 		Kakao.Auth.authorize({
 			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
 		});
-	};
-
-	const kakaoClientId = '7983ccc97f8347199573880ef399dc38';
-	const kakaoOnSuccess = async (data: any) => {
-		console.log(data);
-		const idToken = data.response.id_token; // 인가코드 백엔드로 전달
-	};
-	const kakaoOnFailure = (error: any) => {
-		console.log(error);
 	};
 
 	return (
@@ -356,15 +345,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<button className="oauth googleoauth" onClick={oAuthHandler}>
 						<img className="googleIcon" src={googleIcon} alt="" />
 					</button>
+					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
+						<RiKakaoTalkFill size={32} color="#3b1e1e" />
+					</button>
 					<button className="oauth">
 						<span id="naverIdLogin">Naver</span>
 					</button>
-					<button onClick={loginWithKakao}>카카오 로그인</button>
-					<KakaoLogin
-						token={kakaoClientId}
-						onSuccess={kakaoOnSuccess}
-						onFail={kakaoOnFailure}
-					/>
 				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
 				<Link to="/join">

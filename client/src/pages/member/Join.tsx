@@ -2,6 +2,7 @@ import '../../Global.css';
 
 import { FocusEvent, useEffect, useState } from 'react';
 
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,14 +10,14 @@ import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
-import { SweetAlert2 } from '../../Components/common/SweetAlert';
-import ToastAlert from '../../Components/common/ToastAlert';
+import { SweetAlert2 } from '../../utils/SweetAlert';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Main = styled.div`
 	width: 100%;
 	height: 100vh;
 	display: flex;
-	justify-content: center;
+	justify-content: center
 	align-items: center;
 	overflow: hidden;
 	-ms-overflow-style: none;
@@ -194,6 +195,14 @@ const OauthBox = styled.div`
 			transform: translateY(-6px);
 		}
 	}
+	.kakaoBtn {
+		background: #fbe300;
+		margin-right: 0px;
+		transform: translateY(-3px);
+		&:hover {
+			transform: translateY(-6px);
+		}
+	}
 `;
 
 function Join() {
@@ -288,7 +297,6 @@ function Join() {
 		} catch (err: any) {
 			console.log(err);
 			if (err.response.status === 500) {
-				console.log(err);
 				ToastAlert('이미 가입한 회원입니다.');
 			} else {
 				navigate('/error');
@@ -305,7 +313,7 @@ function Join() {
 		keyUp?.classList.add('hide');
 	};
 
-	// oauth 구현 url
+	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
 redirect_uri=http://localhost:3000/accounts/google/login/&
@@ -314,9 +322,9 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		window.location.assign(oAuthURL);
 	};
 
+	// 네이버 oauth
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const { naver } = window as any;
-	// oauth naver
 	useEffect(() => {
 		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
 		const initializeNaverLogin = () => {
@@ -334,6 +342,15 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		};
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
+
+	// 카카오 oauth
+	// 방법1 : code가 있는 url로 redirect, 현재 정보 선택!
+	const { Kakao } = window as any;
+	const loginWithKakao = () => {
+		Kakao.Auth.authorize({
+			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+		});
+	};
 
 	return (
 		<Main>
@@ -415,6 +432,9 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 				<OauthBox>
 					<button className="oauth googleoauth" onClick={oAuthHandler}>
 						<img className="googleIcon" src={googleIcon} alt="" />
+					</button>
+					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
+						<RiKakaoTalkFill size={32} color="#3b1e1e" />
 					</button>
 					<button className="oauth">
 						<span id="naverIdLogin">Naver</span>

@@ -13,9 +13,7 @@ const useAxios = ({ url, method }: AxiosProps) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		axios[method](
-			`http://ec2-43-201-98-15.ap-northeast-2.compute.amazonaws.com:8080${url}`,
-		)
+		axios[method](`${process.env.REACT_APP_API_URL}${url}`)
 			.then((res) => {
 				setResponse(res.data);
 			})
