@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import img from '../../assets/jeonju.jpg';
 import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
+import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
 	height: 1000px;
@@ -111,10 +112,7 @@ function Review() {
 	const startIdx = (curPage - 1) * 12;
 	const endIdx = startIdx + 12;
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts',
-	});
+	const response = useGet('/');
 
 	useEffect(() => {
 		if (response) {

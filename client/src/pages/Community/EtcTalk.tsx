@@ -15,6 +15,7 @@ import Tags from '../../Components/community/Tags';
 import useAxios from '../../hooks/useAxios';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
+import useGet from '../../hooks/useGet';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -207,10 +208,7 @@ function EtcTalk() {
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;
 
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts',
-	});
+	const response = useGet('/');
 
 	const navigate = useNavigate();
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
