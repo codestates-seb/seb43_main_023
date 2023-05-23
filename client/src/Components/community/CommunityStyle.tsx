@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
 export const Explain = styled.div`
-	margin-top: 85px;
-	height: 130px;
+	position: fixed;
+	top: 0;
+	width: 98%;
+	background-color: #fafafa;
+	margin-top: 75px;
+	height: 140px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -11,7 +15,21 @@ export const Explain = styled.div`
 	padding: 30px;
 	line-height: 1.5rem;
 
+	@media (max-width: 580px) {
+		padding: 10px 10px;
+		margin-bottom: 5px;
+		width: 93%;
+		margin-top: 55px;
+		padding-bottom: 0px;
+		height: 102px;
+	}
+
+	@media (max-width: 480px) {
+		height: 102px;
+	}
+
 	> div {
+		height: inherit;
 		> h1 {
 			margin-top: 20px;
 			margin-bottom: 10px;
@@ -26,9 +44,31 @@ export const Explain = styled.div`
 			justify-content: space-between;
 			align-items: end;
 
+			> p {
+				@media (max-width: 768px) {
+					flex-direction: column;
+					align-items: flex-start;
+				}
+
+				@media (max-width: 580px) {
+					display: none;
+					padding-bottom: 0;
+					margin-bottom: 0;
+				}
+			}
+
 			> button {
 				padding-bottom: 10px;
 				margin-right: 20px;
+
+				@media (max-width: 768px) {
+					margin-top: 10px;
+					padding-bottom: 0px;
+				}
+
+				@media (max-width: 580px) {
+					padding-bottom: 0px;
+				}
 
 				> span {
 					margin-right: 5px;
@@ -55,17 +95,18 @@ export const Explain = styled.div`
 `;
 
 export const Container = styled.div`
+	margin-top: 240px;
 	height: 1000px;
 	display: flex;
+
+	@media (max-width: 580px) {
+		margin-top: 170px;
+		width: 93%;
+	}
 
 	a {
 		text-decoration: none;
 		color: black;
-	}
-
-	> div {
-		display: flex;
-		flex-direction: column;
 	}
 `;
 
@@ -73,11 +114,28 @@ export const Body = styled.div`
 	width: calc(100vw - 400px);
 	margin-right: 30px;
 	height: fit-content;
-	/* min-height: 1000px;
-	max-height: 1000px; */
+
+	@media (max-width: 768px) {
+		width: calc(100vw - 160px);
+		margin-right: 0px;
+		margin-left: 30px;
+	}
+
+	@media (max-width: 580px) {
+		width: calc(100vw - 50px);
+		margin-right: 0px;
+		margin-left: 28px;
+	}
+
+	@media (max-width: 480px) {
+		width: calc(100vw - 45px);
+		margin-right: 0px;
+		margin-left: 28px;
+	}
 `;
 
 export const Contentbody = styled.div`
+	justify-content: space-between;
 	display: flex;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -85,15 +143,20 @@ export const Contentbody = styled.div`
 	font-size: 13px;
 	border-bottom: 1px solid rgb(214, 217, 219);
 
+	@media (max-width: 768px) {
+		width: 100%;
+	}
+
 	&:hover {
 		color: #0db4f3;
 	}
 
 	> div:nth-child(1) {
+		flex-wrap: wrap;
 		display: flex;
 		flex-direction: column;
 		margin-right: 20px;
-		width: 860px;
+		width: 100%;
 		margin-left: 8px;
 	}
 
@@ -122,8 +185,15 @@ export const Header = styled.div`
 
 	> p {
 		padding: 10px 0;
-		height: 50px;
+		max-height: 50px;
+		width: auto;
+		overflow: hidden;
 		-webkit-text-stroke: 0.1px black;
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+			align-items: flex-start;
+		}
 	}
 `;
 
@@ -133,6 +203,18 @@ export const Info = styled.div`
 
 	div {
 		margin-right: 15px;
+	}
+
+	> div:nth-child(2) {
+		@media (max-width: 768px) {
+			display: none;
+		}
+	}
+
+	> div:nth-child(3) {
+		@media (max-width: 768px) {
+			display: none;
+		}
 	}
 
 	> div:nth-child(4) {
@@ -156,10 +238,18 @@ export const TagContainer = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 
+	@media (max-width: 768px) {
+		display: none;
+	}
+
 	> div:last-child {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+
+		@media (max-width: 768px) {
+			display: none;
+		}
 	}
 `;
 

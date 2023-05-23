@@ -51,7 +51,28 @@ const Container = styled.div`
 	overflow: scroll;
 	border: 1px solid rgb(214, 217, 219);
 	border-top: none;
-	margin-top: -16px;
+	margin-top: -1px;
+
+	@media (max-width: 1024px) {
+		width: 922px;
+	}
+
+	@media (max-width: 768px) {
+		width: 691px;
+	}
+`;
+
+const Alert = styled.div`
+	margin-left: 5px;
+	color: #f37676;
+	font-size: 12px;
+	margin-top: 5px;
+	display: flex;
+
+	> p {
+		font-size: 15px;
+		margin-right: 5px;
+	}
 `;
 
 interface Prop {
@@ -63,6 +84,7 @@ function SearchPlace({ handlePlace }: Prop) {
 	const [searchResult, setSearchResult] = useState([]);
 	const [selected, setSelected] = useState<string>('');
 	const [change, setChange] = useState<boolean>(false);
+	const [alert, setAlert] = useState<boolean>(false);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setChange(true);

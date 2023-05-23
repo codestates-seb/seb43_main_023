@@ -16,6 +16,7 @@ import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
 import { Ipost } from '../../type/Ipost';
+import HamburgerMenu from '../../Components/community/HamburgerMenu';
 
 function Main() {
 	// eslint-disable-next-line prefer-const
@@ -73,11 +74,14 @@ function Main() {
 				<div>
 					<h1>커뮤니티</h1>
 					<div>
-						나와 같은 MBTI를 가진 사람들은 어떤 여행을 갔는지 궁금한가요? <br />
-						여행메이트가 없으세요? MBTI과몰입러라구요? 여러 잡담을 나누고
-						싶나요?
-						<br />
-						커뮤니티 각 탭을 누르며 둘러보세요!
+						<p>
+							나와 같은 MBTI를 가진 사람들은 어떤 여행을 갔는지 궁금한가요?{' '}
+							<br />
+							여행메이트가 없으세요? MBTI과몰입러라구요? 여러 잡담을 나누고
+							싶나요?
+							<br />
+							커뮤니티 각 탭을 누르며 둘러보세요!
+						</p>
 						<button onClick={handleBtn}>
 							<span>
 								작성하러 가기{' '}
@@ -86,6 +90,7 @@ function Main() {
 								</p>
 							</span>
 						</button>
+						<HamburgerMenu />
 					</div>
 				</div>
 			</style.Explain>

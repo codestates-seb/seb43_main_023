@@ -11,13 +11,13 @@ import Swal from 'sweetalert2';
 import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
-import useAxios from '../../hooks/useAxios';
 import { Ipost } from '../../type/Ipost';
 
 import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
 import useGet from '../../hooks/useGet';
+import HamburgerMenu from '../../Components/community/HamburgerMenu';
 
 function MBTI() {
 	// eslint-disable-next-line prefer-const
@@ -69,10 +69,12 @@ function MBTI() {
 				<div>
 					<h1>MBTI</h1>
 					<div>
-						MBTI 과몰입러를 위한 공간 ! <br />
-						자유롭게 나와 비슷한 성향을 가진 사람과 대화를 나눠보세요
-						<br />
-						또는 나와 다른 성향을 가진 사람에게 궁금한걸 물어보세요 !
+						<p>
+							MBTI 과몰입러를 위한 공간 ! <br />
+							자유롭게 나와 비슷한 성향을 가진 사람과 대화를 나눠보세요
+							<br />
+							또는 나와 다른 성향을 가진 사람에게 궁금한걸 물어보세요 !
+						</p>
 						<button onClick={handleBtn}>
 							<span>
 								작성하러 가기{' '}
@@ -81,6 +83,7 @@ function MBTI() {
 								</p>
 							</span>
 						</button>
+						<HamburgerMenu />
 					</div>
 				</div>
 			</style.Explain>
