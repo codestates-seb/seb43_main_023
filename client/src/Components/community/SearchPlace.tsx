@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import useAxios from '../../hooks/useAxios';
 
 const TitleInput = styled.input`
-	margin-bottom: 15px;
+	margin-top: 15px;
 	width: 100%;
 	padding: 10px;
 	font-size: 13px;
@@ -55,14 +57,29 @@ const Container = styled.div`
 `;
 
 interface Prop {
-	handlePlace: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	// handlePlace: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	handlePlace: (data: any, selected: string) => void;
+	// eslint-disable-next-line react/require-default-props
+	from?: string;
+	// eslint-disable-next-line react/require-default-props
+	id?: string | undefined;
 }
 
-function SearchPlace({ handlePlace }: Prop) {
+interface getDataProp {
+	id: number;
+}
+
+function SearchPlace({ handlePlace, from, id }: Prop) {
 	const [query, setQuery] = useState('');
 	const [searchResult, setSearchResult] = useState([]);
 	const [selected, setSelected] = useState<string>('');
 	const [change, setChange] = useState<boolean>(false);
+	// const [place, setPlace] = useState
+
+	const postData = useAxios({
+		method: 'get',
+		url: `/posts/`,
+	});
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setChange(true);
@@ -71,6 +88,7 @@ function SearchPlace({ handlePlace }: Prop) {
 
 	const handleSelected = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const selectedOption = event.currentTarget.innerText;
+		handlePlace(searchResult, selectedOption);
 		setSelected(selectedOption);
 		setSearchResult([]);
 		setChange(false);
@@ -79,6 +97,10 @@ function SearchPlace({ handlePlace }: Prop) {
 	const key = process.env.REACT_APP_KAKAO_MAP_KEY;
 
 	useEffect(() => {
+		if (postData.response && from === 'update') {
+			const allData: getDataProp[] = postData.response;
+			const data = allData.filter((el) => el.id === Number(id));
+		}
 		const delayDebounceFn = setTimeout(() => {
 			if (query) {
 				const API_URL = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`;
@@ -87,7 +109,6 @@ function SearchPlace({ handlePlace }: Prop) {
 				};
 				axios.get(API_URL, { headers }).then((response) => {
 					setSearchResult(response.data.documents);
-					handlePlace(response.data.documents);
 				});
 			} else {
 				setSearchResult([]);
@@ -95,7 +116,7 @@ function SearchPlace({ handlePlace }: Prop) {
 		}, 10);
 
 		return () => clearTimeout(delayDebounceFn);
-	}, [handlePlace, query, key]);
+	}, [handlePlace, query, key, postData.response, from, id]);
 
 	return (
 		<div>

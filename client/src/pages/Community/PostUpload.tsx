@@ -287,9 +287,13 @@ function PostUpload() {
 		setContents(event);
 	};
 
-	const handlePlace = (data: any) => {
-		setX(data[0].x);
-		setY(data[0].y);
+	const handlePlace = (data: any, selected: string) => {
+		const selectedData = data.filter(
+			(el: { place_name: string }) => el.place_name === selected,
+		);
+
+		setX(selectedData[0].x);
+		setY(selectedData[0].y);
 	};
 
 	const handleBtn = () => {
@@ -307,7 +311,7 @@ function PostUpload() {
 		if (
 			subject === '여행리뷰' &&
 			tags.length > 0 &&
-			Images.length === 3 &&
+			Images.length >= 3 &&
 			editorRef.current
 		) {
 			// json-server용 api 요청
@@ -351,17 +355,18 @@ function PostUpload() {
 						icon: 'success',
 					}).then((result) => {
 						if (result.value) {
-							document.location.href = `/community/${posts.length + 1}`;
+							document.location.href = `/tripreview/${posts.length + 1}`;
 						}
 					});
 				} else {
-					document.location.href = `/community/${posts.length + 1}`;
+					document.location.href = `/tripreview/${posts.length + 1}`;
 				}
 			} catch (error) {
 				navigate('/error');
 			}
 		} else if (
-			(subject === '여행고민' || '잡담' || 'MBTI' || '같이가요') &&
+			subject !== '여행리뷰' &&
+			subject !== '' &&
 			editorRef.current &&
 			title.length > 0
 		) {
