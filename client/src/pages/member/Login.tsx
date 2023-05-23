@@ -208,48 +208,59 @@ function Login() {
 		e.preventDefault();
 		const el = e.target as HTMLFormElement;
 		try {
-			const loginData = await Api.post('/members/signin', {
-				email: el.email.value,
-				password: el.password.value,
-			});
-			const {
-				memberId,
-				accessToken,
-				refreshToken,
-				accessTokenExpirationTime,
-				refreshTokenExpirationTime,
-			} = loginData.data.data;
+			const allMember = await Api.get('/members');
+			console.log(allMember.data);
+			// 전체 멤버 중 같은 이메일이 있다면 로그인 가능, 없다면 경고창
+			if (
+				allMember.data.find(
+					(v: { email: string }) => v.email === el.email.value,
+				)
+			) {
+				const loginData = await Api.post('/members/signin', {
+					email: el.email.value,
+					password: el.password.value,
+				});
+				const {
+					memberId,
+					accessToken,
+					refreshToken,
+					accessTokenExpirationTime,
+					refreshTokenExpirationTime,
+				} = loginData.data.data;
 
-			const userInfo = await Api.get(`/members/${memberId}`);
-			dispatch(
-				UPDATE({
-					id: userInfo.data.memberId,
-					email: userInfo.data.email,
-					nickname: userInfo.data.nickname,
-					mbti: userInfo.data.mbti,
-					img: userInfo.data.img,
-					badge: userInfo.data.badge,
-				}),
-			);
-			dispatch(LOGIN({ accessToken: `${accessToken}` }));
-			setCookie('refreshToken', refreshToken, {
-				path: '/',
-				sameSite: 'none',
-				secure: true,
-			});
-			setLocalStorage('accessToken', accessToken);
-			setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-			setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-			const sweetAlert2 = await SweetAlert2(
-				'로그인되었습니다.',
-				'메인 페이지로 이동합니다.',
-			);
-			if (sweetAlert2.isConfirmed) {
-				navigate('/main');
+				const userInfo = await Api.get(`/members/${memberId}`);
+				dispatch(
+					UPDATE({
+						id: userInfo.data.memberId,
+						email: userInfo.data.email,
+						nickname: userInfo.data.nickname,
+						mbti: userInfo.data.mbti,
+						img: userInfo.data.img,
+						badge: userInfo.data.badge,
+					}),
+				);
+				dispatch(LOGIN({ accessToken: `${accessToken}` }));
+				setCookie('refreshToken', refreshToken, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				setLocalStorage('accessToken', accessToken);
+				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+				const sweetAlert2 = await SweetAlert2(
+					'로그인되었습니다.',
+					'메인 페이지로 이동합니다.',
+				);
+				if (sweetAlert2.isConfirmed) {
+					navigate('/main');
+				}
+			} else {
+				ToastAlert('가입한 이메일이 아닙니다');
 			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			console.log(err);
+			// 전체 멤버 중 같은 이메일이 있는데도 불구하고 에러 => 비밀번호가 틀림 경고창
 			if (err.response.status === 401) {
 				ToastAlert('아이디/비밀번호가 다릅니다.');
 			} else {

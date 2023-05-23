@@ -72,6 +72,9 @@ function Logout() {
 				Kakao.Auth.logout();
 				removeLocalStorage('kakao');
 			}
+			if (getLocalStorage('naver')) {
+				removeLocalStorage('naver');
+			}
 			try {
 				removeLocalStorage('accessToken');
 				removeLocalStorage('empiresAtAccess');

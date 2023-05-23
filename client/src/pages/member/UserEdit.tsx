@@ -11,6 +11,7 @@ import { Api } from '../../apis/customAPI';
 import IntroBox from '../../Components/member/IntroBox';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Main = styled.div`
 	display: flex;
@@ -142,28 +143,38 @@ function UserEdit() {
 			).img;
 			*/
 			try {
-				await Api.patch(`/members/${userInfos.id}`, {
-					nickname: editname,
-					mbti: editmbti.toUpperCase(),
-					img: mbtiImg.data.img,
-					badge: userInfos.badge,
-				});
-				dispatch(
-					UPDATE({
+				// 전체 멤버 중 같은 닉네임이 있다면 경고창, 없다면 수정 가능
+				const allMember = await Api.get('/members');
+				if (
+					allMember.data.find(
+						(v: { nickname: string }) => v.nickname === editname,
+					)
+				) {
+					ToastAlert('이미 사용중인 닉네임입니다.');
+				} else {
+					await Api.patch(`/members/${userInfos.id}`, {
 						nickname: editname,
 						mbti: editmbti.toUpperCase(),
 						img: mbtiImg.data.img,
 						badge: userInfos.badge,
-					}),
-				);
-				Swal.fire({
-					title: '수정완료되었습니다.',
-					icon: 'success',
-				}).then((result) => {
-					if (result.value) {
-						navigate('/mypage');
-					}
-				});
+					});
+					dispatch(
+						UPDATE({
+							nickname: editname,
+							mbti: editmbti.toUpperCase(),
+							img: mbtiImg.data.img,
+							badge: userInfos.badge,
+						}),
+					);
+					Swal.fire({
+						title: '수정완료되었습니다.',
+						icon: 'success',
+					}).then((result) => {
+						if (result.value) {
+							navigate('/mypage');
+						}
+					});
+				}
 			} catch (error) {
 				navigate('/error');
 			}

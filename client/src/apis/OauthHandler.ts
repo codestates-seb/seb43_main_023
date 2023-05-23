@@ -45,16 +45,17 @@ export function OauthGoogleHandler() {
 				console.log(oauthInfo.data); // oauth data(id, email)
 
 				// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
-				const mbtiImg = await Api.get('/mbtiInfo');
-				const userCheck = await Api.get(`/members`);
+				const mbtiImg = await Api.get('/mbtiInfo/INFP');
 				const memberId = Number(oauthInfo.data.id);
 				const password = process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY;
 
-				// 회원가입이 안되있다면
+				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
+				const allMember = await Api.get('/members');
+				console.log(allMember.data);
 				if (
-					userCheck.data.filter(
-						(el: { memberId: number }) => el.memberId === oauthInfo.data.id,
-					).length === 0
+					allMember.data.find(
+						(v: { email: string }) => v.email === oauthInfo.data.email,
+					)
 				) {
 					// 회원가입 post 요청
 					await Api.post('/members/signup', {
@@ -78,7 +79,6 @@ export function OauthGoogleHandler() {
 						accessTokenExpirationTime,
 						refreshTokenExpirationTime,
 					} = loginData.data;
-					// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
 					// 로그인 정보 업데이트
 					dispatch(
@@ -194,7 +194,7 @@ export function OauthNaverHandler() {
 				// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
 				const nickname = 'test';
 				const email = 'test123@gmail.com';
-				const mbtiImg = await Api.get('/mbtiInfo');
+				const mbtiImg = await Api.get('/mbtiInfo/INFP');
 				/*
 				const mbtiImg = await Api.get('/mbtiInfo/INFP');
 				밑에서 꺼내쓸때는 mbtiImg.data.img
@@ -208,7 +208,7 @@ export function OauthNaverHandler() {
 
 				// 회원가입이 안되있다면
 				if (
-					userCheck.data.filter((el: { id: number }) => el.id === memberId)
+					userCheck.data.filter((el: { email: string }) => el.email === email)
 						.length === 0
 				) {
 					// 회원가입 post 요청
@@ -234,7 +234,7 @@ export function OauthNaverHandler() {
 					/*
 					// 서버 로그인 요청 코드
 					const loginData = await Api.post('/members/signin', {
-						email: `${email}`,
+						email,
 						password,
 					});
 					const {
@@ -279,18 +279,18 @@ export function OauthNaverHandler() {
 				} else {
 					// 이미 회원가입이 되어 있어 바로 로그인하는 경우
 					// 서버 연결시 코드 const userInfo = await Api.get(`/members/${memberId}`);
-					const userInfo2 = await Api.get(
+					const userInfo = await Api.get(
 						`/members/${getLocalStorage('memberId')}`,
 					);
 					dispatch(LOGIN({ accessToken: `${accessToken}` }));
 					dispatch(
 						UPDATE({
-							id: userInfo2.data.id,
-							email: userInfo2.data.email,
-							nickname: userInfo2.data.nickname,
-							mbti: userInfo2.data.mbti,
-							img: userInfo2.data.img,
-							badge: userInfo2.data.badge,
+							id: userInfo.data.id,
+							email: userInfo.data.email,
+							nickname: userInfo.data.nickname,
+							mbti: userInfo.data.mbti,
+							img: userInfo.data.img,
+							badge: userInfo.data.badge,
 						}),
 					);
 					Swal.fire({
@@ -313,6 +313,7 @@ export function OauthNaverHandler() {
 }
 
 // 카카오 oauth(javascript sdk 방식)
+const { Kakao } = window as any;
 export const KakaoRedirectHandler = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -388,27 +389,14 @@ export const KakaoRedirectHandler = () => {
 				);
 				dispatch(LOGIN({ accessToken: `${getLocalStorage('accessToken')}` }));
 
-				// 회원가입 아직 안했을 경우 -> 유저 수정 페이지로 이동
 				try {
-					await Api.post('/members/signup', {
-						nickname,
-						mbti: 'INFP',
-						email,
-						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
-						img: mbtiImg.data.img,
-					});
-					Swal.fire({
-						icon: 'success',
-						title: '회원가입되었습니다.',
-						text: '마이페이지에서 정보를 수정해주세요.',
-					}).then((result) => {
-						if (result.isConfirmed) {
-							navigate('/useredit');
-						}
-					});
-				} catch (err: any) {
-					// 회원가입 이미 해서 에러인 경우 -> 로그인 후 메인페이지로 이동
-					if (err.response.status === 500) {
+					// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
+					const allMember = await Api.get('/members');
+					console.log(allMember.data);
+					if (
+						allMember.data.find((v: { email: string }) => v.email === email)
+					) {
+						// 로그인 -> 마이페이지 이동
 						const loginData = await Api.post('/members/signin', {
 							email,
 							password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
@@ -435,6 +423,7 @@ export const KakaoRedirectHandler = () => {
 								badge: userInfo3.data.badge,
 							}),
 						);
+						dispatch(LOGIN({ accessToken: `${accessToken}` }));
 						// 토큰 저장
 						setCookie('refreshToken', refreshToken, {
 							path: '/',
@@ -455,13 +444,32 @@ export const KakaoRedirectHandler = () => {
 							}
 						});
 					} else {
-						navigate('/error');
+						// 회원가입 아직 안했을 경우 -> 유저 수정 페이지로 이동
+						await Api.post('/members/signup', {
+							nickname,
+							mbti: 'INFP',
+							email,
+							password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+							img: mbtiImg.data.img,
+						});
+						Swal.fire({
+							icon: 'success',
+							title: '회원가입되었습니다.',
+							text: '마이페이지에서 정보를 수정해주세요.',
+						}).then((result) => {
+							if (result.isConfirmed) {
+								navigate('/useredit');
+							}
+						});
 					}
-				} // catch 까지
-			} catch {
+				} catch (err: any) {
+					navigate('/error');
+				}
+			} catch (err: any) {
 				navigate('/error');
 			}
 		};
+
 		getData();
 	}, [dispatch, navigate]);
 };

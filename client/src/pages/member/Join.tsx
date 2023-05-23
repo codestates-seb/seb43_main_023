@@ -275,32 +275,45 @@ function Join() {
 				setPasswordValid(true);
 				setpasswordCheck(true);
 
-				const mbtiImg = await Api.get(
-					`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
-				);
-				await Api.post('/members/signup', {
-					nickname: el.displayName.value,
-					mbti: el.mbti.value.toUpperCase(),
-					email: el.email.value,
-					password: el.password.value,
-					img: mbtiImg.data.img,
-				});
-				const sweetAlert2 = await SweetAlert2(
-					'회원가입이 완료되었습니다.',
-					'로그인 페이지로 이동합니다.',
-				);
-				if (sweetAlert2.isConfirmed) {
-					navigate('/login');
+				// 전체 멤버 중 같은 이메일이 있다면 경고창, 없다면 회원가입 가능
+				const allMember = await Api.get('/members');
+				console.log(allMember.data);
+				if (
+					allMember.data.find(
+						(v: { email: string }) => v.email === el.email.value,
+					)
+				) {
+					ToastAlert('이미 가입한 이메일입니다.');
+				} else if (
+					// 전체 멤버 중 같은 닉네임이 있다면 경고창, 없다면 회원가입 가능
+					allMember.data.find(
+						(v: { nickname: string }) => v.nickname === el.displayName.value,
+					)
+				) {
+					ToastAlert('이미 사용중인 닉네임입니다.');
+				} else {
+					const mbtiImg = await Api.get(
+						`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
+					);
+					await Api.post('/members/signup', {
+						nickname: el.displayName.value,
+						mbti: el.mbti.value.toUpperCase(),
+						email: el.email.value,
+						password: el.password.value,
+						img: mbtiImg.data.img,
+					});
+					const sweetAlert2 = await SweetAlert2(
+						'회원가입이 완료되었습니다.',
+						'로그인 페이지로 이동합니다.',
+					);
+					if (sweetAlert2.isConfirmed) {
+						navigate('/login');
+					}
 				}
 			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
-			console.log(err);
-			if (err.response.status === 500) {
-				ToastAlert('이미 가입한 회원입니다.');
-			} else {
-				navigate('/error');
-			}
+			navigate('/error');
 		}
 	}
 
