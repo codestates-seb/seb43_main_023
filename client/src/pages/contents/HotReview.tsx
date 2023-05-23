@@ -173,7 +173,11 @@ function HotReview() {
 										<span className="hotReviewBold">{item.title}</span>
 										<span className="hotReviewBold">💙 {item.voteCount}</span>
 										<span>{item.content}</span>
-										<span className="hotReviewAuthor">{item.nickName}</span>
+										<span className="hotReviewAuthor">
+											{item.nickName}
+											<br />
+											{item.createdAt?.slice(0, 8)}
+										</span>
 									</HotReviewInfo>
 								</HotReviewItem>
 							</StyledLink>
