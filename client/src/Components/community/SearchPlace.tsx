@@ -6,6 +6,17 @@ import { useLocation, useParams } from 'react-router-dom';
 import { FiAlertCircle } from 'react-icons/fi';
 import useAxios from '../../hooks/useAxios';
 
+const TitleUploadContainer = styled.div`
+	margin-top: 15px;
+	width: 100%;
+	font-size: 13px;
+	border: 1px solid rgb(214, 217, 219);
+	background-color: #fafafa;
+	height: 42px;
+	display: flex;
+	justify-content: space-between;
+`;
+
 const TitleContainer = styled.div`
 	margin-top: 15px;
 	width: 100%;
@@ -19,18 +30,21 @@ const TitleContainer = styled.div`
 `;
 
 const TitleInput = styled.input`
-	margin-top: 15px;
-	width: 100%;
+	width: 90%;
 	padding: 10px;
 	font-size: 13px;
-	border: 1px solid rgb(214, 217, 219);
+	border: none;
 	background-color: #fafafa;
-	height: 42px;
 
 	&:focus {
 		outline: none !important;
 		border-color: rgb(214, 217, 219);
 	}
+`;
+
+const ClearBtn = styled.button`
+	margin-right: 10px;
+	color: #555555;
 `;
 
 const Ul = styled.ul``;
@@ -66,7 +80,7 @@ const Container = styled.div`
 	overflow: scroll;
 	border: 1px solid rgb(214, 217, 219);
 	border-top: none;
-	margin-top: -16px;
+	margin-top: -1px;
 `;
 
 const Alert = styled.div`
@@ -179,15 +193,17 @@ function SearchPlace({ handlePlace, id }: Prop) {
 					) : null}
 				</div>
 			) : (
-				<>
+				<TitleUploadContainer>
 					<TitleInput
 						type="text"
 						value={selected || query}
 						placeholder="여행하신 장소 또는 지역명을 적어주세요"
 						onChange={handleInputChange}
 					/>
-					<button onClick={handleInputReset}>Clear</button>
-				</>
+
+					{selected ||
+						(query && <ClearBtn onClick={handleInputReset}>Clear</ClearBtn>)}
+				</TitleUploadContainer>
 			)}
 
 			{query && change ? (
