@@ -234,6 +234,7 @@ function PostUpload() {
 	const [alert, setAlert] = useState<boolean>(false);
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
+	const [placeName, setPlaceName] = useState<string>('');
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
@@ -291,6 +292,7 @@ function PostUpload() {
 		const selectedData = data.filter(
 			(el: { place_name: string }) => el.place_name === selected,
 		);
+		setPlaceName(selectedData[0].place_name);
 
 		setX(selectedData[0].x);
 		setY(selectedData[0].y);
@@ -330,6 +332,7 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					x,
 					y,
+					placeName,
 					email: userInfos.email,
 				});
 				const myposts = posts.filter(
