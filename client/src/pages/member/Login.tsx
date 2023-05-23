@@ -281,7 +281,7 @@ function Login() {
 	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
-redirect_uri=http://localhost:3000/accounts/google/login/&
+redirect_uri=https://whatsyourmbti.click/accounts/google/login/&
 scope=https://www.googleapis.com/auth/userinfo.email`;
 	const oAuthHandler = () => {
 		window.location.assign(oAuthURL);
