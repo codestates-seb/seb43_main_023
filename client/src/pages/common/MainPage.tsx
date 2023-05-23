@@ -70,7 +70,7 @@ const MainTabButton = styled.div`
 const MainContentsContainer = styled.div`
 	width: 95%;
 	height: 650px;
-	border-radius: 50px 50px 0 0;
+	border-radius: 50px;
 	box-shadow: 0px 2px 11px 1px #999999;
 	margin: 20px 10px;
 	display: flex;

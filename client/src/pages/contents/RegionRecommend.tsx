@@ -75,7 +75,7 @@ const RegionRecImg = styled.div<IImageProps>`
 	border-radius: 15px;
 	text-align: center;
 	> div {
-		line-height: 270px;
+		line-height: 260px;
 	}
 `;
 

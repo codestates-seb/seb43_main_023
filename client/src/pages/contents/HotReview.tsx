@@ -130,12 +130,7 @@ const StyledLink = styled(Link)`
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<Iposts>([]);
 
-	// const res: any = useAxios({
-	// 	method: 'get',
-	// 	url: '/posts',
-	// }).response;
-
-	const response: any = useGet('?subject=여행리뷰&page=1');
+	const response: any = useGet('?size=10&&subject=여행리뷰&date=6m&page=1');
 
 	useEffect(() => {
 		if (response !== null) {
@@ -167,6 +162,8 @@ function HotReview() {
 									<span>{item.content}</span>
 									<span className="hotReviewAuthor">
 										{item.member.nickname}
+										<br />
+										{item.postCreatedAt?.slice(0, 10)}
 									</span>
 								</HotReviewInfo>
 							</HotReviewItem>
