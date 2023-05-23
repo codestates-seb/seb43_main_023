@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { IImageProps } from '../../type/IImageProps';
 
 interface IReview {
@@ -53,8 +53,11 @@ const HotReviewImage = styled.div`
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 768px) {
+			font-size: 38px;
+		}
 		@media (max-width: 425px) {
-			font-size: 36px;
+			font-size: 30px;
 		}
 	}
 `;
@@ -140,23 +143,17 @@ const StyledLink = styled(Link)`
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
 
-	const res: any = useAxios({
-		method: 'get',
-		url: '/posts',
-	}).response;
+	const response: any = useGet('?subject=여행리뷰&page=1');
 
 	useEffect(() => {
-		if (res !== null) {
-			const newData = res.filter(
-				(item: { subject: string }) => item.subject === '여행리뷰',
-			);
-			newData.sort(
+		if (response !== null) {
+			response.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(newData.slice(0, 5));
+			setFilterReview(response.slice(0, 5));
 		}
-	}, [res]);
+	}, [response]);
 
 	return (
 		<HotReviewContainer>

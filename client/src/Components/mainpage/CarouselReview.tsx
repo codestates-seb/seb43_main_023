@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Slider, { Settings } from 'react-slick';
 import styled from 'styled-components';
 
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { IImageProps } from '../../type/IImageProps';
 
 interface IReview {
@@ -140,23 +140,17 @@ function CarouselReview() {
 		],
 	};
 
-	const res: any = useAxios({
-		method: 'get',
-		url: '/posts',
-	}).response;
+	const response: any = useGet('?subject=여행리뷰&page=1');
 
 	useEffect(() => {
-		if (res !== null) {
-			const newData = res.filter(
-				(item: { subject: string }) => item.subject === '여행리뷰',
-			);
-			newData.sort(
+		if (response !== null) {
+			response.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(newData.slice(0, 5));
+			setFilterReview(response.slice(0, 5));
 		}
-	}, [res]);
+	}, [response]);
 
 	return (
 		<div>

@@ -37,6 +37,12 @@ const NearbyPlaceDetailImage = styled.div<IImageProps>`
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 768px) {
+			font-size: 38px;
+		}
+		@media (max-width: 425px) {
+			font-size: 30px;
+		}
 	}
 	&::before {
 		background: ${(props) => (props.image ? `url(${props.image})` : `url('')`)}
@@ -81,6 +87,11 @@ const NearbyPlaceInfoText = styled.div`
 	font-size: 18px;
 	@media (max-width: 768px) {
 		width: 100%;
+	}
+	.notice {
+		margin-top: 20px;
+		font-size: 18px;
+		color: #adadad;
 	}
 `;
 
@@ -166,6 +177,8 @@ const WeatherDetail = styled.div`
 
 const backgroundImg =
 	'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80';
+const thumbnail =
+	'https://images.unsplash.com/photo-1625603736199-775425d2890a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80';
 
 function NearbyPlace() {
 	const navigate = useNavigate();
@@ -274,7 +287,7 @@ function NearbyPlace() {
 				<span>🧭 우리 동네 추천 명소</span>
 			</NearbyPlaceDetailImage>
 			<NearbyPlaceInfo>
-				<NearbyPlaceInfoImg image={backgroundImg} />
+				<NearbyPlaceInfoImg image={thumbnail} />
 				<NearbyPlaceInfoText>
 					<Weather>
 						<WeatherTitle>
@@ -291,6 +304,9 @@ function NearbyPlace() {
 					<br />
 					가까워서 미처 알지 못했던 여행지를 추천 받아, 오늘 바로 떠나보시는건
 					어떨까요?
+					<div className="notice">
+						여행지를 클릭하면 여행지에 대한 자세한 설명을 볼 수 있습니다.
+					</div>
 				</NearbyPlaceInfoText>
 			</NearbyPlaceInfo>
 			<NearbyPlaceTitle>

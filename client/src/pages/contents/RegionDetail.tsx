@@ -89,9 +89,14 @@ const RegionInfoImg = styled.div<IImageProps>`
 const RegionInfoText = styled.div`
 	width: 60%;
 	padding-left: 20px;
-	font-size: 18px;
+	font-size: 20px;
 	@media (max-width: 768px) {
 		width: 100%;
+	}
+	.notice {
+		margin-top: 20px;
+		font-size: 18px;
+		color: #adadad;
 	}
 `;
 
@@ -494,6 +499,9 @@ function RegionDetail() {
 						</WeatherDetail>
 					</Weather>
 					{selectedRegion[0].regionIntro}
+					<div className="notice">
+						여행지를 클릭하면 여행지에 대한 자세한 설명을 볼 수 있습니다.
+					</div>
 				</RegionInfoText>
 			</RegionInfo>
 			<RegionTitle>
