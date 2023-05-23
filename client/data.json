@@ -543,6 +543,20 @@
       "x": "127.688100367243",
       "y": "35.1555906084513",
       "email": ""
+    },
+    {
+      "id": 33,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "k",
+      "content": "하이",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [
