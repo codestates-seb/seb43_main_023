@@ -42,6 +42,8 @@ public class Post {
 
     private LocalDateTime postModifiedAt = postCreatedAt;
 
+    private String placeName;
+
     private String locationY;
 
     private String locationX;

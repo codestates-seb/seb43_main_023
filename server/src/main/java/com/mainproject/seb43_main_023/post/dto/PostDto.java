@@ -25,6 +25,8 @@ public class PostDto {
         @NotBlank(message = "내용를 입력해주세요.")
         private String content;
 
+        private String placeName;
+
         private String locationY;
 
         private String locationX;
