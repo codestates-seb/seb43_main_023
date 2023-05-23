@@ -81,6 +81,14 @@ const Container = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	border-top: none;
 	margin-top: -1px;
+
+	@media (max-width: 1024px) {
+		width: 922px;
+	}
+
+	@media (max-width: 768px) {
+		width: 691px;
+	}
 `;
 
 const Alert = styled.div`

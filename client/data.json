@@ -581,6 +581,20 @@
       "y": "36.99462872331569",
       "placeName": "아쿠아필드 안성",
       "email": "test@gmail.com"
+    },
+    {
+      "id": 35,
+      "nickName": "testnick",
+      "subject": "MBTI",
+      "title": "kk",
+      "content": "k",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [

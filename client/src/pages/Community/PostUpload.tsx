@@ -32,7 +32,7 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-	width: 950px;
+	width: 90vw;
 
 	> h2 {
 		padding-bottom: 10px;
@@ -182,6 +182,10 @@ const ImgContainer = styled.div`
 			border: 1px solid rgb(214, 217, 219);
 			background-color: #fafafa;
 			height: 42px;
+
+			@media (max-width: 768px) {
+				width: 220px;
+			}
 
 			&:focus {
 				outline: none !important;
