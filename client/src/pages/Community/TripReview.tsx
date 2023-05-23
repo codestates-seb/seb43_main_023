@@ -8,6 +8,13 @@ import Swal from 'sweetalert2';
 // eslint-disable-next-line import/order
 import { FiChevronRight } from 'react-icons/fi';
 
+import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
+// eslint-disable-next-line import/order
+import { useSelector } from 'react-redux';
+// eslint-disable-next-line import/order
+import { useNavigate } from 'react-router-dom';
+
 const Explain = styled.div`
 	margin-top: 85px;
 	height: 130px;
@@ -88,6 +95,9 @@ const TagContainer = styled.div`
 `;
 
 function TripReview() {
+	const navigate = useNavigate();
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
+
 	const handleBtn = () => {
 		const Toast = Swal.mixin({
 			toast: true,
@@ -103,10 +113,14 @@ function TripReview() {
 			},
 		});
 
-		Toast.fire({
-			icon: 'warning',
-			title: '로그인 상태가 아닙니다',
-		});
+		if (login.isLogin) {
+			navigate('/community/create');
+		} else {
+			Toast.fire({
+				icon: 'warning',
+				title: '로그인 상태가 아닙니다',
+			});
+		}
 	};
 	return (
 		<div className="main">

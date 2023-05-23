@@ -3,15 +3,18 @@ import '../../Global.css';
 import { useEffect, useState } from 'react';
 
 import { AiFillHeart } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Swal from 'sweetalert2';
 import { FiChevronRight } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
 import useAxios from '../../hooks/useAxios';
+import { RootState } from '../../store/Store';
+import { Ilogin } from '../../type/Ilogin';
 
 const Explain = styled.div`
 	margin-top: 85px;
@@ -83,7 +86,6 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-	height: calc(100vh - 260px);
 	width: calc(100vw - 400px);
 	margin-right: 30px;
 	height: fit-content;
@@ -211,6 +213,9 @@ function Main() {
 		url: '/posts',
 	});
 
+	const navigate = useNavigate();
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
+
 	const handleBtn = () => {
 		const Toast = Swal.mixin({
 			toast: true,
@@ -226,10 +231,14 @@ function Main() {
 			},
 		});
 
-		Toast.fire({
-			icon: 'warning',
-			title: '로그인 상태가 아닙니다',
-		});
+		if (login.isLogin) {
+			navigate('/community/create');
+		} else {
+			Toast.fire({
+				icon: 'warning',
+				title: '로그인 상태가 아닙니다',
+			});
+		}
 	};
 
 	useEffect(() => {
