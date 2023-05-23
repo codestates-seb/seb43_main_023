@@ -40,8 +40,11 @@ const HotReviewImage = styled.div`
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 768px) {
+			font-size: 38px;
+		}
 		@media (max-width: 425px) {
-			font-size: 36px;
+			font-size: 30px;
 		}
 	}
 `;
@@ -127,23 +130,15 @@ const StyledLink = styled(Link)`
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<Iposts>([]);
 
-	// const res: any = useAxios({
-	// 	method: 'get',
-	// 	url: '/posts',
-	// }).response;
-
-	const response: any = useGet('');
+	const response: any = useGet('?size=10&&subject=여행리뷰&date=6m&page=1');
 
 	useEffect(() => {
 		if (response !== null) {
-			const newArr = response.filter(
-				(item: { subject: string }) => item.subject === '여행리뷰',
-			);
-			newArr.sort(
+			response.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(newArr.slice(0, 5));
+			setFilterReview(response.slice(0, 5));
 		}
 	}, [response]);
 
@@ -167,6 +162,8 @@ function HotReview() {
 									<span>{item.content}</span>
 									<span className="hotReviewAuthor">
 										{item.member.nickname}
+										<br />
+										{item.postCreatedAt?.slice(0, 10)}
 									</span>
 								</HotReviewInfo>
 							</HotReviewItem>
