@@ -2,8 +2,21 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { FiAlertCircle } from 'react-icons/fi';
 import useAxios from '../../hooks/useAxios';
+
+const TitleContainer = styled.div`
+	margin-top: 15px;
+	width: 100%;
+	padding: 10px;
+	font-size: 13px;
+	border: 1px solid rgb(214, 217, 219);
+	background-color: #fafafa;
+	height: 42px;
+	color: gray;
+	padding-top: 12px;
+`;
 
 const TitleInput = styled.input`
 	margin-top: 15px;
@@ -56,25 +69,40 @@ const Container = styled.div`
 	margin-top: -16px;
 `;
 
+const Alert = styled.div`
+	margin-left: 5px;
+	color: #f37676;
+	font-size: 12px;
+	margin-top: 5px;
+	display: flex;
+
+	> p {
+		font-size: 15px;
+		margin-right: 5px;
+	}
+`;
+
 interface Prop {
 	// handlePlace: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handlePlace: (data: any, selected: string) => void;
-	// eslint-disable-next-line react/require-default-props
-	from?: string;
 	// eslint-disable-next-line react/require-default-props
 	id?: string | undefined;
 }
 
 interface getDataProp {
 	id: number;
+	placeName: string;
 }
 
-function SearchPlace({ handlePlace, from, id }: Prop) {
+function SearchPlace({ handlePlace, id }: Prop) {
 	const [query, setQuery] = useState('');
 	const [searchResult, setSearchResult] = useState([]);
 	const [selected, setSelected] = useState<string>('');
 	const [change, setChange] = useState<boolean>(false);
-	// const [place, setPlace] = useState
+	const [placeName, setPlaceName] = useState<string>('');
+	const [alert, setAlert] = useState<boolean>(false);
+
+	const locationNow = useLocation();
 
 	const postData = useAxios({
 		method: 'get',
@@ -84,6 +112,16 @@ function SearchPlace({ handlePlace, from, id }: Prop) {
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setChange(true);
 		setQuery(e.target.value);
+	};
+
+	const handleInputReset = () => {
+		setQuery('');
+		setSelected('');
+		setPlaceName('');
+	};
+
+	const handleInputUpdate = () => {
+		setAlert(true);
 	};
 
 	const handleSelected = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -97,9 +135,14 @@ function SearchPlace({ handlePlace, from, id }: Prop) {
 	const key = process.env.REACT_APP_KAKAO_MAP_KEY;
 
 	useEffect(() => {
-		if (postData.response && from === 'update') {
+		if (
+			postData.response &&
+			locationNow.pathname === `/tripreview/${id}/update`
+		) {
 			const allData: getDataProp[] = postData.response;
 			const data = allData.filter((el) => el.id === Number(id));
+
+			setPlaceName(data[0].placeName);
 		}
 		const delayDebounceFn = setTimeout(() => {
 			if (query) {
@@ -116,17 +159,36 @@ function SearchPlace({ handlePlace, from, id }: Prop) {
 		}, 10);
 
 		return () => clearTimeout(delayDebounceFn);
-	}, [handlePlace, query, key, postData.response, from, id]);
+	}, [handlePlace, query, key, postData.response, id, locationNow.pathname]);
 
 	return (
 		<div>
-			<TitleInput
-				type="text"
-				value={selected || query}
-				placeholder="여행하신 장소 또는 지역명을 적어주세요"
-				defaultValue={selected}
-				onChange={handleInputChange}
-			/>
+			{locationNow.pathname === `/tripreview/${id}/update` ? (
+				<div>
+					<TitleContainer onClick={handleInputUpdate}>
+						{placeName}
+					</TitleContainer>
+
+					{alert ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							장소는 수정 불가능해요
+						</Alert>
+					) : null}
+				</div>
+			) : (
+				<>
+					<TitleInput
+						type="text"
+						value={selected || query}
+						placeholder="여행하신 장소 또는 지역명을 적어주세요"
+						onChange={handleInputChange}
+					/>
+					<button onClick={handleInputReset}>Clear</button>
+				</>
+			)}
 
 			{query && change ? (
 				<Container>

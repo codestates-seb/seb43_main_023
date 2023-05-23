@@ -330,7 +330,7 @@ function PostUpdate() {
 						/>
 
 						{subject === '여행리뷰' ? (
-							<SearchPlace handlePlace={handlePlace} from="update" id={id} />
+							<SearchPlace handlePlace={handlePlace} id={id} />
 						) : null}
 
 						<StyledEditorContainer>
