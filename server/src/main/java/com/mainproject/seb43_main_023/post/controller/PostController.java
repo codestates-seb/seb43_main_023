@@ -55,7 +55,7 @@ public class PostController {
         return new ResponseEntity(HttpStatus.OK);
     }
     @GetMapping// 게시글 목록조회 + 게시글 검색기능 추가
-    public  ResponseEntity PopularPosts(@RequestParam(value = "title",defaultValue = "") String title,
+    public  ResponseEntity searchPosts(@RequestParam(value = "title",defaultValue = "") String title,
                                         @RequestParam(value = "subject",defaultValue = "") String subject,
                                         @RequestParam(value = "date",defaultValue = "1m") String date,
                                         @Positive @RequestParam(defaultValue = "1") int page,
