@@ -11,6 +11,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,7 +44,7 @@ public class PostService {
             Optional.ofNullable(post.getImage()).ifPresent(findPost::setImage);
             Optional.ofNullable(post.getLocationX()).ifPresent(findPost::setLocationX);
             Optional.ofNullable(post.getLocationY()).ifPresent(findPost::setLocationY);
-            findPost.setModifiedAt(LocalDateTime.now());
+            findPost.setPostModifiedAt(LocalDateTime.now());
             return postRepository.save(findPost);
         }
         else throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
@@ -60,9 +61,17 @@ public class PostService {
         post.setViewCount(post.getViewCount()+1);
         return postRepository.save(post);
     }
-    public Page<Post> searchPosts(int page,int size,String title,String subject){
-        return postRepository.findByTitleContainingAndSubjectContaining
-                (title, subject, PageRequest.of(page,size,Sort.by("postId").descending()));
+    public Page<Post> searchPostsMonth(int page,int size,String title,String subject,String date){
+        LocalDateTime dateTime = LocalDateTime.now();
+        switch (date) {
+            case "1d" : dateTime = dateTime.minusDays(1); break;
+            case "1w" : dateTime = dateTime.minusWeeks(1); break;
+            case "1m" : dateTime = dateTime.minusMonths(1); break;
+            case "6m" : dateTime = dateTime.minusMonths(6); break;
+            default: return null;
+        }
+        return postRepository.findRecentPosts
+                (title, subject, dateTime, PageRequest.of(page,size,Sort.by("postId").descending()));
     }
     @Transient
     public Post votePost(long postId, long memberId){
