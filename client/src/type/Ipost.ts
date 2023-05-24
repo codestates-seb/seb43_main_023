@@ -6,7 +6,7 @@ export interface Ipost {
 	tag: string[];
 	voteCount?: number;
 	viewCount?: number;
-	postCreatedAt?: string;
+	postCreatedAt: string;
 	postModifiedAt?: string;
 	image: string[];
 	member: {
