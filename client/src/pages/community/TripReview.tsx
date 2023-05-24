@@ -13,14 +13,52 @@ import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
 
+import HamburgerMenu from '../../Components/community/HamburgerMenu';
+import ToastAlert from '../../utils/ToastAlert';
+
 const ReviewContainer = styled.div`
+	margin-top: 240px;
 	height: 1000px;
 	display: flex;
+	align-content: flex-start;
+
+	@media (max-width: 580px) {
+		margin-top: 170px;
+		width: 93%;
+	}
+
+	a {
+		text-decoration: none;
+		color: black;
+	}
 `;
 
 const ReviewBody = styled.div`
-	width: calc(100vw - 230px);
-	height: inherit;
+	width: calc(100vw - 250px);
+	margin-right: 30px;
+	height: fit-content;
+
+	@media (max-width: 1120px) {
+		width: calc(100vw - 170px);
+	}
+
+	@media (max-width: 940px) {
+		width: calc(100vw - 200px);
+	}
+
+	@media (max-width: 768px) {
+		width: calc(100vw - 160px);
+	}
+
+	@media (max-width: 580px) {
+		width: 100vh;
+		margin-right: 0px;
+	}
+
+	@media (max-width: 480px) {
+		width: 100vh;
+		margin-right: 0px;
+	}
 `;
 
 function TripReview() {
@@ -28,27 +66,10 @@ function TripReview() {
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const handleBtn = () => {
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast: {
-				addEventListener: (arg0: string, arg1: any) => void;
-			}) => {
-				toast.addEventListener('mouseenter', Swal.stopTimer);
-				toast.addEventListener('mouseleave', Swal.resumeTimer);
-			},
-		});
-
 		if (login.isLogin) {
 			navigate('/community/create');
 		} else {
-			Toast.fire({
-				icon: 'warning',
-				title: '로그인 상태가 아닙니다',
-			});
+			ToastAlert('로그인 상태가 아닙니다');
 		}
 	};
 	return (
@@ -57,10 +78,12 @@ function TripReview() {
 				<div>
 					<h1>여행리뷰</h1>
 					<div>
-						행복은 나누면 두배 ! <br />
-						내 여행도 기록하고, 다른 사람들의 여행 기록을 살펴보세요
-						<br />
-						여러 기록들을 살펴보며 나에게 꼭 맞는 여행지를 발견할지도 몰라요
+						<p>
+							행복은 나누면 두배 ! <br />
+							내 여행도 기록하고, 다른 사람들의 여행 기록을 살펴보세요
+							<br />
+							여러 기록들을 살펴보며 나에게 꼭 맞는 여행지를 발견할지도 몰라요
+						</p>
 						<button onClick={handleBtn}>
 							<span>
 								작성하러 가기{' '}
@@ -69,6 +92,7 @@ function TripReview() {
 								</p>
 							</span>
 						</button>
+						<HamburgerMenu />
 					</div>
 				</div>
 			</style.Explain>

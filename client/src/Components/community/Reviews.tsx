@@ -3,18 +3,41 @@ import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import img from '../../assets/jeonju.jpg';
-import useAxios from '../../hooks/useAxios';
 import Pagination from './Pagination';
 import { Ipost } from '../../type/Ipost';
 import * as style from './CommunityStyle';
 import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
+	max-height: 1000px;
 	height: fit-content;
-	margin-left: 35px;
+	margin-left: 30px;
 	display: flex;
 	overflow: scroll;
 	flex-wrap: wrap;
+
+	@media (max-width: 768px) {
+		margin-left: 50px;
+	}
+
+	@media (max-width: 580px) {
+		margin-left: 77px;
+	}
+
+	@media (max-width: 480px) {
+		margin-left: 30px;
+	}
+
+	/* @media (max-width: 1120px) {
+		margin-left: 20px;
+	}
+	@media (max-width: 1117px) {
+		margin-left: 65px;
+	}
+
+	@media (max-width: 1117px) {
+		margin-left: 65px;
+	} */
 
 	a {
 		text-decoration: none;
@@ -25,14 +48,41 @@ const Container = styled.div`
 const ReviewBox = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	height: 270px;
-	width: 210px;
+	width: 220px;
 	margin-bottom: 20px;
-	margin-right: 45px;
+	margin-right: 30px;
 	background-color: white;
+
+	@media (max-width: 1024px) {
+		margin-right: 40px;
+	}
+
+	@media (max-width: 980px) {
+		margin-right: 25px;
+	}
+
+	@media (max-width: 768px) {
+		margin-right: 50px;
+	}
+
+	@media (max-width: 580px) {
+		width: 190px;
+		margin-right: 25px;
+	}
+
+	@media (max-width: 480px) {
+		width: 140px;
+		height: 170px;
+		margin-right: 15px;
+	}
 
 	> div:nth-child(1) {
 		border-bottom: 1px solid rgb(214, 217, 219);
 		height: 200px;
+
+		@media (max-width: 480px) {
+			height: 120px;
+		}
 
 		> img {
 			width: 100%;
@@ -44,6 +94,10 @@ const ReviewBox = styled.div`
 		padding: 5px;
 		font-size: 13px;
 		height: 40px;
+
+		@media (max-width: 480px) {
+			height: 22px;
+		}
 	}
 `;
 
@@ -61,6 +115,10 @@ const Writer = styled.div`
 		align-items: center;
 		font-size: 12px;
 
+		@media (max-width: 480px) {
+			display: none;
+		}
+
 		img {
 			width: 20px;
 			height: 20px;
@@ -77,6 +135,10 @@ const Writer = styled.div`
 		font-size: 13px;
 		align-items: center;
 
+		@media (max-width: 480px) {
+			padding-left: 5px;
+		}
+
 		> p {
 			padding-top: 2px;
 			margin-left: 4px;
@@ -92,13 +154,15 @@ function Review() {
 	const startIdx = (curPage - 1) * 12;
 	const endIdx = startIdx + 12;
 
-	const response = useGet('?subject=여행리뷰&page=1');
+	const response = useGet(`?size=12&subject=여행리뷰&page=${curPage}`);
 
 	useEffect(() => {
 		if (response) {
 			setReviews(response);
 		}
 	}, [response]);
+
+	console.log(reviews);
 
 	return (
 		<>
@@ -114,7 +178,7 @@ function Review() {
 								<Writer>
 									<div>
 										<div>
-											<img src={img} alt="유저프로필사진" />
+											<img src={el.member.img} alt="유저프로필사진" />
 										</div>
 										<div>{el.member!.nickname}</div>
 									</div>

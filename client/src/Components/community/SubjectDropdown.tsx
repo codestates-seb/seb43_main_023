@@ -111,42 +111,23 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	return (
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		<>
-			{from === 'Update' ? (
-				<>
-					<Button type="button" onClick={handleDropDown}>
-						<div>{selected || '말머리 선택'}</div>
-						<div>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</div>
-					</Button>
-					{alert ? (
-						<Alert>
-							<p>
-								<FiAlertCircle />
-							</p>
-							말머리는 수정 불가능해요
-						</Alert>
-					) : null}
-				</>
-			) : (
-				<>
-					<Button type="button" onClick={handleDropDown}>
-						<div>{selected || '말머리 선택'}</div>
-						<div>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</div>
-					</Button>
-					{isOpen ? (
-						<Container>
-							<Ul>
-								{menus.map((el) => (
-									<Li>
-										<button type="button" onClick={(e) => handleSelected(e)}>
-											{el}
-										</button>
-									</Li>
-								))}
-							</Ul>
-						</Container>
-					) : null}
-				</>
-			)}
+			<Button type="button" onClick={handleDropDown}>
+				<div>{selected || '말머리 선택'}</div>
+				<div>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</div>
+			</Button>
+			{isOpen ? (
+				<Container>
+					<Ul>
+						{menus.map((el) => (
+							<Li>
+								<button type="button" onClick={(e) => handleSelected(e)}>
+									{el}
+								</button>
+							</Li>
+						))}
+					</Ul>
+				</Container>
+			) : null}
 		</>
 	);
 }
