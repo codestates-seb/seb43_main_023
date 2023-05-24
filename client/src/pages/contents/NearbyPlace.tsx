@@ -287,7 +287,7 @@ function NearbyPlace() {
 		<NearbyPlaceContainer>
 			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
 			<NearbyPlaceDetailImage image={backgroundImg}>
-				<span>🧭 우리 동네 추천 명소</span>
+				<span>🧭 우리 동네 여행 명소</span>
 			</NearbyPlaceDetailImage>
 			<NearbyPlaceInfo>
 				<NearbyPlaceInfoImg image={thumbnail} />
