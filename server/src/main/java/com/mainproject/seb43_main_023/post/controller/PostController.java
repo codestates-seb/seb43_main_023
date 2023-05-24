@@ -57,7 +57,7 @@ public class PostController {
     @GetMapping// 게시글 목록조회 + 게시글 검색기능 추가
     public  ResponseEntity searchPosts(@RequestParam(value = "title",defaultValue = "") String title,
                                         @RequestParam(value = "subject",defaultValue = "") String subject,
-                                        @RequestParam(value = "date",defaultValue = "1m") String date,
+                                        @RequestParam(value = "date",defaultValue = "") String date,
                                         @Positive @RequestParam(defaultValue = "1") int page,
                                         @Positive @RequestParam(defaultValue = "8") int size){
         Page<Post> posts = postService.searchPostsMonth(page-1,size,title,subject,date);

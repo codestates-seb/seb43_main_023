@@ -70,7 +70,7 @@ public class PostService {
             case "1w" : dateTime = dateTime.minusWeeks(1); break;
             case "1m" : dateTime = dateTime.minusMonths(1); break;
             case "6m" : dateTime = dateTime.minusMonths(6); break;
-            default: return null;
+            default: dateTime = LocalDateTime.of(1,1,1,1,1,1,1);
         }
         return postRepository.findRecentPosts
                 (title, subject, dateTime, PageRequest.of(page,size,Sort.by("postId").descending()));
