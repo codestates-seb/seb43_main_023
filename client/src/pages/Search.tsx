@@ -8,6 +8,8 @@ import { IKeyword } from '../reducers/searchKeywordReducer';
 import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/community/Pagination';
 import { RootState } from '../store/Store';
+import useGet from '../hooks/useGet';
+import { Ipost } from '../type/Ipost';
 
 const TopBarContainer = styled.div`
 	width: 90%;
@@ -168,7 +170,7 @@ const ResultItem = styled.div`
 	border: 1px solid #d9d9d9;
 	border-radius: 15px;
 	padding: 15px;
-	margin: 12px 0;
+	margin: 15px 0;
 	display: flex;
 	cursor: pointer;
 `;
@@ -183,12 +185,14 @@ const ResultText = styled.div`
 	.content {
 		padding: 10px 30px;
 		height: 120px;
-		font-size: 20px;
+		font-size: 15px;
+		line-height: 23px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 	.author {
 		text-align: end;
+		font-size: 17px;
 	}
 `;
 
@@ -228,32 +232,38 @@ interface tourAPIType {
 	title: string;
 }
 
-interface postType {
-	id: number;
-	title: string;
-	content: string;
-	subject: string;
-	nickName: string;
-	img: string[];
-}
-
 function Search() {
 	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
 	const [tourResult, setTourResult] = useState([]);
-	const [posts, setPosts] = useState([]);
+	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 	const [menu, setMenu] = useState<string>('전체');
 
-	const startIdx = (curPage - 1) * 8;
-	const endIdx = startIdx + 8;
+	const keywordE = keyword.keyword.slice(0, 1) === 'E';
+	const keywordI = keyword.keyword.slice(0, 1) === 'I';
+
+	const containtKeywordInTag = posts
+		.filter((el) => el.tag)
+		.filter((el) => el.tag.includes(keyword.keyword));
+
+	const containKeywordInInput = posts.filter(
+		(el) =>
+			el.title.includes(keyword.keyword) ||
+			el.content.includes(keyword.keyword),
+	);
+
+	const containKeywordInPost =
+		containKeywordInInput.concat(containtKeywordInTag);
+
+	const mbtiAuthor = posts.filter((el) => el.member.mbti === keyword.keyword);
+
+	const startIdx = (curPage - 1) * 5;
+	const endIdx = startIdx + 5;
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=${keyword.keyword}&contentTypeId=12`;
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts`,
-	});
+	const response = useGet('?size=100');
 
 	const handlePostClick = (subject: string, id: number) => {
 		if (subject === '여행리뷰') {
@@ -304,10 +314,10 @@ function Search() {
 			setTourResult(res.data.response.body.items.item);
 		});
 
-		if (postData.response) {
-			setPosts(postData.response);
+		if (response) {
+			setPosts(response);
 		}
-	}, [postData.response, tourUrl]);
+	}, [response, tourUrl]);
 
 	return (
 		<Container>
@@ -327,172 +337,127 @@ function Search() {
 							</li>
 						</UL>
 					</TopBarContainer>
-					{tourResult &&
-						tourResult.length > 0 &&
-						(menu === '전체' || menu === '여행지 추천') && (
-							<SearchAPI>
-								<div className="title">
-									<div>
-										<span className="keyword">{keyword.keyword}</span> 추천
-										여행지 🏝
-									</div>
-									<span className="all">
-										{menu === '여행지 추천' ? null : (
-											<button onClick={handleViewAllTour}>전체보기</button>
-										)}
-									</span>
-								</div>
-								{menu === '전체' ? (
-									<APIContainerSlice>
-										{tourResult.slice(0, 4).map((el: tourAPIType, idx) => (
-											<AdItem onClick={() => handleResultClicked(el.title)}>
-												<img src={el.firstimage} alt="사진" className="adimg" />
-												<div className="adtext">{el.title}</div>
-											</AdItem>
-										))}
-									</APIContainerSlice>
-								) : (
-									<APIContainer>
-										{tourResult.map((el: tourAPIType, idx) => (
-											<AdItem onClick={() => handleResultClicked(el.title)}>
-												<img src={el.firstimage} alt="사진" className="adimg" />
-												<div className="adtext">{el.title}</div>
-											</AdItem>
-										))}
-									</APIContainer>
-								)}
-							</SearchAPI>
-						)}
 
-					{menu === '전체' || menu === '게시글' ? (
+					{/* tour api 결과 - mbti 태그 검색이면 나타나지 않음 */}
+					{tourResult && tourResult.length > 0 && menu !== '게시글' && (
+						<SearchAPI>
+							<div className="title">
+								<div>
+									<span className="keyword">{keyword.keyword}</span> 추천 여행지
+									🏝
+								</div>
+								<span className="all">
+									{menu === '여행지 추천' ? null : (
+										<button onClick={handleViewAllTour}>전체보기</button>
+									)}
+								</span>
+							</div>
+							{menu === '전체' ? (
+								<APIContainerSlice>
+									{tourResult.slice(0, 4).map((el: tourAPIType, idx) => (
+										<AdItem onClick={() => handleResultClicked(el.title)}>
+											<img src={el.firstimage} alt="사진" className="adimg" />
+											<div className="adtext">{el.title}</div>
+										</AdItem>
+									))}
+								</APIContainerSlice>
+							) : (
+								<APIContainer>
+									{tourResult.map((el: tourAPIType, idx) => (
+										<AdItem onClick={() => handleResultClicked(el.title)}>
+											<img src={el.firstimage} alt="사진" className="adimg" />
+											<div className="adtext">{el.title}</div>
+										</AdItem>
+									))}
+								</APIContainer>
+							)}
+						</SearchAPI>
+					)}
+
+					{/* mbti 태그 검색의 경우 */}
+					{(keywordE || keywordI) && menu !== '게시글' ? (
 						<SearchResult>
 							<div className="title">
 								<div>
 									<span className="keyword">{keyword.keyword}</span>
-									{checkBatchimEnding(keyword.keyword) ? '이' : '가'} 포함된
-									게시글 💭
+									{checkBatchimEnding(keyword.keyword) ? '이' : '가'} 여행한 곳
+									🌈
 								</div>
 								<span className="all">
-									{menu === '게시글' ||
-									posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length === 0 ? null : (
+									{/* 여행지 추천 메뉴이거나 결과가 없다면 전체보기 버튼 표시 x */}
+									{menu === '여행지 추천' || mbtiAuthor.length === 0 ? null : (
 										<button onClick={handleViewAllPost}>전체보기</button>
 									)}
 								</span>
 							</div>
 							{menu === '전체' ? (
 								<ResultContainer>
-									{posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length > 0 ? (
-										posts
-											.filter(
-												(el: postType) =>
-													el.title.includes(keyword.keyword) ||
-													el.content.includes(keyword.keyword),
-											)
-											.slice(0, 2)
-											.map((post: postType) => (
-												<ResultItem
-													onClick={() => handlePostClick(post.subject, post.id)}
-												>
-													<ResultText>
-														<div className="resultInfo">
-															<span className="subject">[{post.subject}]</span>
-															<span className="title">{post.title}</span>
-														</div>
-														<div className="content">{post.content}</div>
-														<span className="author">{post.nickName}</span>
-													</ResultText>
-													{post.img.length > 0 && (
-														<ResultImg
-															src={post.img[0]}
-															alt="검색결과 사진 미리보기"
-														/>
-													)}
-												</ResultItem>
-											))
+									{mbtiAuthor.length > 0 ? (
+										mbtiAuthor.slice(0, 2).map((post) => (
+											<ResultItem
+												onClick={() =>
+													handlePostClick(post.subject, post.postId)
+												}
+											>
+												<ResultText>
+													<div className="resultInfo">
+														<span className="subject">[{post.subject}]</span>
+														<span className="title">{post.title}</span>
+													</div>
+													<div className="content">{post.content}</div>
+													<span className="author">{post.member.nickname}</span>
+												</ResultText>
+												{post.image.length > 0 && (
+													<ResultImg
+														src={post.image[0]}
+														alt="검색결과 사진 미리보기"
+													/>
+												)}
+											</ResultItem>
+										))
 									) : (
 										<NotResult>
-											<div>아직 작성된 게시글이 없어요 </div>
+											<div>아직 작성된 여행리뷰가 없어요 </div>
 											<div>
-												<span className="keyword">{keyword.keyword}</span>{' '}
-												이곳을 여행하셨거나 여러 도움이 필요하다면, 새로운 글을
-												작성하러 가볼까요 ?{' '}
+												<span className="keyword">{keyword.keyword}</span> 가
+												남긴 첫 번째 여행리뷰 주인공이 되어보세요 !
 											</div>
-											<div>다른 사람들에게 도움이 될지 몰라요 ☺️</div>
+											<div>
+												나와 같은 mbti 사람들과 공유를 하며 새로운 재미를
+												찾을지도 몰라요 ☺️
+											</div>
 
 											<CreateBtn onClick={handleCreate}>
 												작성하러가기 <IoIosArrowForward />{' '}
 											</CreateBtn>
 										</NotResult>
 									)}
-
-									{posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length > 0 ? (
-										<Pagination
-											curPage={curPage}
-											setCurPage={setCurPage}
-											totalPage={Math.ceil(
-												posts.filter(
-													(el: postType) =>
-														el.title.includes(keyword.keyword) ||
-														el.content.includes(keyword.keyword),
-												).length / 5,
-											)}
-											totalCount={
-												posts.filter(
-													(el: postType) =>
-														el.title.includes(keyword.keyword) ||
-														el.content.includes(keyword.keyword),
-												).length
-											}
-											size={5}
-											pageCount={5}
-										/>
-									) : null}
 								</ResultContainer>
 							) : (
 								<ResultContainer>
-									{posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length > 0 ? (
-										posts
-											.filter(
-												(el: postType) =>
-													el.title.includes(keyword.keyword) ||
-													el.content.includes(keyword.keyword),
-											)
-											.map((post: postType) => (
-												<ResultItem
-													onClick={() => handlePostClick(post.subject, post.id)}
-												>
-													<ResultText>
-														<div className="resultInfo">
-															<span className="subject">[{post.subject}]</span>
-															<span className="title">{post.title}</span>
-														</div>
-														<div className="content">{post.content}</div>
-														<span className="author">{post.nickName}</span>
-													</ResultText>
-													{post.img.length > 0 && (
-														<ResultImg
-															src={post.img[0]}
-															alt="검색결과 사진 미리보기"
-														/>
-													)}
-												</ResultItem>
-											))
+									{mbtiAuthor.length > 0 ? (
+										mbtiAuthor.slice(startIdx, endIdx).map((post) => (
+											<ResultItem
+												onClick={() =>
+													handlePostClick(post.subject, post.postId)
+												}
+											>
+												<ResultText>
+													<div className="resultInfo">
+														<span className="subject">[{post.subject}]</span>
+														<span className="title">{post.title}</span>
+													</div>
+													<div className="content">{post.content}</div>
+													<span className="author">{post.member.nickname}</span>
+												</ResultText>
+												{post.image.length > 0 && (
+													<ResultImg
+														src={post.image[0]}
+														alt="검색결과 사진 미리보기"
+													/>
+												)}
+											</ResultItem>
+										))
 									) : (
 										<NotResult>
 											<div>아직 작성된 게시글이 없어요 </div>
@@ -509,28 +474,125 @@ function Search() {
 										</NotResult>
 									)}
 
-									{posts.filter(
-										(el: postType) =>
-											el.title.includes(keyword.keyword) ||
-											el.content.includes(keyword.keyword),
-									).length > 0 ? (
+									{mbtiAuthor.length > 0 ? (
 										<Pagination
 											curPage={curPage}
 											setCurPage={setCurPage}
-											totalPage={Math.ceil(
-												posts.filter(
-													(el: postType) =>
-														el.title.includes(keyword.keyword) ||
-														el.content.includes(keyword.keyword),
-												).length / 5,
-											)}
-											totalCount={
-												posts.filter(
-													(el: postType) =>
-														el.title.includes(keyword.keyword) ||
-														el.content.includes(keyword.keyword),
-												).length
-											}
+											totalPage={Math.ceil(mbtiAuthor.length / 5)}
+											totalCount={mbtiAuthor.length}
+											size={5}
+											pageCount={5}
+										/>
+									) : null}
+								</ResultContainer>
+							)}
+						</SearchResult>
+					) : null}
+
+					{/* 게시글 결과 */}
+					{menu !== '여행지 추천' ? (
+						<SearchResult>
+							<div className="title">
+								<div>
+									<span className="keyword">{keyword.keyword}</span>
+									{checkBatchimEnding(keyword.keyword) ? '이' : '가'} 포함된
+									게시글 💭
+								</div>
+								<span className="all">
+									{menu === '게시글' ||
+									containKeywordInPost.length === 0 ? null : (
+										<button onClick={handleViewAllPost}>전체보기</button>
+									)}
+								</span>
+							</div>
+							{menu === '전체' ? (
+								<ResultContainer>
+									{containKeywordInPost.length > 0 ? (
+										containKeywordInPost.slice(0, 2).map((post) => (
+											<ResultItem
+												onClick={() =>
+													handlePostClick(post.subject, post.postId)
+												}
+											>
+												<ResultText>
+													<div className="resultInfo">
+														<span className="subject">[{post.subject}]</span>
+														<span className="title">{post.title}</span>
+													</div>
+													<div className="content">{post.content}</div>
+													<span className="author">{post.member.nickname}</span>
+												</ResultText>
+												{post.image.length > 0 && (
+													<ResultImg
+														src={post.image[0]}
+														alt="검색결과 사진 미리보기"
+													/>
+												)}
+											</ResultItem>
+										))
+									) : (
+										<NotResult>
+											<div>아직 작성된 게시글이 없어요 </div>
+											<div>
+												<span className="keyword">{keyword.keyword}</span>{' '}
+												이곳을 여행하셨거나 여러 도움이 필요하다면, 새로운 글을
+												작성하러 가볼까요 ?{' '}
+											</div>
+											<div>다른 사람들에게 도움이 될지 몰라요 ☺️</div>
+
+											<CreateBtn onClick={handleCreate}>
+												작성하러가기 <IoIosArrowForward />{' '}
+											</CreateBtn>
+										</NotResult>
+									)}
+								</ResultContainer>
+							) : (
+								<ResultContainer>
+									{containKeywordInPost.length > 0 ? (
+										containKeywordInPost.slice(startIdx, endIdx).map((post) => (
+											<ResultItem
+												onClick={() =>
+													handlePostClick(post.subject, post.postId)
+												}
+											>
+												<ResultText>
+													<div className="resultInfo">
+														<span className="subject">[{post.subject}]</span>
+														<span className="title">{post.title}</span>
+													</div>
+													<div className="content">{post.content}</div>
+													<span className="author">{post.member.nickname}</span>
+												</ResultText>
+												{post.image.length > 0 && (
+													<ResultImg
+														src={post.image[0]}
+														alt="검색결과 사진 미리보기"
+													/>
+												)}
+											</ResultItem>
+										))
+									) : (
+										<NotResult>
+											<div>아직 작성된 게시글이 없어요 </div>
+											<div>
+												<span className="keyword">{keyword.keyword}</span>{' '}
+												이곳을 여행하셨거나 여러 도움이 필요하다면, 새로운 글을
+												작성하러 가볼까요 ?{' '}
+											</div>
+											<div>다른 사람들에게도 도움이 될지 몰라요 ☺️</div>
+
+											<CreateBtn onClick={handleCreate}>
+												작성하러가기 <IoIosArrowForward />{' '}
+											</CreateBtn>
+										</NotResult>
+									)}
+
+									{containKeywordInPost.length > 0 ? (
+										<Pagination
+											curPage={curPage}
+											setCurPage={setCurPage}
+											totalPage={Math.ceil(containKeywordInPost.length / 5)}
+											totalCount={containKeywordInPost.length}
 											size={5}
 											pageCount={5}
 										/>
