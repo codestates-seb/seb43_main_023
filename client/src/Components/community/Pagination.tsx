@@ -16,7 +16,7 @@ interface activeT {
 }
 
 const Nav = styled.nav`
-	z-index: 200;
+	z-index: -10;
 	display: flex;
 	justify-content: center;
 	align-items: center;

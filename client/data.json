@@ -543,6 +543,58 @@
       "x": "127.688100367243",
       "y": "35.1555906084513",
       "email": ""
+    },
+    {
+      "id": 33,
+      "nickName": "testnick",
+      "subject": "여행고민",
+      "title": "지워지기도 함",
+      "content": "하이",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 34,
+      "nickName": "testnick",
+      "subject": "여행리뷰",
+      "title": "kk",
+      "content": "ㅏㅏ",
+      "tag": [
+        "ㅏㅏ"
+      ],
+      "img": [
+        "ㅏ",
+        "ㅏㅏ",
+        "ㅏㅏㅏ",
+        "ㅏㅏㅏㅏ"
+      ],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "x": "127.14725118429477",
+      "y": "36.99462872331569",
+      "placeName": "아쿠아필드 안성",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": 35,
+      "nickName": "testnick",
+      "subject": "MBTI",
+      "title": "kk",
+      "content": "k",
+      "tag": [],
+      "img": [],
+      "voteCount": 0,
+      "viewCount": 0,
+      "createdAt": "23-05-01T000000",
+      "modifiedAt": "23-05-01T000000",
+      "email": "test@gmail.com"
     }
   ],
   "comments": [

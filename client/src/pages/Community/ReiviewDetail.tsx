@@ -73,7 +73,7 @@ const ImgContainer = styled.div`
 const ContentContainer = styled.div`
 	margin-left: 30px;
 	height: 100%;
-	width: 56.5vw;
+	width: 100%;
 `;
 
 const Writer = styled.div`
@@ -117,6 +117,7 @@ const Vote = styled.div`
 `;
 
 const TagContainer = styled.div`
+	width: 100%;
 	min-height: 60px;
 	padding: 10px;
 
@@ -140,8 +141,8 @@ const TagContainer = styled.div`
 
 		> div:nth-child(2) {
 			display: flex;
-			width: 60px;
-			justify-content: space-evenly;
+			width: 35px;
+			justify-content: space-between;
 			align-items: center;
 
 			> a {

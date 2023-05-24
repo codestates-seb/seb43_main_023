@@ -32,7 +32,7 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-	width: 950px;
+	width: 90vw;
 
 	> h2 {
 		padding-bottom: 10px;
@@ -46,16 +46,21 @@ const Body = styled.div`
 	}
 `;
 
+const StyledEditorContainer = styled.div`
+	margin-top: 15px;
+	padding: 0;
+`;
+
 const StyledEditor = styled(Editor)`
 	font-size: 16px;
 `;
 
 const DropDownContainer = styled.div`
-	margin: 15px 0;
+	margin-top: 15px;
 `;
 
 const TitleInput = styled.input`
-	margin-bottom: 15px;
+	margin-top: 15px;
 	width: 100%;
 	padding: 10px;
 	font-size: 13px;
@@ -178,6 +183,10 @@ const ImgContainer = styled.div`
 			background-color: #fafafa;
 			height: 42px;
 
+			@media (max-width: 768px) {
+				width: 220px;
+			}
+
 			&:focus {
 				outline: none !important;
 				border-color: rgb(214, 217, 219);
@@ -215,6 +224,9 @@ function PostUpload() {
 	const navigate = useNavigate();
 	const editorRef = useRef<Editor | null>(null);
 
+	const instance = editorRef.current?.getInstance();
+	const content = instance?.getMarkdown();
+
 	const imgUploadInput = useRef<HTMLInputElement | null>(null);
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
@@ -222,9 +234,11 @@ function PostUpload() {
 	const [posts, setPosts] = useState([]);
 	const [subject, setSubject] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
+	const [contents, setContents] = useState<string>('');
 	const [alert, setAlert] = useState<boolean>(false);
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
+	const [placeName, setPlaceName] = useState<string>('');
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
@@ -274,14 +288,24 @@ function PostUpload() {
 		setTitle(event.target.value);
 	};
 
-	const handlePlace = (data: any) => {
-		setX(data[0].x);
-		setY(data[0].y);
+	const handleContent = (event: string) => {
+		setContents(event);
+	};
+
+	const handlePlace = (data: any, selected: string) => {
+		const selectedData = data.filter(
+			(el: { place_name: string }) => el.place_name === selected,
+		);
+		setPlaceName(selectedData[0].place_name);
+
+		setX(selectedData[0].x);
+		setY(selectedData[0].y);
 	};
 
 	const handleBtn = () => {
-		const instance = editorRef.current?.getInstance();
-		const content = instance?.getMarkdown();
+		if (subject === '' || title === '' || content === '') {
+			setAlert(true);
+		}
 
 		if (
 			(subject === '여행리뷰' && tags.length === 0) ||
@@ -293,7 +317,7 @@ function PostUpload() {
 		if (
 			subject === '여행리뷰' &&
 			tags.length > 0 &&
-			Images.length === 3 &&
+			Images.length >= 3 &&
 			editorRef.current
 		) {
 			// json-server용 api 요청
@@ -312,6 +336,7 @@ function PostUpload() {
 					modifiedAt: '23-05-01T000000',
 					x,
 					y,
+					placeName,
 					email: userInfos.email,
 				});
 				const myposts = posts.filter(
@@ -337,16 +362,21 @@ function PostUpload() {
 						icon: 'success',
 					}).then((result) => {
 						if (result.value) {
-							document.location.href = `/community/${posts.length + 1}`;
+							document.location.href = `/tripreview/${posts.length + 1}`;
 						}
 					});
 				} else {
-					document.location.href = `/community/${posts.length + 1}`;
+					document.location.href = `/tripreview/${posts.length + 1}`;
 				}
 			} catch (error) {
 				navigate('/error');
 			}
-		} else if (subject !== '여행리뷰' && editorRef.current) {
+		} else if (
+			subject !== '여행리뷰' &&
+			subject !== '' &&
+			editorRef.current &&
+			title.length > 0
+		) {
 			// json-server용 api 요청
 			try {
 				Api.post('/posts', {
@@ -417,29 +447,60 @@ function PostUpload() {
 					<DropDownContainer>
 						<SubjectDropdown handleSubject={handleSubject} from="upload" />
 					</DropDownContainer>
+
+					{alert && subject.length === 0 ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							말머리를 선택해주세요
+						</Alert>
+					) : null}
+
 					<TitleInput
 						placeholder="제목을 입력해주세요"
 						onChange={handleTitle}
 					/>
+
+					{alert && title.length === 0 ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							제목을 작성해주세요
+						</Alert>
+					) : null}
+
 					{subject === '여행리뷰' ? (
 						<SearchPlace handlePlace={handlePlace} />
 					) : null}
-					<StyledEditor
-						ref={editorRef} // ref 연결
-						placeholder="내용을 입력해주세요."
-						previewStyle="vertical" // 미리보기 스타일 지정
-						height="300px" // 에디터 창 높이
-						initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-						toolbarItems={[
-							// 툴바 옵션 설정
-							['heading', 'bold', 'italic', 'strike'],
-							['hr', 'quote'],
-							['ul', 'ol', 'task', 'indent', 'outdent'],
-							['table', 'link'],
-							['code', 'codeblock'],
-						]}
-						plugins={[colorSyntax]}
-					/>
+					<StyledEditorContainer>
+						<StyledEditor
+							ref={editorRef} // ref 연결
+							placeholder="내용을 입력해주세요."
+							previewStyle="vertical" // 미리보기 스타일 지정
+							height="300px" // 에디터 창 높이
+							initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+							toolbarItems={[
+								// 툴바 옵션 설정
+								['heading', 'bold', 'italic', 'strike'],
+								['hr', 'quote'],
+								['ul', 'ol', 'task', 'indent', 'outdent'],
+								['table', 'link'],
+								['code', 'codeblock'],
+							]}
+							plugins={[colorSyntax]}
+							onChange={(e) => handleContent(e)}
+						/>
+					</StyledEditorContainer>
+					{alert && content === '' ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							내용을 입력해주세요
+						</Alert>
+					) : null}
 
 					<TagContainer>
 						{tags.map((e, i) => (
@@ -462,7 +523,7 @@ function PostUpload() {
 						/>
 					</TagContainer>
 
-					{alert && tags.length === 0 ? (
+					{alert && subject === '여행리뷰' && tags.length === 0 ? (
 						<Alert>
 							<p>
 								<FiAlertCircle />
@@ -533,7 +594,7 @@ function PostUpload() {
 						</div>
 					</ImgContainer>
 
-					{alert && Images.length === 0 ? (
+					{alert && subject === '여행리뷰' && Images.length === 0 ? (
 						<Alert>
 							<p>
 								<FiAlertCircle />
