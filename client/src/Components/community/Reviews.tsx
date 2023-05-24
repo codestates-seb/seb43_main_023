@@ -9,6 +9,7 @@ import * as style from './CommunityStyle';
 import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
+	max-height: 1000px;
 	height: fit-content;
 	margin-left: 30px;
 	display: flex;
@@ -153,13 +154,15 @@ function Review() {
 	const startIdx = (curPage - 1) * 12;
 	const endIdx = startIdx + 12;
 
-	const response = useGet('?subject=여행리뷰&page=1');
+	const response = useGet(`?size=12&subject=여행리뷰&page=${curPage}`);
 
 	useEffect(() => {
 		if (response) {
 			setReviews(response);
 		}
 	}, [response]);
+
+	console.log(reviews);
 
 	return (
 		<>
@@ -175,7 +178,7 @@ function Review() {
 								<Writer>
 									<div>
 										<div>
-											<img src={img} alt="유저프로필사진" />
+											<img src={el.member.img} alt="유저프로필사진" />
 										</div>
 										<div>{el.member!.nickname}</div>
 									</div>

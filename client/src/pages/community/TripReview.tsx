@@ -14,6 +14,7 @@ import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
 
 import HamburgerMenu from '../../Components/community/HamburgerMenu';
+import ToastAlert from '../../utils/ToastAlert';
 
 const ReviewContainer = styled.div`
 	margin-top: 240px;
@@ -65,27 +66,10 @@ function TripReview() {
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const handleBtn = () => {
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast: {
-				addEventListener: (arg0: string, arg1: any) => void;
-			}) => {
-				toast.addEventListener('mouseenter', Swal.stopTimer);
-				toast.addEventListener('mouseleave', Swal.resumeTimer);
-			},
-		});
-
 		if (login.isLogin) {
 			navigate('/community/create');
 		} else {
-			Toast.fire({
-				icon: 'warning',
-				title: '로그인 상태가 아닙니다',
-			});
+			ToastAlert('로그인 상태가 아닙니다');
 		}
 	};
 	return (

@@ -19,6 +19,7 @@ import { Ilogin } from '../../type/Ilogin';
 import useGet from '../../hooks/useGet';
 
 import HamburgerMenu from '../../Components/community/HamburgerMenu';
+import ToastAlert from '../../utils/ToastAlert';
 
 function TripMate() {
 	// eslint-disable-next-line prefer-const
@@ -29,27 +30,10 @@ function TripMate() {
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const handleBtn = () => {
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast: {
-				addEventListener: (arg0: string, arg1: any) => void;
-			}) => {
-				toast.addEventListener('mouseenter', Swal.stopTimer);
-				toast.addEventListener('mouseleave', Swal.resumeTimer);
-			},
-		});
-
 		if (login.isLogin) {
 			navigate('/community/create');
 		} else {
-			Toast.fire({
-				icon: 'warning',
-				title: '로그인 상태가 아닙니다',
-			});
+			ToastAlert('로그인 상태가 아닙니다');
 		}
 	};
 
@@ -116,10 +100,11 @@ function TripMate() {
 													<p>{el.content}</p>
 												)}
 											</style.Header>
-											<style.Info>
+											<style.Info img={el.member.img || ''}>
+												<div className="img" />
 												<div>{el.member.nickname}</div>
-												<div>16:15</div>
-												<div>조회 20</div>
+												<div>{el.postCreatedAt.slice(0, 10)}</div>
+												<div>조회 {el.viewCount}</div>
 												<div>
 													<AiFillHeart color="#fe6464" />
 													<p> {el.voteCount}</p>

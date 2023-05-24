@@ -23,6 +23,7 @@ import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
+import { SweetAlert2 } from '../../utils/SweetAlert';
 
 const Container = styled.div`
 	width: 100vw;
@@ -47,16 +48,22 @@ const Body = styled.div`
 	}
 `;
 
+const StyledEditorContainer = styled.div`
+	margin-top: 15px;
+	padding: 0;
+`;
+
 const StyledEditor = styled(Editor)`
-	font-size: 16px;
+	margin-top: 15px;
+	padding: 0;
 `;
 
 const DropDownContainer = styled.div`
-	margin: 15px 0;
+	margin-top: 15px;
 `;
 
 const TitleInput = styled.input`
-	margin-bottom: 15px;
+	margin-top: 15px;
 	width: 100%;
 	padding: 10px;
 	font-size: 13px;
@@ -326,10 +333,7 @@ function PostUpload() {
 							badge: '초보여행자',
 						}),
 					);
-					Swal.fire({
-						title: '초보여행자 뱃지 획득!',
-						icon: 'success',
-					}).then((result) => {
+					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
 						if (result.value) {
 							document.location.href = `/tripreview/${posts[0].postId + 1}`;
 						}
@@ -343,13 +347,12 @@ function PostUpload() {
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
 			try {
-				Api.post(`/posts/9`, {
+				Api.post(`/posts/${userInfos.id}`, {
 					subject,
 					title,
 					content,
 					tag: tags,
 				});
-				console.log('hello');
 				const myposts = posts.filter(
 					(post) => post.member.email === userInfos.email,
 				);
@@ -368,10 +371,7 @@ function PostUpload() {
 							badge: '초보여행자',
 						}),
 					);
-					Swal.fire({
-						title: '초보여행자 뱃지 획득!',
-						icon: 'success',
-					}).then((result) => {
+					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
 						if (result.value) {
 							document.location.href = `/community/${posts[0].postId + 1}`;
 						}
@@ -380,7 +380,6 @@ function PostUpload() {
 					document.location.href = `/community/${posts[0].postId + 1}`;
 				}
 			} catch (error) {
-				console.log('hi');
 				navigate('/error');
 			}
 		}
@@ -412,22 +411,25 @@ function PostUpload() {
 					{subject === '여행리뷰' ? (
 						<SearchPlace handlePlace={handlePlace} />
 					) : null}
-					<StyledEditor
-						ref={editorRef} // ref 연결
-						placeholder="내용을 입력해주세요."
-						previewStyle="vertical" // 미리보기 스타일 지정
-						height="300px" // 에디터 창 높이
-						initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-						toolbarItems={[
-							// 툴바 옵션 설정
-							['heading', 'bold', 'italic', 'strike'],
-							['hr', 'quote'],
-							['ul', 'ol', 'task', 'indent', 'outdent'],
-							['table', 'link'],
-							['code', 'codeblock'],
-						]}
-						plugins={[colorSyntax]}
-					/>
+
+					<StyledEditorContainer>
+						<StyledEditor
+							ref={editorRef} // ref 연결
+							placeholder="내용을 입력해주세요."
+							previewStyle="vertical" // 미리보기 스타일 지정
+							height="300px" // 에디터 창 높이
+							initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+							toolbarItems={[
+								// 툴바 옵션 설정
+								['heading', 'bold', 'italic', 'strike'],
+								['hr', 'quote'],
+								['ul', 'ol', 'task', 'indent', 'outdent'],
+								['table', 'link'],
+								['code', 'codeblock'],
+							]}
+							plugins={[colorSyntax]}
+						/>
+					</StyledEditorContainer>
 
 					<TagContainer>
 						{tags.map((e, i) => (
