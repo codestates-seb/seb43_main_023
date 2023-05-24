@@ -26,34 +26,36 @@ const UserHeaderContainer = styled.div<IImageProps>`
 		height: 40vh;
 		opacity: 0.8;
 		z-index: -1;
-		@media (max-width: 583px) {
-			height: 300px;
-		}
 		@media (max-width: 768px) {
 			height: 35vh;
 		}
+		@media (max-width: 583px) {
+			height: 300px;
+		}
 	}
-	@media (max-width: 583px) {
-		height: 300px;
+	@media (max-width: 1024px) {
+		padding: 40px;
 	}
 	@media (max-width: 768px) {
 		padding: 20px;
 		height: 35vh;
 	}
-	@media (max-width: 1024px) {
-		padding: 40px;
+	@media (max-width: 583px) {
+		height: 300px;
 	}
 `;
 
 const HeaderText = styled.div`
 	font-size: 50px;
 	font-weight: 700;
-	@media (max-width: 582px) {
-		padding: 20px;
-		height: 30vh;
+	@media (max-width: 1024px) {
+		font-size: 1.8rem;
 	}
 	@media (max-width: 768px) {
-		font-size: 2rem;
+		font-size: 1.6rem;
+	}
+	@media (max-width: 425px) {
+		font-size: 1.3rem;
 	}
 	.emphasis {
 		color: #0db4f3;
@@ -66,9 +68,14 @@ const HeaderText = styled.div`
 		font-weight: 700;
 		margin-top: 20px;
 		background-color: rgba(255, 255, 255, 0.7);
+		@media (max-width: 1024px) {
+			font-size: 1.8rem;
+		}
 		@media (max-width: 768px) {
-			width: 100%;
-			font-size: 2rem;
+			font-size: 1.4rem;
+		}
+		@media (max-width: 425px) {
+			font-size: 1.1rem;
 		}
 	}
 `;

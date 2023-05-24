@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { IImageProps } from '../../type/IImageProps';
 
 interface IReview {
@@ -53,8 +53,11 @@ const HotReviewImage = styled.div`
 		font-weight: 900;
 		color: white;
 		margin: 20px;
+		@media (max-width: 768px) {
+			font-size: 38px;
+		}
 		@media (max-width: 425px) {
-			font-size: 36px;
+			font-size: 30px;
 		}
 	}
 `;
@@ -79,6 +82,7 @@ const HotReviewItem = styled.div`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
 	}
 `;
 
@@ -98,20 +102,16 @@ const HotReviewImg = styled.div<IImageProps>`
 `;
 
 const HotReviewInfo = styled.div`
-	width: 70%;
+	width: 90%;
 	margin-left: 20px;
 	display: flex;
 	flex-direction: column;
-	> span {
-		margin: 10px;
-		font-size: 20px;
-		@media (max-width: 768px) {
-			width: 80vw;
-			margin-left: 0;
-		}
-	}
+	font-size: 20px;
 	@media (max-width: 768px) {
-		margin-left: 0;
+		margin-left: 10px;
+	}
+	@media (min-width: 768px) {
+		width: 70%;
 	}
 	.hotReviewBold {
 		font-size: 28px;
@@ -120,10 +120,14 @@ const HotReviewInfo = styled.div`
 			margin: 20px 0 0 0;
 		}
 	}
+	.hotReviewText {
+		margin: 15px 0px;
+	}
 	.hotReviewAuthor {
 		font-size: 24px;
 		font-weight: 700;
 		text-align: end;
+		margin-top: 20px;
 	}
 `;
 
@@ -137,26 +141,29 @@ const StyledLink = styled(Link)`
 	}
 `;
 
+const HotReviewNotice = styled.div`
+	border-bottom: 1px solid #adadad;
+	font-size: 28px;
+	padding-bottom: 20px;
+	@media (max-width: 768px) {
+		font-size: 22px;
+	}
+`;
+
 function HotReview() {
 	const [filterdReview, setFilterReview] = useState<IReview[]>([]);
 
-	const res: any = useAxios({
-		method: 'get',
-		url: '/posts',
-	}).response;
+	const response: any = useGet('?subject=여행리뷰&page=1');
 
 	useEffect(() => {
-		if (res !== null) {
-			const newData = res.filter(
-				(item: { subject: string }) => item.subject === '여행리뷰',
-			);
-			newData.sort(
+		if (response !== null) {
+			response.sort(
 				(a: { voteCount: number }, b: { voteCount: number }) =>
 					b.voteCount - a.voteCount,
 			);
-			setFilterReview(newData.slice(0, 5));
+			setFilterReview(response.slice(0, 5));
 		}
-	}, [res]);
+	}, [response]);
 
 	return (
 		<HotReviewContainer>
@@ -164,6 +171,10 @@ function HotReview() {
 				<span>🔥 인기 여행 리뷰 TOP5</span>
 			</HotReviewImage>
 			<HotReviewItemContainer>
+				<HotReviewNotice>
+					💡 최근 한 달 동안 사용자들에게 가장 인기가 많았던 리뷰들을
+					소개합니다!
+				</HotReviewNotice>
 				{filterdReview
 					? filterdReview.map((item) => (
 							<StyledLink
@@ -173,10 +184,14 @@ function HotReview() {
 								<HotReviewItem key={item.id}>
 									<HotReviewImg image={item.img[0]} />
 									<HotReviewInfo>
-										<span className="hotReviewBold">{item.title}</span>
-										<span className="hotReviewBold">💙 {item.voteCount}</span>
-										<span>{item.content}</span>
-										<span className="hotReviewAuthor">{item.nickName}</span>
+										<div className="hotReviewBold">{item.title}</div>
+										<div className="hotReviewBold">💙 {item.voteCount}</div>
+										<div className="hotReviewText">{item.content}</div>
+										<div className="hotReviewAuthor">
+											{item.nickName}
+											<br />
+											{item.createdAt?.slice(0, 8)}
+										</div>
 									</HotReviewInfo>
 								</HotReviewItem>
 							</StyledLink>

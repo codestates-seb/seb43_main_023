@@ -20,8 +20,18 @@ const ModalButton = styled.button`
 	background-color: #0db4f3;
 	color: white;
 	margin-top: 10px;
-	width: 60px;
+	width: 15%;
+	padding: 10px;
 	border-radius: 15px;
+	@media (max-width: 768px) {
+		width: 20%;
+	}
+	@media (max-width: 425px) {
+		width: 35%;
+	}
+	@media (max-width: 335px) {
+		width: 40%;
+	}
 `;
 
 const ModalView = styled.div`
@@ -29,13 +39,21 @@ const ModalView = styled.div`
 	top: 30vh;
 	left: 15vw;
 	width: 70%;
+	height: 40%;
+	overflow-y: scroll;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	border-radius: 15px;
-	padding: 20px;
+	padding: 20px 30px 30px 30px;
+	line-height: 1.5;
+	font-size: 1.3em;
+	@media (max-width: 425px) {
+		width: 80%;
+		left: 10vw;
+	}
 `;
 
 type ModalProps = {

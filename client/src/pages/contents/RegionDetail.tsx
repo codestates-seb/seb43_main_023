@@ -13,6 +13,7 @@ import {
 } from 'react-icons/ti';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Pagination from '../../Components/community/Pagination';
 import Modal from '../../Components/mainpage/Modal';
 import { IImageProps } from '../../type/IImageProps';
 import { TripInfoType } from '../../type/ITripInfo';
@@ -89,9 +90,14 @@ const RegionInfoImg = styled.div<IImageProps>`
 const RegionInfoText = styled.div`
 	width: 60%;
 	padding-left: 20px;
-	font-size: 18px;
+	font-size: 20px;
 	@media (max-width: 768px) {
 		width: 100%;
+	}
+	.notice {
+		margin-top: 20px;
+		font-size: 18px;
+		color: #adadad;
 	}
 `;
 
@@ -442,7 +448,8 @@ function RegionDetail() {
 		}
 	};
 	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${tourAPIKey}&pageNo=1&numOfRows=6&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=12&areaCode=${selectedRegion[0].areaCode}&_type=json`;
+	const [curPage, setCurPage] = useState(1);
+	const tourUrl = `http://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${tourAPIKey}&pageNo=${curPage}&numOfRows=6&MobileApp=AppTest&MobileOS=ETC&arrange=Q&contentTypeId=12&areaCode=${selectedRegion[0].areaCode}&_type=json`;
 
 	const [tripInfo, setTripInfo] = useState([]);
 
@@ -467,7 +474,8 @@ function RegionDetail() {
 				const { data } = response;
 				const intro = data.response.body.items.item[0].overview;
 				setIsOpen(true);
-				setTourText(intro);
+				const textReplace = /<br\s*\/?>/gi;
+				setTourText(intro.replace(textReplace, ''));
 			})
 			.catch(() => {
 				navigate('/error');
@@ -494,6 +502,9 @@ function RegionDetail() {
 						</WeatherDetail>
 					</Weather>
 					{selectedRegion[0].regionIntro}
+					<div className="notice">
+						여행지를 클릭하면 여행지에 대한 자세한 설명을 볼 수 있습니다.
+					</div>
 				</RegionInfoText>
 			</RegionInfo>
 			<RegionTitle>
@@ -518,6 +529,14 @@ function RegionDetail() {
 					  })
 					: null}
 			</RegionRecItemContainer>
+			<Pagination
+				curPage={curPage}
+				setCurPage={setCurPage}
+				totalPage={9}
+				totalCount={54}
+				size={6}
+				pageCount={3}
+			/>
 		</RegionDetailContainer>
 	);
 }

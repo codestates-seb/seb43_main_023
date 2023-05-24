@@ -22,22 +22,22 @@ const MainHeaderContainer = styled.div`
 		height: 40vh;
 		opacity: 0.5;
 		z-index: -1;
-		@media (max-width: 583px) {
-			height: 300px;
-		}
 		@media (max-width: 768px) {
 			height: 35vh;
 		}
+		@media (max-width: 583px) {
+			height: 300px;
+		}
 	}
-	@media (max-width: 583px) {
-		height: 300px;
+	@media (max-width: 1024px) {
+		padding: 40px;
 	}
 	@media (max-width: 768px) {
 		padding: 20px;
 		height: 35vh;
 	}
-	@media (max-width: 1024px) {
-		padding: 40px;
+	@media (max-width: 583px) {
+		height: 300px;
 	}
 `;
 
@@ -45,12 +45,14 @@ const MainText = styled.div`
 	font-size: 50px;
 	font-weight: 900;
 	background-color: transparent;
-	@media (max-width: 582px) {
-		padding: 20px;
-		height: 30vh;
+	@media (max-width: 1024px) {
+		font-size: 1.8rem;
 	}
 	@media (max-width: 768px) {
-		font-size: 2rem;
+		font-size: 1.6rem;
+	}
+	@media (max-width: 425px) {
+		font-size: 1.3rem;
 	}
 	> span {
 		color: #0db4f3;
@@ -60,9 +62,14 @@ const MainText = styled.div`
 		width: 320px;
 		font-size: 40px;
 		margin-top: 20px;
+		@media (max-width: 1024px) {
+			font-size: 1.8rem;
+		}
 		@media (max-width: 768px) {
-			width: 100%;
-			font-size: 2rem;
+			font-size: 1.6rem;
+		}
+		@media (max-width: 425px) {
+			font-size: 1.3rem;
 		}
 	}
 `;
