@@ -1,7 +1,7 @@
 <br/>
 
 <div  align="center">
-  <img width="80%" src="https://content.presspage.com/uploads/2658/c1920_logo-stackoverflow-banner.jpg?64224" alt="roobits">
+  <img width="336" alt="logo" src="https://github.com/codestates-seb/seb43_main_023/assets/119163273/b2de0aa1-6a95-4604-8b75-eb2c18343947">
 </div>
 
 </br>
