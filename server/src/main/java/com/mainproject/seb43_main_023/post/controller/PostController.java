@@ -1,9 +1,12 @@
 package com.mainproject.seb43_main_023.post.controller;
 
+import com.mainproject.seb43_main_023.member.entity.Member;
+import com.mainproject.seb43_main_023.member.service.MemberService;
 import com.mainproject.seb43_main_023.post.dto.PostDto;
 import com.mainproject.seb43_main_023.post.entity.Post;
 import com.mainproject.seb43_main_023.post.mapper.PostMapper;
 import com.mainproject.seb43_main_023.post.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +20,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/posts")
 @Validated
+@RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
     private final PostMapper mapper;
+    private final MemberService memberService;
 
-    public PostController(PostService postService, PostMapper mapper) {
-        this.postService = postService;
-        this.mapper = mapper;
-    }
     @PostMapping("/{member-id}")//게시글 작성(member-id 임시로사용)
     public ResponseEntity postPost(@RequestBody @Valid PostDto.postPostDto postPostDto,
                                    @PathVariable("member-id") long memberId){
@@ -54,10 +55,12 @@ public class PostController {
         return new ResponseEntity(HttpStatus.OK);
     }
     @GetMapping// 게시글 목록조회 + 게시글 검색기능 추가
-    public ResponseEntity searchPosts(@RequestParam(value = "title",defaultValue = "") String title,
-                                      @RequestParam(value = "subject",defaultValue = "") String subject,
-                                      @Positive @RequestParam(defaultValue = "1") int page) {
-        Page<Post> posts = postService.searchPosts(page-1,title,subject);
+    public  ResponseEntity searchPosts(@RequestParam(value = "title",defaultValue = "") String title,
+                                        @RequestParam(value = "subject",defaultValue = "") String subject,
+                                        @RequestParam(value = "date",defaultValue = "1m") String date,
+                                        @Positive @RequestParam(defaultValue = "1") int page,
+                                        @Positive @RequestParam(defaultValue = "8") int size){
+        Page<Post> posts = postService.searchPostsMonth(page-1,size,title,subject,date);
         List<Post> content = posts.getContent();
 
         return new ResponseEntity(mapper.postsToPostDto(content),HttpStatus.OK);
