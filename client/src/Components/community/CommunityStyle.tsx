@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface activeT {
+	img: string;
+}
 
 export const Explain = styled.div`
 	position: fixed;
@@ -197,9 +201,23 @@ export const Header = styled.div`
 	}
 `;
 
-export const Info = styled.div`
+export const Info = styled.div<activeT>`
 	display: flex;
+	align-items: center;
 	padding: 5px;
+
+	.img {
+		${(props) =>
+			props.img &&
+			css`
+				width: 20px;
+				height: 20px;
+				background-image: url(${props.img});
+				background-size: 105% 127%;
+				margin-right: 10px;
+				border-radius: 100%;
+			`}
+	}
 
 	div {
 		margin-right: 15px;
@@ -218,10 +236,18 @@ export const Info = styled.div`
 	}
 
 	> div:nth-child(4) {
-		width: 30px;
+		width: 40px;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+
+		> p {
+			margin-left: 5px;
+		}
+	}
+
+	> div:nth-child(5) {
+		display: flex;
 
 		> p {
 			margin-left: 5px;
