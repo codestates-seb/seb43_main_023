@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Swal from 'sweetalert2';
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { RootState } from '../../store/Store';
@@ -13,6 +14,8 @@ import { Ianswer } from '../../type/Ianswer';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
+import { Ilogin } from '../../type/Ilogin';
+import ToastAlert from '../../utils/ToastAlert';
 
 const Container = styled.div`
 	width: 100%;
@@ -112,6 +115,7 @@ function Answers() {
 	answers = answers.filter((el) => el.postId === Number(id));
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
+	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const postData = useAxios({
 		method: 'get',
@@ -120,7 +124,7 @@ function Answers() {
 
 	const answerData = useAxios({
 		method: 'get',
-		url: `/posts/${id}/comments`,
+		url: `/comments/${id}`,
 	});
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -128,37 +132,42 @@ function Answers() {
 	};
 
 	const handleSubmit = () => {
-		try {
-			Api.post(`posts/${id}/comments`, {
-				content: text,
-				memberId: userInfos.id,
-				postId: id,
-				nickName: userInfos.nickname,
-			}).then(() => {
-				if (review[0].subject === '여행리뷰') {
-					document.location.href = `/tripreview/${id}`;
-				} else {
-					document.location.href = `/community/${id}`;
-				}
-			});
-		} catch (error) {
-			navigate('/error');
+		if (login.isLogin) {
+			try {
+				Api.post('/comments', {
+					content: text,
+					memberId: userInfos.id,
+					postId: id,
+					nickname: userInfos.nickname,
+				}).then(() => {
+					if (review[0].subject === '여행리뷰') {
+						document.location.href = `/tripreview/${id}`;
+					} else {
+						document.location.href = `/community/${id}`;
+					}
+				});
+			} catch (error) {
+				navigate('/error');
+			}
+		} else {
+			ToastAlert('로그인 상태가 아닙니다');
 		}
 	};
 
 	const handleUpdate = (e: { key: string }, answerId: number) => {
 		if (e.key === 'Enter') {
 			try {
-				Api.patch(`post/${id}/comments/${answerId}`, {
+				Api.patch(`comments/${answerId}`, {
 					content: text,
 					memberId: userInfos.id,
 					postId: id,
+				}).then(() => {
+					if (review[0].subject === '여행리뷰') {
+						document.location.href = `/tripreview/${id}`;
+					} else {
+						document.location.href = `/community/${id}`;
+					}
 				});
-				if (review[0].subject === '여행리뷰') {
-					document.location.href = `/tripreview/${id}`;
-				} else {
-					document.location.href = `/community/${id}`;
-				}
 			} catch (error) {
 				navigate('/error');
 			}
@@ -174,7 +183,7 @@ function Answers() {
 		);
 		if (sweetAlert1.isConfirmed) {
 			try {
-				Api.delete(`/posts/${id}/${userInfos.id}`).then(async () => {
+				Api.delete(`comments/${answerId}`).then(async () => {
 					const sweetAlert2 = await SweetAlert2('Deleted!', '삭제되었습니다');
 					if (sweetAlert2.isConfirmed) {
 						if (review[0].subject === '여행리뷰') {
@@ -195,16 +204,20 @@ function Answers() {
 		setEdit(!edit);
 	};
 
-	const handleLike = (answerId: number) => {
-		setClickedId(answerId);
-		setIsLike(!isLike);
+	const handleLike = (answerId: number, author: string) => {
+		if (author === userInfos.nickname) {
+			ToastAlert('자신의 댓글은 좋아요가 불가능해요');
+		} else {
+			setClickedId(answerId);
+			setIsLike(!isLike);
 
-		try {
-			Api.patch(`posts/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
-				.then(() => Api.get(`/posts/${id}/comments`))
-				.then((res) => setAnswers(res.data));
-		} catch (error) {
-			navigate('/error');
+			try {
+				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`//comments/${id}`))
+					.then((res) => setAnswers(res.data));
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
@@ -216,8 +229,8 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`posts/${id}/comments/${answerId}/vote/${userInfos.id}`, {})
-					.then(() => Api.get(`/posts/${id}/comments`))
+				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/comments/${id}`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
@@ -249,58 +262,63 @@ function Answers() {
 			/>
 
 			{answers &&
-				answers.map((el, idx) => (
-					<Answer>
-						<ContentContainer>
-							<Vote>
-								{isLike && clickedId === el.commentId ? (
-									<AiFillHeart
-										size={18}
-										onClick={() => handleDisLike(el.commentId)}
-										color="#fe6464"
-									/>
-								) : (
-									<AiOutlineHeart
-										size={18}
-										onClick={() => handleLike(el.commentId)}
-									/>
-								)}
-
-								<span>{el.voteCount}</span>
-							</Vote>
-							<div />
-							<div>
-								<div>{el.nickname}</div>
-
-								<div>
-									{edit && clickedId === el.commentId ? (
-										<AnswerInput
-											placeholder="댓글을 남겨주세요"
-											onChange={(e) => handleInput(e)}
-											onKeyDown={(e) => handleUpdate(e, el.commentId)}
-											defaultValue={el.content}
+				answers
+					.sort(
+						(a: { commentId: number }, b: { commentId: number }) =>
+							b.commentId - a.commentId,
+					)
+					.map((el, idx) => (
+						<Answer>
+							<ContentContainer>
+								<Vote>
+									{isLike && clickedId === el.commentId ? (
+										<AiFillHeart
+											size={18}
+											onClick={() => handleDisLike(el.commentId)}
+											color="#fe6464"
 										/>
 									) : (
-										<span>{el.content}</span>
+										<AiOutlineHeart
+											size={18}
+											onClick={() => handleLike(el.commentId, el.nickname)}
+										/>
 									)}
 
-									{el.nickname === userInfos.nickname ? (
-										<div>
-											<BsPencilSquare
-												size={14}
-												onClick={() => handleEdit(el.commentId)}
+									<span>{el.voteCount}</span>
+								</Vote>
+								<div />
+								<div>
+									<div>{el.nickname}</div>
+
+									<div>
+										{edit && clickedId === el.commentId ? (
+											<AnswerInput
+												placeholder="댓글을 남겨주세요"
+												onChange={(e) => handleInput(e)}
+												onKeyDown={(e) => handleUpdate(e, el.commentId)}
+												defaultValue={el.content}
 											/>
-											<BsTrash
-												size={14}
-												onClick={() => handleDelete(el.commentId)}
-											/>
-										</div>
-									) : null}
+										) : (
+											<span>{el.content}</span>
+										)}
+
+										{el.nickname === userInfos.nickname ? (
+											<div>
+												<BsPencilSquare
+													size={14}
+													onClick={() => handleEdit(el.commentId)}
+												/>
+												<BsTrash
+													size={14}
+													onClick={() => handleDelete(el.commentId)}
+												/>
+											</div>
+										) : null}
+									</div>
 								</div>
-							</div>
-						</ContentContainer>
-					</Answer>
-				))}
+							</ContentContainer>
+						</Answer>
+					))}
 		</Container>
 	);
 }
