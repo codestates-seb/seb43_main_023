@@ -171,7 +171,7 @@ function MainPage() {
 					🧭 우리 동네 여행 명소
 				</MainTabButton>
 				<MainTabButton onClick={() => handleTabClick(2)}>
-					🔥 인기 여행 리뷰글
+					🔥 인기 여행 리뷰
 				</MainTabButton>
 				<StyledLink to="/community" style={{ textDecoration: 'none' }}>
 					<MainTabButton>💬 커뮤니티</MainTabButton>

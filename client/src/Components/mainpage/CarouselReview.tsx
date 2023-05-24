@@ -131,7 +131,7 @@ function CarouselReview() {
 	// 	url: '/posts',
 	// }).response;
 
-	const response: any = useGet('?size=10&&subject=여행리뷰&date=6m&page=1');
+	const response: any = useGet('?size=10&&subject=여행리뷰&date=1m&page=1');
 
 	useEffect(() => {
 		if (response !== null) {
