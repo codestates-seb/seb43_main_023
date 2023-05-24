@@ -21,96 +21,85 @@ export function OauthGoogleHandler() {
 		const { hash } = url;
 		const accessToken2 = hash.split('=')[1].split('&')[0];
 		async function getData() {
+			// oauth 접근, 로그인 실행
+			await axios.get(
+				`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken2}`,
+				{
+					headers: {
+						authorization: `token ${accessToken2}`,
+						accept: 'application/json',
+					},
+				},
+			);
+			// oauth 로그인 정보 가져오기(id, email)
+			const oauthInfo = await axios.get(
+				'https://www.googleapis.com/oauth2/v2/userinfo',
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken2}`,
+					},
+				},
+			);
+			// eslint-disable-next-line no-console
+			console.log(accessToken2, oauthInfo.data); // oauth data(id, email)
+
+			// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
+			const mbtiImg = await Api.get('/mbtiInfo/INFP');
+			const password = process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY;
 			try {
-				// oauth 접근, 로그인 실행
-				await axios.get(
-					`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken2}`,
-					{
-						headers: {
-							authorization: `token ${accessToken2}`,
-							accept: 'application/json',
-						},
-					},
-				);
-				// oauth 로그인 정보 가져오기(id, email)
-				const oauthInfo = await axios.get(
-					'https://www.googleapis.com/oauth2/v2/userinfo',
-					{
-						headers: {
-							Authorization: `Bearer ${accessToken2}`,
-						},
-					},
-				);
-				// eslint-disable-next-line no-console
-				console.log(oauthInfo.data); // oauth data(id, email)
-
-				// 처음 회원가입 시 회원가입, 로그인때 필요한 데이터
-				const mbtiImg = await Api.get('/mbtiInfo/INFP');
-				const memberId = Number(oauthInfo.data.id);
-				const password = process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY;
-
 				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
-				const allMember = await Api.get('/members');
-				console.log(allMember.data);
-				if (
-					allMember.data.find(
-						(v: { email: string }) => v.email === oauthInfo.data.email,
-					)
-				) {
-					// 회원가입 post 요청
-					await Api.post('/members/signup', {
-						memberId,
+				// 회원가입 post 요청
+				await Api.post('/members/signup', {
+					nickname: oauthInfo.data.id,
+					mbti: 'INFP',
+					email: oauthInfo.data.email,
+					password,
+					img: mbtiImg.data.img,
+				});
+				// 로그인
+				const loginData = await Api.post('/members/signin', {
+					email: oauthInfo.data.email,
+					password,
+				});
+				const {
+					memberId,
+					accessToken,
+					refreshToken,
+					accessTokenExpirationTime,
+					refreshTokenExpirationTime,
+				} = loginData.data;
+
+				// 로그인 정보 업데이트
+				dispatch(
+					UPDATE({
+						id: memberId,
 						nickname: oauthInfo.data.id,
 						mbti: 'INFP',
 						email: oauthInfo.data.email,
-						password,
-						img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-							.img,
+						img: mbtiImg.data.img,
 						badge: null,
-					});
-					// 서버 연결코드
-					const loginData = await Api.post('/members/signin', {
-						email: oauthInfo.data.email,
-						password,
-					});
-					const {
-						accessToken,
-						refreshToken,
-						accessTokenExpirationTime,
-						refreshTokenExpirationTime,
-					} = loginData.data;
-
-					// 로그인 정보 업데이트
-					dispatch(
-						UPDATE({
-							id: memberId,
-							nickname: oauthInfo.data.id,
-							mbti: 'INFP',
-							email: oauthInfo.data.email,
-							img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-								.img,
-							badge: null,
-						}),
-					);
-					dispatch(LOGIN({ accessToken: `${accessToken}` }));
-					setCookie('refreshToken', refreshToken, {
-						path: '/',
-						sameSite: 'none',
-						secure: true,
-					});
-					setLocalStorage('accessToken', accessToken);
-					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-					Swal.fire({
-						icon: 'success',
-						title: '회원가입되었습니다.',
-						text: '마이페이지에서 정보를 수정해주세요.',
-					}).then((result) => {
-						if (result.isConfirmed) {
-							navigate('/useredit');
-						}
-					});
-				} else {
+					}),
+				);
+				dispatch(LOGIN({ accessToken: `${accessToken}` }));
+				setCookie('refreshToken', refreshToken, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				setLocalStorage('accessToken', accessToken);
+				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+				Swal.fire({
+					icon: 'success',
+					title: '회원가입되었습니다.',
+					text: '마이페이지에서 정보를 수정해주세요.',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						navigate('/useredit');
+					}
+				});
+			} catch (error: any) {
+				if (error.response.status === 500) {
 					// 이미 회원가입이 되어 있어 바로 로그인하는 경우
 					// const userInfo = await Api.get(`/members/${oauthInfo.data.id}`);
 					// 서버 연결코드
@@ -119,6 +108,8 @@ export function OauthGoogleHandler() {
 						password: process.env.REACT_APP_GOOGLE_CLIENT_PASSWORD_KEY,
 					});
 					const {
+						// eslint-disable-next-line no-shadow
+						memberId,
 						accessToken,
 						refreshToken,
 						accessTokenExpirationTime,
@@ -127,15 +118,16 @@ export function OauthGoogleHandler() {
 					// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
 					// 로그인 정보 업데이트
+					const userInfo1 = await Api.get(`members/${memberId}`);
+					const { nickname, mbti, email, img, badge } = userInfo1.data;
 					dispatch(
 						UPDATE({
 							id: memberId,
-							nickname: oauthInfo.data.id,
-							mbti: 'INFP',
-							email: oauthInfo.data.email,
-							img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-								.img,
-							badge: null,
+							nickname,
+							mbti,
+							email,
+							img,
+							badge,
 						}),
 					);
 					dispatch(LOGIN({ accessToken: `${accessToken}` }));
@@ -157,9 +149,9 @@ export function OauthGoogleHandler() {
 							navigate('/main');
 						}
 					});
+				} else {
+					navigate('/error');
 				}
-			} catch (error) {
-				navigate('/error');
 			}
 		}
 		getData();
@@ -176,8 +168,8 @@ export function OauthNaverHandler() {
 	useEffect(() => {
 		const url = new URL(window.location.href);
 		const { hash } = url;
-		const accessToken = hash.split('=')[1].split('&')[0];
-		setLocalStorage('accessToken', accessToken);
+		const accessToken2 = hash.split('=')[1].split('&')[0];
+		setLocalStorage('accessToken', accessToken2);
 		async function getData() {
 			try {
 				/*
@@ -195,16 +187,8 @@ export function OauthNaverHandler() {
 				const nickname = 'test';
 				const email = 'test123@gmail.com';
 				const mbtiImg = await Api.get('/mbtiInfo/INFP');
-				/*
-				const mbtiImg = await Api.get('/mbtiInfo/INFP');
-				밑에서 꺼내쓸때는 mbtiImg.data.img
-				*/
 				const userCheck = await Api.get(`/members`);
 				const password = process.env.REACT_APP_NAVER_CLIENT_PASSWORD;
-				const memberId = userCheck.data.length + 1; // 서버 연결시 삭제
-				const refreshToken = 'token2'; // 서버 연결시 삭제
-				const accessTokenExpirationTime = 1800000; // 서버 연결시 삭제
-				const refreshTokenExpirationTime = 23000000; // 서버 연결시 삭제
 
 				// 회원가입이 안되있다면
 				if (
@@ -212,16 +196,6 @@ export function OauthNaverHandler() {
 						.length === 0
 				) {
 					// 회원가입 post 요청
-					await Api.post('/members', {
-						id: memberId,
-						nickname,
-						mbti: 'INFP',
-						email,
-						password,
-						img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-							.img,
-					});
-					/*
 					// 서버 회원가입 요청 코드
 					await Api.post('/members/signup', {
 						nickname,
@@ -230,8 +204,6 @@ export function OauthNaverHandler() {
 						password,
 						img: mbtiImg.data.img,
 					});
-					*/
-					/*
 					// 서버 로그인 요청 코드
 					const loginData = await Api.post('/members/signin', {
 						email,
@@ -244,8 +216,7 @@ export function OauthNaverHandler() {
 						accessTokenExpirationTime,
 						refreshTokenExpirationTime,
 					} = loginData.data;
-					// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-					*/
+
 					// 로그인 정보 업데이트
 					dispatch(
 						UPDATE({
@@ -253,8 +224,7 @@ export function OauthNaverHandler() {
 							nickname,
 							mbti: 'INFP',
 							email,
-							img: mbtiImg.data.find((v: { mbti: string }) => v.mbti === 'INFP')
-								.img,
+							img: mbtiImg.data.img,
 						}),
 					);
 					dispatch(LOGIN({ accessToken: `${accessToken}` }));
@@ -266,7 +236,7 @@ export function OauthNaverHandler() {
 					setLocalStorage('accessToken', accessToken);
 					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-					setLocalStorage('memberId', memberId); // 서버 연결시 삭제
+
 					Swal.fire({
 						icon: 'success',
 						title: '회원가입되었습니다.',
@@ -279,9 +249,20 @@ export function OauthNaverHandler() {
 				} else {
 					// 이미 회원가입이 되어 있어 바로 로그인하는 경우
 					// 서버 연결시 코드 const userInfo = await Api.get(`/members/${memberId}`);
-					const userInfo = await Api.get(
-						`/members/${getLocalStorage('memberId')}`,
-					);
+					// 서버 로그인 요청 코드
+					const loginData = await Api.post('/members/signin', {
+						email,
+						password,
+					});
+					const {
+						memberId,
+						accessToken,
+						refreshToken,
+						accessTokenExpirationTime,
+						refreshTokenExpirationTime,
+					} = loginData.data;
+
+					const userInfo = await Api.get(`/members/${memberId}`);
 					dispatch(LOGIN({ accessToken: `${accessToken}` }));
 					dispatch(
 						UPDATE({
@@ -293,6 +274,16 @@ export function OauthNaverHandler() {
 							badge: userInfo.data.badge,
 						}),
 					);
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
 					Swal.fire({
 						icon: 'success',
 						title: '로그인되었습니다.',
@@ -377,16 +368,6 @@ export const KakaoRedirectHandler = () => {
 					kakao_account: { profile, email },
 				} = resUserInfo.data;
 				const { nickname } = profile;
-				const mbtiImg = await Api.get('/mbtiInfo/INFP');
-				dispatch(
-					UPDATE({
-						id,
-						nickname,
-						mbti: 'INFP',
-						email,
-						img: mbtiImg.data.img,
-					}),
-				);
 				dispatch(LOGIN({ accessToken: `${getLocalStorage('accessToken')}` }));
 
 				try {
@@ -415,7 +396,7 @@ export const KakaoRedirectHandler = () => {
 						// 유저 정보 저장
 						dispatch(
 							UPDATE({
-								id: userInfo3.data.memberId,
+								id: memberId,
 								email: userInfo3.data.email,
 								nickname: userInfo3.data.nickname,
 								mbti: userInfo3.data.mbti,
@@ -423,7 +404,6 @@ export const KakaoRedirectHandler = () => {
 								badge: userInfo3.data.badge,
 							}),
 						);
-						dispatch(LOGIN({ accessToken: `${accessToken}` }));
 						// 토큰 저장
 						setCookie('refreshToken', refreshToken, {
 							path: '/',
@@ -445,6 +425,7 @@ export const KakaoRedirectHandler = () => {
 						});
 					} else {
 						// 회원가입 아직 안했을 경우 -> 유저 수정 페이지로 이동
+						const mbtiImg = await Api.get('/mbtiInfo/INFP');
 						await Api.post('/members/signup', {
 							nickname,
 							mbti: 'INFP',
@@ -452,6 +433,42 @@ export const KakaoRedirectHandler = () => {
 							password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
 							img: mbtiImg.data.img,
 						});
+						// 로그인
+						const loginData = await Api.post('/members/signin', {
+							email,
+							password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+						});
+						// 새로운 id와 토큰 발급
+						const {
+							memberId,
+							accessToken,
+							refreshToken,
+							accessTokenExpirationTime,
+							refreshTokenExpirationTime,
+						} = loginData.data.data;
+
+						const userInfo3 = await Api.get(`/members/${memberId}`);
+						// 유저 정보 저장
+						dispatch(
+							UPDATE({
+								id: memberId,
+								email: userInfo3.data.email,
+								nickname: userInfo3.data.nickname,
+								mbti: userInfo3.data.mbti,
+								img: userInfo3.data.img,
+								badge: userInfo3.data.badge,
+							}),
+						);
+						// 토큰 저장
+						setCookie('refreshToken', refreshToken, {
+							path: '/',
+							sameSite: 'none',
+							secure: true,
+						});
+						setLocalStorage('accessToken', accessToken);
+						setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+						setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
 						Swal.fire({
 							icon: 'success',
 							title: '회원가입되었습니다.',

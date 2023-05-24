@@ -108,8 +108,7 @@ function MyReview() {
 		},
 	]);
 
-	const response = useGet('');
-
+	const response = useGet('?size=100&subject=여행리뷰&date=6m');
 	useEffect(() => {
 		if (response !== null) {
 			setReviews(response);
