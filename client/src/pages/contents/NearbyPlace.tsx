@@ -13,6 +13,7 @@ import {
 } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Pagination from '../../Components/community/Pagination';
 import Modal from '../../Components/mainpage/Modal';
 import { IImageProps } from '../../type/IImageProps';
 import { TripInfoType } from '../../type/ITripInfo';
@@ -251,7 +252,8 @@ function NearbyPlace() {
 	};
 
 	const tourAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=6&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=10000&contentTypeId=12`;
+	const [curPage, setCurPage] = useState(1);
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${tourAPIKey}&numOfRows=6&pageNo=${curPage}&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&mapX=${myLocation.longitude}&mapY=${myLocation.latitude}&radius=10000&contentTypeId=12`;
 
 	const [tripInfo, setTripInfo] = useState([]);
 
@@ -273,7 +275,8 @@ function NearbyPlace() {
 				const { data } = response;
 				const intro = data.response.body.items.item[0].overview;
 				setIsOpen(true);
-				setTourText(intro);
+				const textReplace = /<br\s*\/?>/gi;
+				setTourText(intro.replace(textReplace, ''));
 			})
 			.catch(() => {
 				navigate('/error');
@@ -331,6 +334,14 @@ function NearbyPlace() {
 					  })
 					: null}
 			</NearbyPlaceRecItemContainer>
+			<Pagination
+				curPage={curPage}
+				setCurPage={setCurPage}
+				totalPage={9}
+				totalCount={54}
+				size={6}
+				pageCount={3}
+			/>
 		</NearbyPlaceContainer>
 	);
 }
