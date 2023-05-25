@@ -22,7 +22,7 @@
 |                     조대욱<br>(BE, Team leader)                     |                        박희진<br>(FE, deputy Team leader)                        |                        윤정훈<br>(FE)                        |                    조민수<br>(FE)                     |                        임슬범<br>(BE)                        |                       최낙주<br>(BE)                        |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |  <img alt="조대욱" src="https://cdn.discordapp.com/attachments/1101328550335873126/1101425712101081208/6_INFP.png" height="100" width="100"> | <img alt="박희진" src="https://cdn.discordapp.com/attachments/1101328550335873126/1101425774063517706/9.png" height="100" width="100"> | <img alt="윤정훈" src="https://cdn.discordapp.com/attachments/1101328550335873126/1101425712101081208/6_INFP.png" height="100" width="100"> | <img alt="조민수" src="https://cdn.discordapp.com/attachments/1101328550335873126/1110848758620631100/12_ESFJ.png" height="100" width="100"> | <img alt="임슬범" src="https://cdn.discordapp.com/attachments/1101328550335873126/1101425518571700224/1.png" height="100" width="100"> | <img alt="최낙주" src="https://cdn.discordapp.com/attachments/1101328550335873126/1101425354326954054/13.png" height="100" width="100"> |
-|<p align="left">**Post**<br />-search<br />-vote<br />**Mbti Destination**<br />**Aws cloud**<br />-ec2<br />**Database**<br />-mysql|희진님|<p align="left">**Pages**<br /> -MainPage<br />-RegionRecommend Page<br />-RegiondRecDetail Page<br />-NearbyPlace Page<br />-HotReview Page<br />**Components**<br />-Banner<br />-Carousel<br />-CarouselNearbyPlace<br />-CarouselReview<br />-MainHeader<br />-UserHeader<br />-Modal<br />**Features**<br />-MemberCount R<br />-mbtiInfo R <br />-tour API R<br />-OpenWeatherMap API R<br />-Post R<br />-Image Lazy Load<br />-Responsive Web|민수님|슬범님|낙주님|
+|<p align="left">**Post**<br />-search<br />-vote<br />**Mbti Destination**<br />**Aws cloud**<br />-ec2<br />**Database**<br />-mysql|희진님|<p align="left">**Pages**<br /> -MainPage<br />-RegionRecommend Page<br />-RegiondRecDetail Page<br />-NearbyPlace Page<br />-HotReview Page<br />**Components**<br />-Banner<br />-Carousel<br />-CarouselNearbyPlace<br />-CarouselReview<br />-MainHeader<br />-UserHeader<br />-Modal<br />**Features**<br />-MemberCount R<br />-mbtiInfo R <br />-tour API R<br />-OpenWeatherMap API R<br />-Post R<br />-Image Lazy Load<br />-Responsive Web|민수님|슬범님|<p align="left">**member**<br />-signup<br />-login<br />member CRUD<br />-badge<br />**spring security**<br />**JWT**<br />-token generate<br />-token regenerate<br />**OAuth2**<br />-google<br />-naver|
 
 
 |  Name  | Github ID                                        |
@@ -47,20 +47,20 @@
 
 |                                                              |                                                              |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|        **Landing Page**                           |                 **Login / Signup page**                 |
-| <img width="100%" src="https://user-images.githubusercontent.com/104547038/222377949-97f367bb-cc29-4315-b559-871e75a1f828.gif"/> | <img width="100%" src="https://user-images.githubusercontent.com/104547038/222377978-7a4b1444-8c5c-4f66-81eb-d613b3e4dda4.gif"/> |
-|        **MyPage**                           |                 **Admin page**                 |
-|||
-|                    **Main Page**                     |                     **Region Recommend & Detail Page**                     |
-| <img width="100%" src="https://user-images.githubusercontent.com/104547038/222381715-b6bd5bb2-e57a-4436-b62d-c7c3a17eac46.gif"/> | <img width="100%" src="https://user-images.githubusercontent.com/104547038/222381726-d322a447-e171-409b-a8f8-d54b20a35b7c.gif"/> |
+|        **Landing Page**                           |                 **Login / Signup Page**                 |
+| ![Landing Page](https://github.com/codestates-seb/seb43_main_023/assets/119163273/59000197-bfc0-4281-bd19-e3cb22b8d44d) |![Login SignUp](https://github.com/codestates-seb/seb43_main_023/assets/119163273/9859cf0b-534c-4017-a023-0f15e2dcf59c)|
+|        **MyPage**                           |                 **Admin Page**                 |
+|![mypage](https://github.com/codestates-seb/seb43_main_023/assets/119163273/01255963-bf0c-430b-a722-e6664da1446d)|![admin](https://github.com/codestates-seb/seb43_main_023/assets/119163273/057f9f49-e33a-42ef-8f4c-c56be1f4b559)|
+|                    **Main Page**                     |                     **Region Recommend & Detail Page**                    |
+| ![mainpage](https://github.com/codestates-seb/seb43_main_023/assets/119163273/7bdd7c42-a088-453c-9cec-434da90c31c4)| ![region](https://github.com/codestates-seb/seb43_main_023/assets/119163273/0cbb3315-98ba-445e-bed2-954e7331a968)|
 |                    **Nearby Place Page & Detail Page**                     |                 **Hot Review Page & Detaile Page**                  |
-| <img width="100%" src="https://user-images.githubusercontent.com/104547038/222378036-3c552bd3-2b15-4b5c-844b-92b172a1aebe.gif"/> | <img width="100%" src="https://user-images.githubusercontent.com/104547038/222381701-bcfd02f0-7d6b-40fd-b1bb-dd504410f6dd.gif"/> |
+| ![nearby](https://github.com/codestates-seb/seb43_main_023/assets/119163273/f50704ed-ba83-4f72-b756-2115e5c64ef2) | ![hotreview](https://github.com/codestates-seb/seb43_main_023/assets/119163273/bae14b37-956b-4aef-b99e-26cf610fd883) |
 |                    **Community Main Page**                     |                 **Review / Other Subject Page**                  |
-|||
+|![communityMain](https://github.com/codestates-seb/seb43_main_023/assets/119163273/b7362a9b-0fa5-410e-9fa3-98ba57192b02) | ![review_other](https://github.com/codestates-seb/seb43_main_023/assets/119163273/74a5a2dc-6989-45de-a5b2-d715f14877d6)|
 |                    **Review Detail Page**                     |                 **Post Detail Page**                  |
-|||
+|![review_detail](https://github.com/codestates-seb/seb43_main_023/assets/119163273/fa9b816b-15fa-4107-a940-aae28705a095)| ![postdetail](https://github.com/codestates-seb/seb43_main_023/assets/119163273/ba7ad3ad-eb57-4ca7-8e16-befb750f6d74) |
 |                    **Write Page**                     |                 **Search Page**                  |
-|||
+| ![writepage](https://github.com/codestates-seb/seb43_main_023/assets/119163273/bb4fd2b5-d2c6-425d-978f-39b6950bcb0a)| ![search](https://github.com/codestates-seb/seb43_main_023/assets/119163273/eab71524-499b-4306-b5cc-c835598ff7b0)|
 <br/>
 
 ## 👩🏻‍💻 Wireframe
@@ -78,9 +78,10 @@ https://www.figma.com/file/JfVYlRbyo3dYhSQINx7Uf4/Untitled?type=design&node-id=0
 
 
 ##### 💡Postman API  
-https://documenter.getpostman.com/view/25533854/2s93eR4FWH
+https://documenter.getpostman.com/view/25533674/2s93m622xe
 
-![image](https://user-images.githubusercontent.com/117034592/234783884-4537be83-58ba-4221-84d5-04ac570314e1.png)
+![postman](https://github.com/codestates-seb/seb43_main_023/assets/119163273/2396803b-91ff-4002-8fa9-16a7eadcdae1)
+
 
 <br/>
 
@@ -89,7 +90,7 @@ https://documenter.getpostman.com/view/25533854/2s93eR4FWH
 `main` : 서비스 운영 브랜치 <br />
 `devFE` : FE 개발 환경 브랜치 <br />
 `devBE` : BE 개발 환경 브랜치  <br />
-`FE|BE_이름` : FE|BE 기능 개발 브랜치<br />
+`FE | BE_이름` : FE | BE 기능 개발 브랜치<br />
 `release` : FE 배포 환경 브랜치
 
 <br/>
