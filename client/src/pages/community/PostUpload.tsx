@@ -233,6 +233,7 @@ function PostUpload() {
 	const [alert, setAlert] = useState<boolean>(false);
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
+	const [placeName, setPlaceName] = useState<string>('');
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
@@ -282,7 +283,14 @@ function PostUpload() {
 		setTitle(event.target.value);
 	};
 
-	const handlePlace = (data: any) => {
+	const handlePlace = (data: any, selected: string) => {
+		const selectedData = data.filter(
+			(el: { place_name: string }) => el.place_name === selected,
+		);
+
+		console.log(selected);
+		setPlaceName(selectedData[0].place_name);
+
 		setX(data[0].x);
 		setY(data[0].y);
 	};
@@ -304,46 +312,47 @@ function PostUpload() {
 			Images.length > 0 &&
 			editorRef.current
 		) {
-			// json-server용 api 요청
-			try {
-				Api.post(`/posts/${userInfos.id}`, {
-					subject,
-					title,
-					content,
-					tag: tags,
-					image: Images,
-					locationX: x,
-					locationY: y,
-				});
-				const myposts = posts.filter(
-					(post) => post.member.email === userInfos.email,
-				);
-				if (myposts.length === 4) {
-					Api.patch(`/members/${userInfos.id}`, {
-						nickname: userInfos.nickname,
-						mbti: userInfos.mbti,
-						img: userInfos.img,
-						badge: '초보여행자',
-					});
-					dispatch(
-						UPDATE({
-							nickname: userInfos.nickname,
-							mbti: userInfos.mbti,
-							img: userInfos.img,
-							badge: '초보여행자',
-						}),
-					);
-					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
-						if (result.value) {
-							document.location.href = `/tripreview/${posts[0].postId + 1}`;
-						}
-					});
-				} else {
-					document.location.href = `/tripreview/${posts[0].postId + 1}`;
-				}
-			} catch (error) {
-				navigate('/error');
-			}
+			console.log(placeName);
+			// try {
+			// 	Api.post(`/posts/${userInfos.id}`, {
+			// 		subject,
+			// 		title,
+			// 		content,
+			// 		tag: tags,
+			// 		image: Images,
+			// 		locationX: x,
+			// 		locationY: y,
+			// 		placeName,
+			// 	});
+			// 	const myposts = posts.filter(
+			// 		(post) => post.member.email === userInfos.email,
+			// 	);
+			// 	if (myposts.length === 4) {
+			// 		Api.patch(`/members/${userInfos.id}`, {
+			// 			nickname: userInfos.nickname,
+			// 			mbti: userInfos.mbti,
+			// 			img: userInfos.img,
+			// 			badge: '초보여행자',
+			// 		});
+			// 		dispatch(
+			// 			UPDATE({
+			// 				nickname: userInfos.nickname,
+			// 				mbti: userInfos.mbti,
+			// 				img: userInfos.img,
+			// 				badge: '초보여행자',
+			// 			}),
+			// 		);
+			// 		SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
+			// 			if (result.value) {
+			// 				document.location.href = `/tripreview/${posts[0].postId + 1}`;
+			// 			}
+			// 		});
+			// 	} else {
+			// 		document.location.href = `/tripreview/${posts[0].postId + 1}`;
+			// 	}
+			// } catch (error) {
+			// 	navigate('/error');
+			// }
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
 			try {
