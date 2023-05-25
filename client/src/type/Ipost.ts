@@ -5,6 +5,7 @@ export interface Ipost {
 	content: string;
 	tag: string[];
 	voteCount?: number;
+	voteList?: number[];
 	viewCount?: number;
 	postCreatedAt: string;
 	postModifiedAt?: string;

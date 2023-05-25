@@ -5,5 +5,6 @@ export interface Ianswer {
 	postId: number;
 	voteCount: number;
 	nickname: string;
+	voteList: number[];
 }
 export type Ianswers = Ianswer[];

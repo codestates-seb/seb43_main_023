@@ -185,6 +185,10 @@ export const Header = styled.div`
 		> h3:nth-child(1) {
 			margin-right: 10px;
 		}
+
+		> h3:nth-child(2) {
+			margin-bottom: 20px;
+		}
 	}
 
 	> p {
@@ -236,7 +240,7 @@ export const Info = styled.div<activeT>`
 	}
 
 	> div:nth-child(4) {
-		width: 40px;
+		width: 45px;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;

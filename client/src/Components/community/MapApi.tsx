@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 
 declare global {
 	interface Window {
@@ -16,14 +17,11 @@ interface Type {
 function MapContainer() {
 	const { id } = useParams();
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts/${id}`,
-	});
+	const postData = useGet(`/${id}`);
 
 	useEffect(() => {
-		if (postData.response) {
-			const data: Type = postData.response;
+		if (postData) {
+			const data: Type = postData;
 			const markerPosition = new window.kakao!.maps.LatLng(
 				Number(data.locationY),
 				Number(data.locationX),
@@ -47,7 +45,7 @@ function MapContainer() {
 			// const map = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
 			const staticMap = new window.kakao.maps.StaticMap(container, options);
 		}
-	}, [postData.response]);
+	}, [postData]);
 
 	return <div id="map" style={{ width: 'inherit', height: '20vh' }} />;
 }

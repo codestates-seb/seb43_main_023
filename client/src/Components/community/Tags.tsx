@@ -173,8 +173,12 @@ function Tags() {
 					<Tag onClick={(e) => handleTagClicked(e)}>#커플여행</Tag>
 					<Tag onClick={(e) => handleTagClicked(e)}>#효도여행</Tag>
 					<Tag onClick={(e) => handleTagClicked(e)}>#가족여행</Tag>
-					<Tag onClick={(e) => handleTagClicked(e)}>#아이들과 함께</Tag>
-					<Tag onClick={(e) => handleTagClicked(e)}>#절친과 함께</Tag>
+					<Tag onClick={(e) => handleTagClicked(e)}>#우정여행</Tag>
+					<Tag onClick={(e) => handleTagClicked(e)}>#감성카페</Tag>
+					<Tag onClick={(e) => handleTagClicked(e)}>#맛집</Tag>
+					<Tag onClick={(e) => handleTagClicked(e)}>#인생샷</Tag>
+					<Tag onClick={(e) => handleTagClicked(e)}>#핫플</Tag>
+					<Tag onClick={(e) => handleTagClicked(e)}>#자연</Tag>
 				</div>
 			</ThemeTag>
 			<MBTITags>

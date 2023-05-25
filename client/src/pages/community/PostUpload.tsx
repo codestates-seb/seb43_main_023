@@ -17,7 +17,7 @@ import { Editor } from '@toast-ui/react-editor';
 import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
-import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
@@ -38,10 +38,22 @@ const Body = styled.div`
 	}
 
 	> p {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
 		color: gray;
 		font-size: 13px;
 		line-height: 30px;
 		padding-bottom: 10px;
+
+		> a {
+			text-decoration: none;
+			color: #0db4f3;
+
+			&:hover {
+				color: #00688e;
+			}
+		}
 	}
 `;
 
@@ -220,6 +232,9 @@ function PostUpload() {
 	const navigate = useNavigate();
 	const editorRef = useRef<Editor | null>(null);
 
+	const instance = editorRef.current?.getInstance();
+	const content = instance?.getMarkdown();
+
 	const imgUploadInput = useRef<HTMLInputElement | null>(null);
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
@@ -234,10 +249,7 @@ function PostUpload() {
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts`,
-	});
+	const postData = useGet(``);
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -293,9 +305,6 @@ function PostUpload() {
 	};
 
 	const handleBtn = () => {
-		const instance = editorRef.current?.getInstance();
-		const content = instance?.getMarkdown();
-
 		if (
 			(subject === '여행리뷰' && tags.length === 0) ||
 			(subject === '여행리뷰' && Images.length === 0)
@@ -325,7 +334,6 @@ function PostUpload() {
 				navigate('/error');
 			}
 		} else if (subject !== '여행리뷰' && editorRef.current) {
-			// json-server용 api 요청
 			try {
 				Api.post(`/posts/${userInfos.id}`, {
 					subject,
@@ -334,7 +342,7 @@ function PostUpload() {
 					tag: tags,
 				});
 
-				document.location.href = `/community/${posts[0].postId + 1}`;
+				document.location.href = `/community/${posts[0].postId + 1 || '1'}`;
 			} catch (error) {
 				navigate('/error');
 			}
@@ -342,10 +350,10 @@ function PostUpload() {
 	};
 
 	useEffect(() => {
-		if (postData.response) {
-			setPosts(postData.response);
+		if (postData) {
+			setPosts(postData);
 		}
-	}, [postData.response]);
+	}, [postData]);
 
 	return (
 		<div className="main">
@@ -353,8 +361,13 @@ function PostUpload() {
 				<Body>
 					<h2> 글쓰기 </h2>
 					<p>
-						자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
-						사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
+						<div>
+							자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
+							사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
+						</div>
+						<a href="https://ifh.cc/" target="_blank" rel="noreferrer">
+							이미지 파일 링크로 변환하기
+						</a>
 					</p>
 					<hr />
 					<DropDownContainer>

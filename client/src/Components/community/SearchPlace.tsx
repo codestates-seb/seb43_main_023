@@ -98,7 +98,7 @@ interface Prop {
 }
 
 interface getDataProp {
-	id: number;
+	postId: number;
 	placeName: string;
 }
 
@@ -135,9 +135,9 @@ function SearchPlace({ handlePlace, id }: Prop) {
 	useEffect(() => {
 		if (postData && locationNow.pathname === `/tripreview/${id}/update`) {
 			const allData: getDataProp[] = postData;
-			const data = allData.filter((el) => el.id === Number(id));
+			const data = allData.filter((el) => el.postId === Number(id));
 
-			console.log(data);
+			console.log('aaa', allData);
 
 			setPlaceName(data[0].placeName);
 		}

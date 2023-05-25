@@ -21,6 +21,7 @@ import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
+import useGet from '../../hooks/useGet';
 
 interface activeT {
 	img: string;
@@ -213,9 +214,11 @@ function ReviewDetail() {
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
-	const postData = useAxios({
+	const postData = useGet(`/${id}`);
+
+	const mbti = useAxios({
 		method: 'get',
-		url: `/posts/${id}`,
+		url: `/comments/${id}`,
 	});
 
 	const handleLike = () => {
@@ -264,12 +267,12 @@ function ReviewDetail() {
 	};
 
 	useEffect(() => {
-		if (postData.response) {
-			setReview([postData.response]);
+		if (postData) {
+			setReview([postData]);
 		}
-	}, [postData.response]);
+	}, [postData]);
 
-	console.log(postData.response);
+	console.log(postData);
 
 	return (
 		<div className="main">

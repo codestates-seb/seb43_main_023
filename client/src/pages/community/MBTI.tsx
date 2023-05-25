@@ -39,7 +39,7 @@ function MBTI() {
 		}
 	};
 
-	const response = useGet('?subject=MBTI&page=1');
+	const response = useGet('?size=100&subject=MBTI&page=1');
 
 	useEffect(() => {
 		if (response) {

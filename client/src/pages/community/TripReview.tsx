@@ -72,6 +72,7 @@ function TripReview() {
 			ToastAlert('로그인 상태가 아닙니다');
 		}
 	};
+
 	return (
 		<div className="main">
 			<style.Explain>

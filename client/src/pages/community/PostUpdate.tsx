@@ -339,7 +339,7 @@ function PostUpdate() {
 							placeholder="제목을 입력해주세요"
 							onChange={handleTitle}
 							defaultValue={post.title}
-							value={post.title}
+							value={title}
 						/>
 
 						{subject === '여행리뷰' ? (

@@ -126,11 +126,6 @@ function CarouselReview() {
 		],
 	};
 
-	// const res: any = useAxios({
-	// 	method: 'get',
-	// 	url: '/posts',
-	// }).response;
-
 	const response: any = useGet('?size=100&&subject=여행리뷰&date=1m&page=1');
 
 	useEffect(() => {
