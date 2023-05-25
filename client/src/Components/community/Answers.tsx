@@ -127,6 +127,8 @@ function Answers() {
 		url: `/comments/${id}`,
 	});
 
+	console.log(answerData.response);
+
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
@@ -213,7 +215,7 @@ function Answers() {
 
 			try {
 				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
-					.then(() => Api.get(`//comments/${id}`))
+					.then(() => Api.get(`/comments/${id}`))
 					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
