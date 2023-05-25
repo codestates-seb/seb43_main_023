@@ -40,7 +40,6 @@ public class MemberDto {
         private String nickname;
         private String mbti;
         private String img;
-        private String badge;
     }
 
     @Getter
