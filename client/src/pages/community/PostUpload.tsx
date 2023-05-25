@@ -9,7 +9,6 @@ import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -19,11 +18,9 @@ import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
 import useAxios from '../../hooks/useAxios';
-import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
-import { SweetAlert2 } from '../../utils/SweetAlert';
 
 const Container = styled.div`
 	width: 100vw;
@@ -324,32 +321,7 @@ function PostUpload() {
 			// 		locationY: y,
 			// 		placeName,
 			// 	});
-			// 	const myposts = posts.filter(
-			// 		(post) => post.member.email === userInfos.email,
-			// 	);
-			// 	if (myposts.length === 4) {
-			// 		Api.patch(`/members/${userInfos.id}`, {
-			// 			nickname: userInfos.nickname,
-			// 			mbti: userInfos.mbti,
-			// 			img: userInfos.img,
-			// 			badge: '초보여행자',
-			// 		});
-			// 		dispatch(
-			// 			UPDATE({
-			// 				nickname: userInfos.nickname,
-			// 				mbti: userInfos.mbti,
-			// 				img: userInfos.img,
-			// 				badge: '초보여행자',
-			// 			}),
-			// 		);
-			// 		SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
-			// 			if (result.value) {
-			// 				document.location.href = `/tripreview/${posts[0].postId + 1}`;
-			// 			}
-			// 		});
-			// 	} else {
-			// 		document.location.href = `/tripreview/${posts[0].postId + 1}`;
-			// 	}
+			// 	document.location.href = `/tripreview/${posts[0].postId + 1}`;
 			// } catch (error) {
 			// 	navigate('/error');
 			// }
@@ -362,32 +334,8 @@ function PostUpload() {
 					content,
 					tag: tags,
 				});
-				const myposts = posts.filter(
-					(post) => post.member.email === userInfos.email,
-				);
-				if (myposts.length === 4) {
-					Api.patch(`/members/${userInfos.id}`, {
-						nickname: userInfos.nickname,
-						mbti: userInfos.mbti,
-						img: userInfos.img,
-						badge: '초보여행자',
-					});
-					dispatch(
-						UPDATE({
-							nickname: userInfos.nickname,
-							mbti: userInfos.mbti,
-							img: userInfos.img,
-							badge: '초보여행자',
-						}),
-					);
-					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
-						if (result.value) {
-							document.location.href = `/community/${posts[0].postId + 1}`;
-						}
-					});
-				} else {
-					document.location.href = `/community/${posts[0].postId + 1}`;
-				}
+
+				document.location.href = `/community/${posts[0].postId + 1}`;
 			} catch (error) {
 				navigate('/error');
 			}
