@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../../assets/logo.png';
+import { getLocalStorage } from '../../utils/LocalStorage';
 
 const Main = styled.div`
 	width: 100%;
@@ -144,6 +145,9 @@ function Footer() {
 	if (locationNow.pathname === '/accounts/google/login/') return null;
 	if (locationNow.pathname === '/Api/Member/Oauth') return null;
 	if (locationNow.pathname === '/oauth') return null;
+	if (locationNow.pathname === `/memberpost/${getLocalStorage('memberId')}`)
+		return null;
+	if (locationNow.pathname === '/manager') return null;
 
 	const root = document.documentElement;
 

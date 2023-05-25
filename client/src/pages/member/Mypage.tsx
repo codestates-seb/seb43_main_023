@@ -7,8 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
-import * as style from '../../Components/community/CommunityStyle';
-import Pagination from '../../Components/community/Pagination';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
 import useGet from '../../hooks/useGet';
@@ -166,10 +164,6 @@ function Mypage() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
-	// 페이지네이션
-	const [curPage, setCurPage] = useState<number>(1);
-	const startIdx = (curPage - 1) * 8;
-	const endIdx = startIdx + 8;
 
 	// 마이페이지 각 항목 선택 시 항목 색 변경, 페이지 다르게 렌더링하는 핸들러
 	const [select, setSelect] = useState('btn1');
@@ -221,7 +215,7 @@ function Mypage() {
 	]);
 
 	// 커뮤니티 내글 get요청(useAxios 사용)
-	const response = useGet('?size=100&date=6m&page=1');
+	const response = useGet(`?size=100&date=6m`);
 
 	useEffect(() => {
 		if (response !== null) {
@@ -373,18 +367,6 @@ function Mypage() {
 									);
 								})}
 							</ul>
-							<style.PaginationContainer>
-								{filteredPosts.length > 0 ? (
-									<Pagination
-										curPage={curPage}
-										setCurPage={setCurPage}
-										totalPage={Math.ceil(filteredPosts.length / 8)}
-										totalCount={filteredPosts.length}
-										size={8}
-										pageCount={5}
-									/>
-								) : null}
-							</style.PaginationContainer>
 						</UserWriting>
 					)}
 					{select === 'btn3' && <MyReview />}

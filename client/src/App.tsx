@@ -4,7 +4,11 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { KakaoRedirectHandler, OauthNaverHandler } from './apis/OauthHandler';
+import {
+	KakaoRedirectHandler,
+	OauthGoogleHandler,
+	OauthNaverHandler,
+} from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
 import Empty from './Components/member/Empty';
@@ -26,9 +30,10 @@ import RegionRec from './pages/contents/RegionRecommend';
 import Join from './pages/member/Join';
 import Login from './pages/member/Login';
 import Logout from './pages/member/Logout';
+import Manager from './pages/member/Manager';
+import MemberPost from './pages/member/MemberPost';
 import UserEdit from './pages/member/UserEdit';
 import Search from './pages/Search';
-import { setLocalStorage } from './utils/LocalStorage';
 
 const MainPage = lazy(() => import('./pages/common/MainPage'));
 const Mypage = lazy(() => import('./pages/member/Mypage'));
@@ -37,12 +42,8 @@ const RegionDetail = lazy(() => import('./pages/contents/RegionDetail'));
 function App() {
 	// oauth google클릭 때만 실행되는 로직
 	if (new URL(window.location.href).pathname === '/accounts/google/login/') {
-		const url = new URL(window.location.href);
-		const { hash } = url;
-		const accessToken = hash.split('=')[1].split('&')[0];
-		setLocalStorage('accessToken', accessToken);
+		OauthGoogleHandler();
 	}
-
 	if (new URL(window.location.href).pathname === '/Api/Member/Oauth')
 		OauthNaverHandler();
 	if (new URL(window.location.href).pathname === '/oauth')
@@ -80,6 +81,8 @@ function App() {
 					<Route path="/accounts/google/login/*" element={<Empty />} />
 					<Route path="/Api/Member/Oauth/*" element={<Empty />} />
 					<Route path="/oauth/*" element={<Empty />} />
+					<Route path="/manager" element={<Manager />} />
+					<Route path="/memberpost/:id" element={<MemberPost />} />
 				</Routes>
 			</Suspense>
 			<Footer />
