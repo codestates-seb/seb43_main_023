@@ -227,6 +227,16 @@ function Login() {
 			const refreshToken = 'token2';
 
 			const userInfo = await Api.get(`/members/${memberId}`);
+			if (el.email.value === 'admin@gmail.com') {
+				const sweetAlert2 = await SweetAlert2(
+					'관리자가 접속했습니다.',
+					'관리자 페이지로 이동합니다.',
+				);
+				if (sweetAlert2.isConfirmed) {
+					navigate('/manager');
+				}
+				return;
+			}
 			if (
 				el.email.value !== userInfo.data.email ||
 				el.password.value !== userInfo.data.password

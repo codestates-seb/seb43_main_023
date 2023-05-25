@@ -13,6 +13,7 @@ import logo from '../../assets/logo.png';
 import { IKeyword, KEYWORD } from '../../reducers/searchKeywordReducer';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
+import { getLocalStorage } from '../../utils/LocalStorage';
 
 interface ContainerProps {
 	hasResult: string[];
@@ -241,6 +242,9 @@ function Header() {
 	if (locationNow.pathname === '/login') return null;
 	if (locationNow.pathname === '/join') return null;
 	if (locationNow.pathname === '/') return null;
+	if (locationNow.pathname === `/memberpost/${getLocalStorage('memberId')}`)
+		return null;
+	if (locationNow.pathname === '/manager') return null;
 
 	return (
 		<Content>
