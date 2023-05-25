@@ -31,7 +31,13 @@ const ScrollSnapWrap = styled.div`
 		background-image: url('../../assets/cloud.png');
 	}
 	.logo {
-		width: 27%;
+		width: 400px;
+		@media (max-width: 580px) {
+			width: 200px;
+		}
+		@media (max-width: 350px) {
+			width: 100px;
+		}
 	}
 	.section1_text {
 		font-size: 50px;
@@ -39,12 +45,18 @@ const ScrollSnapWrap = styled.div`
 		color: white;
 		margin-top: 50px;
 		text-shadow: 3px 7px 5px rgba(0, 0, 0, 0.1);
-		width: 700px;
+		width: 550px;
 		animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
 		white-space: nowrap;
 		overflow: hidden;
 		border-right: 3px solid;
 		-webkit-text-stroke: 1px white;
+		@media (max-width: 580px) {
+			font-size: 30px;
+		}
+		@media (max-width: 350px) {
+			font-size: 20px;
+		}
 	}
 	@keyframes typing {
 		from {
@@ -66,6 +78,15 @@ const ScrollSnapWrap = styled.div`
 		font-weight: bold;
 		color: #2d2d2d;
 		margin: 40px 0;
+		@media (max-width: 720px) {
+			font-size: 20px;
+		}
+		@media (max-width: 430px) {
+			font-size: 15px;
+		}
+		@media (max-width: 300px) {
+			font-size: 10px;
+		}
 	}
 	.title1 {
 		color: white;
@@ -89,6 +110,15 @@ const ScrollSnapWrap = styled.div`
 		font-size: 60px;
 		font-weight: bold;
 		color: #2d2d2d;
+		@media (max-width: 528px) {
+			font-size: 50px;
+		}
+		@media (max-width: 425px) {
+			font-size: 40px;
+		}
+		@media (max-width: 320px) {
+			font-size: 30px;
+		}
 	}
 	button {
 		margin-top: 50px;
@@ -103,6 +133,30 @@ const ScrollSnapWrap = styled.div`
 			color: white;
 			background: #4ec9ff;
 			border: none;
+		}
+		@media (max-width: 528px) {
+			width: 150px;
+			padding: 15px 0;
+			border-radius: 15px;
+			font-size: 15px;
+		}
+		@media (max-width: 425px) {
+			width: 120px;
+			padding: 15px 0;
+			border-radius: 13px;
+			font-size: 13px;
+		}
+		@media (max-width: 375px) {
+			width: 100px;
+			padding: 15px 0;
+			border-radius: 10px;
+			font-size: 12px;
+		}
+		@media (max-width: 320px) {
+			width: 70px;
+			padding: 15px 0;
+			border-radius: 10px;
+			font-size: 10px;
 		}
 	}
 	.button2 {
@@ -143,6 +197,14 @@ const SnapDiv = styled.div`
 		opacity: 0;
 		box-sizing: border-box;
 		margin-bottom: 10px;
+		@media (max-width: 580px) {
+			width: 30px;
+			height: 30px;
+		}
+		@media (max-width: 350px) {
+			width: 20px;
+			height: 20px;
+		}
 	}
 	.arrow > span:nth-of-type(1) {
 		-webkit-animation-delay: 0s;
@@ -198,9 +260,27 @@ const SnapDiv = styled.div`
 	}
 	.flow-wrap {
 		animation: textLoop 5s linear infinite;
+		@media (max-width: 720px) {
+			font-size: 70px;
+		}
+		@media (max-width: 430px) {
+			font-size: 60px;
+		}
+		@media (max-width: 300px) {
+			font-size: 50px;
+		}
 	}
 	.flow-wrap2 {
 		animation: textLoop2 5s linear infinite;
+		@media (max-width: 720px) {
+			font-size: 70px;
+		}
+		@media (max-width: 430px) {
+			font-size: 60px;
+		}
+		@media (max-width: 300px) {
+			font-size: 50px;
+		}
 	}
 
 	@keyframes textLoop {
