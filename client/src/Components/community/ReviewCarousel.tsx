@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import useAxios from '../../hooks/useAxios';
 import { Ipost } from '../../type/Ipost';
+import useGet from '../../hooks/useGet';
 
 interface SlideItemProps extends HTMLAttributes<HTMLDivElement> {
 	image?: string;
@@ -53,16 +54,13 @@ function ReviewCarousel() {
 	const { id } = useParams();
 	const [review, setReview] = useState<Ipost[]>([]);
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts/${id}`,
-	});
+	const postData = useGet(`/${id}`);
 
 	useEffect(() => {
-		if (postData.response) {
-			setReview([postData.response]);
+		if (postData) {
+			setReview([postData]);
 		}
-	}, [postData.response]);
+	}, [postData]);
 
 	return (
 		<div>

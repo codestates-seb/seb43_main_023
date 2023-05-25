@@ -38,15 +38,7 @@ function Main() {
 		}
 	};
 
-	const response = useGet(`?size=100&subject=여행고민`);
-
-	console.log(response);
-	/*
-	const { response } = useAxios({
-		method: 'get',
-		url: '/posts?subject=여행고민&patge=1',
-	});
-	*/
+	const response = useGet(`?size=8&subject=여행고민&${curPage}`);
 
 	useEffect(() => {
 		if (response) {

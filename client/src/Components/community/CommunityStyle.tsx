@@ -236,7 +236,7 @@ export const Info = styled.div<activeT>`
 	}
 
 	> div:nth-child(4) {
-		width: 40px;
+		width: 45px;
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;

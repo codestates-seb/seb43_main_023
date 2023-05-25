@@ -9,7 +9,6 @@ import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -18,12 +17,12 @@ import { Editor } from '@toast-ui/react-editor';
 import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
-import useAxios from '../../hooks/useAxios';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
 import { SweetAlert2 } from '../../utils/SweetAlert';
+import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
 	width: 100vw;
@@ -41,10 +40,22 @@ const Body = styled.div`
 	}
 
 	> p {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
 		color: gray;
 		font-size: 13px;
 		line-height: 30px;
 		padding-bottom: 10px;
+
+		> a {
+			text-decoration: none;
+			color: #0db4f3;
+
+			&:hover {
+				color: #00688e;
+			}
+		}
 	}
 `;
 
@@ -237,10 +248,7 @@ function PostUpload() {
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts`,
-	});
+	const postData = useGet(``);
 
 	const removeTag = (i: number) => {
 		const clonetags = tags.slice();
@@ -312,47 +320,46 @@ function PostUpload() {
 			Images.length > 0 &&
 			editorRef.current
 		) {
-			console.log(placeName);
-			// try {
-			// 	Api.post(`/posts/${userInfos.id}`, {
-			// 		subject,
-			// 		title,
-			// 		content,
-			// 		tag: tags,
-			// 		image: Images,
-			// 		locationX: x,
-			// 		locationY: y,
-			// 		placeName,
-			// 	});
-			// 	const myposts = posts.filter(
-			// 		(post) => post.member.email === userInfos.email,
-			// 	);
-			// 	if (myposts.length === 4) {
-			// 		Api.patch(`/members/${userInfos.id}`, {
-			// 			nickname: userInfos.nickname,
-			// 			mbti: userInfos.mbti,
-			// 			img: userInfos.img,
-			// 			badge: '초보여행자',
-			// 		});
-			// 		dispatch(
-			// 			UPDATE({
-			// 				nickname: userInfos.nickname,
-			// 				mbti: userInfos.mbti,
-			// 				img: userInfos.img,
-			// 				badge: '초보여행자',
-			// 			}),
-			// 		);
-			// 		SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
-			// 			if (result.value) {
-			// 				document.location.href = `/tripreview/${posts[0].postId + 1}`;
-			// 			}
-			// 		});
-			// 	} else {
-			// 		document.location.href = `/tripreview/${posts[0].postId + 1}`;
-			// 	}
-			// } catch (error) {
-			// 	navigate('/error');
-			// }
+			try {
+				Api.post(`/posts/${userInfos.id}`, {
+					subject,
+					title,
+					content,
+					tag: tags,
+					image: Images,
+					locationX: x,
+					locationY: y,
+					placeName,
+				});
+				const myposts = posts.filter(
+					(post) => post.member.email === userInfos.email,
+				);
+				if (myposts.length === 4) {
+					Api.patch(`/members/${userInfos.id}`, {
+						nickname: userInfos.nickname,
+						mbti: userInfos.mbti,
+						img: userInfos.img,
+						badge: '초보여행자',
+					});
+					dispatch(
+						UPDATE({
+							nickname: userInfos.nickname,
+							mbti: userInfos.mbti,
+							img: userInfos.img,
+							badge: '초보여행자',
+						}),
+					);
+					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
+						if (result.value) {
+							document.location.href = `/tripreview/${posts[0].postId + 1}`;
+						}
+					});
+				} else {
+					document.location.href = `/tripreview/${posts[0].postId + 1}`;
+				}
+			} catch (error) {
+				navigate('/error');
+			}
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
 			try {
@@ -395,10 +402,10 @@ function PostUpload() {
 	};
 
 	useEffect(() => {
-		if (postData.response) {
-			setPosts(postData.response);
+		if (postData) {
+			setPosts(postData);
 		}
-	}, [postData.response]);
+	}, [postData]);
 
 	return (
 		<div className="main">
@@ -406,8 +413,13 @@ function PostUpload() {
 				<Body>
 					<h2> 글쓰기 </h2>
 					<p>
-						자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
-						사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
+						<div>
+							자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
+							사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
+						</div>
+						<a href="https://ifh.cc/" target="_blank" rel="noreferrer">
+							이미지 파일 링크로 변환하기
+						</a>
 					</p>
 					<hr />
 					<DropDownContainer>

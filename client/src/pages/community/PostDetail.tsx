@@ -21,6 +21,7 @@ import { Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
 import TopBar from '../../Components/community/TopBar';
 import ToastAlert from '../../utils/ToastAlert';
+import useGet from '../../hooks/useGet';
 
 interface activeT {
 	img: string;
@@ -187,10 +188,7 @@ function PostDetail() {
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts/${id}`,
-	});
+	const postData = useGet(`/${id}`);
 
 	const answerData = useAxios({
 		method: 'get',
@@ -247,8 +245,8 @@ function PostDetail() {
 	};
 
 	useEffect(() => {
-		if (postData.response) {
-			setPost([postData.response]);
+		if (postData) {
+			setPost([postData]);
 		}
 
 		if (answerData.response) {
@@ -256,7 +254,7 @@ function PostDetail() {
 		} else {
 			setAnswers([]);
 		}
-	}, [answerData.response, postData.response]);
+	}, [answerData.response, postData]);
 
 	console.log(post);
 

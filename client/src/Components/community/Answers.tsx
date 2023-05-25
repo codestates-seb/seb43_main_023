@@ -16,6 +16,7 @@ import { Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
 import { Ilogin } from '../../type/Ilogin';
 import ToastAlert from '../../utils/ToastAlert';
+import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
 	width: 100%;
@@ -109,18 +110,13 @@ function Answers() {
 	const [review, setReview] = useState<Ipost[]>([]);
 
 	// eslint-disable-next-line prefer-const
-	let [answers, setAnswers] = useState<Ianswer[]>([]);
+	const [answers, setAnswers] = useState<Ianswer[]>([]);
 	const [length, setLenght] = useState<Ianswer[]>([]);
-
-	answers = answers.filter((el) => el.postId === Number(id));
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts/${id}`,
-	});
+	const postData = useGet(`/${id}`);
 
 	const answerData = useAxios({
 		method: 'get',
@@ -214,9 +210,12 @@ function Answers() {
 			setIsLike(!isLike);
 
 			try {
-				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
-					.then(() => Api.get(`/comments/${id}`))
-					.then((res) => setAnswers(res.data));
+				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {}).then((res) =>
+					console.log('aa', res.data),
+				);
+				// Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
+				// 	.then(() => Api.get(`/comments/${id}`))
+				// 	.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
 			}
@@ -246,10 +245,12 @@ function Answers() {
 			setLenght(answerData.response);
 		}
 
-		if (postData.response) {
-			setReview([postData.response]);
+		if (postData) {
+			setReview([postData]);
 		}
-	}, [answerData.response, postData.response]);
+	}, [answerData.response, postData]);
+
+	console.log(answerData.response);
 
 	return (
 		<Container>
@@ -265,6 +266,7 @@ function Answers() {
 
 			{answers &&
 				answers
+					.filter((el) => el.postId === Number(id))
 					.sort(
 						(a: { commentId: number }, b: { commentId: number }) =>
 							b.commentId - a.commentId,
@@ -273,7 +275,8 @@ function Answers() {
 						<Answer>
 							<ContentContainer>
 								<Vote>
-									{isLike && clickedId === el.commentId ? (
+									{(isLike && clickedId === el.commentId) ||
+									el.voteList.includes(userInfos.id!) ? (
 										<AiFillHeart
 											size={18}
 											onClick={() => handleDisLike(el.commentId)}
@@ -288,6 +291,7 @@ function Answers() {
 
 									<span>{el.voteCount}</span>
 								</Vote>
+
 								<div />
 								<div>
 									<div>{el.nickname}</div>

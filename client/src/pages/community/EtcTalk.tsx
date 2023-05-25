@@ -37,7 +37,7 @@ function EtcTalk() {
 		}
 	};
 
-	const response = useGet('?subject=잡담&page=1');
+	const response = useGet('?size=100&subject=잡담&page=1');
 
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;

@@ -6,6 +6,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useAxios from '../../hooks/useAxios';
+import useGet from '../../hooks/useGet';
 
 const Button = styled.button`
 	border: 1px solid rgb(214, 217, 219);
@@ -95,18 +96,15 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 
 	const menus = ['여행리뷰', '여행고민', '같이가요', 'MBTI', '잡담'];
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts`,
-	});
+	const postData = useGet(``);
 
 	useEffect(() => {
-		if (from === 'Update' && postData.response) {
-			const filtered: Type[] = postData.response;
+		if (from === 'Update' && postData) {
+			const filtered: Type[] = postData;
 			const filteredData = filtered.filter((el) => el.postId === Number(id));
 			setSelected(filteredData[0].subject);
 		}
-	}, [from, id, postData.response]);
+	}, [from, id, postData]);
 
 	return (
 		// eslint-disable-next-line react/jsx-no-useless-fragment

@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { FiChevronRight } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
 import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
@@ -40,7 +39,7 @@ function TripMate() {
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;
 
-	const response = useGet('?subject=같이가요&page=1');
+	const response = useGet('?size=100&subject=같이가요&page=1');
 
 	useEffect(() => {
 		if (response) {
