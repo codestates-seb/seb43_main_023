@@ -234,6 +234,9 @@ function PostUpload() {
 	const navigate = useNavigate();
 	const editorRef = useRef<Editor | null>(null);
 
+	const instance = editorRef.current?.getInstance();
+	const content = instance?.getMarkdown();
+
 	const imgUploadInput = useRef<HTMLInputElement | null>(null);
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
@@ -304,9 +307,6 @@ function PostUpload() {
 	};
 
 	const handleBtn = () => {
-		const instance = editorRef.current?.getInstance();
-		const content = instance?.getMarkdown();
-
 		if (
 			(subject === '여행리뷰' && tags.length === 0) ||
 			(subject === '여행리뷰' && Images.length === 0)
@@ -351,17 +351,18 @@ function PostUpload() {
 					);
 					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
 						if (result.value) {
-							document.location.href = `/tripreview/${posts[0].postId + 1}`;
+							document.location.href = `/tripreview/${
+								posts[0].postId + 1 || '1'
+							}`;
 						}
 					});
 				} else {
-					document.location.href = `/tripreview/${posts[0].postId + 1}`;
+					document.location.href = `/tripreview/${posts[0].postId + 1 || '1'}`;
 				}
 			} catch (error) {
 				navigate('/error');
 			}
 		} else if (subject !== '여행리뷰' && editorRef.current) {
-			// json-server용 api 요청
 			try {
 				Api.post(`/posts/${userInfos.id}`, {
 					subject,
@@ -370,7 +371,7 @@ function PostUpload() {
 					tag: tags,
 				});
 
-				document.location.href = `/community/${posts[0].postId + 1}`;
+				document.location.href = `/community/${posts[0].postId + 1 || '1'}`;
 			} catch (error) {
 				navigate('/error');
 			}

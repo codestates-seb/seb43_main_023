@@ -312,7 +312,8 @@ function PostDetail() {
 
 								<div>
 									<Vote>
-										{isLike && el.postId === Number(id) ? (
+										{(isLike && el.postId === Number(id)) ||
+										el.voteList?.includes(userInfos.id!) ? (
 											<AiFillHeart
 												size={21}
 												onClick={handleDisLike}

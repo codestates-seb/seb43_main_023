@@ -4,7 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Swal from 'sweetalert2';
 import { Api } from '../../apis/customAPI';
@@ -12,11 +12,15 @@ import useAxios from '../../hooks/useAxios';
 import { RootState } from '../../store/Store';
 import { Ianswer } from '../../type/Ianswer';
 import { Ipost } from '../../type/Ipost';
-import { Iuser } from '../../type/Iuser';
+import { Imembers, Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
 import { Ilogin } from '../../type/Ilogin';
 import ToastAlert from '../../utils/ToastAlert';
 import useGet from '../../hooks/useGet';
+
+interface activeT {
+	img: string;
+}
 
 const Container = styled.div`
 	width: 100%;
@@ -44,23 +48,29 @@ const Answer = styled.div`
 	border-bottom: 1px solid #c7c7c7;
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled.div<activeT>`
 	margin-top: 15px;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	padding: 10px;
 
-	> div:nth-child(2) {
-		width: 45px;
-		height: 43px;
-		background-color: aquamarine;
-		border-radius: 50%;
+	.img {
+		${(props) =>
+			props.img &&
+			css`
+				width: 55px;
+				height: 46px;
+				background-image: url(${props.img});
+				background-size: 105% 127%;
+				margin-right: 10px;
+				border-radius: 100%;
+			`}
 	}
 
 	> div:nth-child(3) {
 		width: 100%;
-		margin-left: 15px;
+		margin-left: 3px;
 
 		> div:nth-child(1) {
 		}
@@ -108,6 +118,12 @@ function Answers() {
 	const [edit, setEdit] = useState<boolean>(false);
 	const [clickedId, setClickedId] = useState<number | null>(null);
 	const [review, setReview] = useState<Ipost[]>([]);
+	const [members, setMembers] = useState<Imembers>([
+		{
+			nickname: '',
+			img: '',
+		},
+	]);
 
 	// eslint-disable-next-line prefer-const
 	const [answers, setAnswers] = useState<Ianswer[]>([]);
@@ -123,7 +139,12 @@ function Answers() {
 		url: `/comments/${id}`,
 	});
 
-	console.log(answerData.response);
+	const membersData = useAxios({
+		method: 'get',
+		url: `/members`,
+	});
+
+	console.log('aaa', membersData);
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
@@ -248,9 +269,11 @@ function Answers() {
 		if (postData) {
 			setReview([postData]);
 		}
-	}, [answerData.response, postData]);
 
-	console.log(answerData.response);
+		if (membersData.response) {
+			setMembers(membersData.response);
+		}
+	}, [answerData.response, membersData.response, postData]);
 
 	return (
 		<Container>
@@ -273,7 +296,12 @@ function Answers() {
 					)
 					.map((el, idx) => (
 						<Answer>
-							<ContentContainer>
+							<ContentContainer
+								img={
+									members.filter((member) => member.nickname === el.nickname)[0]
+										?.img || ''
+								}
+							>
 								<Vote>
 									{(isLike && clickedId === el.commentId) ||
 									el.voteList.includes(userInfos.id!) ? (
@@ -292,7 +320,9 @@ function Answers() {
 									<span>{el.voteCount}</span>
 								</Vote>
 
-								<div />
+								{}
+
+								<div className="img" />
 								<div>
 									<div>{el.nickname}</div>
 

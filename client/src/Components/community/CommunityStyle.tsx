@@ -185,6 +185,10 @@ export const Header = styled.div`
 		> h3:nth-child(1) {
 			margin-right: 10px;
 		}
+
+		> h3:nth-child(2) {
+			margin-bottom: 20px;
+		}
 	}
 
 	> p {

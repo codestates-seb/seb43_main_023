@@ -11,6 +11,7 @@ export interface Imember {
 	nickname: string;
 	badge?: null | string;
 	email?: string;
+	img?: string;
 }
 
 export type Imembers = Imember[];
