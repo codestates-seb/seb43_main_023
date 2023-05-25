@@ -69,8 +69,15 @@ function Banner() {
 	const [eventInfo, serEventInfo] = useState([]);
 	const navigate = useNavigate();
 
+	const newDate = new Date();
+	const startDate = `${newDate.getFullYear()}${
+		newDate.getMonth() + 1 < 10
+			? `0${newDate.getMonth() + 1}`
+			: newDate.getMonth() + 1
+	}01`;
+
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=20230501`;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=R&eventStartDate=${startDate}`;
 
 	useEffect(() => {
 		axios(tourUrl)
