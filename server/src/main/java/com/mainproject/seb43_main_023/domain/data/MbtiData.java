@@ -84,7 +84,7 @@ public class MbtiData {
                         "은 어떠신가요?",
                         "https://cloudfront-ap-northeast-1.images.arcpublishing.com/chosunbiz/POXFD4IJRX4FSNSQGDYS5LRDHQ.jpg"),
                 new Mbti("ESFJ",
-                        "https://a.cdn-hotels.com/gdcs/production102/d390/e4e76e16-ba3e-4ce6-8f97-d78d840bbc50.jpg",
+                        "https://postfiles.pstatic.net/MjAyMjAzMjJfNjYg/MDAxNjQ3OTM2Mzc4ODc2.1eed0G4yAC50yPNKCj9gV4Wg0G2fvxfxCBvBnuBYZqcg.kllvowOZ1fyeV5GG9w-TAkyvEaF2KV0UfCMVYaELv8gg.PNG.im_worry/12_ESFJ.png?type=w966",
                         "전남 여수",
                         "체력을 소모하는 여행보다는 여행 코스를 짜기 명확하고 쉬운 여행지를 선호하는",
                         "는 어떠신가요?",
