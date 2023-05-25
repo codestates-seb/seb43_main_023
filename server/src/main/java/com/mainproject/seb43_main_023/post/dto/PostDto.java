@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.ElementCollection;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostDto {
@@ -61,6 +62,7 @@ public class PostDto {
         private List<String> tag;
         private long viewCount;
         private long voteCount;
+        private List<Long> voteList = new ArrayList<>();
         private LocalDateTime postCreatedAt;
         private LocalDateTime postModifiedAt;
     }
@@ -72,7 +74,6 @@ public class PostDto {
         private String title;
         private String content;
         private String locationY;
-
         private String locationX;
         private List<String> image;
         private List<String> tag;
