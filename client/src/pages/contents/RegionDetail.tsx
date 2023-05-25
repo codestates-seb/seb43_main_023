@@ -474,7 +474,7 @@ function RegionDetail() {
 				const { data } = response;
 				const intro = data.response.body.items.item[0].overview;
 				setIsOpen(true);
-				const textReplace = /(\s|<br\s*\/?>|\(\))/gi;
+				const textReplace = /<br\s*\/?>/gi;
 				setTourText(intro.replace(textReplace, ''));
 			})
 			.catch(() => {
