@@ -257,6 +257,8 @@ function Search() {
 
 	const mbtiAuthor = posts.filter((el) => el.member.mbti === keyword.keyword);
 
+	const mbtiAuthorReview = mbtiAuthor.filter((el) => el.subject === '여행리뷰');
+
 	const startIdx = (curPage - 1) * 5;
 	const endIdx = startIdx + 5;
 
@@ -318,6 +320,8 @@ function Search() {
 			setPosts(response);
 		}
 	}, [response, tourUrl]);
+
+	console.log(containKeywordInPost);
 
 	return (
 		<Container>
@@ -385,15 +389,16 @@ function Search() {
 								</div>
 								<span className="all">
 									{/* 여행지 추천 메뉴이거나 결과가 없다면 전체보기 버튼 표시 x */}
-									{menu === '여행지 추천' || mbtiAuthor.length === 0 ? null : (
+									{menu === '여행지 추천' ||
+									mbtiAuthorReview.length === 0 ? null : (
 										<button onClick={handleViewAllPost}>전체보기</button>
 									)}
 								</span>
 							</div>
 							{menu === '전체' ? (
 								<ResultContainer>
-									{mbtiAuthor.length > 0 ? (
-										mbtiAuthor.slice(0, 2).map((post) => (
+									{mbtiAuthorReview.length > 0 ? (
+										mbtiAuthorReview.slice(0, 2).map((post) => (
 											<ResultItem
 												onClick={() =>
 													handlePostClick(post.subject, post.postId)
@@ -435,8 +440,8 @@ function Search() {
 								</ResultContainer>
 							) : (
 								<ResultContainer>
-									{mbtiAuthor.length > 0 ? (
-										mbtiAuthor.slice(startIdx, endIdx).map((post) => (
+									{mbtiAuthorReview.length > 0 ? (
+										mbtiAuthorReview.slice(startIdx, endIdx).map((post) => (
 											<ResultItem
 												onClick={() =>
 													handlePostClick(post.subject, post.postId)
@@ -474,12 +479,12 @@ function Search() {
 										</NotResult>
 									)}
 
-									{mbtiAuthor.length > 0 ? (
+									{mbtiAuthorReview.length > 0 ? (
 										<Pagination
 											curPage={curPage}
 											setCurPage={setCurPage}
-											totalPage={Math.ceil(mbtiAuthor.length / 5)}
-											totalCount={mbtiAuthor.length}
+											totalPage={Math.ceil(mbtiAuthorReview.length / 5)}
+											totalCount={mbtiAuthorReview.length}
 											size={5}
 											pageCount={5}
 										/>
@@ -507,8 +512,8 @@ function Search() {
 							</div>
 							{menu === '전체' ? (
 								<ResultContainer>
-									{containKeywordInPost.length > 0 ? (
-										containKeywordInPost.slice(0, 2).map((post) => (
+									{containKeywordInInput.length > 0 ? (
+										containKeywordInInput.slice(0, 2).map((post) => (
 											<ResultItem
 												onClick={() =>
 													handlePostClick(post.subject, post.postId)
@@ -548,29 +553,33 @@ function Search() {
 								</ResultContainer>
 							) : (
 								<ResultContainer>
-									{containKeywordInPost.length > 0 ? (
-										containKeywordInPost.slice(startIdx, endIdx).map((post) => (
-											<ResultItem
-												onClick={() =>
-													handlePostClick(post.subject, post.postId)
-												}
-											>
-												<ResultText>
-													<div className="resultInfo">
-														<span className="subject">[{post.subject}]</span>
-														<span className="title">{post.title}</span>
-													</div>
-													<div className="content">{post.content}</div>
-													<span className="author">{post.member.nickname}</span>
-												</ResultText>
-												{post.image.length > 0 && (
-													<ResultImg
-														src={post.image[0]}
-														alt="검색결과 사진 미리보기"
-													/>
-												)}
-											</ResultItem>
-										))
+									{containKeywordInInput.length > 0 ? (
+										containKeywordInInput
+											.slice(startIdx, endIdx)
+											.map((post) => (
+												<ResultItem
+													onClick={() =>
+														handlePostClick(post.subject, post.postId)
+													}
+												>
+													<ResultText>
+														<div className="resultInfo">
+															<span className="subject">[{post.subject}]</span>
+															<span className="title">{post.title}</span>
+														</div>
+														<div className="content">{post.content}</div>
+														<span className="author">
+															{post.member.nickname}
+														</span>
+													</ResultText>
+													{post.image.length > 0 && (
+														<ResultImg
+															src={post.image[0]}
+															alt="검색결과 사진 미리보기"
+														/>
+													)}
+												</ResultItem>
+											))
 									) : (
 										<NotResult>
 											<div>아직 작성된 게시글이 없어요 </div>
@@ -587,12 +596,12 @@ function Search() {
 										</NotResult>
 									)}
 
-									{containKeywordInPost.length > 0 ? (
+									{containKeywordInInput.length > 0 ? (
 										<Pagination
 											curPage={curPage}
 											setCurPage={setCurPage}
-											totalPage={Math.ceil(containKeywordInPost.length / 5)}
-											totalCount={containKeywordInPost.length}
+											totalPage={Math.ceil(containKeywordInInput.length / 5)}
+											totalCount={containKeywordInInput.length}
 											size={5}
 											pageCount={5}
 										/>
