@@ -273,11 +273,11 @@ function Mypage() {
 		const badgeBox1 = document.createElement('div');
 		const badgeBox2 = document.createElement('div');
 		const badgeBox3 = document.createElement('div');
-		badgeBox1.textContent = '초보여행자 : 커뮤니티 글 5개 이상 작성';
+		badgeBox1.textContent = '초보여행자 : 커뮤니티 글 5개, 댓글 5개 이상 작성';
 		badgeBox2.textContent =
-			'중급여행자 : 커뮤니티 글 20개 이상 작성, 사이트 자체 기준 충족';
+			'중급여행자 : 커뮤니티 글 30개, 추천수 10개 이상, 댓글 30개이상 작성, 사이트 자체 기준 충족';
 		badgeBox3.textContent =
-			'고급여행자 : 커뮤니티 글 50개 이상 작성, 사이트 자체 기준 충족';
+			'고급여행자 : 커뮤니티 글 50개, 추천수 30개 이상, 댓글 100개이상 작성, 사이트 자체 기준 충족';
 		badgeBox.classList.add('badgeBox');
 		badgeBox1.classList.add('badgeEl');
 		badgeBox2.classList.add('badgeEl');
