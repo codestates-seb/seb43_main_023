@@ -309,22 +309,21 @@ function PostUpload() {
 			Images.length > 0 &&
 			editorRef.current
 		) {
-			console.log(placeName);
-			// try {
-			// 	Api.post(`/posts/${userInfos.id}`, {
-			// 		subject,
-			// 		title,
-			// 		content,
-			// 		tag: tags,
-			// 		image: Images,
-			// 		locationX: x,
-			// 		locationY: y,
-			// 		placeName,
-			// 	});
-			// 	document.location.href = `/tripreview/${posts[0].postId + 1}`;
-			// } catch (error) {
-			// 	navigate('/error');
-			// }
+			try {
+				Api.post(`/posts/${userInfos.id}`, {
+					subject,
+					title,
+					content,
+					tag: tags,
+					image: Images,
+					locationX: x,
+					locationY: y,
+					placeName,
+				});
+				document.location.href = `/tripreview/${posts[0].postId + 1}`;
+			} catch (error) {
+				navigate('/error');
+			}
 		} else if (subject !== '여행리뷰' && editorRef.current) {
 			// json-server용 api 요청
 			try {

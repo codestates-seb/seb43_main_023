@@ -22,7 +22,6 @@ export function OauthGoogleHandler() {
 		const googleToken = hash.split('=')[1].split('&')[0];
 		console.log(googleToken);
 		async function getData() {
-			console.log(googleToken);
 			// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
 			const googleData = await Api.post('/auth/google', { googleToken });
 			const { tokenInfo, email, name, password } = googleData.data;
@@ -33,7 +32,6 @@ export function OauthGoogleHandler() {
 				refreshToken,
 				refreshTokenExpirationTime,
 			} = tokenInfo;
-			console.log(`이건 auth/google${accessToken}`);
 
 			try {
 				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
@@ -74,7 +72,6 @@ export function OauthGoogleHandler() {
 						email,
 						password,
 					});
-					console.log(`이건 members/signin${loginData.data.accessToken}`);
 					/*
 					const {
 						memberId,
@@ -175,7 +172,6 @@ export function OauthNaverHandler() {
 				refreshToken,
 				refreshTokenExpirationTime,
 			} = tokenInfo;
-			console.log(`이건 auth/naver${accessToken}`);
 
 			try {
 				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
@@ -216,7 +212,6 @@ export function OauthNaverHandler() {
 						email,
 						password,
 					});
-					console.log(`이건 members/signin${loginData.data.accessToken}`);
 					/*
 					const {
 						memberId,
@@ -372,8 +367,6 @@ export const KakaoRedirectHandler = () => {
 				setLocalStorage('empiresAtAccess', expires_in);
 				setLocalStorage('empiresAtRefresh', refresh_token_expires_in);
 				Kakao.Auth.setAccessToken(access_token);
-				// eslint-disable-next-line camelcase
-				console.log(`이건 auth/kakao${access_token}`);
 
 				if (
 					// 회원가입
@@ -392,7 +385,6 @@ export const KakaoRedirectHandler = () => {
 						email,
 						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
 					});
-					console.log(`이건 members/signin${loginData.data.accessToken}`);
 
 					const {
 						memberId,
@@ -423,7 +415,6 @@ export const KakaoRedirectHandler = () => {
 					setLocalStorage('kakao', 'true');
 					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-					console.log(`이건 auth/kakao${accessToken}`);
 
 					Swal.fire({
 						icon: 'success',
@@ -459,7 +450,6 @@ export const KakaoRedirectHandler = () => {
 					setLocalStorage('kakao', 'true');
 					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-					console.log(`이건 auth/kakao${accessToken}`);
 
 					// 로그인하는 유저 정보 요청
 					const userInfo = await Api.get(`members/${memberId}`);
