@@ -30,6 +30,8 @@ import RegionRec from './pages/contents/RegionRecommend';
 import Join from './pages/member/Join';
 import Login from './pages/member/Login';
 import Logout from './pages/member/Logout';
+import Manager from './pages/member/Manager';
+import MemberPost from './pages/member/MemberPost';
 import UserEdit from './pages/member/UserEdit';
 import Search from './pages/Search';
 
@@ -77,6 +79,8 @@ function App() {
 					<Route path="/accounts/google/login/*" element={<Empty />} />
 					<Route path="/Api/Member/Oauth/*" element={<Empty />} />
 					<Route path="/oauth/*" element={<Empty />} />
+					<Route path="/manager" element={<Manager />} />
+					<Route path="/memberpost/:id" element={<MemberPost />} />
 				</Routes>
 			</Suspense>
 			<Footer />

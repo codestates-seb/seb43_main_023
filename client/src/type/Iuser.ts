@@ -6,3 +6,12 @@ export interface Iuser {
 	img?: string;
 	badge?: null | string;
 }
+export interface Imember {
+	memberId?: number;
+	nickname: string;
+	badge?: null | string;
+	email?: string;
+	img?: string;
+}
+
+export type Imembers = Imember[];
