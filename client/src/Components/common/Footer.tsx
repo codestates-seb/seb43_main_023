@@ -224,30 +224,9 @@ function Footer() {
 					<button>잡담</button>
 				</div>
 				<div className="team">
-					<span>TEAM</span>
+					<span>관리자 문의</span>
 					<div className="teamDivide">
-						<Link to="https://github.com/hihijin">
-							<button className="space">박희진</button>
-						</Link>
-						<Link to="https://github.com/Choalstn">
-							<button>조민수</button>
-						</Link>
-					</div>
-					<div className="teamDivide">
-						<Link to="https://github.com/raccoon0814">
-							<button className="space">윤정훈</button>
-						</Link>
-						<Link to="https://github.com/JoDaeUk">
-							<button>조대욱</button>
-						</Link>
-					</div>
-					<div className="teamDivide">
-						<Link to="https://github.com/Seulime">
-							<button className="space">임슬범</button>
-						</Link>
-						<Link to="https://github.com/Slothst">
-							<button>최낙주</button>
-						</Link>
+						<button className="space">bda624444@gmail.com</button>
 					</div>
 				</div>
 			</Content>

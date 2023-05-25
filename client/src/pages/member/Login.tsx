@@ -268,7 +268,6 @@ function Login() {
 			} else {
 				ToastAlert('가입한 이메일이 아닙니다');
 			}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			// 전체 멤버 중 같은 이메일이 있는데도 불구하고 에러 => 비밀번호가 틀림 경고창
 			if (err.response.status === 401) {

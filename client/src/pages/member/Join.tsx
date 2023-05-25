@@ -311,8 +311,7 @@ function Join() {
 					}
 				}
 			}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (err: any) {
+		} catch (err) {
 			navigate('/error');
 		}
 	}
