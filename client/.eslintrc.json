@@ -1,0 +1,30 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [  
+      "airbnb",
+      "airbnb/hooks", 
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "rules":{
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+      "prettier/prettier": ["error", {"printWidth": 80}],
+      "react/button-has-type": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-filename-extension":["warn",{"extensions":[".tsx"]}],
+      "import/extensions":[
+        "error",
+        "ignorePackages",
+        {
+          "ts":"never",
+          "tsx":"never"
+        }
+    ]
+    },
+    "settings":{
+      "import/resolver":{
+        "typescript":{}
+      }
+    }
+}
