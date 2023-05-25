@@ -210,7 +210,7 @@ function Login() {
 		try {
 			const allMember = await Api.get('/members');
 			// 전체 멤버 중 같은 관리자이메일로 로그인한 경우 관리자페이지로 이동
-			if (el.email.value === 'manager@gmail.com') {
+			if (el.email.value === 'admin@gmail.com') {
 				const sweetAlert2 = await SweetAlert2(
 					'관리자가 접속했습니다.',
 					'관리자 페이지로 이동합니다.',
@@ -268,7 +268,6 @@ function Login() {
 			} else {
 				ToastAlert('가입한 이메일이 아닙니다');
 			}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (err: any) {
 			// 전체 멤버 중 같은 이메일이 있는데도 불구하고 에러 => 비밀번호가 틀림 경고창
 			if (err.response.status === 401) {
@@ -291,9 +290,10 @@ function Login() {
 	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
-redirect_uri=https://whatsyourmbti.click/accounts/google/login/&
+redirect_uri=https://whatsyourmbti.click/accounts/google/login/callback/&
 scope=https://www.googleapis.com/auth/userinfo.email`;
 	const oAuthHandler = () => {
+		console.log(oAuthURL);
 		window.location.assign(oAuthURL);
 	};
 

@@ -175,29 +175,27 @@ function Manager() {
 			setMembers(response);
 		}
 	}, [response]);
-	console.log(members);
 
 	// 현재 무 뱃지 필터링 -> useMemo hook 사용
 	const filteredMembers = useMemo(
-		() => members.filter((m) => m.badge === null && m.nickname !== '관리자'),
+		() => members.filter((m) => m.badge === null && m.nickname !== 'admin'),
 		[members],
 	);
 
 	// 현재 초급여행자 필터링 -> useMemo hook 사용
 	const filteredMembers1 = useMemo(
-		() => members.filter((m) => m.badge === '초급여행자'),
+		() => members.filter((m) => m.badge === '초보 여행자'),
 		[members],
 	);
 
 	// 현재 중급여행자 필터링 -> useMemo hook 사용
 	const filteredMembers2 = useMemo(
-		() => members.filter((m) => m.badge === '중급여행자'),
+		() => members.filter((m) => m.badge === '중급 여행자'),
 		[members],
 	);
 
 	// 뱃지 업데이트 핸들러
 	const giveBadgeClick = async (id: number) => {
-		console.log(id);
 		const sweetAlert1 = await SweetAlert1(
 			'뱃지',
 			'뱃지를 부여하시겠습니까?',
@@ -225,7 +223,7 @@ function Manager() {
 			<Content>
 				<div className="menu">
 					<button className="userInfo blue" onClick={userInfoClick}>
-						초급여행자 후보
+						초보여행자 후보
 					</button>
 					<button className="userWrite" onClick={userWriteClick}>
 						중급여행자 후보

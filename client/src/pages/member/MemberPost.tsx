@@ -2,16 +2,14 @@ import '../../Global.css';
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ManagerBox from '../../Components/member/ManagerBox';
 import useAxios from '../../hooks/useAxios';
 import useGet from '../../hooks/useGet';
-import { RootState } from '../../store/Store';
 import { Iposts } from '../../type/Ipost';
-import { Imember, Iuser } from '../../type/Iuser';
+import { Imember } from '../../type/Iuser';
 
 const Main = styled.div`
 	display: flex;
@@ -125,10 +123,6 @@ const UserWriting = styled.div`
 `;
 
 function MemberPost() {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
-
 	const { id } = useParams();
 	const [member, setMember] = useState<Imember>({
 		memberId: 0,
@@ -182,7 +176,6 @@ function MemberPost() {
 		() => posts.filter((post) => post.member.email === member.email),
 		[member.email, posts],
 	);
-	console.log(res);
 
 	return (
 		<Main>

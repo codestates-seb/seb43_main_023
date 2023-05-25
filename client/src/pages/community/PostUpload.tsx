@@ -369,32 +369,8 @@ function PostUpload() {
 					content,
 					tag: tags,
 				});
-				const myposts = posts.filter(
-					(post) => post.member.email === userInfos.email,
-				);
-				if (myposts.length === 4) {
-					Api.patch(`/members/${userInfos.id}`, {
-						nickname: userInfos.nickname,
-						mbti: userInfos.mbti,
-						img: userInfos.img,
-						badge: '초보여행자',
-					});
-					dispatch(
-						UPDATE({
-							nickname: userInfos.nickname,
-							mbti: userInfos.mbti,
-							img: userInfos.img,
-							badge: '초보여행자',
-						}),
-					);
-					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
-						if (result.value) {
-							document.location.href = `/community/${posts[0].postId + 1}`;
-						}
-					});
-				} else {
-					document.location.href = `/community/${posts[0].postId + 1}`;
-				}
+
+				document.location.href = `/community/${posts[0].postId + 1}`;
 			} catch (error) {
 				navigate('/error');
 			}

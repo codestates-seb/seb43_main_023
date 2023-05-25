@@ -156,7 +156,6 @@ function UserEdit() {
 						nickname: editname,
 						mbti: editmbti.toUpperCase(),
 						img: mbtiImg.data.img,
-						badge: userInfos.badge,
 					});
 					dispatch(
 						UPDATE({
