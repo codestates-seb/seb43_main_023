@@ -22,6 +22,7 @@ export function OauthGoogleHandler() {
 		const googleToken = hash.split('=')[1].split('&')[0];
 		console.log(googleToken);
 		async function getData() {
+			console.log(googleToken);
 			// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
 			const googleData = await Api.post('/auth/google', { googleToken });
 			const { tokenInfo, email, name, password } = googleData.data;

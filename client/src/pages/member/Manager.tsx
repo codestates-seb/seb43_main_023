@@ -178,7 +178,7 @@ function Manager() {
 
 	// 현재 무 뱃지 필터링 -> useMemo hook 사용
 	const filteredMembers = useMemo(
-		() => members.filter((m) => m.badge === null && m.nickname !== '관리자'),
+		() => members.filter((m) => m.badge === null && m.nickname !== 'admin'),
 		[members],
 	);
 
