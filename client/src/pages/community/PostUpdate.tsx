@@ -21,6 +21,7 @@ import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
+import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
 	width: 100vw;
@@ -45,16 +46,28 @@ const Body = styled.div`
 	}
 `;
 
+const StyledEditorContainer = styled.div`
+	margin-top: 15px;
+	padding: 0;
+`;
+
 const StyledEditor = styled(Editor)`
 	font-size: 16px;
 `;
 
 const DropDownContainer = styled.div`
 	margin: 15px 0;
+	border: 1px solid rgb(214, 217, 219);
+	width: 100%;
+	display: flex;
+	height: 40px;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 10px;
+	color: gray;
 `;
 
 const TitleInput = styled.input`
-	margin-bottom: 15px;
 	width: 100%;
 	padding: 10px;
 	font-size: 13px;
@@ -205,18 +218,17 @@ function PostUpdate() {
 	const editorRef = useRef<Editor | null>(null);
 	const { id } = useParams();
 
-	const postData = useAxios({
-		method: 'get',
-		url: `/posts/${id}`,
-	});
+	const response = useGet(`/${id}`);
 
 	let axiosData: Type;
 	let titleData;
 
-	if (postData.response) {
-		axiosData = postData.response;
+	if (response) {
+		axiosData = response;
 		titleData = axiosData.title;
 	}
+
+	console.log(response);
 
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
@@ -262,6 +274,10 @@ function PostUpdate() {
 		setY(data[0].y);
 	};
 
+	const handleSubjectUpdate = () => {
+		setAlert(true);
+	};
+
 	const handleBtn = () => {
 		if (editorRef.current) {
 			const instance = editorRef.current.getInstance();
@@ -288,13 +304,14 @@ function PostUpdate() {
 	};
 
 	useEffect(() => {
-		if (postData.response) {
-			const data: Type = postData.response;
-			setPost(postData.response);
+		if (response) {
+			const data: Type = response;
+			console.log('data', data);
+			setPost(response);
 			setTags(data.tag);
 			setSubject(data.subject);
 		}
-	}, [postData.response]);
+	}, [response]);
 
 	return (
 		<div className="main">
@@ -307,9 +324,17 @@ function PostUpdate() {
 							<b>말머리와 사진은 수정이 불가능</b>하니 잘 선택해주세요 😊
 						</p>
 						<hr />
-						<DropDownContainer>
-							<SubjectDropdown handleSubject={handleSubject} from="Update" />
+						<DropDownContainer onClick={handleSubjectUpdate}>
+							{subject}
 						</DropDownContainer>
+						{alert ? (
+							<Alert>
+								<p>
+									<FiAlertCircle />
+								</p>
+								말머리는 수정 불가능해요
+							</Alert>
+						) : null}
 						<TitleInput
 							placeholder="제목을 입력해주세요"
 							onChange={handleTitle}
@@ -318,26 +343,28 @@ function PostUpdate() {
 						/>
 
 						{subject === '여행리뷰' ? (
-							<SearchPlace handlePlace={handlePlace} />
+							<SearchPlace handlePlace={handlePlace} id={id} />
 						) : null}
 
-						<StyledEditor
-							initialValue={post.content}
-							ref={editorRef} // ref 연결
-							placeholder="내용을 입력해주세요."
-							previewStyle="vertical" // 미리보기 스타일 지정
-							height="300px" // 에디터 창 높이
-							initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
-							toolbarItems={[
-								// 툴바 옵션 설정
-								['heading', 'bold', 'italic', 'strike'],
-								['hr', 'quote'],
-								['ul', 'ol', 'task', 'indent', 'outdent'],
-								['table', 'link'],
-								['code', 'codeblock'],
-							]}
-							plugins={[colorSyntax]}
-						/>
+						<StyledEditorContainer>
+							<StyledEditor
+								initialValue={post.content}
+								ref={editorRef} // ref 연결
+								placeholder="내용을 입력해주세요."
+								previewStyle="vertical" // 미리보기 스타일 지정
+								height="300px" // 에디터 창 높이
+								initialEditType="wysiwyg" // 초기 입력모드 설정(디폴트 markdown)
+								toolbarItems={[
+									// 툴바 옵션 설정
+									['heading', 'bold', 'italic', 'strike'],
+									['hr', 'quote'],
+									['ul', 'ol', 'task', 'indent', 'outdent'],
+									['table', 'link'],
+									['code', 'codeblock'],
+								]}
+								plugins={[colorSyntax]}
+							/>
+						</StyledEditorContainer>
 
 						<TagContainer>
 							{tags &&

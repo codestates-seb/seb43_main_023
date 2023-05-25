@@ -12,6 +12,15 @@ const Container = styled.ul`
 	font-size: 15px;
 	height: 820px;
 
+	@media (max-width: 768px) {
+		width: 10%;
+		margin-left: 45px;
+	}
+
+	@media (max-width: 580px) {
+		display: none;
+	}
+
 	> li {
 		padding: 8px 0;
 		width: 80px;

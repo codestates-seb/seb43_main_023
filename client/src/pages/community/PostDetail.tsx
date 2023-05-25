@@ -6,7 +6,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Viewer } from '@toast-ui/react-editor';
 
@@ -19,6 +19,16 @@ import { Ianswer } from '../../type/Ianswer';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
+import TopBar from '../../Components/community/TopBar';
+import ToastAlert from '../../utils/ToastAlert';
+
+interface activeT {
+	img: string;
+}
+
+const TopBarContainer = styled.div`
+	width: 90%;
+`;
 
 const PostContainer = styled.div`
 	height: fit-content;
@@ -26,6 +36,7 @@ const PostContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 `;
 
 const PostBody = styled.div`
@@ -37,7 +48,7 @@ const PostBody = styled.div`
 	justify-content: space-between;
 `;
 
-const Title = styled.div`
+const Title = styled.div<activeT>`
 	border-bottom: 1px solid rgb(214, 217, 219);
 	font-size: 30px;
 
@@ -48,7 +59,25 @@ const Title = styled.div`
 		justify-content: space-between;
 		color: gray;
 
-		> div {
+		> div:nth-child(1) {
+			display: flex;
+			align-items: center;
+
+			> div {
+				${(props) =>
+					props.img &&
+					css`
+						width: 30px;
+						height: 30px;
+						background-image: url(${props.img});
+						background-size: 105% 127%;
+						margin-right: 10px;
+						border-radius: 100%;
+					`}
+			}
+		}
+
+		> div:nth-child(2) {
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -165,7 +194,7 @@ function PostDetail() {
 
 	const answerData = useAxios({
 		method: 'get',
-		url: `/posts/${id}/comments`,
+		url: `/comments/${id}`,
 	});
 
 	const deletePost = async () => {
@@ -189,15 +218,19 @@ function PostDetail() {
 		}
 	};
 
-	const handleLike = () => {
-		setIsLike(!isLike);
+	const handleLike = (author: string | undefined) => {
+		if (userInfos.nickname === author) {
+			ToastAlert('자신의 게시글은 좋아요가 불가능해요');
+		} else {
+			setIsLike(!isLike);
 
-		try {
-			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
-				.then(() => Api.get(`/posts/${id}`))
-				.then((res) => setPost([res.data]));
-		} catch (error) {
-			navigate('/error');
+			try {
+				Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/posts/${id}`))
+					.then((res) => setPost([res.data]));
+			} catch (error) {
+				navigate('/error');
+			}
 		}
 	};
 
@@ -225,19 +258,27 @@ function PostDetail() {
 		}
 	}, [answerData.response, postData.response]);
 
+	console.log(post);
+
 	return (
 		<div className="main">
 			<PostContainer>
+				<TopBarContainer>
+					<TopBar />
+				</TopBarContainer>
 				<PostBody>
 					{post &&
 						post.map((el) => (
 							<>
 								<div>
-									<Title>
+									<Title img={el.member.img || ''}>
 										<div>{el.title}</div>
 										<div>
-											{el.member.nickname}@{userInfos.mbti}{' '}
-											{el.postCreatedAt!.slice(0, 10)}
+											<div>
+												<div />
+												{el.member.nickname}@{el.member.mbti}{' '}
+												{el.postCreatedAt!.slice(0, 10)}
+											</div>
 											<div>
 												<span>
 													추천 {el.voteCount} | 조회 {el.viewCount} | 댓글{' '}
@@ -283,7 +324,7 @@ function PostDetail() {
 											<AiOutlineHeart
 												color="#646464"
 												size={21}
-												onClick={handleLike}
+												onClick={() => handleLike(el.member.nickname)}
 											/>
 										)}
 										<span>

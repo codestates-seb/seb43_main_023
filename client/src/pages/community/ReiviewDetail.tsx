@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import '../../Global.css';
 
 import { useEffect, useState } from 'react';
@@ -6,7 +7,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Viewer } from '@toast-ui/react-editor';
 
@@ -20,6 +21,10 @@ import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
 import { SweetAlert1, SweetAlert2 } from '../../utils/SweetAlert';
+
+interface activeT {
+	img: string;
+}
 
 const TopBarContainer = styled.div`
 	margin-top: -80px;
@@ -73,21 +78,42 @@ const ImgContainer = styled.div`
 const ContentContainer = styled.div`
 	margin-left: 30px;
 	height: 100%;
-	width: 56.5vw;
+	width: 62vw;
 `;
 
-const Writer = styled.div`
+const Writer = styled.div<activeT>`
 	min-height: 60px;
 	padding: 10px;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+
+	.mbti {
+		color: gray;
+		font-size: 12px;
+		margin-left: 5px;
+	}
+
+	.createdAt {
+		color: gray;
+		font-size: 12px;
+	}
 
 	> div {
-		width: 40px;
-		height: 40px;
-		background-color: antiquewhite;
-		margin-right: 10px;
-		border-radius: 100%;
+		display: flex;
+		align-items: center;
+		> div {
+			${(props) =>
+				props.img &&
+				css`
+					width: 40px;
+					height: 40px;
+					background-image: url(${props.img});
+					background-size: 105% 127%;
+					margin-right: 10px;
+					border-radius: 100%;
+				`}
+		}
 	}
 `;
 
@@ -120,7 +146,7 @@ const TagContainer = styled.div`
 	min-height: 60px;
 	padding: 10px;
 
-	> span {
+	span {
 		padding-left: 10px;
 		font-size: 14px;
 		color: gray;
@@ -243,6 +269,8 @@ function ReviewDetail() {
 		}
 	}, [postData.response]);
 
+	console.log(postData.response);
+
 	return (
 		<div className="main">
 			<ReviewContainer>
@@ -261,9 +289,16 @@ function ReviewDetail() {
 									</ImgContainer>
 
 									<ContentContainer>
-										<Writer>
-											<div />
-											{el.member.nickname}
+										<Writer img={el.member.img || ''}>
+											<div>
+												<div />
+												{el.member.nickname}
+												<p className="mbti">@{el.member.mbti} </p>
+											</div>
+
+											<p className="createdAt">
+												{el.postCreatedAt!.slice(0, 10)}
+											</p>
 										</Writer>
 										<Title>{el.title}</Title>
 										<Content>
@@ -290,7 +325,6 @@ function ReviewDetail() {
 										</Vote>
 										<TagContainer>
 											<span># 태그</span>
-
 											<div>
 												<div>{el.tag && el.tag.map((t) => <Tag>{t}</Tag>)}</div>
 

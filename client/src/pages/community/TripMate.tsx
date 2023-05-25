@@ -11,13 +11,15 @@ import Swal from 'sweetalert2';
 import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
-import useAxios from '../../hooks/useAxios';
 import { Ipost } from '../../type/Ipost';
 
 import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
 import useGet from '../../hooks/useGet';
+
+import HamburgerMenu from '../../Components/community/HamburgerMenu';
+import ToastAlert from '../../utils/ToastAlert';
 
 function TripMate() {
 	// eslint-disable-next-line prefer-const
@@ -28,27 +30,10 @@ function TripMate() {
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
 
 	const handleBtn = () => {
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top',
-			showConfirmButton: false,
-			timer: 3000,
-			timerProgressBar: true,
-			didOpen: (toast: {
-				addEventListener: (arg0: string, arg1: any) => void;
-			}) => {
-				toast.addEventListener('mouseenter', Swal.stopTimer);
-				toast.addEventListener('mouseleave', Swal.resumeTimer);
-			},
-		});
-
 		if (login.isLogin) {
 			navigate('/community/create');
 		} else {
-			Toast.fire({
-				icon: 'warning',
-				title: '로그인 상태가 아닙니다',
-			});
+			ToastAlert('로그인 상태가 아닙니다');
 		}
 	};
 
@@ -69,11 +54,13 @@ function TripMate() {
 				<div>
 					<h1>같이가요</h1>
 					<div>
-						혼자이고 싶지만 여행은 혼자이기 싫으신가요 ? <br />
-						여행계획이 취소되어 못가게 됐는데 아쉬우신가요 ?
-						<br />
-						안전하게 나와 비슷한 성향을 가진 사람과 함께 여행해보세요 ! 새로운
-						여행의 매력을 느낄지도 몰라요
+						<p>
+							혼자이고 싶지만 여행은 혼자이기 싫으신가요 ? <br />
+							여행계획이 취소되어 못가게 됐는데 아쉬우신가요 ?
+							<br />
+							안전하게 나와 비슷한 성향을 가진 사람과 함께 여행해보세요 ! 새로운
+							여행의 매력을 느낄지도 몰라요
+						</p>
 						<button onClick={handleBtn}>
 							<span>
 								작성하러 가기{' '}
@@ -82,6 +69,7 @@ function TripMate() {
 								</p>
 							</span>
 						</button>
+						<HamburgerMenu />
 					</div>
 				</div>
 			</style.Explain>
@@ -112,10 +100,11 @@ function TripMate() {
 													<p>{el.content}</p>
 												)}
 											</style.Header>
-											<style.Info>
+											<style.Info img={el.member.img || ''}>
+												<div className="img" />
 												<div>{el.member.nickname}</div>
-												<div>16:15</div>
-												<div>조회 20</div>
+												<div>{el.postCreatedAt.slice(0, 10)}</div>
+												<div>조회 {el.viewCount}</div>
 												<div>
 													<AiFillHeart color="#fe6464" />
 													<p> {el.voteCount}</p>
