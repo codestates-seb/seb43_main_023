@@ -86,11 +86,11 @@ https://documenter.getpostman.com/view/25533854/2s93eR4FWH
 
 ## 📎 Git
 ### 🌲 Branch
-`main` : 서비스 운영 브랜치 
-`devFE` : FE 개발 환경 브랜치 
-`devBE` : BE 개발 환경 브랜치  
-`FE|BE_이름` : FE|BE 기능 개발 브랜치
-`release` : 배포 환경 브랜치
+`main` : 서비스 운영 브랜치 <br />
+`devFE` : FE 개발 환경 브랜치 <br />
+`devBE` : BE 개발 환경 브랜치  <br />
+`FE|BE_이름` : FE|BE 기능 개발 브랜치<br />
+`release` : FE 배포 환경 브랜치
 
 <br/>
 
@@ -103,7 +103,7 @@ main <- devFE : 박희진(팀장) (윤정훈, 조민수)
 main <- devBE : 조대욱(팀장) (임슬범, 최낙주)
 
 devFE <- FE_ : 박희진(팀장), 윤정훈, 조민수
-devBE : 조대욱(팀장), 임슬범, 최낙주
+devBE <- BE_ : 조대욱(팀장), 임슬범, 최낙주
 ```
 
 <br/>
