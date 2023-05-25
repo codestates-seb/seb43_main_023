@@ -17,10 +17,12 @@ import { Editor } from '@toast-ui/react-editor';
 import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
 import SubjectDropdown from '../../Components/community/SubjectDropdown';
-import useGet from '../../hooks/useGet';
+import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
+import { SweetAlert2 } from '../../utils/SweetAlert';
+import useGet from '../../hooks/useGet';
 
 const Container = styled.div`
 	width: 100vw;
@@ -329,7 +331,34 @@ function PostUpload() {
 					locationY: y,
 					placeName,
 				});
-				document.location.href = `/tripreview/${posts[0].postId + 1}`;
+				const myposts = posts.filter(
+					(post) => post.member.email === userInfos.email,
+				);
+				if (myposts.length === 4) {
+					Api.patch(`/members/${userInfos.id}`, {
+						nickname: userInfos.nickname,
+						mbti: userInfos.mbti,
+						img: userInfos.img,
+						badge: '초보여행자',
+					});
+					dispatch(
+						UPDATE({
+							nickname: userInfos.nickname,
+							mbti: userInfos.mbti,
+							img: userInfos.img,
+							badge: '초보여행자',
+						}),
+					);
+					SweetAlert2('초보여행자 뱃지 획득!', '').then((result) => {
+						if (result.value) {
+							document.location.href = `/tripreview/${
+								posts[0].postId + 1 || '1'
+							}`;
+						}
+					});
+				} else {
+					document.location.href = `/tripreview/${posts[0].postId + 1 || '1'}`;
+				}
 			} catch (error) {
 				navigate('/error');
 			}
@@ -340,6 +369,7 @@ function PostUpload() {
 					title,
 					content,
 					tag: tags,
+					image: Images,
 				});
 
 				document.location.href = `/community/${posts[0].postId + 1 || '1'}`;
