@@ -1,15 +1,14 @@
 import '../../Global.css';
 
-import { FocusEvent, useEffect } from 'react';
+import { FocusEvent } from 'react';
 
-import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
-import googleIcon from '../../assets/googleIcon.png';
+import kakao from '../../assets/kakao.png';
 import logo from '../../assets/logo.png';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
@@ -192,11 +191,13 @@ const OauthBox = styled.div`
 		}
 	}
 	.kakaoBtn {
-		background: #fbe300;
-		margin-right: 0px;
-		transform: translateY(-3px);
 		&:hover {
-			transform: translateY(-6px);
+			transform: translateY(-3px);
+		}
+		img {
+			@media (max-width: 430px) {
+				width: 250px;
+			}
 		}
 	}
 `;
@@ -209,6 +210,9 @@ function Login() {
 		const el = e.target as HTMLFormElement;
 		try {
 			const allMember = await Api.get('/members');
+			const findMember = allMember.data.find(
+				(v: { email: string }) => v.email === el.email.value,
+			);
 			// 전체 멤버 중 같은 관리자이메일로 로그인한 경우 관리자페이지로 이동
 			if (el.email.value === 'admin@gmail.com') {
 				const sweetAlert2 = await SweetAlert2(
@@ -220,12 +224,12 @@ function Login() {
 				}
 				return;
 			}
-			// 전체 멤버 중 같은 이메일이 있다면 로그인 가능, 없다면 경고창
-			if (
-				allMember.data.find(
-					(v: { email: string }) => v.email === el.email.value,
-				)
-			) {
+			// 전체 멤버 중 같은 이메일이 있고, 그 이메일이 탈퇴상태라면
+			if (findMember && findMember.memberStatus === 'MEMBER_QUIT') {
+				ToastAlert('가입한 이메일이 아닙니다');
+			}
+			// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태가 아니라면 로그인 가능
+			else if (findMember && findMember.memberStatus !== 'MEMBER_QUIT') {
 				const loginData = await Api.post('/members/signin', {
 					email: el.email.value,
 					password: el.password.value,
@@ -265,7 +269,7 @@ function Login() {
 				if (sweetAlert2.isConfirmed) {
 					navigate('/main');
 				}
-			} else {
+			} else if (!findMember) {
 				ToastAlert('가입한 이메일이 아닙니다');
 			}
 		} catch (err: any) {
@@ -286,7 +290,7 @@ function Login() {
 		const keyUp = e.target.previousSibling as HTMLDivElement;
 		keyUp?.classList.add('hide');
 	};
-
+	/*
 	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
@@ -306,23 +310,23 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 			const naverLogin = new naver.LoginWithNaverId({
 				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
 				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
-				isPopup: false /* 팝업을 통한 연동처리 여부, true 면 팝업 */,
+				isPopup: false,
 				loginButton: {
 					color: 'green',
 					type: 1,
 					height: 37,
-				} /* 로그인 버튼의 타입을 지정 */,
+				},
 			});
 			naverLogin.init();
 		};
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
-
+*/
 	// 카카오 oauth
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
 		Kakao.Auth.authorize({
-			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+			redirectUri: 'http://localhost:3000/oauth',
 		});
 	};
 
@@ -359,6 +363,28 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 				</form>
 				<div className="lineBox">
 					<span className="line" />
+					Or Sign up with
+					<span className="line" />
+				</div>
+				<OauthBox>
+					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
+						<img className="kakao" src={kakao} alt="" width="300px" />
+					</button>
+				</OauthBox>
+				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
+				<Link to="/join">
+					<button className="gotoJoinBtn">Sign up</button>
+				</Link>
+			</Content>
+		</Main>
+	);
+}
+
+export default Login;
+
+/*
+<div className="lineBox">
+					<span className="line" />
 					Or Log in with
 					<span className="line" />
 				</div>
@@ -373,13 +399,4 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						<span id="naverIdLogin">Naver</span>
 					</button>
 				</OauthBox>
-				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
-				<Link to="/join">
-					<button className="gotoJoinBtn">Sign up</button>
-				</Link>
-			</Content>
-		</Main>
-	);
-}
-
-export default Login;
+*/

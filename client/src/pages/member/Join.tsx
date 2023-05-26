@@ -1,14 +1,13 @@
 import '../../Global.css';
 
-import { FocusEvent, useEffect, useState } from 'react';
+import { FocusEvent, useState } from 'react';
 
-import { RiKakaoTalkFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
-import googleIcon from '../../assets/googleIcon.png';
+import kakao from '../../assets/kakao.png';
 import logo from '../../assets/logo.png';
 import { SweetAlert2 } from '../../utils/SweetAlert';
 import ToastAlert from '../../utils/ToastAlert';
@@ -196,11 +195,13 @@ const OauthBox = styled.div`
 		}
 	}
 	.kakaoBtn {
-		background: #fbe300;
-		margin-right: 0px;
-		transform: translateY(-3px);
 		&:hover {
-			transform: translateY(-6px);
+			transform: translateY(-3px);
+		}
+		img {
+			@media (max-width: 430px) {
+				width: 250px;
+			}
 		}
 	}
 `;
@@ -277,12 +278,12 @@ function Join() {
 
 				// 전체 멤버 중 같은 이메일이 있다면 경고창, 없다면 회원가입 가능
 				const allMember = await Api.get('/members');
-				console.log(allMember.data);
-				if (
-					allMember.data.find(
-						(v: { email: string }) => v.email === el.email.value,
-					)
-				) {
+
+				const findMember = allMember.data.find(
+					(v: { email: string }) => v.email === el.email.value,
+				);
+				// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태가 아니라면 회원가입 불가능 -> 이미 있는 회원
+				if (findMember && findMember.memberStatus === 'MEMBER_ACTIVE') {
 					ToastAlert('이미 가입한 이메일입니다.');
 				} else if (
 					// 전체 멤버 중 같은 닉네임이 있다면 경고창, 없다면 회원가입 가능
@@ -291,7 +292,29 @@ function Join() {
 					)
 				) {
 					ToastAlert('이미 사용중인 닉네임입니다.');
-				} else {
+				} else if (findMember && findMember.memberStatus === 'MEMBER_QUIT') {
+					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
+					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 가능
+					const mbtiImg = await Api.get(
+						`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
+					);
+					await Api.post('/members/signup', {
+						nickname: el.displayName.value,
+						mbti: el.mbti.value.toUpperCase(),
+						email: el.email.value,
+						password: el.password.value,
+						img: mbtiImg.data.img,
+					});
+					const sweetAlert2 = await SweetAlert2(
+						'회원가입이 완료되었습니다.',
+						'로그인 페이지로 이동합니다.',
+					);
+					if (sweetAlert2.isConfirmed) {
+						navigate('/login');
+					}
+				} else if (!findMember) {
+					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
+					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 가능
 					const mbtiImg = await Api.get(
 						`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
 					);
@@ -325,6 +348,7 @@ function Join() {
 		keyUp?.classList.add('hide');
 	};
 
+	/*
 	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
@@ -335,33 +359,32 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		window.location.assign(oAuthURL);
 	};
 
-	// 네이버 oauth
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const { naver } = window as any;
+	// 네이버 oauth
 	useEffect(() => {
 		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
 		const initializeNaverLogin = () => {
 			const naverLogin = new naver.LoginWithNaverId({
 				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
 				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
-				isPopup: false /* 팝업을 통한 연동처리 여부, true 면 팝업 */,
+				isPopup: false,
 				loginButton: {
 					color: 'green',
 					type: 1,
 					height: 37,
-				} /* 로그인 버튼의 타입을 지정 */,
+				},
 			});
 			naverLogin.init();
 		};
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
-
+*/
 	// 카카오 oauth
-	// 방법1 : code가 있는 url로 redirect, 현재 정보 선택!
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
 		Kakao.Auth.authorize({
-			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
+			redirectUri: 'http://localhost:3000/oauth',
 		});
 	};
 
@@ -443,14 +466,8 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<span className="line" />
 				</div>
 				<OauthBox>
-					<button className="oauth googleoauth" onClick={oAuthHandler}>
-						<img className="googleIcon" src={googleIcon} alt="" />
-					</button>
 					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
-						<RiKakaoTalkFill size={32} color="#3b1e1e" />
-					</button>
-					<button className="oauth">
-						<span id="naverIdLogin">Naver</span>
+						<img className="kakao" src={kakao} alt="" width="300px" />
 					</button>
 				</OauthBox>
 				<span className="gotoJoin">이미 회원가입을 하셨나요?</span>
