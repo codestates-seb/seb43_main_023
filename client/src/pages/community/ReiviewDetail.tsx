@@ -127,6 +127,7 @@ const Title = styled.h3`
 
 const Content = styled.div`
 	min-height: 285px;
+	max-height: 285px;
 	padding: 20px;
 	overflow: scroll;
 `;
