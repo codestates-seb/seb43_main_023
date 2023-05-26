@@ -34,6 +34,7 @@ import Manager from './pages/member/Manager';
 import MemberPost from './pages/member/MemberPost';
 import UserEdit from './pages/member/UserEdit';
 import Search from './pages/Search';
+import { setLocalStorage } from './utils/LocalStorage';
 
 const MainPage = lazy(() => import('./pages/common/MainPage'));
 const Mypage = lazy(() => import('./pages/member/Mypage'));
@@ -46,8 +47,11 @@ function App() {
 	}
 	if (new URL(window.location.href).pathname === '/Api/Member/Oauth')
 		OauthNaverHandler();
-	if (new URL(window.location.href).pathname === '/oauth')
+	if (new URL(window.location.href).pathname === '/oauth') {
+		const code = new URL(document.location.toString()).searchParams.get('code');
+		setLocalStorage('code', code!);
 		KakaoRedirectHandler();
+	}
 
 	return (
 		<div>

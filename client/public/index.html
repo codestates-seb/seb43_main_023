@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head profile="http://www.w3.org/2005/10/profile">
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -10,11 +10,10 @@
       content="MBTI기반 여행지 추천 커뮤니티 어플리케이션"
     />
     <meta property="og:url" content="https://whatsyourmbti.click">
-    <meta property="og:title" content="너의 MBTI는">
+    <meta property="og:title" content="너의 MBTI는✈️">
     <meta property="og:type" content="website">
     <meta property="og:image" content="./assets/landing.png">
     <meta property="og:description" content="MBTI기반 여행지 추천 커뮤니티 어플리케이션">
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -32,16 +31,16 @@
     <title>너의 MBTI는</title>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
     charset="utf-8"></script>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b5b05516d3c44d4c1dc08ab90997bdc"></script>
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
   integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
 <script>
   Kakao.init("%REACT_APP_KAKAO_JAVASCRIPT_KEY%"); // 사용하려는 앱의 JavaScript 키 입력
 </script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b5b05516d3c44d4c1dc08ab90997bdc"></script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
