@@ -25,6 +25,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +46,7 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public ResponseEntity<?> signin(HttpServletRequest request, MemberDto.SignIn signIn) {
+    public ResponseEntity<?> signIn(HttpServletRequest request, MemberDto.SignIn signIn) {
         UsernamePasswordAuthenticationToken authenticationToken = signIn.toAuthentication();
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -104,6 +106,7 @@ public class MemberService {
         return savedMember;
     }
 
+    @Transactional
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
         Optional.ofNullable(member.getNickname())
@@ -119,6 +122,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    @Transactional
     public void deleteMember(HttpServletRequest request, long memberId) {
         String accessToken = request.getHeader("Authorization").substring(7);
         Claims claims = jwtTokenProvider.parseClaims(accessToken);
@@ -128,8 +132,7 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
         }
         Member verifiedMember = findVerifiedMember(memberId);
-        verifiedMember.setMemberStatus(Member.MemberStatus.MEMBER_QUIT);
-        memberRepository.save(verifiedMember);
+        memberRepository.delete(verifiedMember);
     }
 
     public Member findVerifiedMember(long memberId) {
