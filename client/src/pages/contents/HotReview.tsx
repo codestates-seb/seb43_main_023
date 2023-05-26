@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Viewer } from '@toast-ui/react-editor';
 import useGet from '../../hooks/useGet';
 import { IImageProps } from '../../type/IImageProps';
 import { Iposts } from '../../type/Ipost';
@@ -173,7 +175,8 @@ function HotReview() {
 								<HotReviewInfo>
 									<div className="hotReviewBold">{item.title}</div>
 									<div className="hotReviewBold">💙 {item.voteCount}</div>
-									<div className="hotReviewText">{item.content}</div>
+									{/* <div className="hotReviewText">{item.content}</div> */}
+									<Viewer initialValue={item.content} />
 									<div className="hotReviewAuthor">
 										{item.member.nickname}
 										<br />
