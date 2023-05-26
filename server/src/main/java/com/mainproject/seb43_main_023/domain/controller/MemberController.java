@@ -44,7 +44,7 @@ public class MemberController {
         if (errors.hasErrors()) {
             return apiResponseDto.fail(errors);
         }
-        return memberService.signin(request, signIn);
+        return memberService.signIn(request, signIn);
     }
 
     @PostMapping("/reissue")
@@ -76,9 +76,8 @@ public class MemberController {
     }
 
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(HttpServletRequest request, @PathVariable("member-id") long memberId) {
+    public void deleteMember(HttpServletRequest request, @PathVariable("member-id") long memberId) {
         memberService.deleteMember(request, memberId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/grantBadge/{member-id}")
