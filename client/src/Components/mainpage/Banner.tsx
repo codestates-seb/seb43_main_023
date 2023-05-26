@@ -85,9 +85,7 @@ function Banner() {
 				const { data } = response;
 				serEventInfo(data.response.body.items.item);
 			})
-			.catch((error) => {
-				console.log('배너 에러');
-				console.log(error);
+			.catch(() => {
 				navigate('/error');
 			});
 	}, [navigate, tourUrl]);

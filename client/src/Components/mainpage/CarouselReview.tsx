@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import Slider, { Settings } from 'react-slick';
 import styled from 'styled-components';
 
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useGet from '../../hooks/useGet';
@@ -48,6 +49,9 @@ const ReviewTextContainer = styled.div`
 	height: 80px;
 	border: 1px solid rgb(214, 217, 219);
 	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	.title {
 		font-size: 17px;
@@ -151,7 +155,7 @@ function CarouselReview() {
 									<ReviewImg image={item.image[0]} />
 									<ReviewTextContainer>
 										<div className="title">{item.title}</div>
-										<div className="content">{item.content}</div>
+										{/* <Viewer initialValue={item.content} /> */}
 										<div className="userInfo">
 											<span> {item.member.nickname}</span>
 											<span>💙 {item.voteCount}</span>
