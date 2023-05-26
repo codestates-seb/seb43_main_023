@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
 import styled from 'styled-components';
 
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Viewer } from '@toast-ui/react-editor';
+
 import { IKeyword } from '../reducers/searchKeywordReducer';
-import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/community/Pagination';
 import { RootState } from '../store/Store';
 import useGet from '../hooks/useGet';
@@ -409,7 +411,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -452,7 +454,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -524,7 +526,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -567,7 +569,7 @@ function Search() {
 															<span className="subject">[{post.subject}]</span>
 															<span className="title">{post.title}</span>
 														</div>
-														<div className="content">{post.content}</div>
+														<Viewer initialValue={post.content} />
 														<span className="author">
 															{post.member.nickname}
 														</span>
