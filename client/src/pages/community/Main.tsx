@@ -18,6 +18,9 @@ import { Ilogin } from '../../type/Ilogin';
 import { Ipost } from '../../type/Ipost';
 import HamburgerMenu from '../../Components/community/HamburgerMenu';
 import ToastAlert from '../../utils/ToastAlert';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+// eslint-disable-next-line import/order
+import { Viewer } from '@toast-ui/react-editor';
 
 function Main() {
 	// eslint-disable-next-line prefer-const
@@ -88,16 +91,19 @@ function Main() {
 													<h3>{`[${el.subject}]`}</h3>
 													<h3>{el.title}</h3>
 												</div>
-
-												{el.content.length > 70 ? (
-													<p>
-														{`${el.content
-															.substring(0, 175)
-															.substring(0, el.content.lastIndexOf(' '))
-															.trim()}...`}
-													</p>
+												{el.content?.length > 70 ? (
+													<style.ViewerContainer>
+														<Viewer
+															initialValue={`${el.content
+																?.substring(0, 175)
+																.substring(0, el.content!.lastIndexOf(' '))
+																.trim()}...`}
+														/>
+													</style.ViewerContainer>
 												) : (
-													<p>{el.content}</p>
+													<style.ViewerContainer>
+														<Viewer initialValue={el.content} />
+													</style.ViewerContainer>
 												)}
 											</style.Header>
 											<style.Info img={el.member.img || ''}>

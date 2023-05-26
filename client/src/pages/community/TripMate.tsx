@@ -19,6 +19,9 @@ import useGet from '../../hooks/useGet';
 
 import HamburgerMenu from '../../Components/community/HamburgerMenu';
 import ToastAlert from '../../utils/ToastAlert';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+// eslint-disable-next-line import/order
+import { Viewer } from '@toast-ui/react-editor';
 
 function TripMate() {
 	// eslint-disable-next-line prefer-const
@@ -88,15 +91,19 @@ function TripMate() {
 													<h3>{el.title}</h3>
 												</div>
 
-												{el.content.length > 70 ? (
-													<p>
-														{`${el.content
-															.substring(0, 175)
-															.substring(0, el.content.lastIndexOf(' '))
-															.trim()}...`}
-													</p>
+												{el.content?.length > 70 ? (
+													<style.ViewerContainer>
+														<Viewer
+															initialValue={`${el.content
+																?.substring(0, 175)
+																.substring(0, el.content!.lastIndexOf(' '))
+																.trim()}...`}
+														/>
+													</style.ViewerContainer>
 												) : (
-													<p>{el.content}</p>
+													<style.ViewerContainer>
+														<Viewer initialValue={el.content} />
+													</style.ViewerContainer>
 												)}
 											</style.Header>
 											<style.Info img={el.member.img || ''}>
