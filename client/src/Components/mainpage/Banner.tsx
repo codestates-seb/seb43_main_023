@@ -29,7 +29,7 @@ const SlideItem = styled.div<IImageProps>`
 	height: 180px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
-	color: white;
+	color: black;
 	border-radius: 15px;
 `;
 
@@ -42,12 +42,14 @@ const SlideTextBox = styled.div`
 	align-items: center;
 	justify-content: center;
 	.eventTitle {
+		background: rgba(255, 255, 255, 0.5);
 		font-size: 30px;
 		@media (max-width: 768px) {
 			font-size: 20px;
 		}
 	}
 	.eventDate {
+		background: rgba(255, 255, 255, 0.5);
 		@media (max-width: 768px) {
 			font-size: 20px;
 		}
