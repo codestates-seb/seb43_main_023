@@ -44,7 +44,7 @@ public class MemberController {
         if (errors.hasErrors()) {
             return apiResponse.fail(errors);
         }
-        return memberService.signin(request, signIn);
+        return memberService.signIn(request, signIn);
     }
 
     @PostMapping("/reissue")
