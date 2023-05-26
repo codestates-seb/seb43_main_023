@@ -350,10 +350,6 @@ function Search() {
 		}
 	}, [response, tourUrl]);
 
-	console.log(tourResult);
-
-	console.log(containKeywordInPost);
-
 	return (
 		<Container>
 			{keyword.keyword ? (

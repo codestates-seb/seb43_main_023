@@ -298,8 +298,6 @@ function PostUpload() {
 		const selectedData = data.filter(
 			(el: { place_name: string }) => el.place_name === selected,
 		);
-
-		console.log(selected);
 		setPlaceName(selectedData[0].place_name);
 
 		setX(data[0].x);

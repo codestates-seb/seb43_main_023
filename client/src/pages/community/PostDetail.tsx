@@ -256,8 +256,6 @@ function PostDetail() {
 		}
 	}, [answerData.response, postData]);
 
-	console.log(post);
-
 	return (
 		<div className="main">
 			<PostContainer>

@@ -144,8 +144,6 @@ function Answers() {
 		url: `/members`,
 	});
 
-	console.log('aaa', membersData);
-
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
@@ -231,12 +229,9 @@ function Answers() {
 			setIsLike(!isLike);
 
 			try {
-				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {}).then((res) =>
-					console.log('aa', res.data),
-				);
-				// Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
-				// 	.then(() => Api.get(`/comments/${id}`))
-				// 	.then((res) => setAnswers(res.data));
+				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/comments/${id}`))
+					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
 			}

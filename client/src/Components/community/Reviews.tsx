@@ -162,8 +162,6 @@ function Review() {
 		}
 	}, [response]);
 
-	console.log(reviews);
-
 	return (
 		<>
 			<Container>

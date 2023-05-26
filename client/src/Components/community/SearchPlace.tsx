@@ -137,8 +137,6 @@ function SearchPlace({ handlePlace, id }: Prop) {
 			const allData: getDataProp[] = postData;
 			const data = allData.filter((el) => el.postId === Number(id));
 
-			console.log('aaa', allData);
-
 			setPlaceName(data[0].placeName);
 		}
 		const delayDebounceFn = setTimeout(() => {
@@ -157,8 +155,6 @@ function SearchPlace({ handlePlace, id }: Prop) {
 
 		return () => clearTimeout(delayDebounceFn);
 	}, [query, key, postData, locationNow.pathname, id]);
-
-	console.log(locationNow.pathname, id);
 
 	return (
 		<div>
