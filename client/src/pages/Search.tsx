@@ -3,9 +3,13 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
 import styled from 'styled-components';
+import notImageResult from '../assets/notImageResult.png';
+
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+// eslint-disable-next-line import/order
+import { Viewer } from '@toast-ui/react-editor';
 
 import { IKeyword } from '../reducers/searchKeywordReducer';
-import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/community/Pagination';
 import { RootState } from '../store/Store';
 import useGet from '../hooks/useGet';
@@ -110,6 +114,21 @@ const AdItem = styled.div`
 	/* padding: 10px; */
 	margin: 10px;
 	cursor: pointer;
+
+	.notresult {
+		font-size: 14px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: gray;
+		padding-bottom: 7px;
+		border-bottom: 1px solid #d9d9d9;
+	}
+
+	.notimg {
+		width: 100%;
+		height: 60%;
+	}
 
 	.adimg {
 		width: 100%;
@@ -227,6 +246,16 @@ const CreateBtn = styled.div`
 	cursor: pointer;
 `;
 
+const ViewerContainer = styled.div`
+	padding: 10px;
+	min-height: 120px;
+	max-height: 120px;
+	font-size: 15px;
+	line-height: 23px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
+
 interface tourAPIType {
 	firstimage: string;
 	title: string;
@@ -321,8 +350,6 @@ function Search() {
 		}
 	}, [response, tourUrl]);
 
-	console.log(containKeywordInPost);
-
 	return (
 		<Container>
 			{keyword.keyword ? (
@@ -358,18 +385,45 @@ function Search() {
 							</div>
 							{menu === '전체' ? (
 								<APIContainerSlice>
-									{tourResult.slice(0, 4).map((el: tourAPIType, idx) => (
+									{tourResult.slice(0, 4).map((el: tourAPIType) => (
 										<AdItem onClick={() => handleResultClicked(el.title)}>
-											<img src={el.firstimage} alt="사진" className="adimg" />
+											{el.firstimage ? (
+												<img src={el.firstimage} alt="사진" className="adimg" />
+											) : (
+												<>
+													<img
+														src={notImageResult}
+														alt="사진"
+														className="notimg"
+													/>
+													<div className="notresult">
+														x 준비된 사진이 없어요
+													</div>
+												</>
+											)}
+
 											<div className="adtext">{el.title}</div>
 										</AdItem>
 									))}
 								</APIContainerSlice>
 							) : (
 								<APIContainer>
-									{tourResult.map((el: tourAPIType, idx) => (
+									{tourResult.map((el: tourAPIType) => (
 										<AdItem onClick={() => handleResultClicked(el.title)}>
-											<img src={el.firstimage} alt="사진" className="adimg" />
+											{el.firstimage ? (
+												<img src={el.firstimage} alt="사진" className="adimg" />
+											) : (
+												<>
+													<img
+														src={notImageResult}
+														alt="사진"
+														className="notimg"
+													/>
+													<div className="notresult">
+														x 준비된 사진이 없어요
+													</div>
+												</>
+											)}
 											<div className="adtext">{el.title}</div>
 										</AdItem>
 									))}
@@ -409,7 +463,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -452,7 +506,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -524,7 +578,9 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<ViewerContainer>
+														<Viewer initialValue={post.content} />
+													</ViewerContainer>
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -567,7 +623,9 @@ function Search() {
 															<span className="subject">[{post.subject}]</span>
 															<span className="title">{post.title}</span>
 														</div>
-														<div className="content">{post.content}</div>
+														<ViewerContainer>
+															<Viewer initialValue={post.content} />
+														</ViewerContainer>
 														<span className="author">
 															{post.member.nickname}
 														</span>

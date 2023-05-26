@@ -271,14 +271,6 @@ function PostUpload() {
 		}
 	};
 
-	// 이미지 파일 첨부 코드 ( 사용 여부 보류 )
-	// const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-	// 	if (event.target.files) {
-	// 		const newFileURL = URL.createObjectURL(event.target.files[0]);
-	// 		setImages((prevImages) => [...prevImages, newFileURL]);
-	// 	}
-	// };
-
 	const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.value) {
 			const newImage = event.target.value;
@@ -298,8 +290,6 @@ function PostUpload() {
 		const selectedData = data.filter(
 			(el: { place_name: string }) => el.place_name === selected,
 		);
-
-		console.log(selected);
 		setPlaceName(selectedData[0].place_name);
 
 		setX(data[0].x);
@@ -370,9 +360,10 @@ function PostUpload() {
 					content,
 					tag: tags,
 					image: Images,
+				}).then((res) => {
+					console.log(res.data);
+					document.location.href = `/community/${posts[0].postId + 1}`;
 				});
-
-				document.location.href = `/community/${posts[0].postId + 1 || '1'}`;
 			} catch (error) {
 				navigate('/error');
 			}
@@ -384,6 +375,8 @@ function PostUpload() {
 			setPosts(postData);
 		}
 	}, [postData]);
+
+	console.log(posts);
 
 	return (
 		<div className="main">
@@ -461,42 +454,6 @@ function PostUpload() {
 					) : null}
 
 					<ImgContainer>
-						{/* 이미지 파일 첨부 코드 (사용 여부 보류) */}
-						{/* <div>
-							<label htmlFor="img1">
-								<div className="btnStart">Image 1 첨부하기</div>
-							</label>
-
-							<input
-								id="img1"
-								type="file"
-								accept="image/*"
-								ref={imgUploadInput}
-								onChange={onImageChange}
-							/>
-						</div>
-						<div>
-							<label htmlFor="img1">
-								<div className="btnStart">Image 2 첨부하기</div>
-							</label>
-							<input
-								type="file"
-								accept="image/*"
-								ref={imgUploadInput}
-								onChange={onImageChange}
-							/>
-						</div>
-						<div>
-							<label htmlFor="img1">
-								<div className="btnStart">Image 3 첨부하기</div>
-							</label>
-							<input
-								type="file"
-								accept="image/*"
-								ref={imgUploadInput}
-								onChange={onImageChange}
-							/>
-						</div> */}
 						<div>
 							<input
 								type="text"

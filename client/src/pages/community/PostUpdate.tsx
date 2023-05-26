@@ -228,8 +228,6 @@ function PostUpdate() {
 		titleData = axiosData.title;
 	}
 
-	console.log(response);
-
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [post, setPost] = useState<Ipost>();
@@ -289,6 +287,7 @@ function PostUpdate() {
 					title,
 					content,
 					tag: tags,
+					image: post?.image,
 				}) // eslint-disable-next-line no-return-assign
 					.then(() => {
 						if (post?.subject === '여행리뷰') {
@@ -306,7 +305,6 @@ function PostUpdate() {
 	useEffect(() => {
 		if (response) {
 			const data: Type = response;
-			console.log('data', data);
 			setPost(response);
 			setTags(data.tag);
 			setSubject(data.subject);

@@ -291,3 +291,13 @@ export const PaginationContainer = styled.div`
 	align-items: center;
 	width: 100%;
 `;
+
+export const ViewerContainer = styled.div`
+	margin-top: -10px;
+	min-height: 55px;
+	max-height: 55px;
+	font-size: 15px;
+	line-height: 23px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;

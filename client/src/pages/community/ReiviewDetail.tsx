@@ -127,6 +127,7 @@ const Title = styled.h3`
 
 const Content = styled.div`
 	min-height: 285px;
+	max-height: 285px;
 	padding: 20px;
 	overflow: scroll;
 `;
@@ -237,9 +238,8 @@ function ReviewDetail() {
 		setIsLike(!isLike);
 
 		try {
-			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
-				.then(() => Api.get(`/posts/${id}`))
-				.then((res) => setReview([res.data]));
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {});
+			document.location.reload();
 		} catch (error) {
 			navigate('/error');
 		}
@@ -308,7 +308,8 @@ function ReviewDetail() {
 											<Viewer initialValue={el.content || ''} />
 										</Content>
 										<Vote>
-											{isLike && el.postId === Number(id) ? (
+											{(isLike && el.postId === Number(id)) ||
+											el.voteList?.includes(userInfos.id!) ? (
 												<AiFillHeart
 													size={21}
 													onClick={handleDisLike}

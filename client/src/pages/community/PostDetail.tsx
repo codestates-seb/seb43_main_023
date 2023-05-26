@@ -236,9 +236,8 @@ function PostDetail() {
 		setIsLike(!isLike);
 
 		try {
-			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
-				.then(() => Api.get(`/posts/${id}`))
-				.then((res) => setPost([res.data]));
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {});
+			document.location.reload();
 		} catch (error) {
 			navigate('/error');
 		}
@@ -255,8 +254,6 @@ function PostDetail() {
 			setAnswers([]);
 		}
 	}, [answerData.response, postData]);
-
-	console.log(post);
 
 	return (
 		<div className="main">
