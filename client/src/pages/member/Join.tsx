@@ -295,26 +295,9 @@ function Join() {
 				} else if (findMember && findMember.memberStatus === 'MEMBER_QUIT') {
 					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
 					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 가능
-					const mbtiImg = await Api.get(
-						`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
-					);
-					await Api.post('/members/signup', {
-						nickname: el.displayName.value,
-						mbti: el.mbti.value.toUpperCase(),
-						email: el.email.value,
-						password: el.password.value,
-						img: mbtiImg.data.img,
-					});
-					const sweetAlert2 = await SweetAlert2(
-						'회원가입이 완료되었습니다.',
-						'로그인 페이지로 이동합니다.',
-					);
-					if (sweetAlert2.isConfirmed) {
-						navigate('/login');
-					}
+					ToastAlert('탈퇴한 이메일은 재가입이 불가해요😢');
 				} else if (!findMember) {
 					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
-					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 가능
 					const mbtiImg = await Api.get(
 						`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
 					);
@@ -384,7 +367,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
 		Kakao.Auth.authorize({
-			redirectUri: 'http://localhost:3000/oauth',
+			redirectUri: 'https://whatsyourmbti.click/oauth',
 		});
 	};
 

@@ -226,7 +226,7 @@ function Login() {
 			}
 			// 전체 멤버 중 같은 이메일이 있고, 그 이메일이 탈퇴상태라면
 			if (findMember && findMember.memberStatus === 'MEMBER_QUIT') {
-				ToastAlert('가입한 이메일이 아닙니다');
+				ToastAlert('탈퇴한 이메일은 재로그인이 불가해요😢');
 			}
 			// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태가 아니라면 로그인 가능
 			else if (findMember && findMember.memberStatus !== 'MEMBER_QUIT') {
@@ -326,7 +326,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
 		Kakao.Auth.authorize({
-			redirectUri: 'http://localhost:3000/oauth',
+			redirectUri: 'https://whatsyourmbti.click/oauth',
 		});
 	};
 
@@ -381,22 +381,3 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 }
 
 export default Login;
-
-/*
-<div className="lineBox">
-					<span className="line" />
-					Or Log in with
-					<span className="line" />
-				</div>
-				<OauthBox>
-					<button className="oauth googleoauth" onClick={oAuthHandler}>
-						<img className="googleIcon" src={googleIcon} alt="" />
-					</button>
-					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
-						<RiKakaoTalkFill size={32} color="#3b1e1e" />
-					</button>
-					<button className="oauth">
-						<span id="naverIdLogin">Naver</span>
-					</button>
-				</OauthBox>
-*/

@@ -66,8 +66,8 @@ function IntroBox() {
 	// 회원 탈퇴 핸들러
 	const memberDeleteClick = async () => {
 		const sweetAlert1 = await SweetAlert1(
-			'회원탈퇴',
-			`[${userInfos.nickname}]님 회원 탈퇴하시겠습니까?`,
+			'회원탈퇴하시겠습니까?',
+			'탈퇴하시면 같은 이메일로 재가입할 수 없습니다😢',
 			'탈퇴',
 			'취소',
 		);
