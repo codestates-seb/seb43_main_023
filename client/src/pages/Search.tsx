@@ -246,6 +246,16 @@ const CreateBtn = styled.div`
 	cursor: pointer;
 `;
 
+const ViewerContainer = styled.div`
+	padding: 10px;
+	min-height: 120px;
+	max-height: 120px;
+	font-size: 15px;
+	line-height: 23px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
+
 interface tourAPIType {
 	firstimage: string;
 	title: string;
@@ -404,7 +414,20 @@ function Search() {
 								<APIContainer>
 									{tourResult.map((el: tourAPIType) => (
 										<AdItem onClick={() => handleResultClicked(el.title)}>
-											<img src={el.firstimage} alt="사진" className="adimg" />
+											{el.firstimage ? (
+												<img src={el.firstimage} alt="사진" className="adimg" />
+											) : (
+												<>
+													<img
+														src={notImageResult}
+														alt="사진"
+														className="notimg"
+													/>
+													<div className="notresult">
+														x 준비된 사진이 없어요
+													</div>
+												</>
+											)}
 											<div className="adtext">{el.title}</div>
 										</AdItem>
 									))}
@@ -559,7 +582,9 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<Viewer initialValue={post.content} />
+													<ViewerContainer>
+														<Viewer initialValue={post.content} />
+													</ViewerContainer>
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -602,7 +627,9 @@ function Search() {
 															<span className="subject">[{post.subject}]</span>
 															<span className="title">{post.title}</span>
 														</div>
-														<Viewer initialValue={post.content} />
+														<ViewerContainer>
+															<Viewer initialValue={post.content} />
+														</ViewerContainer>
 														<span className="author">
 															{post.member.nickname}
 														</span>
