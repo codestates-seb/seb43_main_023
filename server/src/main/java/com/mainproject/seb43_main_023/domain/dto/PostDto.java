@@ -46,7 +46,6 @@ public class PostDto {
         private String content;
         private String placeName;
         private String locationY;
-
         private String locationX;
         private List<String> image;
         private List<String> tag;
