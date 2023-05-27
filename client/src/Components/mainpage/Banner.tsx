@@ -29,6 +29,7 @@ const SlideItem = styled.div<IImageProps>`
 	height: 180px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
+	opacity: 0.9;
 	color: black;
 	border-radius: 15px;
 `;
