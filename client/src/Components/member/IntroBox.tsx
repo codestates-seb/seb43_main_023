@@ -66,8 +66,8 @@ function IntroBox() {
 	// 회원 탈퇴 핸들러
 	const memberDeleteClick = async () => {
 		const sweetAlert1 = await SweetAlert1(
-			'회원탈퇴하시겠습니까?',
-			'탈퇴하시면 같은 이메일로 재가입할 수 없습니다😢',
+			'회원탈퇴',
+			`[${userInfos.nickname}]님 회원 탈퇴하시겠습니까?`,
 			'탈퇴',
 			'취소',
 		);
@@ -107,6 +107,8 @@ function IntroBox() {
 					<br />
 					뱃지는 작성한 여행리뷰의 수와 추천수에 따라 초보여행자, 중급여행자,
 					고급여행자로 나눠집니다.
+					<br />
+					뱃지 기준은 Badge를 클릭하시면 볼 수 있어요.
 				</div>
 			</div>
 			<button onClick={memberDeleteClick} className="memberDelete">

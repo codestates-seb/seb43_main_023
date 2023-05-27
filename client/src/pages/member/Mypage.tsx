@@ -150,7 +150,7 @@ const UserWriting = styled.div`
 		}
 	}
 	button {
-		margin: 0 10px;
+		margin: 0px 10px;
 		font-size: 12px;
 		color: rgba(0, 0, 0, 0.2);
 		&:hover {
@@ -329,12 +329,17 @@ function Mypage() {
 							<Link to="/useredit">
 								<button className="memberEdit">내정보 수정하기</button>
 							</Link>
-							<Link
+							<button
 								className="memberEdit test"
-								to="https://www.16personalities.com/ko/%EB%AC%B4%EB%A3%8C-%EC%84%B1%EA%B2%A9-%EC%9C%A0%ED%98%95-%EA%B2%80%EC%82%AC"
+								onClick={() =>
+									window.open(
+										'https://www.16personalities.com/ko/%EB%AC%B4%EB%A3%8C-%EC%84%B1%EA%B2%A9-%EC%9C%A0%ED%98%95-%EA%B2%80%EC%82%AC',
+										'_blank',
+									)
+								}
 							>
 								MBTI 검사하러가기
-							</Link>
+							</button>
 						</div>
 					)}
 					{select === 'btn2' && (

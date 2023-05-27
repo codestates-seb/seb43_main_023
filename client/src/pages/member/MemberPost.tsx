@@ -79,36 +79,56 @@ const MenuContent = styled.div`
 const UserWriting = styled.div`
 	width: 100%;
 	min-height: 28vh;
-	li {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	ul {
 		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		padding-bottom: 20px;
-		margin-bottom: 20px;
-		font-weight: bold;
-		color: #2d2d2d;
-		font-size: 13px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-	}
-	.writingBody {
-		width: 300px;
-		color: #2d2d2d;
-		&:hover {
-			cursor: pointer;
-			color: #0db4f3;
-		}
-		@media (max-width: 470px) {
-			width: 150px;
-		}
-		@media (max-width: 330px) {
-			width: 100px;
-		}
-	}
-	.description {
-		&:hover {
-			cursor: pointer;
+		li {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-weight: bold;
 			color: #2d2d2d;
+			font-size: 13px;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+			padding: 20px 0;
+			.writingHead {
+				text-align: left;
+				padding: 20px 0;
+				margin-left: 50px;
+				@media (max-width: 555px) {
+					margin-left: 30px;
+				}
+				@media (max-width: 355px) {
+					display: none;
+				}
+			}
+			.writingTitle {
+				text-align: left;
+				color: #2d2d2d;
+				&:hover {
+					cursor: pointer;
+					color: #0db4f3;
+				}
+				@media (max-width: 555px) {
+					margin-right: 30px;
+				}
+				@media (max-width: 355px) {
+					margin: 0 10px;
+				}
+			}
+			.writingContent {
+				margin-right: 50px;
+				width: 30%;
+				text-align: left;
+				color: #2d2d2d;
+				@media (max-width: 555px) {
+					display: none;
+				}
+			}
 		}
 	}
 	button {
@@ -195,9 +215,9 @@ function MemberPost() {
 											to={{ pathname: `/community/${post.postId}` }}
 											style={{ textDecoration: 'none' }}
 										>
-											<div className="writingBody">{post.title}</div>
+											<div className="writingTitle">{post.title}</div>
 										</Link>
-										<div>{post.content}</div>
+										<div className="writingContent">{post.content}</div>
 									</li>
 								);
 							})}

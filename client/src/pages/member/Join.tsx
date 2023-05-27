@@ -9,6 +9,7 @@ import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
 import kakao from '../../assets/kakao.png';
 import logo from '../../assets/logo.png';
+import MBTIDropdown from '../../Components/member/MBTIDropdown';
 import { SweetAlert2 } from '../../utils/SweetAlert';
 import ToastAlert from '../../utils/ToastAlert';
 
@@ -81,7 +82,7 @@ const Content = styled.div`
 		justify-content: center;
 		align-items: center;
 		input,
-		button {
+		.submitBtn {
 			margin-top: 30px;
 			padding: 10px;
 			border-radius: 5px;
@@ -98,7 +99,17 @@ const Content = styled.div`
 				margin-top: 15px;
 			}
 		}
-		button {
+		.mbtiInput {
+			margin-top: 30px;
+			width: 300px;
+			@media (max-width: 430px) {
+				width: 250px;
+			}
+			@media (max-height: 700px) {
+				margin-top: 15px;
+			}
+		}
+		.submitBtn {
 			margin-top: 20px;
 			border: none;
 			background: #0db4f3;
@@ -161,6 +172,7 @@ const Content = styled.div`
 		}
 	}
 `;
+
 const OauthBox = styled.div`
 	display: flex;
 	justify-content: center;
@@ -206,6 +218,11 @@ const OauthBox = styled.div`
 	}
 `;
 
+const DropDownContainer = styled.div`
+	background: none;
+	border: none;
+`;
+
 function Join() {
 	const navigate = useNavigate();
 
@@ -213,6 +230,7 @@ function Join() {
 	const [emailValid, setEmailValid] = useState(true);
 	const [passwordCheck, setpasswordCheck] = useState(true);
 	const [passwordValid, setPasswordValid] = useState(true);
+	const [subject, setSubject] = useState<string>('');
 
 	const EMAIL_REGEX =
 		/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -253,9 +271,7 @@ function Join() {
 				setMbtiValid(true);
 				setPasswordValid(true);
 				setpasswordCheck(true);
-			} else if (
-				MBTI_REGEX.find((v) => v === el.mbti.value.toUpperCase()) === undefined
-			) {
+			} else if (MBTI_REGEX.find((v) => v === subject) === undefined) {
 				setMbtiValid(false);
 				setEmailValid(true);
 				setPasswordValid(true);
@@ -298,12 +314,10 @@ function Join() {
 					ToastAlert('탈퇴한 이메일은 재가입이 불가해요😢');
 				} else if (!findMember) {
 					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
-					const mbtiImg = await Api.get(
-						`/mbtiInfo/${el.mbti.value.toUpperCase()}`,
-					);
+					const mbtiImg = await Api.get(`/mbtiInfo/${subject}`);
 					await Api.post('/members/signup', {
 						nickname: el.displayName.value,
-						mbti: el.mbti.value.toUpperCase(),
+						mbti: subject,
 						email: el.email.value,
 						password: el.password.value,
 						img: mbtiImg.data.img,
@@ -329,6 +343,10 @@ function Join() {
 	const displayNameKeyBlur = (e: FocusEvent<HTMLInputElement>) => {
 		const keyUp = e.target.previousSibling as HTMLDivElement;
 		keyUp?.classList.add('hide');
+	};
+
+	const handleSubject = (sub: string) => {
+		setSubject(sub);
 	};
 
 	/*
@@ -393,17 +411,10 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					/>
 					<div className="check" />
 					<div className="keyUp hide">MBTI</div>
-					<input
-						onFocus={(e) => displayNameKeyFocus(e)}
-						onBlur={(e) => displayNameKeyBlur(e)}
-						name="mbti"
-						type="text"
-						placeholder="MBTI"
-						required
-					/>
-					<div className="check">
-						{!mbtiValid && 'MBTI 형식으로 입력해주세요 ex.ISTJ'}
-					</div>
+					<DropDownContainer className="mbtiInput">
+						<MBTIDropdown handleSubject={handleSubject} from="upload" />
+					</DropDownContainer>
+					<div className="check">{!mbtiValid && 'MBTI를 선택해주세요'}</div>
 					<div className="keyUp hide">Email</div>
 					<input
 						onFocus={(e) => displayNameKeyFocus(e)}
@@ -441,7 +452,9 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<div className="check">
 						{!passwordCheck && '비밀번호가 일치하지 않습니다'}
 					</div>
-					<button type="submit">Sign up</button>
+					<button className="submitBtn" type="submit">
+						Sign up
+					</button>
 				</form>
 				<div className="lineBox">
 					<span className="line" />
