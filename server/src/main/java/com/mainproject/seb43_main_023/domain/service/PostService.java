@@ -8,6 +8,7 @@ import com.mainproject.seb43_main_023.domain.repository.PostRepository;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class PostService {
         return postRepository.findRecentPosts
                 (title, subject, dateTime, PageRequest.of(page,size,Sort.by("postId").descending()));
     }
-    @Transient
+    @Transactional
     public Post votePost(long postId, long memberId){
         Post post = verifyPost(postId);
         Set<Long> voteList = new HashSet<>(post.getVoteList());
