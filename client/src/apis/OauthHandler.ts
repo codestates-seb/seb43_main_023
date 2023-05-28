@@ -300,7 +300,7 @@ export const KakaoRedirectHandler = () => {
 		const code = getLocalStorage('code');
 		const grantType = 'authorization_code';
 		const clientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
-		const redirectUri = 'http://localhost:3000/oauth';
+		const redirectUri = 'https://whatsyourmbti.click/oauth';
 
 		const getData = async () => {
 			// 카카오에 로그인 요청 -> 토큰을 받는다.
@@ -364,13 +364,13 @@ export const KakaoRedirectHandler = () => {
 				await Api.post('/members/signup', {
 					nickname: getLocalStorage('nickname'),
 					mbti: 'INFP',
-					email: getLocalStorage('email'),
+					email: 1 + getLocalStorage('email'),
 					password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
 					img: mbtiImg.data.img,
 				});
 
 				const loginData = await Api.post('/members/signin', {
-					email: getLocalStorage('email'),
+					email: 1 + getLocalStorage('email'),
 					password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
 				});
 				const {
@@ -395,7 +395,7 @@ export const KakaoRedirectHandler = () => {
 				dispatch(
 					UPDATE({
 						id: memberId,
-						email: getLocalStorage('email'),
+						email: 1 + getLocalStorage('email'),
 						nickname: getLocalStorage('nickname'),
 						mbti: 'INFP',
 						img: mbtiImg.data.img,
@@ -417,7 +417,7 @@ export const KakaoRedirectHandler = () => {
 				if (err.response.status === 500) {
 					// 서버 연결 코드
 					const loginData = await Api.post('/members/signin', {
-						email: getLocalStorage('email'),
+						email: 1 + getLocalStorage('email'),
 						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
 					});
 					const {

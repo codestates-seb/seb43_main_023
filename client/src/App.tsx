@@ -25,7 +25,6 @@ import ReviewDetail from './pages/community/ReiviewDetail';
 import TripMate from './pages/community/TripMate';
 import TripReview from './pages/community/TripReview';
 import HotReview from './pages/contents/HotReview';
-import NearbyPlace from './pages/contents/NearbyPlace';
 import RegionRec from './pages/contents/RegionRecommend';
 import Join from './pages/member/Join';
 import Login from './pages/member/Login';
@@ -39,6 +38,7 @@ import { setLocalStorage } from './utils/LocalStorage';
 const MainPage = lazy(() => import('./pages/common/MainPage'));
 const Mypage = lazy(() => import('./pages/member/Mypage'));
 const RegionDetail = lazy(() => import('./pages/contents/RegionDetail'));
+const NearbyPlace = lazy(() => import('./pages/contents/NearbyPlace'));
 
 function App() {
 	// oauth google클릭 때만 실행되는 로직

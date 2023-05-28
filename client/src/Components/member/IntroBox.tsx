@@ -107,6 +107,8 @@ function IntroBox() {
 					<br />
 					뱃지는 작성한 여행리뷰의 수와 추천수에 따라 초보여행자, 중급여행자,
 					고급여행자로 나눠집니다.
+					<br />
+					뱃지 기준은 Badge를 클릭하시면 볼 수 있어요.
 				</div>
 			</div>
 			<button onClick={memberDeleteClick} className="memberDelete">
