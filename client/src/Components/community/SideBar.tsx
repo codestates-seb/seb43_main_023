@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const Container = styled.ul`
+const Container = styled.div`
+	border: 1px solid red;
 	width: 170px;
 	display: flex;
 	flex-direction: column;
@@ -21,7 +22,7 @@ const Container = styled.ul`
 		display: none;
 	}
 
-	> li {
+	div {
 		padding: 8px 0;
 		width: 80px;
 		display: flex;
@@ -49,22 +50,25 @@ const Container = styled.ul`
 function SideBar() {
 	return (
 		<Container>
-			<li>
-				<Link to="/tripreview">여행리뷰 </Link>
-			</li>
+			<Link to="/tripreview">
+				<div>여행리뷰</div>
+			</Link>
 
-			<li>
-				<Link to="/community">여행고민</Link>
-			</li>
-			<li>
-				<Link to="/tripmate">같이가요</Link>
-			</li>
-			<li>
-				<Link to="/mbti">MBTI</Link>
-			</li>
-			<li>
-				<Link to="/etctalk">잡담</Link>
-			</li>
+			<Link to="/community">
+				<div>여행고민</div>
+			</Link>
+
+			<Link to="/tripmate">
+				<div>같이가요</div>
+			</Link>
+
+			<Link to="/mbti">
+				<div>MBTI</div>
+			</Link>
+
+			<Link to="/etctalk">
+				<div>잡담</div>
+			</Link>
 		</Container>
 	);
 }
