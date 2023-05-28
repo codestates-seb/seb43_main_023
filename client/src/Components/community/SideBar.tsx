@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
-	border: 1px solid red;
 	width: 170px;
 	display: flex;
 	flex-direction: column;
