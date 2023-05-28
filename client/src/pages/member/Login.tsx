@@ -1,14 +1,15 @@
 import '../../Global.css';
 
-import { FocusEvent } from 'react';
+import { FocusEvent, useEffect } from 'react';
 
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
-import kakao from '../../assets/kakao.png';
+import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
@@ -191,13 +192,10 @@ const OauthBox = styled.div`
 		}
 	}
 	.kakaoBtn {
+		background: #fee500;
+		transform: translateY(-3px);
 		&:hover {
-			transform: translateY(-3px);
-		}
-		img {
-			@media (max-width: 430px) {
-				width: 250px;
-			}
+			transform: translateY(-6px);
 		}
 	}
 `;
@@ -290,14 +288,13 @@ function Login() {
 		const keyUp = e.target.previousSibling as HTMLDivElement;
 		keyUp?.classList.add('hide');
 	};
-	/*
+
 	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
 redirect_uri=https://whatsyourmbti.click/accounts/google/login/&
 scope=https://www.googleapis.com/auth/userinfo.email`;
 	const oAuthHandler = () => {
-		console.log(oAuthURL);
 		window.location.assign(oAuthURL);
 	};
 
@@ -309,7 +306,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		const initializeNaverLogin = () => {
 			const naverLogin = new naver.LoginWithNaverId({
 				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
+				callbackUrl: 'http://localhost:3000/Api/Member/Oauth',
 				isPopup: false,
 				loginButton: {
 					color: 'green',
@@ -321,7 +318,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		};
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
-*/
+
 	// 카카오 oauth
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
@@ -367,8 +364,14 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<span className="line" />
 				</div>
 				<OauthBox>
+					<button className="oauth googleoauth" onClick={oAuthHandler}>
+						<img className="googleIcon" src={googleIcon} alt="" />
+					</button>
 					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
-						<img className="kakao" src={kakao} alt="" width="300px" />
+						<RiKakaoTalkFill size={32} color="#3b1e1e" />
+					</button>
+					<button className="oauth">
+						<span id="naverIdLogin">Naver</span>
 					</button>
 				</OauthBox>
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>

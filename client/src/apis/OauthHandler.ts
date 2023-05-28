@@ -12,75 +12,75 @@ import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
 import { Api } from './customAPI';
 
 // oauth 구글
+// 토큰, 유저정보 요청 -> tokenInfo가 없으면 회원가입하고 다시 auth/google요청 후 로그인
+// tokenInfo가 있으면 바로 tokenInfo를 가지고 로그인
 export function OauthGoogleHandler() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	useEffect(() => {
-		const url = new URL(window.location.href);
-		const { hash } = url;
 		// 플랫폼 로그인 후 받아오는 token값
-		const googleToken = hash.split('=')[1].split('&')[0];
-		console.log(googleToken);
+		const googleToken = getLocalStorage('code');
 		async function getData() {
-			// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
-			const googleData = await Api.post('/auth/google', { googleToken });
-			const { tokenInfo, email, name, password } = googleData.data;
-			const {
-				memberId,
-				accessToken,
-				accessTokenExpirationTime,
-				refreshToken,
-				refreshTokenExpirationTime,
-			} = tokenInfo;
-
 			try {
+				// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
+				const googleData = await Api.post('/auth/google', googleToken, {
+					headers: {
+						'Content-Type': 'text/plain',
+					},
+				});
+				const { tokenInfo } = googleData.data.data;
+
 				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
 				const mbtiData = await Api.get('/mbtiInfo/INFP');
 				const mbtiImg = mbtiData.data.img;
 
-				// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
-				const displayName = name === null ? 'client' : name;
-
-				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
-				const allMember = await Api.get('/members');
-
-				// 토큰 저장
-				dispatch(LOGIN({ accessToken: `${accessToken}` }));
-				setCookie('refreshToken', refreshToken, {
-					path: '/',
-					sameSite: 'none',
-					secure: true,
-				});
-				setLocalStorage('accessToken', accessToken);
-				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-
 				if (
 					// 회원가입
-					allMember.data.find((v: { email: string }) => v.email === email) ===
-					undefined
+					tokenInfo === null
 				) {
 					await Api.post('/members/signup', {
-						nickname: displayName,
+						nickname: googleData.data.data.email.split('@')[0],
 						mbti: 'INFP',
-						email,
-						password,
+						email: googleData.data.data.email,
+						password: googleData.data.data.password,
 						img: mbtiImg,
 					});
-					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 회원가입 후 한번 더 서버에 토큰, 유저정보 요청
+					const googleData2 = await Api.post('/auth/google', googleToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = googleData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					// 로그인
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
+					// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
+					const displayName = name === null ? email.split('@')[0] : name;
+
 					// 로그인 정보 전역상태 업데이트
 					dispatch(
 						UPDATE({
@@ -104,19 +104,37 @@ export function OauthGoogleHandler() {
 					});
 				} else {
 					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
+					const googleData2 = await Api.post('/auth/google', googleToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = googleData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
 
 					// 로그인 정보 업데이트
 					const userInfo1 = await Api.get(`members/${memberId}`);
@@ -151,76 +169,76 @@ export function OauthGoogleHandler() {
 }
 
 // oauth 네이버 회원가입, 로그인(if문으로 구분됨)
-// 네이버에서 토큰을 받아오고 서버로 넘긴 후, 서버에서 로그인시키고, 유저정보를 클라이언트에 보내서 그걸로 유저 상태 업데이트
+// 토큰, 유저정보 요청 -> tokenInfo가 없으면 회원가입하고 다시 auth/google요청 후 로그인
+// tokenInfo가 있으면 바로 tokenInfo를 가지고 로그인
 export function OauthNaverHandler() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const url = new URL(window.location.href);
-		const { hash } = url;
-		const naverToken = hash.split('=')[1].split('&')[0];
-		console.log(naverToken);
+		// 플랫폼 로그인 후 받아오는 token값
+		const naverToken = getLocalStorage('code');
 		async function getData() {
-			// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
-			const naverData = await Api.post('/auth/naver', { naverToken });
-			const { tokenInfo, email, name, password } = naverData.data;
-			const {
-				memberId,
-				accessToken,
-				accessTokenExpirationTime,
-				refreshToken,
-				refreshTokenExpirationTime,
-			} = tokenInfo;
-
 			try {
+				// 네이버token을 서버에 보내서 자체 토큰과 유저정보 요청
+				const naverData = await Api.post('/auth/naver', naverToken, {
+					headers: {
+						'Content-Type': 'text/plain',
+					},
+				});
+				const { tokenInfo } = naverData.data.data;
+
 				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
 				const mbtiData = await Api.get('/mbtiInfo/INFP');
 				const mbtiImg = mbtiData.data.img;
 
-				// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
-				const displayName = name === null ? 'client' : name;
-
-				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
-				const allMember = await Api.get('/members');
-
-				// 토큰 저장
-				dispatch(LOGIN({ accessToken: `${accessToken}` }));
-				setCookie('refreshToken', refreshToken, {
-					path: '/',
-					sameSite: 'none',
-					secure: true,
-				});
-				setLocalStorage('accessToken', accessToken);
-				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-
 				if (
 					// 회원가입
-					allMember.data.find((v: { email: string }) => v.email === email) ===
-					undefined
+					tokenInfo === null
 				) {
 					await Api.post('/members/signup', {
-						nickname: displayName,
+						nickname: naverData.data.data.email.split('@')[0],
 						mbti: 'INFP',
-						email,
-						password,
+						email: naverData.data.data.email,
+						password: naverData.data.data.password,
 						img: mbtiImg,
 					});
-					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 회원가입 후 한번 더 서버에 토큰, 유저정보 요청
+					const naverData2 = await Api.post('/auth/naver', naverToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = naverData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					// 로그인
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
+					// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
+					const displayName = name === null ? email.split('@')[0] : name;
+
 					// 로그인 정보 전역상태 업데이트
 					dispatch(
 						UPDATE({
@@ -244,19 +262,37 @@ export function OauthNaverHandler() {
 					});
 				} else {
 					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 네이버token을 서버에 보내서 자체 토큰과 유저정보 요청
+					const naverData2 = await Api.post('/auth/naver', naverToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = naverData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
 
 					// 로그인 정보 업데이트
 					const userInfo1 = await Api.get(`members/${memberId}`);
