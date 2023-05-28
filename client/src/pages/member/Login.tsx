@@ -144,13 +144,13 @@ const Content = styled.div`
 		}
 	}
 	.gotoJoin {
-		color: rgba(0, 0, 0, 0.2);
+		color: rgba(0, 0, 0, 0.5);
 		margin-top: 20px;
-		font-size: 13px;
+		font-size: 15px;
 	}
 	.gotoJoinBtn {
 		color: #0db4f3;
-		font-size: 13px;
+		font-size: 15px;
 		margin-top: 7px;
 		&:hover {
 			color: #4ec9ff;

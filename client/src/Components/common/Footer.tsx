@@ -73,6 +73,7 @@ const Main = styled.div`
 			font-size: 24px;
 		}
 	}
+	border: none;
 `;
 const Content = styled.div`
 	width: 100%;
@@ -132,7 +133,25 @@ const Content = styled.div`
 	.teamName {
 		color: rgba(0, 0, 0, 0.5);
 		font-size: 12px;
+		@media (max-width: 370px) {
+			display: none;
+		}
 	}
+	.hide {
+		display: none;
+		@media (max-width: 370px) {
+			display: block;
+		}
+	}
+	.teamDivide2 {
+		display: inline-block;
+		justify-content: center;
+		align-items: center;
+	}
+	.manager {
+		border: none;
+	}
+	border: none;
 `;
 function Footer() {
 	const locationNow = useLocation();
@@ -208,20 +227,40 @@ function Footer() {
 						<img src={logo} alt="" />
 					</Link>
 					<div className="teamName">TEAM 너의 이름은</div>
+					<span className="hide manager">관리자 문의</span>
+					<div className="teamDivide2 hide">
+						<button className="space2 hide">bda624444@gmail.com</button>
+					</div>
 				</div>
 				<div>
 					<span>SERVICE</span>
-					<button>지역별 추천 여행 명소</button>
-					<button>국내 핫한 여행 명소</button>
-					<button>인기 여행 리뷰</button>
+					<Link to="/regionrec">
+						<button>지역별 추천 여행 명소</button>
+					</Link>
+					<Link to="/hotplace">
+						<button>우리 동네 여행명소</button>
+					</Link>
+					<Link to="/hotreview">
+						<button>인기 여행 리뷰</button>
+					</Link>
 				</div>
 				<div>
 					<span>COMMUNITY</span>
-					<button>여행리뷰</button>
-					<button>여행고민</button>
-					<button>같이가요</button>
-					<button>MBTI</button>
-					<button>잡담</button>
+					<Link to="/tripreview">
+						<button>여행리뷰</button>
+					</Link>
+					<Link to="/community">
+						<button>여행고민</button>
+					</Link>
+					<Link to="/tripmate">
+						<button>같이가요</button>
+					</Link>
+					<Link to="/mbti">
+						<button>MBTI</button>
+					</Link>
+					<Link to="/etctalk">
+						<button>잡담</button>
+					</Link>
 				</div>
 				<div className="team">
 					<span>관리자 문의</span>
