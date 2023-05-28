@@ -14,6 +14,7 @@ const ModalBackdrop = styled.div`
 	bottom: 0;
 	right: 0;
 	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 201;
 `;
 
 const ModalButton = styled.button`

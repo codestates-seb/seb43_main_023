@@ -33,7 +33,7 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-	width: 950px;
+	width: 90vw;
 
 	> h2 {
 		padding-bottom: 10px;
@@ -47,6 +47,14 @@ const Body = styled.div`
 		font-size: 13px;
 		line-height: 30px;
 		padding-bottom: 10px;
+
+		> div {
+			border: 1px solid red;
+
+			@media screen and (max-width: 480px) {
+				display: none;
+			}
+		}
 
 		> a {
 			text-decoration: none;
@@ -139,8 +147,6 @@ const InputBox = styled.input`
 		outline: none;
 	}
 `;
-
-// const ImgContainer = styled.div`
 // 	margin-top: 15px;
 // 	width: 100%;
 
@@ -179,9 +185,25 @@ const InputBox = styled.input`
 
 const ImgContainer = styled.div`
 	margin-top: 15px;
-	width: 100%;
+	width: inherit;
 	display: flex;
 	justify-content: space-between;
+
+	@media screen and (max-width: 480px) {
+		flex-direction: column;
+	}
+
+	> div:nth-child(1) {
+		@media screen and (max-width: 480px) {
+			margin-bottom: 15px;
+		}
+	}
+
+	> div:nth-child(2) {
+		@media screen and (max-width: 480px) {
+			margin-bottom: 15px;
+		}
+	}
 
 	div {
 		display: flex;
@@ -190,12 +212,16 @@ const ImgContainer = styled.div`
 		height: 40px;
 
 		input {
-			width: 300px;
+			width: 29vw;
 			padding: 10px;
 			font-size: 13px;
 			border: 1px solid rgb(214, 217, 219);
 			background-color: #fafafa;
 			height: 42px;
+
+			@media screen and (max-width: 480px) {
+				width: 100%;
+			}
 
 			&:focus {
 				outline: none !important;
@@ -375,8 +401,6 @@ function PostUpload() {
 			setPosts(postData);
 		}
 	}, [postData]);
-
-	console.log(posts);
 
 	return (
 		<div className="main">

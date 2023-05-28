@@ -1,11 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
-import { FiAlertCircle } from 'react-icons/fi';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import useAxios from '../../hooks/useAxios';
 import useGet from '../../hooks/useGet';
 
 const Button = styled.button`
@@ -22,14 +20,12 @@ const Button = styled.button`
 	}
 `;
 
-const Ul = styled.ul`
-	padding: 5px 0;
-`;
+const Ul = styled.ul``;
 
 const Li = styled.li`
 	width: inherit;
 	background-color: #fafafa;
-	padding: 10px;
+	padding: 12px;
 
 	> button {
 		width: 100%;
@@ -44,7 +40,7 @@ const Li = styled.li`
 const Container = styled.div`
 	position: absolute;
 	z-index: 100;
-	width: 950px;
+	width: 89.8vw;
 	border: 1px solid rgb(214, 217, 219);
 	border-top: none;
 `;

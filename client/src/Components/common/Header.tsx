@@ -75,7 +75,7 @@ const Content = styled.div`
 				}
 			}
 		}
-		button {
+		> button {
 			position: absolute;
 			right: 0px;
 			font-weight: bold;
@@ -121,25 +121,34 @@ const Li = styled.li`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	overflow: scroll;
 
 	> button {
 		width: 100%;
 		display: flex;
+		flex-wrap: nowrap;
+		overflow: scroll;
 
 		&:hover {
 			color: #0db4f3;
 		}
 
 		> p {
+			height: 18px;
+			overflow-x: scroll;
+			font-size: 13px;
 			margin-left: 15px;
+			display: flex;
+			flex-wrap: nowrap;
 		}
 	}
 `;
 
 const Container = styled.div<ContainerProps>`
 	position: absolute;
+	overflow: scroll;
 	z-index: 200;
-	width: 1030px;
+	width: 100.6%;
 	max-height: 300px;
 	overflow: scroll;
 	border: 3px solid #0db4f3;
@@ -147,15 +156,60 @@ const Container = styled.div<ContainerProps>`
 	border-radius: 0 0 10px 10px;
 	margin-top: ${(props) =>
 		props.hasResult.length === 1
-			? '63px'
+			? '96px'
 			: props.hasResult.length === 2
-			? '103px'
+			? '151px'
 			: props.hasResult.length === 3
-			? '143px'
+			? '196px'
 			: props.hasResult.length === 4
-			? '183px'
-			: '223px'};
+			? '261px'
+			: '316px'};
 	margin-left: -13px;
+
+	@media screen and (max-width: 1024px) {
+		width: 101%;
+	}
+
+	@media screen and (max-width: 480px) {
+		margin-left: -8px;
+		width: 102.5%;
+	}
+
+	@media screen and (max-width: 440px) {
+		margin-left: -8px;
+		width: 102.6%;
+	}
+
+	@media screen and (max-width: 438px) {
+		margin-left: -8px;
+		width: 102.7%;
+	}
+
+	@media screen and (max-width: 428px) {
+		margin-left: -8px;
+		width: 102.8%;
+	}
+
+	@media screen and (max-width: 420px) {
+		margin-left: -8px;
+		width: 102.9%;
+	}
+
+	@media screen and (max-width: 414px) {
+		width: 103%;
+	}
+
+	@media screen and (max-width: 400px) {
+		width: 103.5%;
+	}
+
+	@media screen and (max-width: 380px) {
+		width: 103.6%;
+	}
+
+	@media screen and (max-width: 362px) {
+		width: 104%;
+	}
 `;
 
 function Header() {
@@ -167,7 +221,6 @@ function Header() {
 	const [tourResult, setTourResult] = useState([]);
 	const [change, setChange] = useState<boolean>(false);
 	const [value, setValue] = useState<string>('');
-	const [selected, setSelected] = useState<string>('');
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=${value}&contentTypeId=12`;
