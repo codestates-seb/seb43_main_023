@@ -1,10 +1,14 @@
 import '../../Global.css';
 
+import { useEffect } from 'react';
+
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../../assets/logo.png';
 import { getLocalStorage } from '../../utils/LocalStorage';
+import shareKakao from '../../utils/shareKakaoLink';
 
 const Main = styled.div`
 	width: 100%;
@@ -81,6 +85,7 @@ const Content = styled.div`
 	justify-content: space-around;
 	align-items: flex-start;
 	background: rgba(0, 0, 0, 0.04);
+	padding-bottom: 30px;
 	div {
 		display: flex;
 		flex-direction: column;
@@ -130,15 +135,9 @@ const Content = styled.div`
 			display: none;
 		}
 	}
-	.teamName {
-		color: rgba(0, 0, 0, 0.5);
-		font-size: 12px;
-		@media (max-width: 370px) {
-			display: none;
-		}
-	}
 	.hide {
 		display: none;
+		border: none;
 		@media (max-width: 370px) {
 			display: block;
 		}
@@ -150,10 +149,43 @@ const Content = styled.div`
 	}
 	.manager {
 		border: none;
+		@media (max-width: 370px) {
+			margin: 0px;
+		}
 	}
 	border: none;
+	.kakaoBtn {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+		span {
+			font-size: 15px;
+			padding: 0px;
+			border: none;
+			margin: 0;
+			margin-right: 5px;
+			transform: translateY(3px);
+			&:hover {
+				color: #0db4f3;
+			}
+			@media (max-width: 370px) {
+				display: none;
+			}
+		}
+	}
 `;
 function Footer() {
+	useEffect((): any => {
+		const script = document.createElement('script');
+		script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
+		script.async = true;
+		document.body.appendChild(script);
+		return () => document.body.removeChild(script);
+	}, []);
+
+	const route = 'https://whatsyourmbti.click';
+	const title = 'MBTI기반 여행지 추천 커뮤니티 어플리케이션';
+
 	const locationNow = useLocation();
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
@@ -174,6 +206,7 @@ function Footer() {
 		const y = 1 + (window.scrollY || window.pageYOffset);
 		root.style.setProperty('--gradient-percent', `${y * 4}px`);
 	});
+
 	return (
 		<Main>
 			<div>
@@ -226,7 +259,10 @@ function Footer() {
 					<Link to="/main">
 						<img src={logo} alt="" />
 					</Link>
-					<div className="teamName">TEAM 너의 이름은</div>
+					<button className="kakaoBtn" onClick={() => shareKakao(route, title)}>
+						<span>공유하기</span>
+						<RiKakaoTalkFill size={23} color="#3b1e1e" />
+					</button>
 					<span className="hide manager">관리자 문의</span>
 					<div className="teamDivide2 hide">
 						<button className="space2 hide">bda624444@gmail.com</button>
