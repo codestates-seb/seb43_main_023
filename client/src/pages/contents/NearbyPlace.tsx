@@ -285,7 +285,9 @@ function NearbyPlace() {
 
 	return (
 		<NearbyPlaceContainer>
-			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			{isOpen ? (
+				<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			) : null}
 			<NearbyPlaceDetailImage image={backgroundImg}>
 				<span>🧭 우리 동네 여행 명소</span>
 			</NearbyPlaceDetailImage>

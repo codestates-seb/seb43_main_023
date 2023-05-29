@@ -484,7 +484,9 @@ function RegionDetail() {
 
 	return (
 		<RegionDetailContainer>
-			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			{isOpen ? (
+				<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			) : null}
 			<RegionDetailImage image={selectedRegion[0].header}>
 				<span>{selectedRegion[0].name} 여행 추천 명소</span>
 			</RegionDetailImage>

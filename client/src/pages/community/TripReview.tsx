@@ -2,14 +2,13 @@ import '../../Global.css';
 
 import styled from 'styled-components';
 
-import { useNavigate } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import * as style from '../../Components/community/CommunityStyle';
 import Reviews from '../../Components/community/Reviews';
 import SideBar from '../../Components/community/SideBar';
 import Tags from '../../Components/community/Tags';
-import * as style from '../../Components/community/CommunityStyle';
 import { RootState } from '../../store/Store';
 import { Ilogin } from '../../type/Ilogin';
 
@@ -93,10 +92,10 @@ function TripReview() {
 								</p>
 							</span>
 						</button>
-						<HamburgerMenu />
 					</div>
 				</div>
 			</style.Explain>
+			<HamburgerMenu />
 			<ReviewContainer>
 				<SideBar />
 				<ReviewBody>
