@@ -18,11 +18,11 @@ const Button = styled.button`
 	border-radius: 5px;
 	background: white;
 	border: 1px solid rgba(0, 0, 0, 0.2);
-	&::placeholder {
-		color: rgba(0, 0, 0, 0.3);
+	@media (max-width: 430px) {
+		width: 250px;
 	}
-	> div {
-		color: rgba(0, 0, 0, 0.3);
+	div {
+		color: rgba(0, 0, 0, 0.8);
 	}
 `;
 
@@ -31,13 +31,20 @@ const Ul = styled.ul`
 	width: 298px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+	margin-top: 3px;
+	height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	@media (max-width: 430px) {
+		width: 248.5px;
+	}
 `;
 
 const Li = styled.li`
 	width: inherit;
 	padding: 8px;
-	font-size: 11px;
-	> button {
+	font-size: 14px;
+	button {
 		width: 100%;
 		display: flex;
 
@@ -55,6 +62,9 @@ const Container = styled.div`
 	border-top: none;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+	@media (max-width: 430px) {
+		width: 250px;
+	}
 `;
 
 interface SubjectDropdownProps {

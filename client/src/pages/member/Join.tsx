@@ -1,13 +1,14 @@
 import '../../Global.css';
 
-import { FocusEvent, useState } from 'react';
+import { FocusEvent, useEffect, useState } from 'react';
 
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
 import airplane from '../../assets/airplane.png';
-import kakao from '../../assets/kakao.png';
+import googleIcon from '../../assets/googleIcon.png';
 import logo from '../../assets/logo.png';
 import MBTIDropdown from '../../Components/member/MBTIDropdown';
 import { SweetAlert2 } from '../../utils/SweetAlert';
@@ -122,7 +123,7 @@ const Content = styled.div`
 		}
 		.check {
 			color: red;
-			font-size: 10px;
+			font-size: 15px;
 			margin-top: 10px;
 			margin-bottom: -10px;
 		}
@@ -159,13 +160,13 @@ const Content = styled.div`
 		}
 	}
 	.gotoJoin {
-		color: rgba(0, 0, 0, 0.2);
+		color: rgba(0, 0, 0, 0.5);
 		margin-top: 20px;
-		font-size: 13px;
+		font-size: 15px;
 	}
 	.gotoJoinBtn {
 		color: #0db4f3;
-		font-size: 13px;
+		font-size: 15px;
 		margin-top: 7px;
 		&:hover {
 			color: #4ec9ff;
@@ -207,13 +208,10 @@ const OauthBox = styled.div`
 		}
 	}
 	.kakaoBtn {
+		background: #fee500;
+		transform: translateY(-3px);
 		&:hover {
-			transform: translateY(-3px);
-		}
-		img {
-			@media (max-width: 430px) {
-				width: 250px;
-			}
+			transform: translateY(-6px);
 		}
 	}
 `;
@@ -349,14 +347,12 @@ function Join() {
 		setSubject(sub);
 	};
 
-	/*
 	// 구글 oauth
 	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
 response_type=token&
 redirect_uri=https://whatsyourmbti.click/accounts/google/login/&
 scope=https://www.googleapis.com/auth/userinfo.email`;
 	const oAuthHandler = () => {
-		console.log(oAuthURL);
 		window.location.assign(oAuthURL);
 	};
 
@@ -368,7 +364,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		const initializeNaverLogin = () => {
 			const naverLogin = new naver.LoginWithNaverId({
 				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
+				callbackUrl: 'http://localhost:3000/Api/Member/Oauth',
 				isPopup: false,
 				loginButton: {
 					color: 'green',
@@ -380,7 +376,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		};
 		initializeNaverLogin();
 	}, [naver.LoginWithNaverId]);
-*/
+
 	// 카카오 oauth
 	const { Kakao } = window as any;
 	const loginWithKakao = () => {
@@ -462,8 +458,14 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<span className="line" />
 				</div>
 				<OauthBox>
+					<button className="oauth googleoauth" onClick={oAuthHandler}>
+						<img className="googleIcon" src={googleIcon} alt="" />
+					</button>
 					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
-						<img className="kakao" src={kakao} alt="" width="300px" />
+						<RiKakaoTalkFill size={32} color="#3b1e1e" />
+					</button>
+					<button className="oauth naver">
+						<span id="naverIdLogin">Naver</span>
 					</button>
 				</OauthBox>
 				<span className="gotoJoin">이미 회원가입을 하셨나요?</span>

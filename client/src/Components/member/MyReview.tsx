@@ -11,10 +11,10 @@ import useGet from '../../hooks/useGet';
 import { RootState } from '../../store/Store';
 import { Iposts } from '../../type/Ipost';
 import { Iuser } from '../../type/Iuser';
+import NoContent from './NoContent';
 
 const Container = styled.ul`
 	width: 95%;
-	min-height: 28vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -127,34 +127,39 @@ function MyReview() {
 
 	return (
 		<Container>
-			{filteredReviews &&
+			{filteredReviews.length > 0 ? (
 				filteredReviews
 					.filter((v: { subject: string }) => v.subject === '여행리뷰')
-					.map((el) => (
-						<li key={el.postId}>
-							<Link to={`/tripreview/${el.postId}`}>
-								<ReviewBox>
-									<div>
-										<img src={el.image[0]} alt="여행리뷰사진" />
-									</div>
-									<div>{el.title}</div>
-									<Writer>
+					.map((el) => {
+						return (
+							<li key={el.postId}>
+								<Link to={`/tripreview/${el.postId}`}>
+									<ReviewBox>
 										<div>
+											<img src={el.image[0]} alt="여행리뷰사진" />
+										</div>
+										<div>{el.title}</div>
+										<Writer>
 											<div>
-												<img src={userInfos.img} alt="유저프로필사진" />
+												<div>
+													<img src={userInfos.img} alt="유저프로필사진" />
+												</div>
+												<div>{el.member.nickname}</div>
 											</div>
-											<div>{el.member.nickname}</div>
-										</div>
 
-										<div>
-											<AiFillHeart color="#F24F1F" size={17} />
-											<p>{el.voteCount}</p>
-										</div>
-									</Writer>
-								</ReviewBox>
-							</Link>
-						</li>
-					))}
+											<div>
+												<AiFillHeart color="#F24F1F" size={17} />
+												<p>{el.voteCount}</p>
+											</div>
+										</Writer>
+									</ReviewBox>
+								</Link>
+							</li>
+						);
+					})
+			) : (
+				<NoContent />
+			)}
 		</Container>
 	);
 }

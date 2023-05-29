@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Api } from '../../apis/customAPI';
 import IntroBox from '../../Components/member/IntroBox';
 import MyReview from '../../Components/member/MyReview';
+import NoContent from '../../Components/member/NoContent';
 import useGet from '../../hooks/useGet';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
@@ -69,17 +70,18 @@ const MenuContent = styled.div`
 		div {
 			margin-bottom: 15px;
 			font-weight: bold;
-			color: #555555;
+			color: rgba(0, 0, 0, 0.8);
 			font-size: 20px;
 		}
 		.myInfo {
 			font-size: 15px;
 			font-weight: 400;
 			margin-bottom: 40px;
+			color: rgba(0, 0, 0, 0.6);
 		}
 		.memberEdit {
-			font-size: 12px;
-			color: rgba(0, 0, 0, 0.2);
+			font-size: 15px;
+			color: rgba(0, 0, 0, 0.4);
 			font-weight: bold;
 			&:hover {
 				cursor: pointer;
@@ -99,21 +101,21 @@ const MenuContent = styled.div`
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			width: 190px;
-			border: 1px solid rgba(0, 0, 0, 0.07);
+			width: 250px;
+			border: 1px solid rgba(0, 0, 0, 0.2);
 			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.02);
 			color: #2d2d2d;
 			padding: 0 10px;
 			padding-top: 20px;
 			.badgeEl {
-				font-size: 11px;
-				color: rgba(0, 0, 0, 0.5);
+				font-size: 12px;
+				color: rgba(0, 0, 0, 0.7);
 			}
 		}
 	}
 	.test {
 		width: 100%;
-		text-align: right;
+		text-align: center;
 		text-decoration: none;
 		padding: 0 50px;
 		margin-top: 30px;
@@ -345,32 +347,36 @@ function Mypage() {
 					{select === 'btn2' && (
 						<UserWriting>
 							<ul>
-								{filteredPosts.map((post) => {
-									return (
-										<li key={post.postId}>
-											<div className="writingHead">[{post.subject}]</div>
-											<Link
-												to={{ pathname: `/community/${post.postId}` }}
-												style={{ textDecoration: 'none' }}
-											>
-												<div className="writingBody">{post.title}</div>
-											</Link>
-											<div>
+								{filteredPosts.length > 0 ? (
+									filteredPosts.map((post) => {
+										return (
+											<li key={post.postId}>
+												<div className="writingHead">[{post.subject}]</div>
 												<Link
-													to={{
-														pathname: `/community/${post.postId}/update`,
-													}}
+													to={{ pathname: `/community/${post.postId}` }}
 													style={{ textDecoration: 'none' }}
 												>
-													<button>Edit</button>
+													<div className="writingBody">{post.title}</div>
 												</Link>
-												<button onClick={() => postDeleteClick(post.postId)}>
-													Delete
-												</button>
-											</div>
-										</li>
-									);
-								})}
+												<div>
+													<Link
+														to={{
+															pathname: `/community/${post.postId}/update`,
+														}}
+														style={{ textDecoration: 'none' }}
+													>
+														<button>Edit</button>
+													</Link>
+													<button onClick={() => postDeleteClick(post.postId)}>
+														Delete
+													</button>
+												</div>
+											</li>
+										);
+									})
+								) : (
+									<NoContent />
+								)}
 							</ul>
 						</UserWriting>
 					)}
