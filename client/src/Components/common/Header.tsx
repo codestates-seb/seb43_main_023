@@ -202,10 +202,12 @@ function Header() {
 	};
 
 	const handleInputBlur = () => {
-		setIsInputFocused(false);
-		setTourResult([]);
-		setChange(false);
-		setValue('');
+		setTimeout(() => {
+			setIsInputFocused(false);
+			setTourResult([]);
+			setChange(false);
+			setValue('');
+		}, 100);
 	};
 
 	const searchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
