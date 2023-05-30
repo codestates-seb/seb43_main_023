@@ -168,6 +168,7 @@ function Header() {
 	const [tourResult, setTourResult] = useState([]);
 	const [change, setChange] = useState<boolean>(false);
 	const [value, setValue] = useState<string>('');
+	const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=5&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=${value}&contentTypeId=12`;
@@ -195,6 +196,17 @@ function Header() {
 
 		return () => clearTimeout(timerId); // 컴포넌트 언마운트 시 타이머 취소
 	}, [tourUrl]);
+
+	const handleInputFocus = () => {
+		setIsInputFocused(true);
+	};
+
+	const handleInputBlur = () => {
+		setIsInputFocused(false);
+		setTourResult([]);
+		setChange(false);
+		setValue('');
+	};
 
 	const searchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -260,6 +272,8 @@ function Header() {
 					onChange={handleInputChange}
 					autoComplete="off"
 					value={value || keyword.keyword}
+					onFocus={handleInputFocus}
+					onBlur={handleInputBlur}
 					// defaultValue={selected}
 				/>
 
