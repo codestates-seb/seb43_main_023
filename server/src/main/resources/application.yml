@@ -12,11 +12,12 @@ spring:
       path: /h2
   datasource:
 #    url: jdbc:h2:mem:test
-    url: jdbc:mysql://seb43-mainproject23.cg3mnaxzyetr.ap-northeast-2.rds.amazonaws.com:13306/mainproject23
-    username: admin
-    password: qw456852
+    url: ${datasource_URL}
+    username: ${datasource_NAME}
+    password: ${datasource_PASSWORD}
   jpa:
     hibernate:
+#      ddl-auto: create
       ddl-auto: update  # (1) ??? ?? ??
     show-sql: true      # (2) SQL ?? ??
     properties:

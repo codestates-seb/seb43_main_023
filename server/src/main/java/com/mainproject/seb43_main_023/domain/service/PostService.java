@@ -5,7 +5,6 @@ import com.mainproject.seb43_main_023.global.exception.ExceptionCode;
 import com.mainproject.seb43_main_023.domain.entity.Member;
 import com.mainproject.seb43_main_023.domain.entity.Post;
 import com.mainproject.seb43_main_023.domain.repository.PostRepository;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +27,11 @@ public class PostService {
     }
     public Post createPost(Post post, long memberId){
         Member member = memberService.findVerifiedMember(memberId);
-//        post.addMember(post,member);
         post.setMember(member);
         return postRepository.save(post);
     }
     public Post updatePost(Post post, long memberId){
         Post findPost = verifyPost(post.getPostId());
-//        if(findPost.getMemberId().equals(memberId)) {
         if(findPost.getMember().getMemberId().equals(memberId)) {
             Optional.ofNullable(post.getSubject()).ifPresent(findPost::setSubject);
             Optional.ofNullable(post.getTitle()).ifPresent(findPost::setTitle);
@@ -51,7 +48,6 @@ public class PostService {
     }
     public void removePost(long postId, long memberId){
         Post deletePost = verifyPost(postId);
-//        if(memberId == deletePost.getMemberId()) {
         if(memberId == deletePost.getMember().getMemberId()){
             postRepository.delete(deletePost);
         } else throw new BusinessLogicException(ExceptionCode.NO_PERMISSION);
