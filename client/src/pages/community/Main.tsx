@@ -41,7 +41,7 @@ function Main() {
 		}
 	};
 
-	const response = useGet(`?size=8&subject=여행고민&${curPage}`);
+	const response = useGet(`?size=8&subject=여행고민&page=1`);
 
 	useEffect(() => {
 		if (response) {
@@ -63,6 +63,7 @@ function Main() {
 							<br />
 							커뮤니티 각 탭을 누르며 둘러보세요!
 						</p>
+
 						<button onClick={handleBtn}>
 							<span>
 								작성하러 가기{' '}

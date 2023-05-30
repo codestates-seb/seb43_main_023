@@ -154,7 +154,7 @@ function Review() {
 	const startIdx = (curPage - 1) * 12;
 	const endIdx = startIdx + 12;
 
-	const response = useGet(`?size=100&subject=여행리뷰&page=${curPage}`);
+	const response = useGet(`?size=100&subject=여행리뷰&page=1`);
 
 	useEffect(() => {
 		if (response) {
