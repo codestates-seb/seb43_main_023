@@ -233,11 +233,16 @@ function PostDetail() {
 	};
 
 	const handleDisLike = () => {
-		setIsLike(!isLike);
+		setIsLike(false);
 
 		try {
-			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {});
-			document.location.reload();
+			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
+				.then(() => Api.get(`/posts/${id}`))
+				.then((res) => {
+					console.log(res.data);
+					setPost([res.data]);
+				});
+			// document.location.reload();
 		} catch (error) {
 			navigate('/error');
 		}

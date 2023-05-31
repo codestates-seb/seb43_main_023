@@ -92,10 +92,10 @@ function TripReview() {
 								</p>
 							</span>
 						</button>
+						<HamburgerMenu />
 					</div>
 				</div>
 			</style.Explain>
-			<HamburgerMenu />
 			<ReviewContainer>
 				<SideBar />
 				<ReviewBody>

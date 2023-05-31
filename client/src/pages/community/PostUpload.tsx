@@ -49,8 +49,6 @@ const Body = styled.div`
 		padding-bottom: 10px;
 
 		> div {
-			border: 1px solid red;
-
 			@media screen and (max-width: 480px) {
 				display: none;
 			}

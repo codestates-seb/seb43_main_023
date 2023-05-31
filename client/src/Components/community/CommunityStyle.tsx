@@ -18,6 +18,7 @@ export const Explain = styled.div`
 	margin-bottom: 40px;
 	padding: 30px;
 	line-height: 1.5rem;
+	z-index: 202;
 
 	@media (max-width: 580px) {
 		padding: 10px 10px;

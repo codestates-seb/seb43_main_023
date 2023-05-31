@@ -226,7 +226,7 @@ function Answers() {
 			ToastAlert('자신의 댓글은 좋아요가 불가능해요');
 		} else {
 			setClickedId(answerId);
-			setIsLike(!isLike);
+			setIsLike(true);
 
 			try {
 				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
@@ -246,8 +246,10 @@ function Answers() {
 
 		if (clickedAnswer) {
 			try {
-				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {});
-				document.location.reload();
+				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/comments/${id}`))
+					.then((res) => setAnswers(res.data));
+				// document.location.reload();
 			} catch (error) {
 				navigate('/error');
 			}
