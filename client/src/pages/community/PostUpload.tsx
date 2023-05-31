@@ -321,6 +321,10 @@ function PostUpload() {
 	};
 
 	const handleBtn = () => {
+		if (subject === '' || title === '' || content === '' || tags.length === 0) {
+			setAlert(true);
+		}
+
 		if (
 			(subject === '여행리뷰' && tags.length === 0) ||
 			(subject === '여행리뷰' && Images.length === 0)
@@ -418,12 +422,41 @@ function PostUpload() {
 					<DropDownContainer>
 						<SubjectDropdown handleSubject={handleSubject} from="upload" />
 					</DropDownContainer>
+
+					{alert && subject.length === 0 ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							말머리를 선택해주세요
+						</Alert>
+					) : null}
+
 					<TitleInput
 						placeholder="제목을 입력해주세요"
 						onChange={handleTitle}
 					/>
+
+					{alert && title.length === 0 ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							제목을 작성해주세요
+						</Alert>
+					) : null}
+
 					{subject === '여행리뷰' ? (
 						<SearchPlace handlePlace={handlePlace} />
+					) : null}
+
+					{alert && placeName === '' && subject === '여행리뷰' ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							여행하신 곳을 알려주세요
+						</Alert>
 					) : null}
 
 					<StyledEditorContainer>
@@ -444,6 +477,15 @@ function PostUpload() {
 							plugins={[colorSyntax]}
 						/>
 					</StyledEditorContainer>
+
+					{alert && content === '' ? (
+						<Alert>
+							<p>
+								<FiAlertCircle />
+							</p>
+							내용을 입력해주세요
+						</Alert>
+					) : null}
 
 					<TagContainer>
 						{tags.map((e, i) => (
@@ -466,14 +508,14 @@ function PostUpload() {
 						/>
 					</TagContainer>
 
-					{alert && tags.length === 0 ? (
+					{alert && tags.length === 0 && (
 						<Alert>
 							<p>
 								<FiAlertCircle />
 							</p>
 							태그는 필수 사항이예요
 						</Alert>
-					) : null}
+					)}
 
 					<ImgContainer>
 						<div>
@@ -501,7 +543,7 @@ function PostUpload() {
 						</div>
 					</ImgContainer>
 
-					{alert && Images.length === 0 ? (
+					{alert && Images.length === 0 && subject === '여행리뷰' ? (
 						<Alert>
 							<p>
 								<FiAlertCircle />
