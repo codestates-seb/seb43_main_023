@@ -38,19 +38,18 @@ const ModalButton = styled.button`
 const ModalView = styled.div`
 	position: absolute;
 	top: 30vh;
-	left: 15vw;
-	width: 70%;
-	height: 40%;
+	left: 10vw;
+	width: 80%;
+	height: 50%;
 	overflow-y: scroll;
 	background-color: rgba(250, 250, 250, 1);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	border-radius: 15px;
 	padding: 20px 30px 30px 30px;
 	line-height: 1.5;
-	font-size: 1.3em;
+	font-size: 1.5em;
 	@media (max-width: 425px) {
 		width: 80%;
 		left: 10vw;
