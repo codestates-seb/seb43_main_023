@@ -307,8 +307,7 @@ function Join() {
 				) {
 					ToastAlert('이미 사용중인 닉네임입니다.');
 				} else if (findMember && findMember.memberStatus === 'MEMBER_QUIT') {
-					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
-					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 가능
+					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 불가능
 					ToastAlert('탈퇴한 이메일은 재가입이 불가해요😢');
 				} else if (!findMember) {
 					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
@@ -364,7 +363,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		const initializeNaverLogin = () => {
 			const naverLogin = new naver.LoginWithNaverId({
 				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-				callbackUrl: 'http://localhost:3000/Api/Member/Oauth',
+				callbackUrl: 'https://whatsyourmbti.click/Api/Member/Oauth',
 				isPopup: false,
 				loginButton: {
 					color: 'green',
@@ -464,7 +463,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
 						<RiKakaoTalkFill size={32} color="#3b1e1e" />
 					</button>
-					<button className="oauth naver">
+					<button className="oauth">
 						<span id="naverIdLogin">Naver</span>
 					</button>
 				</OauthBox>
