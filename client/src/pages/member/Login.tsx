@@ -213,6 +213,39 @@ function Login() {
 			);
 			// 전체 멤버 중 같은 관리자이메일로 로그인한 경우 관리자페이지로 이동
 			if (el.email.value === 'admin@gmail.com') {
+				const loginData = await Api.post('/members/signin', {
+					email: el.email.value,
+					password: el.password.value,
+				});
+				const {
+					memberId,
+					accessToken,
+					refreshToken,
+					accessTokenExpirationTime,
+					refreshTokenExpirationTime,
+				} = loginData.data.data;
+
+				const userInfo = await Api.get(`/members/${memberId}`);
+				dispatch(
+					UPDATE({
+						id: userInfo.data.memberId,
+						email: userInfo.data.email,
+						nickname: userInfo.data.nickname,
+						mbti: userInfo.data.mbti,
+						img: userInfo.data.img,
+						badge: userInfo.data.badge,
+					}),
+				);
+				dispatch(LOGIN({ accessToken: `${accessToken}` }));
+				setCookie('refreshToken', refreshToken, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				setLocalStorage('accessToken', accessToken);
+				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
 				const sweetAlert2 = await SweetAlert2(
 					'관리자가 접속했습니다.',
 					'관리자 페이지로 이동합니다.',
@@ -306,7 +339,7 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 		const initializeNaverLogin = () => {
 			const naverLogin = new naver.LoginWithNaverId({
 				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-				callbackUrl: 'http://localhost:3000/Api/Member/Oauth',
+				callbackUrl: 'https://whatsyourmbti.click/Api/Member/Oauth',
 				isPopup: false,
 				loginButton: {
 					color: 'green',

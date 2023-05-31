@@ -12,6 +12,7 @@ export interface Imember {
 	badge?: null | string;
 	email?: string;
 	img?: string;
+	memberStatus?: string;
 }
 
 export type Imembers = Imember[];

@@ -131,6 +131,7 @@ function Manager() {
 			memberId: 0,
 			nickname: '',
 			badge: null,
+			memberStatus: '',
 		},
 	]);
 
@@ -178,19 +179,31 @@ function Manager() {
 
 	// 현재 무 뱃지 필터링 -> useMemo hook 사용
 	const filteredMembers = useMemo(
-		() => members.filter((m) => m.badge === null && m.nickname !== 'admin'),
+		() =>
+			members.filter(
+				(m) =>
+					m.badge === null &&
+					m.nickname !== 'admin' &&
+					m.memberStatus === 'MEMBER_ACTIVE',
+			),
 		[members],
 	);
 
 	// 현재 초급여행자 필터링 -> useMemo hook 사용
 	const filteredMembers1 = useMemo(
-		() => members.filter((m) => m.badge === '초보 여행자'),
+		() =>
+			members.filter(
+				(m) => m.badge === '초보 여행자' && m.memberStatus === 'MEMBER_ACTIVE',
+			),
 		[members],
 	);
 
 	// 현재 중급여행자 필터링 -> useMemo hook 사용
 	const filteredMembers2 = useMemo(
-		() => members.filter((m) => m.badge === '중급 여행자'),
+		() =>
+			members.filter(
+				(m) => m.badge === '중급 여행자' && m.memberStatus === 'MEMBER_ACTIVE',
+			),
 		[members],
 	);
 
@@ -204,7 +217,11 @@ function Manager() {
 		);
 		if (sweetAlert1.isConfirmed) {
 			try {
-				await Api.patch(`/members/grantBadge/${id}`);
+				await Api.patch(`/members/grantBadge/${id}`, {
+					subject: '수정된 말머리',
+					title: '수정된 제목',
+					content: '수정된 내용',
+				});
 				// window.location.reload();
 			} catch (error) {
 				navigate('/error');

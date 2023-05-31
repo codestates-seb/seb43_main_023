@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
 import { Api } from '../../apis/customAPI';
+import EditMBTIDropdown from '../../Components/member/EditMBTIDropdown';
 import IntroBox from '../../Components/member/IntroBox';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { RootState } from '../../store/Store';
@@ -39,8 +40,8 @@ const Content = styled.div`
 			justify-content: center;
 			align-items: center;
 			flex-direction: column;
-			div {
-				margin-bottom: 15px;
+			.title {
+				margin: 15px;
 				font-weight: bold;
 				color: #555555;
 				font-size: 20px;
@@ -49,6 +50,7 @@ const Content = styled.div`
 				font-size: 15px;
 				font-weight: 400;
 				margin-bottom: 40px;
+				color: #555555;
 			}
 			.check {
 				color: red;
@@ -56,13 +58,17 @@ const Content = styled.div`
 				margin-top: -30px;
 			}
 			.memberEdit {
-				font-size: 12px;
-				color: rgba(0, 0, 0, 0.2);
+				font-size: 15px;
+				color: rgba(0, 0, 0, 0.4);
 				font-weight: bold;
 				&:hover {
 					cursor: pointer;
 					color: #0db4f3;
 				}
+			}
+			.mbti {
+				margin-bottom: 40px;
+				width: 150px;
 			}
 		}
 	}
@@ -85,6 +91,10 @@ const Content = styled.div`
 		}
 	}
 `;
+const DropDownContainer = styled.div`
+	background: none;
+	border: none;
+`;
 
 function UserEdit() {
 	const navigate = useNavigate();
@@ -95,6 +105,7 @@ function UserEdit() {
 	const [editmbti, setEditMbti] = useState<string>('');
 	const [nameValid, setNameValid] = useState(false);
 	const [mbtiValid, setMbtiValid] = useState(false);
+	const [subject, setSubject] = useState<string>('');
 	const MBTI_REGEX = [
 		'ISTP',
 		'ISFP',
@@ -120,13 +131,18 @@ function UserEdit() {
 	const mbtiInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEditMbti(e.target.value);
 	};
+
+	const handleSubject = (sub: string) => {
+		setSubject(sub);
+	};
+
 	const userEditClick = async () => {
 		if (editname === '') {
 			setNameValid(true);
 			setMbtiValid(false);
 		}
 		if (
-			MBTI_REGEX.find((v) => v === editmbti.toUpperCase()) === undefined &&
+			MBTI_REGEX.find((v) => v === subject) === undefined &&
 			editname !== ''
 		) {
 			setMbtiValid(true);
@@ -134,14 +150,9 @@ function UserEdit() {
 		}
 		if (
 			editname !== '' &&
-			MBTI_REGEX.find((v) => v === editmbti.toUpperCase()) !== undefined
+			MBTI_REGEX.find((v) => v === subject) !== undefined
 		) {
-			const mbtiImg = await Api.get(`/mbtiInfo/${editmbti.toUpperCase()}`);
-			/*
-			const mbtiImg = mbtiImgData.data.find(
-				(v: { mbti: string }) => v.mbti === editmbti.toUpperCase(),
-			).img;
-			*/
+			const mbtiImg = await Api.get(`/mbtiInfo/${subject}`);
 			try {
 				// 전체 멤버 중 같은 닉네임이 있다면 경고창, 없다면 수정 가능
 				const allMember = await Api.get('/members');
@@ -154,13 +165,13 @@ function UserEdit() {
 				} else {
 					await Api.patch(`/members/${userInfos.id}`, {
 						nickname: editname,
-						mbti: editmbti.toUpperCase(),
+						mbti: subject,
 						img: mbtiImg.data.img,
 					});
 					dispatch(
 						UPDATE({
 							nickname: editname,
-							mbti: editmbti.toUpperCase(),
+							mbti: subject,
 							img: mbtiImg.data.img,
 							badge: userInfos.badge,
 						}),
@@ -189,7 +200,7 @@ function UserEdit() {
 				</div>
 				<div className="menuContent">
 					<div className="userInformation">
-						<div>DisplayName</div>
+						<div className="title">DisplayName</div>
 						<div className="myInfo myDisplayName">
 							<input
 								onChange={(e) => nameInputChange(e)}
@@ -199,18 +210,14 @@ function UserEdit() {
 						</div>
 						<div className="check">{nameValid && '이름을 입력해주세요'}</div>
 
-						<div>MBTI</div>
-						<div className="myInfo myMbti">
-							<input
-								onChange={(e) => mbtiInputChange(e)}
-								placeholder="mbti"
-								type="text"
-							/>
+						<div className="title">MBTI</div>
+						<div className="mbti">
+							<DropDownContainer className="mbtiInput">
+								<EditMBTIDropdown handleSubject={handleSubject} from="upload" />
+							</DropDownContainer>
 						</div>
-						<div className="check">
-							{mbtiValid && 'MBTI 형식으로 입력해주세요 ex.ISTJ'}
-						</div>
-						<div>Badge</div>
+						<div className="check">{mbtiValid && 'MBTI를 선택해주세요'}</div>
+						<div className="title">Badge</div>
 						<div className="myInfo">{userInfos.badge}</div>
 						<button onClick={userEditClick} className="memberEdit">
 							내정보 저장하기
