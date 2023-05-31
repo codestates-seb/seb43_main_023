@@ -49,19 +49,10 @@ const ModalView = styled.div`
 	align-items: center;
 	padding: 20px 30px 30px 30px;
 	line-height: 1.5;
-	font-size: 2em;
-	border-radius: 15px;
-	.scroll::-webkit-scrollbar {
-		display: none;
-	}
-	.scroll {
-		-ms-overflow-style: none; /* 인터넷 익스플로러 */
-		scrollbar-width: none; /* 파이어폭스 */
-	}
+	font-size: 1.5em;
 	@media (max-width: 425px) {
 		width: 80%;
 		left: 10vw;
-		font-size: 1.5em;
 	}
 	.explanation {
 		@font-face {
