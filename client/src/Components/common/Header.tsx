@@ -106,6 +106,12 @@ const Content = styled.div`
 			width: 50px;
 		}
 	}
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		left: calc((100vw - 1920px) / 2);
+		max-width: 1920px;
+	}
 `;
 
 const Ul = styled.ul`

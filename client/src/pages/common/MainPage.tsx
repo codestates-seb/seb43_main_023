@@ -27,6 +27,11 @@ const MainContainer = styled.div`
 		width: 0;
 		background: transparent;
 	}
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 
 const MainTab = styled.div`
@@ -69,7 +74,6 @@ const MainTabButton = styled.div`
 
 const MainContentsContainer = styled.div`
 	width: 95%;
-	height: 650px;
 	border-radius: 50px;
 	box-shadow: 0px 2px 11px 1px #999999;
 	margin: 20px 10px;

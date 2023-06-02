@@ -20,6 +20,11 @@ const RegionRecContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 
 const RegionRecImage = styled.div`
@@ -59,6 +64,11 @@ const RegionRecItemContainer = styled.div`
 	justify-content: center;
 	.unvisible {
 		background-image: url('');
+	}
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
 	}
 `;
 

@@ -27,6 +27,12 @@ const MainHeaderContainer = styled.div`
 		@media (max-width: 583px) {
 			height: 300px;
 		}
+		@media (min-width: 1920px) {
+			margin-left: auto;
+			margin-right: auto;
+			left: calc((100vw - 1920px) / 2);
+			max-width: 1920px;
+		}
 	}
 	@media (max-width: 1024px) {
 		padding: 40px;
@@ -37,6 +43,11 @@ const MainHeaderContainer = styled.div`
 	}
 	@media (max-width: 583px) {
 		height: 300px;
+	}
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
 	}
 `;
 

@@ -26,7 +26,6 @@ const SlideItem = styled.div<IImageProps>`
 	width: 100%;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
-
 	color: white;
 	font-size: 30px;
 	font-weight: 700;
@@ -57,7 +56,7 @@ function Carousel() {
 		lazyLoad: 'anticipated',
 		responsive: [
 			{
-				breakpoint: 1025,
+				breakpoint: 1024,
 				settings: {
 					slidesToShow: 3,
 				},

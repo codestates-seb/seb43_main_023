@@ -78,6 +78,11 @@ const Main = styled.div`
 		}
 	}
 	border: none;
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 const Content = styled.div`
 	width: 100%;

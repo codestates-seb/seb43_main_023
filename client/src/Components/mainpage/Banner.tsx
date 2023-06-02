@@ -11,7 +11,6 @@ import { IImageProps } from '../../type/IImageProps';
 
 const SlideContainer = styled(Slider)`
 	width: 100%;
-	height: 180px;
 	display: flex;
 	.slick-prev::before {
 		color: #0db4f3;
@@ -26,7 +25,7 @@ const SlideContainer = styled(Slider)`
 
 const SlideItem = styled.div<IImageProps>`
 	width: 100%;
-	height: 180px;
+	height: 400px;
 	background: ${(props) => (props.image ? `url(${props.image})` : '')} center /
 		cover no-repeat;
 	opacity: 0.9;
@@ -43,14 +42,14 @@ const SlideTextBox = styled.div`
 	align-items: center;
 	justify-content: center;
 	.eventTitle {
-		background: rgba(255, 255, 255, 0.5);
+		background: rgba(255, 255, 255, 0.7);
 		font-size: 30px;
 		@media (max-width: 768px) {
 			font-size: 20px;
 		}
 	}
 	.eventDate {
-		background: rgba(255, 255, 255, 0.5);
+		background: rgba(255, 255, 255, 0.7);
 		@media (max-width: 768px) {
 			font-size: 20px;
 		}
@@ -59,14 +58,35 @@ const SlideTextBox = styled.div`
 
 function Banner() {
 	const settings: Settings = {
+		// dots: false,
+		// infinite: true,
+		// fade: true,
+		// speed: 100,
+		// autoplay: true,
+		// slidesToShow: 4,
+		// pauseOnHover: true,
+		// lazyLoad: 'anticipated',
 		dots: false,
 		infinite: true,
-		fade: true,
 		speed: 100,
 		autoplay: true,
-		slidesToShow: 1,
+		slidesToShow: 3,
 		pauseOnHover: true,
 		lazyLoad: 'anticipated',
+		responsive: [
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 2,
+				},
+			},
+			{
+				breakpoint: 769,
+				settings: {
+					slidesToShow: 1,
+				},
+			},
+		],
 	};
 
 	const [eventInfo, serEventInfo] = useState([]);
