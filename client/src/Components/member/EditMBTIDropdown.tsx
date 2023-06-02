@@ -122,8 +122,7 @@ function EditMBTIDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	}, [from, id, postData]);
 
 	return (
-		// eslint-disable-next-line react/jsx-no-useless-fragment
-		<>
+		<div>
 			<Button type="button" onClick={handleDropDown}>
 				<div>{selected || 'MBTI 선택'}</div>
 				<div>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</div>
@@ -141,7 +140,7 @@ function EditMBTIDropdown({ handleSubject, from }: SubjectDropdownProps) {
 					</Ul>
 				</Container>
 			) : null}
-		</>
+		</div>
 	);
 }
 

@@ -426,6 +426,7 @@ export const KakaoRedirectHandler = () => {
 				setLocalStorage('kakao', 'true');
 				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+				setLocalStorage('kakao', 'kakao');
 
 				// 유저 정보 저장
 				dispatch(
@@ -473,6 +474,7 @@ export const KakaoRedirectHandler = () => {
 					setLocalStorage('kakao', 'true');
 					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+					setLocalStorage('kakao', 'kakao');
 
 					const userData = await Api.get(`/members/${memberId}`);
 					// 유저 정보 저장

@@ -28,50 +28,12 @@ const Content = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	.menu {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.menuContent {
-		width: 100%;
-		.userInformation {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-			.title {
-				margin: 15px;
-				font-weight: bold;
-				color: #555555;
-				font-size: 20px;
-			}
-			.myInfo {
-				font-size: 15px;
-				font-weight: 400;
-				margin-bottom: 40px;
-				color: #555555;
-			}
-			.check {
-				color: red;
-				font-size: 10px;
-				margin-top: -30px;
-			}
-			.memberEdit {
-				font-size: 15px;
-				color: rgba(0, 0, 0, 0.4);
-				font-weight: bold;
-				&:hover {
-					cursor: pointer;
-					color: #0db4f3;
-				}
-			}
-			.mbti {
-				margin-bottom: 40px;
-				width: 150px;
-			}
-		}
-	}
+`;
+
+const Menu = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	.userInfo {
 		font-weight: bold;
 		margin: 30px;
@@ -81,16 +43,59 @@ const Content = styled.div`
 		color: #0db4f3;
 		border-bottom: 3px solid #0db4f3;
 	}
-	input {
-		padding: 5px;
-		outline: none;
-		border: 1px solid rgba(0, 0, 0, 0.3);
-		border-radius: 5px;
-		&::placeholder {
-			color: rgba(0, 0, 0, 0.3);
+`;
+
+const MenuContent = styled.div`
+	width: 100%;
+`;
+
+const UserInformation = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	.title {
+		margin: 15px;
+		font-weight: bold;
+		color: #555555;
+		font-size: 20px;
+	}
+	.myInfo {
+		font-size: 15px;
+		font-weight: 400;
+		margin-bottom: 40px;
+		color: #555555;
+
+		input {
+			padding: 5px;
+			outline: none;
+			border: 1px solid rgba(0, 0, 0, 0.3);
+			border-radius: 5px;
+			&::placeholder {
+				color: rgba(0, 0, 0, 0.3);
+			}
 		}
 	}
+	.check {
+		color: red;
+		font-size: 10px;
+		margin-top: -30px;
+	}
+	.memberEdit {
+		font-size: 15px;
+		color: rgba(0, 0, 0, 0.4);
+		font-weight: bold;
+		&:hover {
+			cursor: pointer;
+			color: #0db4f3;
+		}
+	}
+	.mbti {
+		margin-bottom: 40px;
+		width: 150px;
+	}
 `;
+
 const DropDownContainer = styled.div`
 	background: none;
 	border: none;
@@ -102,7 +107,6 @@ function UserEdit() {
 	const userInfos = useSelector((state: RootState) => state.user);
 
 	const [editname, setEditName] = useState<string>('');
-	const [editmbti, setEditMbti] = useState<string>('');
 	const [nameValid, setNameValid] = useState(false);
 	const [mbtiValid, setMbtiValid] = useState(false);
 	const [subject, setSubject] = useState<string>('');
@@ -127,9 +131,6 @@ function UserEdit() {
 
 	const nameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEditName(e.target.value);
-	};
-	const mbtiInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEditMbti(e.target.value);
 	};
 
 	const handleSubject = (sub: string) => {
@@ -195,11 +196,11 @@ function UserEdit() {
 		<Main className="main">
 			<IntroBox />
 			<Content>
-				<div className="menu">
+				<Menu>
 					<button className="userInfo blue">내정보</button>
-				</div>
-				<div className="menuContent">
-					<div className="userInformation">
+				</Menu>
+				<MenuContent>
+					<UserInformation>
 						<div className="title">DisplayName</div>
 						<div className="myInfo myDisplayName">
 							<input
@@ -222,8 +223,8 @@ function UserEdit() {
 						<button onClick={userEditClick} className="memberEdit">
 							내정보 저장하기
 						</button>
-					</div>
-				</div>
+					</UserInformation>
+				</MenuContent>
 			</Content>
 		</Main>
 	);

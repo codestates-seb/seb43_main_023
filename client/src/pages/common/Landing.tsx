@@ -14,6 +14,7 @@ import maintab2 from '../../assets/maintab2.png';
 import maintab3 from '../../assets/maintab3.png';
 import mbti from '../../assets/mbti.png';
 
+// 전체 스크롤 컴포넌트
 const ScrollSnapWrap = styled.div`
 	scroll-snap-type: y mandatory;
 	height: 100vh;
@@ -22,6 +23,7 @@ const ScrollSnapWrap = styled.div`
 	&::-webkit-scrollbar {
 		display: none;
 	}
+	/*첫번째 화면*/
 	.page {
 		background-image: url('../../assets/airplane1.png');
 		background-repeat: no-repeat;
@@ -35,7 +37,49 @@ const ScrollSnapWrap = styled.div`
 		&::-webkit-scrollbar {
 			display: none;
 		}
+
+		.logo {
+			width: 400px;
+			@media (max-width: 580px) {
+				width: 200px;
+			}
+			@media (max-width: 350px) {
+				width: 100px;
+			}
+			animation: opacityAni 3s ease-in-out;
+		}
+
+		.section1_text {
+			font-size: 50px;
+			font-weight: bold;
+			color: white;
+			margin-top: 50px;
+			text-shadow: 3px 7px 5px rgba(0, 0, 0, 0.1);
+			width: 550px;
+			white-space: nowrap;
+			overflow: hidden;
+			border-right: 3px solid;
+			-webkit-text-stroke: 1px white;
+			animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
+			@media (max-width: 580px) {
+				font-size: 30px;
+			}
+			@media (max-width: 350px) {
+				font-size: 20px;
+			}
+		}
+		@keyframes typing {
+			from {
+				width: 0;
+			}
+		}
+		@keyframes blink {
+			50% {
+				border-color: transparent;
+			}
+		}
 	}
+	/*두번째 화면*/
 	.page2 {
 		width: 100vw;
 		height: 100vh;
@@ -49,6 +93,7 @@ const ScrollSnapWrap = styled.div`
 		background-size: cover;
 		background-image: url('../../assets/cloud.png');
 	}
+	/*세번째 화면*/
 	.page3 {
 		width: 100vw;
 		height: 100vh;
@@ -61,105 +106,24 @@ const ScrollSnapWrap = styled.div`
 			display: none;
 		}
 		background-image: url('../../assets/cloud.png');
-	}
-	.logo {
-		width: 400px;
-		@media (max-width: 580px) {
-			width: 200px;
+
+		.section3_text {
+			font-size: 60px;
+			font-weight: bold;
+			color: #2d2d2d;
+			@media (max-width: 528px) {
+				font-size: 50px;
+			}
+			@media (max-width: 425px) {
+				font-size: 40px;
+			}
+			@media (max-width: 320px) {
+				font-size: 35px;
+			}
 		}
-		@media (max-width: 350px) {
-			width: 100px;
-		}
-		animation: opacityAni 3s ease-in-out;
-	}
-	.section1_text {
-		font-size: 50px;
-		font-weight: bold;
-		color: white;
-		margin-top: 50px;
-		text-shadow: 3px 7px 5px rgba(0, 0, 0, 0.1);
-		width: 550px;
-		white-space: nowrap;
-		overflow: hidden;
-		border-right: 3px solid;
-		-webkit-text-stroke: 1px white;
-		animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
-		@media (max-width: 580px) {
-			font-size: 30px;
-		}
-		@media (max-width: 350px) {
-			font-size: 20px;
-		}
-	}
-	@keyframes typing {
-		from {
-			width: 0;
-		}
-	}
-	@keyframes blink {
-		50% {
-			border-color: transparent;
-		}
-	}
-	.section3_text {
-		font-size: 60px;
-		font-weight: bold;
-		color: #2d2d2d;
-		@media (max-width: 528px) {
-			font-size: 50px;
-		}
-		@media (max-width: 425px) {
-			font-size: 40px;
-		}
-		@media (max-width: 320px) {
-			font-size: 30px;
-		}
-	}
-	.btn {
-		margin-top: 50px;
-		width: 200px;
-		border: 2px solid white;
-		padding: 20px;
-		border-radius: 20px;
-		font-size: 20px;
-		font-weight: bold;
-		color: #2d2d2d;
-		&:hover {
-			color: white;
-			background: #4ec9ff;
-			border: none;
-		}
-		@media (max-width: 528px) {
-			width: 150px;
-			padding: 15px 0;
-			border-radius: 15px;
-			font-size: 15px;
-		}
-		@media (max-width: 425px) {
-			width: 120px;
-			padding: 15px 0;
-			border-radius: 13px;
-			font-size: 13px;
-		}
-		@media (max-width: 375px) {
-			width: 100px;
-			padding: 15px 0;
-			border-radius: 10px;
-			font-size: 12px;
-		}
-		@media (max-width: 320px) {
-			width: 70px;
-			padding: 15px 0;
-			border-radius: 10px;
-			font-size: 10px;
-		}
-	}
-	.button2 {
-		position: absolute;
-		left: 60%;
 	}
 `;
-
+/* 스크롤 기능의 각 화면 컴포넌트 */
 const SnapDiv = styled.div`
 	scroll-snap-align: start;
 	display: flex;
@@ -167,18 +131,12 @@ const SnapDiv = styled.div`
 	justify-content: center;
 	height: 100vh;
 	text-align: center;
-	.btn {
-		margin: 100px 30px;
-	}
-	.arrow {
-		margin-bottom: -150px;
-		margin-top: 100px;
-	}
-	.arrow2 {
-		margin-top: -50px;
-		margin-bottom: 20px;
-	}
-	.arrow > span {
+`;
+/* 스크롤 화살표 */
+const Arrow = styled.div`
+	margin-bottom: -150px;
+	margin-top: 100px;
+	span {
 		display: block;
 		width: 40px;
 		height: 40px;
@@ -201,15 +159,15 @@ const SnapDiv = styled.div`
 			height: 20px;
 		}
 	}
-	.arrow > span:nth-of-type(1) {
+	span:nth-of-type(1) {
 		-webkit-animation-delay: 0s;
 		animation-delay: 0s;
 	}
-	.arrow > span:nth-of-type(2) {
+	span:nth-of-type(2) {
 		-webkit-animation-delay: 0.15s;
 		animation-delay: 0.15s;
 	}
-	.arrow > span:nth-of-type(3) {
+	span:nth-of-type(3) {
 		-webkit-animation-delay: 0.3s;
 		animation-delay: 0.3s;
 	}
@@ -236,14 +194,51 @@ const SnapDiv = styled.div`
 		}
 	}
 `;
-
+/* 두번째 화면에 컴포넌트 묶음 */
+const Container = styled.div`
+	width: 90%;
+	max-width: 2149px;
+	height: 100vh;
+	.service {
+		margin: 50px 0;
+		color: rgba(0, 0, 0, 0.7);
+		width: 100%;
+		font-size: 25px;
+		padding-bottom: 10px;
+		border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+		text-align: left;
+	}
+	.serviceTitle {
+		font-size: 40px;
+		text-align: left;
+		margin-bottom: 50px;
+		@media (max-width: 479px) {
+			margin-bottom: 0px;
+			font-size: 30px;
+		}
+		span {
+			color: #0db4f3;
+			-webkit-text-stroke: 1px #0db4f3;
+		}
+	}
+`;
+/* 두번째 화면 슬라이더 */
 const SlideContainer = styled(Slider)`
 	width: 100%;
 	height: 500px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0 100px;
+	padding: 0 400px;
+	@media (max-width: 2030px) {
+		padding: 0 300px;
+	}
+	@media (max-width: 1790px) {
+		padding: 0 200px;
+	}
+	@media (max-width: 1564px) {
+		padding: 0 100px;
+	}
 	@media (max-width: 1367px) {
 		padding: 0 20px;
 	}
@@ -273,112 +268,126 @@ const SlideContainer = styled(Slider)`
 		z-index: 100;
 	}
 `;
+/* 두번째 화면 슬라이더의 개별 슬라이드 */
+const SlideItem = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-const Container = styled.div`
-	width: 90%;
-	height: 100vh;
-	.service {
-		margin: 50px 0;
-		color: rgba(0, 0, 0, 0.7);
-		width: 100%;
-		font-size: 25px;
-		padding-bottom: 10px;
-		border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-		text-align: left;
-	}
-	.serviceTitle {
-		font-size: 40px;
-		text-align: left;
-		margin-bottom: 50px;
-		@media (max-width: 479px) {
-			font-size: 30px;
-			margin-bottom: 30px;
+	img {
+		float: right;
+		width: 800px;
+		@media (max-width: 1337px) {
+			width: 700px;
 		}
-		span {
+		@media (max-width: 1160px) {
+			width: 600px;
+		}
+		@media (max-width: 937px) {
+			width: 500px;
+		}
+		@media (max-width: 860px) {
+			width: 450px;
+		}
+		@media (max-width: 585px) {
+			width: 400px;
+		}
+		@media (max-width: 479px) {
+			width: 300px;
+		}
+		@media (max-width: 375px) {
+			width: 230px;
+		}
+	}
+`;
+/* 두번째 화면의 아래 섹션 */
+const Section = styled.div`
+	width: 230px;
+	margin-top: 100px;
+	text-align: left;
+	float: left;
+	display: flex;
+	flex-direction: column;
+	@media (max-width: 1160px) {
+		margin-top: 50px;
+	}
+	@media (max-width: 967px) {
+		margin-top: 30px;
+		width: 200px;
+	}
+	@media (max-width: 479px) {
+		margin-top: 0px;
+	}
+	.subtitle {
+		text-align: left;
+		font-size: 27px;
+		margin-bottom: 20px;
+		@media (max-width: 967px) {
+			font-size: 20px;
+		}
+		@media (max-width: 479px) {
+			font-size: 15px;
+		}
+		.num {
+			text-align: left;
+			font-size: 50px;
 			color: #0db4f3;
 			-webkit-text-stroke: 1px #0db4f3;
 		}
 	}
-	.horizontal {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		.vertical {
-			width: 230px;
-			margin-top: 100px;
-			text-align: left;
-			float: left;
-			display: flex;
-			flex-direction: column;
-			@media (max-width: 1160px) {
-				margin-top: 50px;
-			}
-			@media (max-width: 967px) {
-				margin-top: 30px;
-				width: 200px;
-			}
-			@media (max-width: 479px) {
-				margin-top: 0px;
-			}
-			.subtitle {
-				text-align: left;
-				font-size: 27px;
-				margin-bottom: 20px;
-				@media (max-width: 967px) {
-					font-size: 20px;
-				}
-				@media (max-width: 479px) {
-					font-size: 15px;
-				}
-				.num {
-					text-align: left;
-					font-size: 50px;
-					color: #0db4f3;
-					-webkit-text-stroke: 1px #0db4f3;
-				}
-			}
-			.description {
-				font-size: 17px;
-				color: #0db4f3;
-				@media (max-width: 967px) {
-					font-size: 14px;
-				}
-				@media (max-width: 479px) {
-					font-size: 12px;
-				}
-			}
+	.description {
+		font-size: 17px;
+		color: #0db4f3;
+		@media (max-width: 967px) {
+			font-size: 14px;
 		}
-		.mbti {
-			float: right;
-			width: 800px;
-			@media (max-width: 1337px) {
-				width: 700px;
-			}
-			@media (max-width: 1160px) {
-				width: 600px;
-			}
-			@media (max-width: 937px) {
-				width: 500px;
-			}
-			@media (max-width: 860px) {
-				width: 450px;
-			}
-			@media (max-width: 585px) {
-				width: 400px;
-			}
-			@media (max-width: 479px) {
-				width: 300px;
-			}
-			@media (max-width: 375px) {
-				width: 230px;
-			}
+		@media (max-width: 765px) {
+			margin-bottom: 10px;
+		}
+		@media (max-width: 479px) {
+			font-size: 12px;
+		}
+	}
+`;
+/* 세번째 화면 버튼 컴포넌트 */
+const Button = styled.div`
+	margin-top: 100px;
+	.btn {
+		width: 200px;
+		border: 2px solid white;
+		padding: 20px;
+		border-radius: 20px;
+		font-size: 20px;
+		font-weight: bold;
+		color: #2d2d2d;
+		margin: 0 40px;
+		&:hover {
+			color: white;
+			background: #4ec9ff;
+			border: none;
+		}
+		@media (max-width: 560px) {
+			width: 170px;
+			padding: 17px 0;
+			font-size: 17px;
+			border-radius: 17px;
+			margin: 0 30px;
+		}
+		@media (max-width: 445px) {
+			font-size: 15px;
+			padding: 15px 0;
+			width: 150px;
+			margin: 0 20px;
+		}
+		@media (max-width: 375px) {
+			margin: 20px 50px;
 		}
 	}
 `;
 
 function Landing() {
+	/* 두번째 화면 슬라이더 세팅 */
 	const settings: Settings = {
 		arrows: true,
 		dots: false,
@@ -396,22 +405,22 @@ function Landing() {
 			<SnapDiv className="page">
 				<img className="logo" src={logo} alt="" />
 				<div className="section1_text">MBTI 기반 여행지 추천 사이트</div>
-				<div className="arrow">
+				<Arrow>
 					<span />
 					<span />
 					<span />
-				</div>
+				</Arrow>
 			</SnapDiv>
 			<SnapDiv className="page2">
-				<Container className="container">
+				<Container>
 					<div className="service">SERVICE</div>
 					<div className="serviceTitle">
 						<span>너의 MBTI는</span> <br />
 						서비스를 소개합니다.
 					</div>
 					<SlideContainer {...settings}>
-						<div className="horizontal">
-							<div className="vertical">
+						<SlideItem>
+							<Section>
 								<div className="subtitle">
 									<div className="num">1</div>
 									당신의 <br />
@@ -422,44 +431,44 @@ function Landing() {
 								<div className="description">
 									로그인하고 여행지를 추천받아보세요!
 								</div>
-							</div>
-							<img className="mbti" src={mbti} alt="" />
-						</div>
-						<div className="horizontal">
-							<div className="vertical">
-								<div className="subtitle">
-									<div className="num">2</div>
-									1. 지역별 추천 여행명소 <br /> 2. 우리 동네 여행명소 <br /> 3.
-									인기 여행 리뷰
-								</div>
-								<div className="description">출처. 한국관광공사</div>
-							</div>
-							<img className="mbti" src={maintab1} alt="" />
-						</div>
-						<div className="horizontal">
-							<div className="vertical">
+							</Section>
+							<img src={mbti} alt="" />
+						</SlideItem>
+						<SlideItem>
+							<Section>
 								<div className="subtitle">
 									<div className="num">2</div>
 									지역별 추천 여행명소 <br /> 우리 동네 여행명소 <br /> 인기
 									여행 리뷰
 								</div>
 								<div className="description">출처. 한국관광공사</div>
-							</div>
-							<img className="mbti" src={maintab2} alt="" />
-						</div>
-						<div className="horizontal">
-							<div className="vertical">
+							</Section>
+							<img src={maintab1} alt="" />
+						</SlideItem>
+						<SlideItem>
+							<Section>
 								<div className="subtitle">
 									<div className="num">2</div>
 									지역별 추천 여행명소 <br /> 우리 동네 여행명소 <br /> 인기
 									여행 리뷰
 								</div>
 								<div className="description">출처. 한국관광공사</div>
-							</div>
-							<img className="mbti" src={maintab3} alt="" />
-						</div>
-						<div className="horizontal">
-							<div className="vertical">
+							</Section>
+							<img src={maintab2} alt="" />
+						</SlideItem>
+						<SlideItem>
+							<Section>
+								<div className="subtitle">
+									<div className="num">2</div>
+									지역별 추천 여행명소 <br /> 우리 동네 여행명소 <br /> 인기
+									여행 리뷰
+								</div>
+								<div className="description">출처. 한국관광공사</div>
+							</Section>
+							<img src={maintab3} alt="" />
+						</SlideItem>
+						<SlideItem>
+							<Section>
 								<div className="subtitle">
 									<div className="num">3</div>
 									커뮤니티
@@ -476,11 +485,11 @@ function Landing() {
 									MBTI과몰입러라구요?
 									<br /> MBTI탭으로 놀러가보세요!
 								</div>
-							</div>
-							<img className="mbti" src={community1} alt="" />
-						</div>
-						<div className="horizontal">
-							<div className="vertical">
+							</Section>
+							<img src={community1} alt="" />
+						</SlideItem>
+						<SlideItem>
+							<Section>
 								<div className="subtitle">
 									<div className="num">3</div>
 									커뮤니티
@@ -497,9 +506,9 @@ function Landing() {
 									MBTI과몰입러라구요?
 									<br /> MBTI탭으로 놀러가보세요!
 								</div>
-							</div>
-							<img className="mbti" src={community2} alt="" />
-						</div>
+							</Section>
+							<img src={community2} alt="" />
+						</SlideItem>
 					</SlideContainer>
 				</Container>
 			</SnapDiv>
@@ -509,14 +518,14 @@ function Landing() {
 					<br /> 나에게 맞는 여행지를 <br />
 					추천받아보세요!
 				</div>
-				<div className="btnBox">
+				<Button>
 					<Link to="/login" style={{ textDecoration: 'none' }}>
 						<button className="btn">로그인 하러가기</button>
 					</Link>
 					<Link to="/main" style={{ textDecoration: 'none' }}>
 						<button className="btn">둘러보기</button>
 					</Link>
-				</div>
+				</Button>
 			</SnapDiv>
 		</ScrollSnapWrap>
 	);
