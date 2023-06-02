@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
+
 import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import img from '../../assets/jeonju.jpg';
-import Pagination from './Pagination';
+
+import useGet from '../../hooks/useGet';
 import { Ipost } from '../../type/Ipost';
 import * as style from './CommunityStyle';
-import useGet from '../../hooks/useGet';
+import Pagination from './Pagination';
 
 const Container = styled.div`
 	max-height: 1000px;
@@ -15,7 +16,9 @@ const Container = styled.div`
 	display: flex;
 	overflow: scroll;
 	flex-wrap: wrap;
-
+	&::-webkit-scrollbar {
+		display: none;
+	}
 	@media (max-width: 768px) {
 		margin-left: 50px;
 	}
@@ -60,7 +63,6 @@ const ReviewBox = styled.div`
 	@media (max-width: 980px) {
 		margin-right: 25px;
 	}
-
 	@media (max-width: 768px) {
 		margin-right: 50px;
 	}
@@ -151,8 +153,8 @@ function Review() {
 	const [reviews, setReviews] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 
-	const startIdx = (curPage - 1) * 12;
-	const endIdx = startIdx + 12;
+	const startIdx = (curPage - 1) * 15;
+	const endIdx = startIdx + 15;
 
 	const response = useGet(`?size=100&subject=여행리뷰&page=1`);
 
@@ -195,9 +197,9 @@ function Review() {
 					<Pagination
 						curPage={curPage}
 						setCurPage={setCurPage}
-						totalPage={Math.ceil(reviews.length / 12)}
+						totalPage={Math.ceil(reviews.length / 15)}
 						totalCount={reviews.length}
-						size={12}
+						size={15}
 						pageCount={5}
 					/>
 				) : null}

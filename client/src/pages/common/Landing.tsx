@@ -1,9 +1,18 @@
 import '../../Global.css';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
 import { Link } from 'react-router-dom';
+import Slider, { Settings } from 'react-slick';
 import styled from 'styled-components';
 
+import community1 from '../../assets/community1.png';
+import community2 from '../../assets/community2.png';
 import logo from '../../assets/logo.png';
+import maintab1 from '../../assets/maintab1.png';
+import maintab2 from '../../assets/maintab2.png';
+import maintab3 from '../../assets/maintab3.png';
+import mbti from '../../assets/mbti.png';
 
 const ScrollSnapWrap = styled.div`
 	scroll-snap-type: y mandatory;
@@ -28,6 +37,29 @@ const ScrollSnapWrap = styled.div`
 		}
 	}
 	.page2 {
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		background-size: cover;
+		background-image: url('../../assets/cloud.png');
+	}
+	.page3 {
+		width: 100vw;
+		height: 100vh;
+		background-size: cover;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		&::-webkit-scrollbar {
+			display: none;
+		}
 		background-image: url('../../assets/cloud.png');
 	}
 	.logo {
@@ -38,6 +70,7 @@ const ScrollSnapWrap = styled.div`
 		@media (max-width: 350px) {
 			width: 100px;
 		}
+		animation: opacityAni 3s ease-in-out;
 	}
 	.section1_text {
 		font-size: 50px;
@@ -46,11 +79,11 @@ const ScrollSnapWrap = styled.div`
 		margin-top: 50px;
 		text-shadow: 3px 7px 5px rgba(0, 0, 0, 0.1);
 		width: 550px;
-		animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
 		white-space: nowrap;
 		overflow: hidden;
 		border-right: 3px solid;
 		-webkit-text-stroke: 1px white;
+		animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
 		@media (max-width: 580px) {
 			font-size: 30px;
 		}
@@ -63,48 +96,10 @@ const ScrollSnapWrap = styled.div`
 			width: 0;
 		}
 	}
-
 	@keyframes blink {
 		50% {
 			border-color: transparent;
 		}
-	}
-	.section2_text {
-		width: 100%;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		font-size: 30px;
-		font-weight: bold;
-		color: #2d2d2d;
-		margin: 40px 0;
-		@media (max-width: 720px) {
-			font-size: 20px;
-		}
-		@media (max-width: 430px) {
-			font-size: 15px;
-		}
-		@media (max-width: 300px) {
-			font-size: 10px;
-		}
-	}
-	.title1 {
-		color: white;
-		font-size: 80px;
-		-webkit-text-stroke: 3px white;
-	}
-	.title1_line {
-		color: rgba(0, 0, 0, 0);
-		-webkit-text-stroke: 3px white;
-	}
-	.title2 {
-		color: #0db4f3;
-		font-size: 80px;
-		-webkit-text-stroke: 3px #0db4f3;
-	}
-	.title2_line {
-		color: rgba(0, 0, 0, 0);
-		-webkit-text-stroke: 3px #0db4f3;
 	}
 	.section3_text {
 		font-size: 60px;
@@ -120,7 +115,7 @@ const ScrollSnapWrap = styled.div`
 			font-size: 30px;
 		}
 	}
-	button {
+	.btn {
 		margin-top: 50px;
 		width: 200px;
 		border: 2px solid white;
@@ -172,7 +167,7 @@ const SnapDiv = styled.div`
 	justify-content: center;
 	height: 100vh;
 	text-align: center;
-	button {
+	.btn {
 		margin: 100px 30px;
 	}
 	.arrow {
@@ -240,68 +235,162 @@ const SnapDiv = styled.div`
 			opacity: 0;
 		}
 	}
-	.flow-text > span {
-		margin: 0 20px;
+`;
+
+const SlideContainer = styled(Slider)`
+	width: 100%;
+	height: 500px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 100px;
+	@media (max-width: 1367px) {
+		padding: 0 20px;
 	}
-	.flow-text {
+	@media (max-width: 375px) {
+		padding: 0 10px;
+	}
+	.slick-prev::before {
+		font-size: 30px;
+		border: none;
+		color: #0db4f3;
+		@media (max-width: 585px) {
+			font-size: 20px;
+			margin-left: 10px;
+		}
+	}
+	.slick-next::before {
+		width: 130px;
+		font-size: 30px;
+		border: none;
+		color: #0db4f3;
+		@media (max-width: 585px) {
+			font-size: 20px;
+			margin-left: -50px;
+		}
+	}
+	.slick-slide {
+		z-index: 100;
+	}
+`;
+
+const Container = styled.div`
+	width: 90%;
+	height: 100vh;
+	.service {
+		margin: 50px 0;
+		color: rgba(0, 0, 0, 0.7);
+		width: 100%;
+		font-size: 25px;
+		padding-bottom: 10px;
+		border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+		text-align: left;
+	}
+	.serviceTitle {
+		font-size: 40px;
+		text-align: left;
+		margin-bottom: 50px;
+		@media (max-width: 479px) {
+			font-size: 30px;
+			margin-bottom: 30px;
+		}
+		span {
+			color: #0db4f3;
+			-webkit-text-stroke: 1px #0db4f3;
+		}
+	}
+	.horizontal {
 		width: 100%;
 		display: flex;
-		flex: 0 0 auto;
-		white-space: nowrap;
-		overflow: hidden;
-	}
-	.flow-text:hover .flow-wrap {
-		animation-play-state: paused;
-		cursor: pointer;
-	}
-	.flow-text:hover .flow-wrap2 {
-		animation-play-state: paused;
-		cursor: pointer;
-	}
-	.flow-wrap {
-		animation: textLoop 5s linear infinite;
-		@media (max-width: 720px) {
-			font-size: 70px;
-		}
-		@media (max-width: 430px) {
-			font-size: 60px;
-		}
-		@media (max-width: 300px) {
-			font-size: 50px;
-		}
-	}
-	.flow-wrap2 {
-		animation: textLoop2 5s linear infinite;
-		@media (max-width: 720px) {
-			font-size: 70px;
-		}
-		@media (max-width: 430px) {
-			font-size: 60px;
-		}
-		@media (max-width: 300px) {
-			font-size: 50px;
-		}
-	}
+		justify-content: center;
+		align-items: center;
 
-	@keyframes textLoop {
-		0% {
-			transform: translateX(0);
+		.vertical {
+			width: 230px;
+			margin-top: 100px;
+			text-align: left;
+			float: left;
+			display: flex;
+			flex-direction: column;
+			@media (max-width: 1160px) {
+				margin-top: 50px;
+			}
+			@media (max-width: 967px) {
+				margin-top: 30px;
+				width: 200px;
+			}
+			@media (max-width: 479px) {
+				margin-top: 0px;
+			}
+			.subtitle {
+				text-align: left;
+				font-size: 27px;
+				margin-bottom: 20px;
+				@media (max-width: 967px) {
+					font-size: 20px;
+				}
+				@media (max-width: 479px) {
+					font-size: 15px;
+				}
+				.num {
+					text-align: left;
+					font-size: 50px;
+					color: #0db4f3;
+					-webkit-text-stroke: 1px #0db4f3;
+				}
+			}
+			.description {
+				font-size: 17px;
+				color: #0db4f3;
+				@media (max-width: 967px) {
+					font-size: 14px;
+				}
+				@media (max-width: 479px) {
+					font-size: 12px;
+				}
+			}
 		}
-		100% {
-			transform: translateX(-230%);
-		}
-	}
-	@keyframes textLoop2 {
-		0% {
-			transform: translateX(-222%);
-		}
-		100% {
-			transform: translateX(0%);
+		.mbti {
+			float: right;
+			width: 800px;
+			@media (max-width: 1337px) {
+				width: 700px;
+			}
+			@media (max-width: 1160px) {
+				width: 600px;
+			}
+			@media (max-width: 937px) {
+				width: 500px;
+			}
+			@media (max-width: 860px) {
+				width: 450px;
+			}
+			@media (max-width: 585px) {
+				width: 400px;
+			}
+			@media (max-width: 479px) {
+				width: 300px;
+			}
+			@media (max-width: 375px) {
+				width: 230px;
+			}
 		}
 	}
 `;
 
 function Landing() {
+	const settings: Settings = {
+		arrows: true,
+		dots: false,
+		infinite: true,
+		autoplaySpeed: 2500,
+		autoplay: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		slidesPerRow: 1,
+		pauseOnFocus: false,
+	};
+
 	return (
 		<ScrollSnapWrap>
 			<SnapDiv className="page">
@@ -313,98 +402,108 @@ function Landing() {
 					<span />
 				</div>
 			</SnapDiv>
-			<SnapDiv className="page page2">
-				<div className="section2_text title1 flow-container">
-					<div className="flow-text">
-						<span className="flow-wrap title1_line">SERVICE</span>
-						<span className="flow-wrap">SERVICE</span>
-						<span className="flow-wrap title1_line">SERVICE</span>
-						<span className="flow-wrap">SERVICE</span>
-						<span className="flow-wrap title1_line">SERVICE</span>
-						<span className="flow-wrap">SERVICE</span>
-						<span className="flow-wrap title1_line">SERVICE</span>
-						<span className="flow-wrap">SERVICE</span>
-						<span className="flow-wrap title1_line">SERVICE</span>
-						<span className="flow-wrap">SERVICE</span>
+			<SnapDiv className="page2">
+				<Container className="container">
+					<div className="service">SERVICE</div>
+					<div className="serviceTitle">
+						<span>너의 MBTI는</span> <br />
+						서비스를 소개합니다.
 					</div>
-				</div>
-				<div className="section2_text">
-					<span>
-						당신에게
-						<br />꼭 맞는
-						<br />
-						여행지 추천
-					</span>
-					<span>
-						현재 국내
-						<br />
-						핫한
-						<br />
-						여행명소
-					</span>
-					<span>
-						각 지역별
-						<br />
-						추천
-						<br />
-						여행명소
-					</span>
-					<span>
-						인기
-						<br />
-						여행
-						<br />
-						리뷰글
-					</span>
-				</div>
-				<div className="section2_text title2 flow-container">
-					<div className="flow-text">
-						<span className="flow-wrap2 title2_line">COMMUNITY</span>
-						<span className="flow-wrap2">COMMUNITY</span>
-						<span className="flow-wrap2 title2_line">COMMUNITY</span>
-						<span className="flow-wrap2">COMMUNITY</span>
-						<span className="flow-wrap2 title2_line">COMMUNITY</span>
-						<span className="flow-wrap2">COMMUNITY</span>
-					</div>
-				</div>
-				<div className="section2_text">
-					<span>
-						다른사람들의
-						<br />
-						여행리뷰
-						<br />
-						구경하기
-					</span>
-					<span>
-						내가 다녀온
-						<br />
-						여행리뷰
-						<br />
-						공유하기
-					</span>
-					<span>
-						MBTI
-						<br />
-						이야기
-					</span>
-					<span>
-						여행메이트
-						<br />
-						구하기
-					</span>
-					<span>
-						여행코스
-						<br />
-						추천받기
-					</span>
-				</div>
-				<div className="arrow arrow2">
-					<span />
-					<span />
-					<span />
-				</div>
+					<SlideContainer {...settings}>
+						<div className="horizontal">
+							<div className="vertical">
+								<div className="subtitle">
+									<div className="num">1</div>
+									당신의 <br />
+									MBTI에
+									<br /> 꼭 맞는
+									<br /> 여행지 추천
+								</div>
+								<div className="description">
+									로그인하고 여행지를 추천받아보세요!
+								</div>
+							</div>
+							<img className="mbti" src={mbti} alt="" />
+						</div>
+						<div className="horizontal">
+							<div className="vertical">
+								<div className="subtitle">
+									<div className="num">2</div>
+									1. 지역별 추천 여행명소 <br /> 2. 우리 동네 여행명소 <br /> 3.
+									인기 여행 리뷰
+								</div>
+								<div className="description">출처. 한국관광공사</div>
+							</div>
+							<img className="mbti" src={maintab1} alt="" />
+						</div>
+						<div className="horizontal">
+							<div className="vertical">
+								<div className="subtitle">
+									<div className="num">2</div>
+									지역별 추천 여행명소 <br /> 우리 동네 여행명소 <br /> 인기
+									여행 리뷰
+								</div>
+								<div className="description">출처. 한국관광공사</div>
+							</div>
+							<img className="mbti" src={maintab2} alt="" />
+						</div>
+						<div className="horizontal">
+							<div className="vertical">
+								<div className="subtitle">
+									<div className="num">2</div>
+									지역별 추천 여행명소 <br /> 우리 동네 여행명소 <br /> 인기
+									여행 리뷰
+								</div>
+								<div className="description">출처. 한국관광공사</div>
+							</div>
+							<img className="mbti" src={maintab3} alt="" />
+						</div>
+						<div className="horizontal">
+							<div className="vertical">
+								<div className="subtitle">
+									<div className="num">3</div>
+									커뮤니티
+								</div>
+								<div className="description">
+									커뮤니티에는 말머리가 있어요!
+									<br />
+									다른 사람들과 여행리뷰를 공유해요.
+									<br />
+									여행고민을 나눌 수도 있고
+									<br />
+									여행메이트를 구할 수도 있어요
+									<br />
+									MBTI과몰입러라구요?
+									<br /> MBTI탭으로 놀러가보세요!
+								</div>
+							</div>
+							<img className="mbti" src={community1} alt="" />
+						</div>
+						<div className="horizontal">
+							<div className="vertical">
+								<div className="subtitle">
+									<div className="num">3</div>
+									커뮤니티
+								</div>
+								<div className="description">
+									커뮤니티에는 말머리가 있어요!
+									<br />
+									다른 사람들과 여행리뷰를 공유해요.
+									<br />
+									여행고민을 나눌 수도 있고
+									<br />
+									여행메이트를 구할 수도 있어요
+									<br />
+									MBTI과몰입러라구요?
+									<br /> MBTI탭으로 놀러가보세요!
+								</div>
+							</div>
+							<img className="mbti" src={community2} alt="" />
+						</div>
+					</SlideContainer>
+				</Container>
 			</SnapDiv>
-			<SnapDiv className="page page2">
+			<SnapDiv className="page3">
 				<div className="section3_text">
 					로그인하고
 					<br /> 나에게 맞는 여행지를 <br />
@@ -412,10 +511,10 @@ function Landing() {
 				</div>
 				<div className="btnBox">
 					<Link to="/login" style={{ textDecoration: 'none' }}>
-						<button>로그인 하러가기</button>
+						<button className="btn">로그인 하러가기</button>
 					</Link>
 					<Link to="/main" style={{ textDecoration: 'none' }}>
-						<button>둘러보기</button>
+						<button className="btn">둘러보기</button>
 					</Link>
 				</div>
 			</SnapDiv>
