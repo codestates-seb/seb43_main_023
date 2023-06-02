@@ -1,6 +1,7 @@
-import '../../Global.css';
+/* eslint-disable react/jsx-props-no-spreading */
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import '../../Global.css';
 
 import { Link } from 'react-router-dom';
 import Slider, { Settings } from 'react-slick';
