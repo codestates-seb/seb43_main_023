@@ -8,6 +8,8 @@
       "plugin:prettier/recommended"
     ],
     "rules":{
+      "react/tsx-props-no-spreading": "off",
+      "react/jsx-props-no-spreading": "off",
       "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
       "prettier/prettier": ["error", {"printWidth": 80}],
       "react/button-has-type": "off",

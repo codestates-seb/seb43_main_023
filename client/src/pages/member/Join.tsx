@@ -1,16 +1,14 @@
 import '../../Global.css';
 
-import { FocusEvent, useEffect, useState } from 'react';
+import { FocusEvent, useState } from 'react';
 
-import { RiKakaoTalkFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
-import airplane from '../../assets/airplane.png';
-import googleIcon from '../../assets/googleIcon.png';
-import logo from '../../assets/logo.png';
+import ImgBox from '../../Components/member/ImgBox';
 import MBTIDropdown from '../../Components/member/MBTIDropdown';
+import OauthBox from '../../Components/member/OauthBox';
 import { SweetAlert2 } from '../../utils/SweetAlert';
 import ToastAlert from '../../utils/ToastAlert';
 
@@ -27,31 +25,6 @@ const Main = styled.div`
 	}
 `;
 
-const ImgBox = styled.div`
-	overflow: hidden;
-	.airplane {
-		width: 100%;
-		height: 101vh;
-		@media (max-width: 768px) {
-			display: none;
-		}
-	}
-	.logo {
-		width: 130px;
-		position: absolute;
-		top: 20px;
-		left: 20px;
-		@media (max-height: 700px) {
-			width: 100px;
-		}
-		@media (max-height: 650px) {
-			width: 90px;
-		}
-		@media (max-width: 430px) {
-			width: 80px;
-		}
-	}
-`;
 const Content = styled.div`
 	width: 80%;
 	height: 100vh;
@@ -143,22 +116,6 @@ const Content = styled.div`
 			display: none;
 		}
 	}
-	.lineBox {
-		color: #393737;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 13px;
-		margin: 20px 0 20px 0;
-		.line {
-			width: 98px;
-			border-top: 1px solid #393737;
-			margin: 0 10px;
-			@media (max-width: 430px) {
-				width: 75px;
-			}
-		}
-	}
 	.gotoJoin {
 		color: rgba(0, 0, 0, 0.5);
 		margin-top: 20px;
@@ -174,44 +131,19 @@ const Content = styled.div`
 	}
 `;
 
-const OauthBox = styled.div`
+const Linebox = styled.div`
+	color: #393737;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	.oauth {
-		width: 39px;
-		height: 39px;
-		background: none;
-		margin: 0 5px;
-		color: #393737;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 5px;
-		font-size: 15px;
-		&:hover {
-			transform: translateY(-3px);
-		}
-		span {
-			margin-left: 10px;
-		}
-		.googleIcon {
-			width: 25px;
-		}
-	}
-	.googleoauth {
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		transform: translateY(-3px);
-		&:hover {
-			transform: translateY(-6px);
-		}
-	}
-	.kakaoBtn {
-		background: #fee500;
-		transform: translateY(-3px);
-		&:hover {
-			transform: translateY(-6px);
+	font-size: 13px;
+	margin: 20px 0 20px 0;
+	span {
+		width: 98px;
+		border-top: 1px solid #393737;
+		margin: 0 10px;
+		@media (max-width: 430px) {
+			width: 75px;
 		}
 	}
 `;
@@ -306,9 +238,6 @@ function Join() {
 					)
 				) {
 					ToastAlert('이미 사용중인 닉네임입니다.');
-				} else if (findMember && findMember.memberStatus === 'MEMBER_QUIT') {
-					// 전체 멤버 중 같은 이메일이 있지만, 그 이메일이 탈퇴상태라면 회원가입 불가능
-					ToastAlert('탈퇴한 이메일은 재가입이 불가해요😢');
 				} else if (!findMember) {
 					// 전체 멤버 중 같은 이메일이 없으면 회원가입 가능
 					const mbtiImg = await Api.get(`/mbtiInfo/${subject}`);
@@ -346,52 +275,9 @@ function Join() {
 		setSubject(sub);
 	};
 
-	// 구글 oauth
-	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
-response_type=token&
-redirect_uri=https://whatsyourmbti.click/accounts/google/login/&
-scope=https://www.googleapis.com/auth/userinfo.email`;
-	const oAuthHandler = () => {
-		window.location.assign(oAuthURL);
-	};
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const { naver } = window as any;
-	// 네이버 oauth
-	useEffect(() => {
-		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
-		const initializeNaverLogin = () => {
-			const naverLogin = new naver.LoginWithNaverId({
-				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-				callbackUrl: 'https://whatsyourmbti.click/Api/Member/Oauth',
-				isPopup: false,
-				loginButton: {
-					color: 'green',
-					type: 1,
-					height: 37,
-				},
-			});
-			naverLogin.init();
-		};
-		initializeNaverLogin();
-	}, [naver.LoginWithNaverId]);
-
-	// 카카오 oauth
-	const { Kakao } = window as any;
-	const loginWithKakao = () => {
-		Kakao.Auth.authorize({
-			redirectUri: 'https://whatsyourmbti.click/oauth',
-		});
-	};
-
 	return (
 		<Main>
-			<ImgBox>
-				<img className="airplane" src={airplane} alt="" />
-				<Link to="/main">
-					<img className="logo" src={logo} alt="" />
-				</Link>
-			</ImgBox>
+			<ImgBox />
 			<Content>
 				<h1>Sign Up</h1>
 				<form onSubmit={(e) => joinSubmit(e)}>
@@ -451,22 +337,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 						Sign up
 					</button>
 				</form>
-				<div className="lineBox">
-					<span className="line" />
+				<Linebox>
+					<span />
 					Or Sign up with
-					<span className="line" />
-				</div>
-				<OauthBox>
-					<button className="oauth googleoauth" onClick={oAuthHandler}>
-						<img className="googleIcon" src={googleIcon} alt="" />
-					</button>
-					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
-						<RiKakaoTalkFill size={32} color="#3b1e1e" />
-					</button>
-					<button className="oauth">
-						<span id="naverIdLogin">Naver</span>
-					</button>
-				</OauthBox>
+					<span />
+				</Linebox>
+				<OauthBox />
 				<span className="gotoJoin">이미 회원가입을 하셨나요?</span>
 				<Link to="/login">
 					<button className="gotoJoinBtn">Login</button>

@@ -75,7 +75,7 @@ const Content = styled.div`
 				}
 			}
 		}
-		button {
+		> button {
 			position: absolute;
 			right: 0px;
 			font-weight: bold;
@@ -132,13 +132,15 @@ const Li = styled.li`
 	> button {
 		width: 100%;
 		display: flex;
-
 		&:hover {
 			color: #0db4f3;
 		}
 
 		> p {
+			height: 18px;
+			font-size: 13px;
 			margin-left: 15px;
+			display: flex;
 		}
 	}
 `;
@@ -146,23 +148,71 @@ const Li = styled.li`
 const Container = styled.div<ContainerProps>`
 	position: absolute;
 	z-index: 300;
-	width: 100.6%;
+	width: 100.45%;
 	max-height: 300px;
 	overflow: scroll;
 	border: 3px solid #0db4f3;
 	border-top: none;
 	border-radius: 0 0 10px 10px;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 	margin-top: ${(props) =>
 		props.hasResult.length === 1
-			? '63px'
+			? '96px'
 			: props.hasResult.length === 2
-			? '103px'
+			? '151px'
 			: props.hasResult.length === 3
-			? '143px'
+			? '196px'
 			: props.hasResult.length === 4
-			? '183px'
-			: '223px'};
+			? '261px'
+			: '316px'};
 	margin-left: -13px;
+
+	@media screen and (max-width: 1024px) {
+		width: 101%;
+	}
+
+	@media screen and (max-width: 480px) {
+		margin-left: -8px;
+		width: 102.5%;
+	}
+
+	@media screen and (max-width: 440px) {
+		margin-left: -8px;
+		width: 102.6%;
+	}
+
+	@media screen and (max-width: 438px) {
+		margin-left: -8px;
+		width: 102.7%;
+	}
+
+	@media screen and (max-width: 428px) {
+		margin-left: -8px;
+		width: 102.8%;
+	}
+
+	@media screen and (max-width: 420px) {
+		margin-left: -8px;
+		width: 102.9%;
+	}
+
+	@media screen and (max-width: 414px) {
+		width: 103%;
+	}
+
+	@media screen and (max-width: 400px) {
+		width: 103.5%;
+	}
+
+	@media screen and (max-width: 380px) {
+		width: 103.6%;
+	}
+
+	@media screen and (max-width: 362px) {
+		width: 104%;
+	}
 `;
 
 function Header() {
