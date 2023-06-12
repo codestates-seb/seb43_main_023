@@ -4,11 +4,7 @@ import { lazy, Suspense } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import {
-	KakaoRedirectHandler,
-	OauthGoogleHandler,
-	OauthNaverHandler,
-} from './apis/OauthHandler';
+import { OauthHandler } from './apis/OauthHandler';
 import Footer from './Components/common/Footer';
 import Header from './Components/common/Header';
 import Empty from './Components/member/Empty';
@@ -33,7 +29,6 @@ import Manager from './pages/member/Manager';
 import MemberPost from './pages/member/MemberPost';
 import UserEdit from './pages/member/UserEdit';
 import Search from './pages/Search';
-import { setLocalStorage } from './utils/LocalStorage';
 
 const MainPage = lazy(() => import('./pages/common/MainPage'));
 const Mypage = lazy(() => import('./pages/member/Mypage'));
@@ -41,26 +36,8 @@ const RegionDetail = lazy(() => import('./pages/contents/RegionDetail'));
 const NearbyPlace = lazy(() => import('./pages/contents/NearbyPlace'));
 
 function App() {
-	// oauth google클릭 때만 실행되는 로직
-	if (new URL(window.location.href).pathname === '/accounts/google/login/') {
-		const url = new URL(window.location.href);
-		const { hash } = url;
-		const googleToken = hash.split('=')[1].split('&')[0];
-		setLocalStorage('code', googleToken);
-		OauthGoogleHandler();
-	}
-	if (new URL(window.location.href).pathname === '/Api/Member/Oauth') {
-		const url = new URL(window.location.href);
-		const { hash } = url;
-		const naverToken = hash.split('=')[1].split('&')[0];
-		setLocalStorage('code', naverToken);
-		OauthNaverHandler();
-	}
-	if (new URL(window.location.href).pathname === '/oauth') {
-		const code = new URL(document.location.toString()).searchParams.get('code');
-		setLocalStorage('code', code!);
-		KakaoRedirectHandler();
-	}
+	// oauth
+	OauthHandler();
 
 	return (
 		<div>
