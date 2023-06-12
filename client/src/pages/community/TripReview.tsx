@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { FiChevronRight } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk';
 import { useNavigate } from 'react-router-dom';
 import * as style from '../../Components/community/CommunityStyle';
 import Reviews from '../../Components/community/Reviews';

@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FiChevronRight } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk';
 import { Link, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-
 import * as style from '../../Components/community/CommunityStyle';
 import Pagination from '../../Components/community/Pagination';
 import SideBar from '../../Components/community/SideBar';
@@ -26,6 +26,15 @@ function Main() {
 	// eslint-disable-next-line prefer-const
 	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
+	const [imageDataBucket, setImageDataBucket] = useState<string[]>([]);
+	const [imageData, setImageData] = useState<string[]>([]);
+	const bucketName = 'imageupload-practice';
+
+	AWS.config.update({
+		region: process.env.REACT_APP_REGION,
+		accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+		secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY_ID,
+	});
 
 	const startIdx = (curPage - 1) * 8;
 	const endIdx = startIdx + 8;
@@ -48,6 +57,50 @@ function Main() {
 			setPosts(response);
 		}
 	}, [response]);
+
+	useEffect(() => {
+		const s3 = new AWS.S3();
+		if (posts && posts.length > 0) {
+			const getImagesFromBucket = async (image: string | undefined) => {
+				const imageKeys = posts.filter((el) => el.image.length > 0);
+
+				try {
+					const urls = await Promise.all(
+						imageKeys.map((key) => {
+							const params = { Bucket: bucketName, Key: image };
+							return s3.getSignedUrlPromise('getObject', params);
+						}),
+					);
+					setImageDataBucket(urls);
+				} catch (error) {
+					/* empty */
+				}
+			};
+
+			// eslint-disable-next-line consistent-return
+			const checkImagesFromBucket = async () => {
+				// eslint-disable-next-line no-restricted-syntax
+				for (const post of posts) {
+					// eslint-disable-next-line no-restricted-syntax
+					for (const image of post.image) {
+						try {
+							const params = { Bucket: bucketName, Key: image };
+							// eslint-disable-next-line no-await-in-loop
+							await s3.headObject(params).promise();
+							getImagesFromBucket(image);
+							return true;
+						} catch (error: any) {
+							if (error.code === 'NotFound') {
+								return false;
+							}
+						}
+					}
+				}
+			};
+
+			checkImagesFromBucket();
+		}
+	}, [posts]);
 
 	return (
 		<div className="main">
@@ -119,9 +172,15 @@ function Main() {
 											</style.Info>
 										</div>
 
-										{el.image[0] ? (
-											<img src={el.image[0]} alt="게시글 사진 미리보기" />
-										) : null}
+										{el.image[0] &&
+											(imageDataBucket.length > 0 ? (
+												<img
+													src={imageDataBucket[0]}
+													alt="게시글 사진 미리보기"
+												/>
+											) : (
+												<img src={el.image[0]} alt="게시글 사진 미리보기" />
+											))}
 									</style.Contentbody>
 								</Link>
 							))}

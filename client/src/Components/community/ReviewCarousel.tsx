@@ -8,6 +8,8 @@ import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk';
 import useAxios from '../../hooks/useAxios';
 import { Ipost } from '../../type/Ipost';
 import useGet from '../../hooks/useGet';
@@ -52,7 +54,16 @@ function ReviewCarousel() {
 		pauseOnHover: true,
 	};
 	const { id } = useParams();
+	const [imageDataBucket, setImageDataBucket] = useState<string[]>([]);
+	const [imageData, setImageData] = useState<string[]>([]);
 	const [review, setReview] = useState<Ipost[]>([]);
+	const bucketName = 'imageupload-practice';
+
+	AWS.config.update({
+		region: process.env.REACT_APP_REGION,
+		accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+		secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY_ID,
+	});
 
 	const postData = useGet(`/${id}`);
 
@@ -60,15 +71,69 @@ function ReviewCarousel() {
 		if (postData) {
 			setReview([postData]);
 		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postData]);
+
+	useEffect(() => {
+		const s3 = new AWS.S3();
+		if (review && review.length > 0) {
+			const getImagesFromBucket = async () => {
+				const imageKeys = review[0].image;
+
+				try {
+					const urls = await Promise.all(
+						imageKeys.map((key) => {
+							const params = { Bucket: bucketName, Key: key };
+							return s3.getSignedUrlPromise('getObject', params);
+						}),
+					);
+					setImageDataBucket(urls);
+				} catch (error) {
+					console.error('Error retrieving images from bucket:', error);
+				}
+			};
+
+			const checkImagesExistence = async () => {
+				const imageExistsPromises = review[0].image.map(async (key) => {
+					const params = { Bucket: bucketName, Key: key };
+					try {
+						await s3.headObject(params).promise();
+						return true;
+					} catch (error: any) {
+						if (error.code === 'NotFound') {
+							return false;
+						}
+						throw error;
+					}
+				});
+
+				const imageExistence = await Promise.all(imageExistsPromises);
+				const allImagesExist = imageExistence.every((exists) => exists);
+
+				console.log(allImagesExist);
+
+				if (allImagesExist) {
+					getImagesFromBucket();
+				} else {
+					console.log('aa');
+					setImageData(review[0].image);
+				}
+			};
+
+			checkImagesExistence();
+		}
+	}, [review]);
 
 	return (
 		<div>
 			{review.length > 0 && (
 				<SlideContainer {...settings}>
-					{review[0].image.map((el, idx) => (
-						<SlideItem image={review[0].image[idx]} />
-					))}
+					{imageDataBucket.length > 0
+						? imageDataBucket.map((el, idx) => (
+								<SlideItem image={imageDataBucket[idx]} />
+						  ))
+						: imageData.map((el, idx) => <SlideItem image={imageData[idx]} />)}
 				</SlideContainer>
 			)}
 		</div>
