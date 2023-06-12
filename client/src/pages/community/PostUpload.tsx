@@ -2,8 +2,17 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '../../Global.css';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk';
 
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import {
+	ChangeEvent,
+	KeyboardEvent,
+	MutableRefObject,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 
 import { FiAlertCircle, FiDelete } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +22,7 @@ import styled from 'styled-components';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Editor } from '@toast-ui/react-editor';
+import initImage from '../../assets/imagePost.png';
 
 import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
@@ -145,41 +155,6 @@ const InputBox = styled.input`
 		outline: none;
 	}
 `;
-// 	margin-top: 15px;
-// 	width: 100%;
-
-// 	display: flex;
-// 	justify-content: space-around;
-
-// 	div {
-// 		display: flex;
-// 		justify-content: center;
-// 		align-items: center;
-// 		height: 40px;
-// 		padding-left: 10px;
-
-// 		> label {
-// 			font-size: 14px;
-// 			color: gray;
-// 			margin-right: 5px;
-
-// 			&:hover {
-// 				color: #0db4f3;
-// 			}
-// 		}
-
-// 		input[type='file'] {
-// 			position: absolute;
-// 			width: 0;
-// 			height: 0;
-// 			padding: 0;
-// 			margin: -1px;
-// 			overflow: hidden;
-// 			clip: rect(0, 0, 0, 0);
-// 			border: 0;
-// 		}
-// 	}
-// `;
 
 const ImgContainer = styled.div`
 	margin-top: 15px;
@@ -229,6 +204,72 @@ const ImgContainer = styled.div`
 	}
 `;
 
+const Overlay = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: inherit;
+	height: inherit;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 0.3s;
+`;
+
+const Image = styled.img`
+	width: inherit;
+	height: inherit;
+	object-fit: cover;
+	transition: filter 0.3s;
+`;
+
+const Input = styled.input`
+	width: 29vw !important;
+	height: 90px !important;
+	text-align: right;
+	min-width: 0 !important;
+	outline: none;
+	background: rgb(0, 0, 0);
+	cursor: inherit;
+	display: block !important;
+	cursor: pointer;
+	position: absolute;
+	margin: 0 !important;
+	z-index: -1;
+`;
+
+const Label = styled.label`
+	width: 29vw !important;
+	height: 90px !important;
+	min-width: 0 !important;
+	outline: none;
+	background: rgb(255, 255, 255);
+	cursor: inherit;
+	display: block !important;
+	cursor: pointer;
+
+	&:hover {
+		&::after {
+			position: absolute;
+			left: 6.5%;
+			transform: translate(-50%, -50%);
+			color: #fff;
+			font-size: 11px;
+			cursor: pointer;
+		}
+	}
+
+	&:hover ${Image} {
+		filter: brightness(50%);
+	}
+
+	&:hover ${Overlay} {
+		opacity: 1;
+	}
+`;
+
 const PostBtn = styled.button`
 	margin-top: 15px;
 	width: 100%;
@@ -272,6 +313,55 @@ function PostUpload() {
 	const [x, setX] = useState<string>('');
 	const [y, setY] = useState<string>('');
 	const [placeName, setPlaceName] = useState<string>('');
+	const [imageUrl, setImageUrl] = useState(initImage);
+	const bucketName = 'imageupload-practice'; // 실제 버킷 이름으로 변경해야 함
+
+	AWS.config.update({
+		region: process.env.REACT_APP_REGION,
+		accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+		secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY_ID,
+	});
+
+	const imgRef = useRef(null);
+	const imgRef2 = useRef(null);
+	const imgRef3 = useRef(null);
+
+	const handleImages = (
+		e: ChangeEvent<HTMLInputElement>,
+		imgData: MutableRefObject<HTMLImageElement | null>,
+	) => {
+		const file = e.target.files?.[0];
+
+		setImages((prevImgs) => [...prevImgs, file!.name]);
+
+		if (file) {
+			const upload = new AWS.S3.ManagedUpload({
+				params: {
+					Bucket: bucketName,
+					Key: file.name,
+					Body: file,
+				},
+			});
+
+			const promise = upload.promise();
+
+			promise.then(function (data) {
+				const s3 = new AWS.S3();
+				const params = { Bucket: bucketName, Key: file.name };
+				s3.getSignedUrl('getObject', params, function (err, url) {
+					if (err) {
+						console.error('오류가 발생했습니다: ', err);
+						return;
+					}
+
+					if (imgData.current) {
+						// eslint-disable-next-line no-param-reassign
+						imgData.current.src = url;
+					}
+				});
+			});
+		}
+	};
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 
@@ -518,7 +608,7 @@ function PostUpload() {
 					)}
 
 					<ImgContainer>
-						<div>
+						{/* <div>
 							<input
 								type="text"
 								placeholder="Image 1 링크"
@@ -540,7 +630,51 @@ function PostUpload() {
 								placeholder="Image 3 링크"
 								onChange={onImageChange}
 							/>
-						</div>
+						</div> */}
+						<Label htmlFor="image1">
+							<Input
+								type="file"
+								id="image1"
+								onChange={(e) => handleImages(e, imgRef)}
+							/>
+
+							<Image
+								className="profile-img"
+								ref={imgRef}
+								src={imageUrl}
+								alt="Uploaded Image"
+							/>
+						</Label>
+
+						<Label htmlFor="image2">
+							<Input
+								type="file"
+								id="image2"
+								onChange={(e) => handleImages(e, imgRef2)}
+							/>
+
+							<Image
+								className="profile-img"
+								ref={imgRef2}
+								src={imageUrl}
+								alt="Uploaded Image"
+							/>
+						</Label>
+
+						<Label htmlFor="image3">
+							<Input
+								type="file"
+								id="image3"
+								onChange={(e) => handleImages(e, imgRef3)}
+							/>
+
+							<Image
+								className="profile-img"
+								ref={imgRef3}
+								src={imageUrl}
+								alt="Uploaded Image"
+							/>
+						</Label>
 					</ImgContainer>
 
 					{alert && Images.length === 0 && subject === '여행리뷰' ? (
