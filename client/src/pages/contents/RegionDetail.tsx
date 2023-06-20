@@ -37,6 +37,11 @@ const RegionDetailContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 
 const RegionDetailImage = styled.div<IImageProps>`
@@ -60,9 +65,20 @@ const RegionDetailImage = styled.div<IImageProps>`
 		height: 460px;
 		opacity: 0.7;
 		z-index: -1;
+		@media (min-width: 1920px) {
+			margin-left: auto;
+			margin-right: auto;
+			left: calc((100vw - 1920px) / 2);
+			max-width: 1920px;
+		}
 	}
 	@media (max-width: 768px) {
 		height: 30vh;
+	}
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
 	}
 `;
 
@@ -474,7 +490,7 @@ function RegionDetail() {
 				const { data } = response;
 				const intro = data.response.body.items.item[0].overview;
 				setIsOpen(true);
-				const textReplace = /(\s|<br\s*\/?>|\(\))/gi;
+				const textReplace = /<br\s*\/?>/gi;
 				setTourText(intro.replace(textReplace, ''));
 			})
 			.catch(() => {
@@ -484,7 +500,9 @@ function RegionDetail() {
 
 	return (
 		<RegionDetailContainer>
-			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			{isOpen ? (
+				<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			) : null}
 			<RegionDetailImage image={selectedRegion[0].header}>
 				<span>{selectedRegion[0].name} 여행 추천 명소</span>
 			</RegionDetailImage>

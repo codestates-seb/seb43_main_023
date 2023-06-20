@@ -3,9 +3,13 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
 import styled from 'styled-components';
+import notImageResult from '../assets/notImageResult.png';
+
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+// eslint-disable-next-line import/order
+import { Viewer } from '@toast-ui/react-editor';
 
 import { IKeyword } from '../reducers/searchKeywordReducer';
-import useAxios from '../hooks/useAxios';
 import Pagination from '../Components/community/Pagination';
 import { RootState } from '../store/Store';
 import useGet from '../hooks/useGet';
@@ -110,6 +114,21 @@ const AdItem = styled.div`
 	/* padding: 10px; */
 	margin: 10px;
 	cursor: pointer;
+
+	.notresult {
+		font-size: 14px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: gray;
+		padding-bottom: 7px;
+		border-bottom: 1px solid #d9d9d9;
+	}
+
+	.notimg {
+		width: 100%;
+		height: 60%;
+	}
 
 	.adimg {
 		width: 100%;
@@ -227,6 +246,16 @@ const CreateBtn = styled.div`
 	cursor: pointer;
 `;
 
+const ViewerContainer = styled.div`
+	padding: 10px;
+	min-height: 120px;
+	max-height: 120px;
+	font-size: 15px;
+	line-height: 23px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
+
 interface tourAPIType {
 	firstimage: string;
 	title: string;
@@ -257,11 +286,13 @@ function Search() {
 
 	const mbtiAuthor = posts.filter((el) => el.member.mbti === keyword.keyword);
 
+	const mbtiAuthorReview = mbtiAuthor.filter((el) => el.subject === '여행리뷰');
+
 	const startIdx = (curPage - 1) * 5;
 	const endIdx = startIdx + 5;
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
-	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&keyword=${keyword.keyword}&contentTypeId=12`;
+	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&keyword=${keyword.keyword}&contentTypeId=12`;
 
 	const response = useGet('?size=100');
 
@@ -354,18 +385,45 @@ function Search() {
 							</div>
 							{menu === '전체' ? (
 								<APIContainerSlice>
-									{tourResult.slice(0, 4).map((el: tourAPIType, idx) => (
+									{tourResult.slice(0, 4).map((el: tourAPIType) => (
 										<AdItem onClick={() => handleResultClicked(el.title)}>
-											<img src={el.firstimage} alt="사진" className="adimg" />
+											{el.firstimage ? (
+												<img src={el.firstimage} alt="사진" className="adimg" />
+											) : (
+												<>
+													<img
+														src={notImageResult}
+														alt="사진"
+														className="notimg"
+													/>
+													<div className="notresult">
+														x 준비된 사진이 없어요
+													</div>
+												</>
+											)}
+
 											<div className="adtext">{el.title}</div>
 										</AdItem>
 									))}
 								</APIContainerSlice>
 							) : (
 								<APIContainer>
-									{tourResult.map((el: tourAPIType, idx) => (
+									{tourResult.map((el: tourAPIType) => (
 										<AdItem onClick={() => handleResultClicked(el.title)}>
-											<img src={el.firstimage} alt="사진" className="adimg" />
+											{el.firstimage ? (
+												<img src={el.firstimage} alt="사진" className="adimg" />
+											) : (
+												<>
+													<img
+														src={notImageResult}
+														alt="사진"
+														className="notimg"
+													/>
+													<div className="notresult">
+														x 준비된 사진이 없어요
+													</div>
+												</>
+											)}
 											<div className="adtext">{el.title}</div>
 										</AdItem>
 									))}
@@ -385,15 +443,16 @@ function Search() {
 								</div>
 								<span className="all">
 									{/* 여행지 추천 메뉴이거나 결과가 없다면 전체보기 버튼 표시 x */}
-									{menu === '여행지 추천' || mbtiAuthor.length === 0 ? null : (
+									{menu === '여행지 추천' ||
+									mbtiAuthorReview.length === 0 ? null : (
 										<button onClick={handleViewAllPost}>전체보기</button>
 									)}
 								</span>
 							</div>
 							{menu === '전체' ? (
 								<ResultContainer>
-									{mbtiAuthor.length > 0 ? (
-										mbtiAuthor.slice(0, 2).map((post) => (
+									{mbtiAuthorReview.length > 0 ? (
+										mbtiAuthorReview.slice(0, 2).map((post) => (
 											<ResultItem
 												onClick={() =>
 													handlePostClick(post.subject, post.postId)
@@ -404,7 +463,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -435,8 +494,8 @@ function Search() {
 								</ResultContainer>
 							) : (
 								<ResultContainer>
-									{mbtiAuthor.length > 0 ? (
-										mbtiAuthor.slice(startIdx, endIdx).map((post) => (
+									{mbtiAuthorReview.length > 0 ? (
+										mbtiAuthorReview.slice(startIdx, endIdx).map((post) => (
 											<ResultItem
 												onClick={() =>
 													handlePostClick(post.subject, post.postId)
@@ -447,7 +506,7 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<Viewer initialValue={post.content} />
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -474,12 +533,12 @@ function Search() {
 										</NotResult>
 									)}
 
-									{mbtiAuthor.length > 0 ? (
+									{mbtiAuthorReview.length > 0 ? (
 										<Pagination
 											curPage={curPage}
 											setCurPage={setCurPage}
-											totalPage={Math.ceil(mbtiAuthor.length / 5)}
-											totalCount={mbtiAuthor.length}
+											totalPage={Math.ceil(mbtiAuthorReview.length / 5)}
+											totalCount={mbtiAuthorReview.length}
 											size={5}
 											pageCount={5}
 										/>
@@ -507,8 +566,8 @@ function Search() {
 							</div>
 							{menu === '전체' ? (
 								<ResultContainer>
-									{containKeywordInPost.length > 0 ? (
-										containKeywordInPost.slice(0, 2).map((post) => (
+									{containKeywordInInput.length > 0 ? (
+										containKeywordInInput.slice(0, 2).map((post) => (
 											<ResultItem
 												onClick={() =>
 													handlePostClick(post.subject, post.postId)
@@ -519,7 +578,9 @@ function Search() {
 														<span className="subject">[{post.subject}]</span>
 														<span className="title">{post.title}</span>
 													</div>
-													<div className="content">{post.content}</div>
+													<ViewerContainer>
+														<Viewer initialValue={post.content} />
+													</ViewerContainer>
 													<span className="author">{post.member.nickname}</span>
 												</ResultText>
 												{post.image.length > 0 && (
@@ -548,29 +609,35 @@ function Search() {
 								</ResultContainer>
 							) : (
 								<ResultContainer>
-									{containKeywordInPost.length > 0 ? (
-										containKeywordInPost.slice(startIdx, endIdx).map((post) => (
-											<ResultItem
-												onClick={() =>
-													handlePostClick(post.subject, post.postId)
-												}
-											>
-												<ResultText>
-													<div className="resultInfo">
-														<span className="subject">[{post.subject}]</span>
-														<span className="title">{post.title}</span>
-													</div>
-													<div className="content">{post.content}</div>
-													<span className="author">{post.member.nickname}</span>
-												</ResultText>
-												{post.image.length > 0 && (
-													<ResultImg
-														src={post.image[0]}
-														alt="검색결과 사진 미리보기"
-													/>
-												)}
-											</ResultItem>
-										))
+									{containKeywordInInput.length > 0 ? (
+										containKeywordInInput
+											.slice(startIdx, endIdx)
+											.map((post) => (
+												<ResultItem
+													onClick={() =>
+														handlePostClick(post.subject, post.postId)
+													}
+												>
+													<ResultText>
+														<div className="resultInfo">
+															<span className="subject">[{post.subject}]</span>
+															<span className="title">{post.title}</span>
+														</div>
+														<ViewerContainer>
+															<Viewer initialValue={post.content} />
+														</ViewerContainer>
+														<span className="author">
+															{post.member.nickname}
+														</span>
+													</ResultText>
+													{post.image.length > 0 && (
+														<ResultImg
+															src={post.image[0]}
+															alt="검색결과 사진 미리보기"
+														/>
+													)}
+												</ResultItem>
+											))
 									) : (
 										<NotResult>
 											<div>아직 작성된 게시글이 없어요 </div>
@@ -587,12 +654,12 @@ function Search() {
 										</NotResult>
 									)}
 
-									{containKeywordInPost.length > 0 ? (
+									{containKeywordInInput.length > 0 ? (
 										<Pagination
 											curPage={curPage}
 											setCurPage={setCurPage}
-											totalPage={Math.ceil(containKeywordInPost.length / 5)}
-											totalCount={containKeywordInPost.length}
+											totalPage={Math.ceil(containKeywordInInput.length / 5)}
+											totalCount={containKeywordInInput.length}
 											size={5}
 											pageCount={5}
 										/>

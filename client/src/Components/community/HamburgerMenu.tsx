@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import styled from 'styled-components';
 
 const HamburgerMenuContainer = styled.div`
 	margin-right: 20px;
@@ -25,7 +25,6 @@ const MenuItems = styled.ul`
 	padding-top: 60px;
 	background-color: #fafafa;
 	transition: 0.3s;
-	z-index: 500;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
@@ -62,7 +61,7 @@ const Overlay = styled.div`
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5); /* 검은색 배경 투명도 조절 */
-	z-index: 300; /* 메뉴보다 낮은 숫자로 설정하여 메뉴 위에 표시 */
+	z-index: 201;
 `;
 
 function HamburgerMenu() {
@@ -77,8 +76,7 @@ function HamburgerMenu() {
 				<GiHamburgerMenu />
 			</HamburgerIcon>
 			{isOpen && (
-				<>
-					<Overlay onClick={handleToggle} />
+				<Overlay onClick={handleToggle}>
 					<MenuItems>
 						<MenuItem>
 							<Link to="/tripreview">여행리뷰 </Link>
@@ -96,7 +94,7 @@ function HamburgerMenu() {
 							<Link to="/etctalk">잡담</Link>
 						</MenuItem>
 					</MenuItems>
-				</>
+				</Overlay>
 			)}
 		</HamburgerMenuContainer>
 	);

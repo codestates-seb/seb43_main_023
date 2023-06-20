@@ -10,6 +10,8 @@ import styled, { css } from 'styled-components';
 
 import { Viewer } from '@toast-ui/react-editor';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk';
 import { Api } from '../../apis/customAPI';
 import Answers from '../../Components/community/Answers';
 import ReviewCarousel from '../../Components/community/ReviewCarousel';
@@ -184,6 +186,14 @@ function PostDetail() {
 	// eslint-disable-next-line prefer-const
 	let [answers, setAnswers] = useState<Ianswer[]>([]);
 
+	const bucketName = 'imageupload-practice';
+
+	AWS.config.update({
+		region: process.env.REACT_APP_REGION,
+		accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+		secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY_ID,
+	});
+
 	answers = answers.filter((el) => el.postId === Number(id));
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
@@ -233,12 +243,16 @@ function PostDetail() {
 	};
 
 	const handleDisLike = () => {
-		setIsLike(!isLike);
+		setIsLike(false);
 
 		try {
 			Api.patch(`/posts/${id}/vote/${userInfos.id}`, {})
 				.then(() => Api.get(`/posts/${id}`))
-				.then((res) => setPost([res.data]));
+				.then((res) => {
+					console.log(res.data);
+					setPost([res.data]);
+				});
+			// document.location.reload();
 		} catch (error) {
 			navigate('/error');
 		}
@@ -255,8 +269,6 @@ function PostDetail() {
 			setAnswers([]);
 		}
 	}, [answerData.response, postData]);
-
-	console.log(post);
 
 	return (
 		<div className="main">

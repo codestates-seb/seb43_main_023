@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import airplane from '../../assets/airplane.png';
 import logo from '../../assets/logo.png';
 import { LOGOUT } from '../../reducers/loginReducer';
+import { DELETE } from '../../reducers/userInfoReducer';
 import { removeCookie } from '../../utils/cookie';
 import { getLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
 import { SweetAlert1 } from '../../utils/SweetAlert';
@@ -72,14 +73,15 @@ function Logout() {
 				Kakao.Auth.logout();
 				removeLocalStorage('kakao');
 			}
-			if (getLocalStorage('naver')) {
-				removeLocalStorage('naver');
-			}
 			try {
 				removeLocalStorage('accessToken');
 				removeLocalStorage('empiresAtAccess');
 				removeLocalStorage('empiresAtRefresh');
+				removeLocalStorage('nickname');
+				removeLocalStorage('email');
+				removeLocalStorage('code');
 				dispatch(LOGOUT());
+				dispatch(DELETE());
 				removeCookie('refreshToken');
 				navigate('/main');
 			} catch (error) {

@@ -144,8 +144,6 @@ function Answers() {
 		url: `/members`,
 	});
 
-	console.log('aaa', membersData);
-
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
@@ -228,15 +226,12 @@ function Answers() {
 			ToastAlert('자신의 댓글은 좋아요가 불가능해요');
 		} else {
 			setClickedId(answerId);
-			setIsLike(!isLike);
+			setIsLike(true);
 
 			try {
-				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {}).then((res) =>
-					console.log('aa', res.data),
-				);
-				// Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
-				// 	.then(() => Api.get(`/comments/${id}`))
-				// 	.then((res) => setAnswers(res.data));
+				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
+					.then(() => Api.get(`/comments/${id}`))
+					.then((res) => setAnswers(res.data));
 			} catch (error) {
 				navigate('/error');
 			}
@@ -245,15 +240,16 @@ function Answers() {
 
 	const handleDisLike = (answerId: number) => {
 		setClickedId(answerId);
-		setIsLike(!isLike);
+		setIsLike(false);
 
-		const clickedAnswer = answers.find((q) => q.postId === answerId);
+		const clickedAnswer = answers.find((q) => q.commentId === answerId);
 
 		if (clickedAnswer) {
 			try {
 				Api.patch(`comments/${answerId}/vote/${userInfos.id}`, {})
 					.then(() => Api.get(`/comments/${id}`))
 					.then((res) => setAnswers(res.data));
+				// document.location.reload();
 			} catch (error) {
 				navigate('/error');
 			}
@@ -304,7 +300,7 @@ function Answers() {
 							>
 								<Vote>
 									{(isLike && clickedId === el.commentId) ||
-									el.voteList.includes(userInfos.id!) ? (
+									el.voteList?.includes(userInfos.id!) ? (
 										<AiFillHeart
 											size={18}
 											onClick={() => handleDisLike(el.commentId)}

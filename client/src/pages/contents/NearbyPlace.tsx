@@ -26,6 +26,11 @@ const NearbyPlaceContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 
 const NearbyPlaceDetailImage = styled.div<IImageProps>`
@@ -55,6 +60,12 @@ const NearbyPlaceDetailImage = styled.div<IImageProps>`
 		height: 460px;
 		opacity: 0.7;
 		z-index: -1;
+		@media (min-width: 1920px) {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 1920px;
+			left: calc((100vw - 1920px) / 2);
+		}
 	}
 	@media (max-width: 768px) {
 		height: 30vh;
@@ -275,7 +286,7 @@ function NearbyPlace() {
 				const { data } = response;
 				const intro = data.response.body.items.item[0].overview;
 				setIsOpen(true);
-				const textReplace = /(\s|<br\s*\/?>|\(\))/gi;
+				const textReplace = /<br\s*\/?>/gi;
 				setTourText(intro.replace(textReplace, ''));
 			})
 			.catch(() => {
@@ -285,7 +296,9 @@ function NearbyPlace() {
 
 	return (
 		<NearbyPlaceContainer>
-			<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			{isOpen ? (
+				<Modal text={tourText} isOpen={isOpen} setIsOpen={setIsOpen} />
+			) : null}
 			<NearbyPlaceDetailImage image={backgroundImg}>
 				<span>🧭 우리 동네 여행 명소</span>
 			</NearbyPlaceDetailImage>

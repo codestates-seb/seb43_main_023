@@ -1,33 +1,50 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
+
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
 import useGet from '../../hooks/useGet';
 
 const Button = styled.button`
-	border: 1px solid rgb(214, 217, 219);
 	width: 100%;
 	display: flex;
 	height: 40px;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 10px;
-
-	> div {
-		color: gray;
+	padding: 10px;
+	border-radius: 5px;
+	background: white;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	@media (max-width: 430px) {
+		width: 250px;
+	}
+	div {
+		color: rgba(0, 0, 0, 0.8);
 	}
 `;
 
-const Ul = styled.ul``;
+const Ul = styled.ul`
+	background: white;
+	width: 298px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	margin-top: 3px;
+	height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	@media (max-width: 430px) {
+		width: 248.5px;
+	}
+`;
 
 const Li = styled.li`
 	width: inherit;
-	background-color: #fafafa;
-	padding: 12px;
-
-	> button {
+	padding: 8px;
+	font-size: 14px;
+	button {
 		width: 100%;
 		display: flex;
 
@@ -40,21 +57,13 @@ const Li = styled.li`
 const Container = styled.div`
 	position: absolute;
 	z-index: 100;
-	width: 89.8vw;
+	width: 300px;
 	border: 1px solid rgb(214, 217, 219);
 	border-top: none;
-`;
-
-const Alert = styled.div`
-	margin-left: 5px;
-	color: #f37676;
-	font-size: 12px;
-	margin-top: 5px;
-	display: flex;
-
-	> p {
-		font-size: 15px;
-		margin-right: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	@media (max-width: 430px) {
+		width: 250px;
 	}
 `;
 
@@ -68,7 +77,7 @@ interface Type {
 	subject: string;
 }
 
-function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
+function MBTIDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [selected, setSelected] = useState<string>('');
 	const [alert, setAlert] = useState<boolean>(false);
@@ -90,7 +99,24 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 		setIsOpen(false);
 	};
 
-	const menus = ['여행리뷰', '여행고민', '같이가요', 'MBTI', '잡담'];
+	const menus = [
+		'ISTP',
+		'ISFP',
+		'ESTP',
+		'ESFP',
+		'INFJ',
+		'INFP',
+		'ENFJ',
+		'ENFP',
+		'ISTJ',
+		'ISFJ',
+		'ESTJ',
+		'ESFJ',
+		'INTJ',
+		'INTP',
+		'ENTJ',
+		'ENTP',
+	];
 
 	const postData = useGet(``);
 
@@ -106,7 +132,7 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 		// eslint-disable-next-line react/jsx-no-useless-fragment
 		<>
 			<Button type="button" onClick={handleDropDown}>
-				<div>{selected || '말머리 선택'}</div>
+				<div>{selected || 'MBTI 선택'}</div>
 				<div>{isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</div>
 			</Button>
 			{isOpen ? (
@@ -126,4 +152,4 @@ function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	);
 }
 
-export default SubjectDropdown;
+export default MBTIDropdown;

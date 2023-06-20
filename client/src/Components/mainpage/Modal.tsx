@@ -14,6 +14,7 @@ const ModalBackdrop = styled.div`
 	bottom: 0;
 	right: 0;
 	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 201;
 `;
 
 const ModalButton = styled.button`
@@ -37,22 +38,31 @@ const ModalButton = styled.button`
 const ModalView = styled.div`
 	position: absolute;
 	top: 30vh;
-	left: 15vw;
-	width: 70%;
-	height: 40%;
+	left: 10vw;
+	width: 80%;
+	height: 50%;
 	overflow-y: scroll;
-	background-color: white;
+	background-color: rgba(250, 250, 250, 1);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	border-radius: 15px;
 	padding: 20px 30px 30px 30px;
 	line-height: 1.5;
-	font-size: 1.3em;
+	font-size: 1.5em;
 	@media (max-width: 425px) {
 		width: 80%;
 		left: 10vw;
+	}
+	.explanation {
+		@font-face {
+			font-family: 'omyu_pretty';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
+				format('woff2');
+			font-weight: normal;
+			font-style: normal;
+		}
+		font-family: 'omyu_pretty';
 	}
 `;
 

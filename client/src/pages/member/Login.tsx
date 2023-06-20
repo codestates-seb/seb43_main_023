@@ -1,16 +1,14 @@
 import '../../Global.css';
 
-import { FocusEvent, useEffect } from 'react';
+import { FocusEvent } from 'react';
 
-import { RiKakaoTalkFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Api } from '../../apis/customAPI';
-import airplane from '../../assets/airplane.png';
-import googleIcon from '../../assets/googleIcon.png';
-import logo from '../../assets/logo.png';
+import ImgBox from '../../Components/member/ImgBox';
+import OauthBox from '../../Components/member/OauthBox';
 import { LOGIN } from '../../reducers/loginReducer';
 import { UPDATE } from '../../reducers/userInfoReducer';
 import { setCookie } from '../../utils/cookie';
@@ -31,28 +29,6 @@ const Main = styled.div`
 	}
 `;
 
-const ImgBox = styled.div`
-	overflow: hidden;
-	.airplane {
-		width: 100%;
-		height: 101vh;
-		@media (max-width: 768px) {
-			display: none;
-		}
-	}
-	.logo {
-		width: 130px;
-		position: absolute;
-		top: 20px;
-		left: 20px;
-		@media (max-height: 700px) {
-			width: 100px;
-		}
-		@media (max-height: 650px) {
-			width: 90px;
-		}
-	}
-`;
 const Content = styled.div`
 	width: 80%;
 	height: 100vh;
@@ -128,30 +104,14 @@ const Content = styled.div`
 	.hide {
 		display: none;
 	}
-	.lineBox {
-		color: #393737;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 13px;
-		margin: 20px 0 20px 0;
-		.line {
-			width: 98px;
-			border-top: 1px solid #393737;
-			margin: 0 10px;
-			@media (max-width: 430px) {
-				width: 75px;
-			}
-		}
-	}
 	.gotoJoin {
-		color: rgba(0, 0, 0, 0.2);
+		color: rgba(0, 0, 0, 0.5);
 		margin-top: 20px;
-		font-size: 13px;
+		font-size: 15px;
 	}
 	.gotoJoinBtn {
 		color: #0db4f3;
-		font-size: 13px;
+		font-size: 15px;
 		margin-top: 7px;
 		&:hover {
 			color: #4ec9ff;
@@ -159,44 +119,19 @@ const Content = styled.div`
 	}
 `;
 
-const OauthBox = styled.div`
+const Linebox = styled.div`
+	color: #393737;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	.oauth {
-		width: 39px;
-		height: 39px;
-		background: none;
-		margin: 0 5px;
-		color: #393737;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 5px;
-		font-size: 15px;
-		&:hover {
-			transform: translateY(-3px);
-		}
-		span {
-			margin-left: 10px;
-		}
-		.googleIcon {
-			width: 25px;
-		}
-	}
-	.googleoauth {
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		transform: translateY(-3px);
-		&:hover {
-			transform: translateY(-6px);
-		}
-	}
-	.kakaoBtn {
-		background: #fbe300;
-		margin-right: 0px;
-		transform: translateY(-3px);
-		&:hover {
-			transform: translateY(-6px);
+	font-size: 13px;
+	margin: 20px 0 20px 0;
+	span {
+		width: 98px;
+		border-top: 1px solid #393737;
+		margin: 0 10px;
+		@media (max-width: 430px) {
+			width: 75px;
 		}
 	}
 `;
@@ -209,8 +144,44 @@ function Login() {
 		const el = e.target as HTMLFormElement;
 		try {
 			const allMember = await Api.get('/members');
+			const findMember = allMember.data.find(
+				(v: { email: string }) => v.email === el.email.value,
+			);
 			// 전체 멤버 중 같은 관리자이메일로 로그인한 경우 관리자페이지로 이동
 			if (el.email.value === 'admin@gmail.com') {
+				const loginData = await Api.post('/members/signin', {
+					email: el.email.value,
+					password: el.password.value,
+				});
+				const {
+					memberId,
+					accessToken,
+					refreshToken,
+					accessTokenExpirationTime,
+					refreshTokenExpirationTime,
+				} = loginData.data.data;
+
+				const userInfo = await Api.get(`/members/${memberId}`);
+				dispatch(
+					UPDATE({
+						id: userInfo.data.memberId,
+						email: userInfo.data.email,
+						nickname: userInfo.data.nickname,
+						mbti: userInfo.data.mbti,
+						img: userInfo.data.img,
+						badge: userInfo.data.badge,
+					}),
+				);
+				dispatch(LOGIN({ accessToken: `${accessToken}` }));
+				setCookie('refreshToken', refreshToken, {
+					path: '/',
+					sameSite: 'none',
+					secure: true,
+				});
+				setLocalStorage('accessToken', accessToken);
+				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
 				const sweetAlert2 = await SweetAlert2(
 					'관리자가 접속했습니다.',
 					'관리자 페이지로 이동합니다.',
@@ -220,12 +191,12 @@ function Login() {
 				}
 				return;
 			}
-			// 전체 멤버 중 같은 이메일이 있다면 로그인 가능, 없다면 경고창
-			if (
-				allMember.data.find(
-					(v: { email: string }) => v.email === el.email.value,
-				)
-			) {
+			// 전체 멤버 중 같은 이메일이 없다면 로그인 불가능
+			if (!findMember) {
+				ToastAlert('가입한 이메일이 아닙니다');
+			}
+			// 전체 멤버 중 같은 이메일이 있다면 로그인 가능
+			else if (findMember) {
 				const loginData = await Api.post('/members/signin', {
 					email: el.email.value,
 					password: el.password.value,
@@ -265,8 +236,6 @@ function Login() {
 				if (sweetAlert2.isConfirmed) {
 					navigate('/main');
 				}
-			} else {
-				ToastAlert('가입한 이메일이 아닙니다');
 			}
 		} catch (err: any) {
 			// 전체 멤버 중 같은 이메일이 있는데도 불구하고 에러 => 비밀번호가 틀림 경고창
@@ -287,53 +256,9 @@ function Login() {
 		keyUp?.classList.add('hide');
 	};
 
-	// 구글 oauth
-	const oAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_KEY}&
-response_type=token&
-redirect_uri=https://whatsyourmbti.click/accounts/google/login/&
-scope=https://www.googleapis.com/auth/userinfo.email`;
-	const oAuthHandler = () => {
-		console.log(oAuthURL);
-		window.location.assign(oAuthURL);
-	};
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const { naver } = window as any;
-	// 네이버 oauth
-	useEffect(() => {
-		// useEffect로 안하고 onclick하면 로그인배너아이콘 안뜸
-		const initializeNaverLogin = () => {
-			const naverLogin = new naver.LoginWithNaverId({
-				clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-				callbackUrl: process.env.REACT_APP_REDIRECT_URI,
-				isPopup: false /* 팝업을 통한 연동처리 여부, true 면 팝업 */,
-				loginButton: {
-					color: 'green',
-					type: 1,
-					height: 37,
-				} /* 로그인 버튼의 타입을 지정 */,
-			});
-			naverLogin.init();
-		};
-		initializeNaverLogin();
-	}, [naver.LoginWithNaverId]);
-
-	// 카카오 oauth
-	const { Kakao } = window as any;
-	const loginWithKakao = () => {
-		Kakao.Auth.authorize({
-			redirectUri: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
-		});
-	};
-
 	return (
 		<Main>
-			<ImgBox>
-				<img className="airplane" src={airplane} alt="" />
-				<Link to="/main">
-					<img className="logo" src={logo} alt="" />
-				</Link>
-			</ImgBox>
+			<ImgBox />
 			<Content>
 				<h1>Log in</h1>
 				<form onSubmit={(e) => joinSubmit(e)}>
@@ -357,22 +282,12 @@ scope=https://www.googleapis.com/auth/userinfo.email`;
 					/>
 					<button type="submit">Log in</button>
 				</form>
-				<div className="lineBox">
-					<span className="line" />
-					Or Log in with
-					<span className="line" />
-				</div>
-				<OauthBox>
-					<button className="oauth googleoauth" onClick={oAuthHandler}>
-						<img className="googleIcon" src={googleIcon} alt="" />
-					</button>
-					<button className="oauth kakaoBtn" onClick={loginWithKakao}>
-						<RiKakaoTalkFill size={32} color="#3b1e1e" />
-					</button>
-					<button className="oauth">
-						<span id="naverIdLogin">Naver</span>
-					</button>
-				</OauthBox>
+				<Linebox>
+					<span />
+					Or Sign in with
+					<span />
+				</Linebox>
+				<OauthBox />
 				<span className="gotoJoin">아직 회원가입을 안하셨나요?</span>
 				<Link to="/join">
 					<button className="gotoJoinBtn">Sign up</button>

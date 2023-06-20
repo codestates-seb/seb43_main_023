@@ -1,10 +1,14 @@
 import '../../Global.css';
 
+import { useEffect } from 'react';
+
+import { RiKakaoTalkFill } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../../assets/logo.png';
 import { getLocalStorage } from '../../utils/LocalStorage';
+import shareKakao from '../../utils/shareKakaoLink';
 
 const Main = styled.div`
 	width: 100%;
@@ -73,6 +77,12 @@ const Main = styled.div`
 			font-size: 24px;
 		}
 	}
+	border: none;
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 const Content = styled.div`
 	width: 100%;
@@ -80,6 +90,7 @@ const Content = styled.div`
 	justify-content: space-around;
 	align-items: flex-start;
 	background: rgba(0, 0, 0, 0.04);
+	padding-bottom: 30px;
 	div {
 		display: flex;
 		flex-direction: column;
@@ -129,12 +140,57 @@ const Content = styled.div`
 			display: none;
 		}
 	}
-	.teamName {
-		color: rgba(0, 0, 0, 0.5);
-		font-size: 12px;
+	.hide {
+		display: none;
+		border: none;
+		@media (max-width: 370px) {
+			display: block;
+		}
+	}
+	.teamDivide2 {
+		display: inline-block;
+		justify-content: center;
+		align-items: center;
+	}
+	.manager {
+		border: none;
+		@media (max-width: 370px) {
+			margin: 0px;
+		}
+	}
+	border: none;
+	.kakaoBtn {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+		span {
+			font-size: 15px;
+			padding: 0px;
+			border: none;
+			margin: 0;
+			margin-right: 5px;
+			transform: translateY(3px);
+			&:hover {
+				color: #0db4f3;
+			}
+			@media (max-width: 370px) {
+				display: none;
+			}
+		}
 	}
 `;
 function Footer() {
+	useEffect((): any => {
+		const script = document.createElement('script');
+		script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
+		script.async = true;
+		document.body.appendChild(script);
+		return () => document.body.removeChild(script);
+	}, []);
+
+	const route = 'https://whatsyourmbti.click';
+	const title = 'MBTI기반 여행지 추천 커뮤니티 어플리케이션';
+
 	const locationNow = useLocation();
 	if (locationNow.pathname === '/logout') return null;
 	if (locationNow.pathname === '/login') return null;
@@ -155,6 +211,7 @@ function Footer() {
 		const y = 1 + (window.scrollY || window.pageYOffset);
 		root.style.setProperty('--gradient-percent', `${y * 4}px`);
 	});
+
 	return (
 		<Main>
 			<div>
@@ -207,21 +264,44 @@ function Footer() {
 					<Link to="/main">
 						<img src={logo} alt="" />
 					</Link>
-					<div className="teamName">TEAM 너의 이름은</div>
+					<button className="kakaoBtn" onClick={() => shareKakao(route, title)}>
+						<span>공유하기</span>
+						<RiKakaoTalkFill size={23} color="#3b1e1e" />
+					</button>
+					<span className="hide manager">관리자 문의</span>
+					<div className="teamDivide2 hide">
+						<button className="space2 hide">bda624444@gmail.com</button>
+					</div>
 				</div>
 				<div>
 					<span>SERVICE</span>
-					<button>지역별 추천 여행 명소</button>
-					<button>국내 핫한 여행 명소</button>
-					<button>인기 여행 리뷰</button>
+					<Link to="/regionrec">
+						<button>지역별 추천 여행 명소</button>
+					</Link>
+					<Link to="/hotplace">
+						<button>우리 동네 여행명소</button>
+					</Link>
+					<Link to="/hotreview">
+						<button>인기 여행 리뷰</button>
+					</Link>
 				</div>
 				<div>
 					<span>COMMUNITY</span>
-					<button>여행리뷰</button>
-					<button>여행고민</button>
-					<button>같이가요</button>
-					<button>MBTI</button>
-					<button>잡담</button>
+					<Link to="/tripreview">
+						<button>여행리뷰</button>
+					</Link>
+					<Link to="/community">
+						<button>여행고민</button>
+					</Link>
+					<Link to="/tripmate">
+						<button>같이가요</button>
+					</Link>
+					<Link to="/mbti">
+						<button>MBTI</button>
+					</Link>
+					<Link to="/etctalk">
+						<button>잡담</button>
+					</Link>
 				</div>
 				<div className="team">
 					<span>관리자 문의</span>

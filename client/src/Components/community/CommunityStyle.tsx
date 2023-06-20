@@ -18,6 +18,7 @@ export const Explain = styled.div`
 	margin-bottom: 40px;
 	padding: 30px;
 	line-height: 1.5rem;
+	z-index: 202;
 
 	@media (max-width: 580px) {
 		padding: 10px 10px;
@@ -290,4 +291,14 @@ export const PaginationContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+`;
+
+export const ViewerContainer = styled.div`
+	margin-top: -10px;
+	min-height: 55px;
+	max-height: 55px;
+	font-size: 15px;
+	line-height: 23px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;

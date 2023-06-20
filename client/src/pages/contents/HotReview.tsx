@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Viewer } from '@toast-ui/react-editor';
 import useGet from '../../hooks/useGet';
 import { IImageProps } from '../../type/IImageProps';
 import { Iposts } from '../../type/Ipost';
@@ -18,6 +20,11 @@ const HotReviewContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
+	}
 `;
 
 const HotReviewImage = styled.div`
@@ -54,6 +61,11 @@ const HotReviewItemContainer = styled.div`
 	padding: 70px;
 	@media (max-width: 768px) {
 		padding: 20px;
+	}
+	@media (min-width: 1920px) {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 1920px;
 	}
 `;
 
@@ -173,7 +185,8 @@ function HotReview() {
 								<HotReviewInfo>
 									<div className="hotReviewBold">{item.title}</div>
 									<div className="hotReviewBold">💙 {item.voteCount}</div>
-									<div className="hotReviewText">{item.content}</div>
+									{/* <div className="hotReviewText">{item.content}</div> */}
+									<Viewer initialValue={item.content} />
 									<div className="hotReviewAuthor">
 										{item.member.nickname}
 										<br />

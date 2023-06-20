@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+
 import { AiFillHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import img from '../../assets/jeonju.jpg';
-import Pagination from './Pagination';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+import AWS from 'aws-sdk';
+import useGet from '../../hooks/useGet';
 import { Ipost } from '../../type/Ipost';
 import * as style from './CommunityStyle';
-import useGet from '../../hooks/useGet';
+import Pagination from './Pagination';
 
 const Container = styled.div`
 	max-height: 1000px;
@@ -15,7 +18,9 @@ const Container = styled.div`
 	display: flex;
 	overflow: scroll;
 	flex-wrap: wrap;
-
+	&::-webkit-scrollbar {
+		display: none;
+	}
 	@media (max-width: 768px) {
 		margin-left: 50px;
 	}
@@ -27,17 +32,6 @@ const Container = styled.div`
 	@media (max-width: 480px) {
 		margin-left: 30px;
 	}
-
-	/* @media (max-width: 1120px) {
-		margin-left: 20px;
-	}
-	@media (max-width: 1117px) {
-		margin-left: 65px;
-	}
-
-	@media (max-width: 1117px) {
-		margin-left: 65px;
-	} */
 
 	a {
 		text-decoration: none;
@@ -60,7 +54,6 @@ const ReviewBox = styled.div`
 	@media (max-width: 980px) {
 		margin-right: 25px;
 	}
-
 	@media (max-width: 768px) {
 		margin-right: 50px;
 	}
@@ -150,11 +143,20 @@ function Review() {
 	// eslint-disable-next-line prefer-const
 	const [reviews, setReviews] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
+	const [imageDataBucket, setImageDataBucket] = useState<string[]>([]);
+	const [imageData, setImageData] = useState<string[]>([]);
+	const bucketName = 'imageupload-practice';
 
-	const startIdx = (curPage - 1) * 12;
-	const endIdx = startIdx + 12;
+	AWS.config.update({
+		region: process.env.REACT_APP_REGION,
+		accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+		secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY_ID,
+	});
 
-	const response = useGet(`?size=100&subject=여행리뷰&page=${curPage}`);
+	const startIdx = (curPage - 1) * 15;
+	const endIdx = startIdx + 15;
+
+	const response = useGet(`?size=100&subject=여행리뷰&page=1`);
 
 	useEffect(() => {
 		if (response) {
@@ -162,7 +164,49 @@ function Review() {
 		}
 	}, [response]);
 
-	console.log(reviews);
+	useEffect(() => {
+		const s3 = new AWS.S3();
+		if (reviews && reviews.length > 0) {
+			const getImagesFromBucket = async (image: string | undefined) => {
+				const imageKeys = reviews.filter((el) => el.image.length > 0);
+
+				try {
+					const urls = await Promise.all(
+						imageKeys.map((key) => {
+							const params = { Bucket: bucketName, Key: image };
+							return s3.getSignedUrlPromise('getObject', params);
+						}),
+					);
+					setImageDataBucket(urls);
+				} catch (error) {
+					/* empty */
+				}
+			};
+
+			// eslint-disable-next-line consistent-return
+			const checkImagesFromBucket = async () => {
+				// eslint-disable-next-line no-restricted-syntax
+				for (const post of reviews) {
+					// eslint-disable-next-line no-restricted-syntax
+					for (const image of post.image) {
+						try {
+							const params = { Bucket: bucketName, Key: image };
+							// eslint-disable-next-line no-await-in-loop
+							await s3.headObject(params).promise();
+							getImagesFromBucket(image);
+							return true;
+						} catch (error: any) {
+							if (error.code === 'NotFound') {
+								return false;
+							}
+						}
+					}
+				}
+			};
+
+			checkImagesFromBucket();
+		}
+	}, [reviews]);
 
 	return (
 		<>
@@ -172,7 +216,11 @@ function Review() {
 						<Link to={`/tripreview/${el.postId}`}>
 							<ReviewBox>
 								<div>
-									<img src={el.image[0]} alt="여행리뷰사진" />
+									{imageDataBucket.length > 0 ? (
+										<img src={imageDataBucket[0]} alt="게시글 사진 미리보기" />
+									) : (
+										<img src={el.image[0]} alt="게시글 사진 미리보기" />
+									)}
 								</div>
 								<div>{el.title}</div>
 								<Writer>
@@ -197,9 +245,9 @@ function Review() {
 					<Pagination
 						curPage={curPage}
 						setCurPage={setCurPage}
-						totalPage={Math.ceil(reviews.length / 12)}
+						totalPage={Math.ceil(reviews.length / 15)}
 						totalCount={reviews.length}
-						size={12}
+						size={15}
 						pageCount={5}
 					/>
 				) : null}

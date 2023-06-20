@@ -16,6 +16,7 @@
     "@types/react-dom": "^18.2.1",
     "@types/react-slick": "^0.23.10",
     "@types/styled-components": "5.1.26",
+    "aws-sdk": "^2.1393.0",
     "axios": "^1.4.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",

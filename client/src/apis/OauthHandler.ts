@@ -8,79 +8,79 @@ import Swal from 'sweetalert2';
 import { LOGIN } from '../reducers/loginReducer';
 import { UPDATE } from '../reducers/userInfoReducer';
 import { setCookie } from '../utils/cookie';
-import { setLocalStorage } from '../utils/LocalStorage';
+import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
 import { Api } from './customAPI';
 
 // oauth 구글
+// 토큰, 유저정보 요청 -> tokenInfo가 없으면 회원가입하고 다시 auth/google요청 후 로그인
+// tokenInfo가 있으면 바로 tokenInfo를 가지고 로그인
 export function OauthGoogleHandler() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	useEffect(() => {
-		const url = new URL(window.location.href);
-		const { hash } = url;
 		// 플랫폼 로그인 후 받아오는 token값
-		const googleToken = hash.split('=')[1].split('&')[0];
-		console.log(googleToken);
+		const googleToken = getLocalStorage('code');
 		async function getData() {
-			// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
-			const googleData = await Api.post('/auth/google', { googleToken });
-			const { tokenInfo, email, name, password } = googleData.data;
-			const {
-				memberId,
-				accessToken,
-				accessTokenExpirationTime,
-				refreshToken,
-				refreshTokenExpirationTime,
-			} = tokenInfo;
-
 			try {
+				// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
+				const googleData = await Api.post('/auth/google', googleToken, {
+					headers: {
+						'Content-Type': 'text/plain',
+					},
+				});
+				const { tokenInfo } = googleData.data.data;
+
 				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
 				const mbtiData = await Api.get('/mbtiInfo/INFP');
 				const mbtiImg = mbtiData.data.img;
 
-				// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
-				const displayName = name === null ? 'client' : name;
-
-				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
-				const allMember = await Api.get('/members');
-
-				// 토큰 저장
-				dispatch(LOGIN({ accessToken: `${accessToken}` }));
-				setCookie('refreshToken', refreshToken, {
-					path: '/',
-					sameSite: 'none',
-					secure: true,
-				});
-				setLocalStorage('accessToken', accessToken);
-				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-
 				if (
 					// 회원가입
-					allMember.data.find((v: { email: string }) => v.email === email) ===
-					undefined
+					tokenInfo === null
 				) {
 					await Api.post('/members/signup', {
-						nickname: displayName,
+						nickname: googleData.data.data.email.split('@')[0],
 						mbti: 'INFP',
-						email,
-						password,
+						email: googleData.data.data.email,
+						password: googleData.data.data.password,
 						img: mbtiImg,
 					});
-					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 회원가입 후 한번 더 서버에 토큰, 유저정보 요청
+					const googleData2 = await Api.post('/auth/google', googleToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = googleData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					// 로그인
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
+					// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
+					const displayName = name === null ? email.split('@')[0] : name;
+
 					// 로그인 정보 전역상태 업데이트
 					dispatch(
 						UPDATE({
@@ -104,19 +104,37 @@ export function OauthGoogleHandler() {
 					});
 				} else {
 					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
+					const googleData2 = await Api.post('/auth/google', googleToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = googleData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
 
 					// 로그인 정보 업데이트
 					const userInfo1 = await Api.get(`members/${memberId}`);
@@ -151,76 +169,76 @@ export function OauthGoogleHandler() {
 }
 
 // oauth 네이버 회원가입, 로그인(if문으로 구분됨)
-// 네이버에서 토큰을 받아오고 서버로 넘긴 후, 서버에서 로그인시키고, 유저정보를 클라이언트에 보내서 그걸로 유저 상태 업데이트
+// 토큰, 유저정보 요청 -> tokenInfo가 없으면 회원가입하고 다시 auth/google요청 후 로그인
+// tokenInfo가 있으면 바로 tokenInfo를 가지고 로그인
 export function OauthNaverHandler() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const url = new URL(window.location.href);
-		const { hash } = url;
-		const naverToken = hash.split('=')[1].split('&')[0];
-		console.log(naverToken);
+		// 플랫폼 로그인 후 받아오는 token값
+		const naverToken = getLocalStorage('code');
 		async function getData() {
-			// 구글token을 서버에 보내서 자체 토큰과 유저정보 요청
-			const naverData = await Api.post('/auth/naver', { naverToken });
-			const { tokenInfo, email, name, password } = naverData.data;
-			const {
-				memberId,
-				accessToken,
-				accessTokenExpirationTime,
-				refreshToken,
-				refreshTokenExpirationTime,
-			} = tokenInfo;
-
 			try {
+				// 네이버token을 서버에 보내서 자체 토큰과 유저정보 요청
+				const naverData = await Api.post('/auth/naver', naverToken, {
+					headers: {
+						'Content-Type': 'text/plain',
+					},
+				});
+				const { tokenInfo } = naverData.data.data;
+
 				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
 				const mbtiData = await Api.get('/mbtiInfo/INFP');
 				const mbtiImg = mbtiData.data.img;
 
-				// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
-				const displayName = name === null ? 'client' : name;
-
-				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
-				const allMember = await Api.get('/members');
-
-				// 토큰 저장
-				dispatch(LOGIN({ accessToken: `${accessToken}` }));
-				setCookie('refreshToken', refreshToken, {
-					path: '/',
-					sameSite: 'none',
-					secure: true,
-				});
-				setLocalStorage('accessToken', accessToken);
-				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-
 				if (
 					// 회원가입
-					allMember.data.find((v: { email: string }) => v.email === email) ===
-					undefined
+					tokenInfo === null
 				) {
 					await Api.post('/members/signup', {
-						nickname: displayName,
+						nickname: naverData.data.data.email.split('@')[0],
 						mbti: 'INFP',
-						email,
-						password,
+						email: naverData.data.data.email,
+						password: naverData.data.data.password,
 						img: mbtiImg,
 					});
-					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 회원가입 후 한번 더 서버에 토큰, 유저정보 요청
+					const naverData2 = await Api.post('/auth/naver', naverToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = naverData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					// 로그인
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+
+					// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
+					const displayName = name === null ? email.split('@')[0] : name;
+
 					// 로그인 정보 전역상태 업데이트
 					dispatch(
 						UPDATE({
@@ -244,19 +262,37 @@ export function OauthNaverHandler() {
 					});
 				} else {
 					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password,
+					// 네이버token을 서버에 보내서 자체 토큰과 유저정보 요청
+					const naverData2 = await Api.post('/auth/naver', naverToken, {
+						headers: {
+							'Content-Type': 'text/plain',
+						},
 					});
-					/*
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-shadow
+					const { tokenInfo, email, name, password } = naverData2.data.data;
 					const {
 						memberId,
 						accessToken,
-						refreshToken,
 						accessTokenExpirationTime,
+						refreshToken,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-					*/
+					} = tokenInfo;
+
+					await Api.post('/members/signin', {
+						email,
+						password,
+					});
+
+					// 토큰 저장
+					dispatch(LOGIN({ accessToken: `${accessToken}` }));
+					setCookie('refreshToken', refreshToken, {
+						path: '/',
+						sameSite: 'none',
+						secure: true,
+					});
+					setLocalStorage('accessToken', accessToken);
+					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
 
 					// 로그인 정보 업데이트
 					const userInfo1 = await Api.get(`members/${memberId}`);
@@ -297,12 +333,12 @@ export const KakaoRedirectHandler = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const code = new URL(document.location.toString()).searchParams.get('code');
+		const code = getLocalStorage('code');
 		const grantType = 'authorization_code';
 		const clientId = process.env.REACT_APP_KAKAO_CLIENT_ID;
-		const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+		const redirectUri = 'https://whatsyourmbti.click/oauth';
 
-		async function getData() {
+		const getData = async () => {
 			// 카카오에 로그인 요청 -> 토큰을 받는다.
 			const resToken = await axios.post(
 				`https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${clientId}&redirect_uri=${redirectUri}&code=${code}`,
@@ -324,6 +360,18 @@ export const KakaoRedirectHandler = () => {
 				refresh_token_expires_in,
 			} = resToken.data;
 
+			// 토큰 저장
+			setCookie('refreshToken', refresh_token, {
+				path: '/',
+				sameSite: 'none',
+				secure: true,
+			});
+			setLocalStorage('accessToken', access_token);
+			setLocalStorage('kakao', 'true');
+			setLocalStorage('empiresAtAccess', expires_in);
+			setLocalStorage('empiresAtRefresh', refresh_token_expires_in);
+			Kakao.Auth.setAccessToken(access_token);
+
 			// 유저 정보 요청 -> id, email, nickname을 받는다.
 			const resUserInfo = await axios.post(
 				'https://kapi.kakao.com/v2/user/me',
@@ -342,69 +390,80 @@ export const KakaoRedirectHandler = () => {
 				kakao_account: { profile, email },
 			} = resUserInfo.data;
 			const { nickname } = profile;
-			// eslint-disable-next-line camelcase
-			dispatch(LOGIN({ accessToken: access_token }));
+			const mbtiImg = await Api.get('/mbtiInfo/INFP');
+			setLocalStorage('email', email);
+			setLocalStorage('nickname', nickname);
+			dispatch(LOGIN({ accessToken: `${getLocalStorage('accessToken')}` }));
 
+			// 회원가입 아직 안했을 경우 -> 유저 수정 페이지로 이동
 			try {
-				// 처음 회원가입 시 임의의 mbti를 정해 이미지 변수 할당
-				const mbtiData = await Api.get('/mbtiInfo/INFP');
-				const mbtiImg = mbtiData.data.img;
+				await Api.post('/members/signup', {
+					nickname: getLocalStorage('nickname'),
+					mbti: 'INFP',
+					email: 1 + getLocalStorage('email'),
+					password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+					img: mbtiImg.data.img,
+				});
 
-				// 서버에서 받은 name이 null값이 아니라면 서버에서 받은 name정보 사용, 없다면 임의 지정
-				const displayName = nickname || 'client';
-
-				// 전체 멤버 중 같은 이메일이 있다면 로그인 로직, 없다면 회원가입 로직 실행
-				const allMember = await Api.get('/members');
-
+				const loginData = await Api.post('/members/signin', {
+					email: 1 + getLocalStorage('email'),
+					password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+				});
+				const {
+					memberId,
+					accessToken,
+					refreshToken,
+					accessTokenExpirationTime,
+					refreshTokenExpirationTime,
+				} = loginData.data.data;
 				// 토큰 저장
-				setCookie('refreshToken', refresh_token, {
+				setCookie('refreshToken', refreshToken, {
 					path: '/',
 					sameSite: 'none',
 					secure: true,
 				});
-				setLocalStorage('accessToken', access_token);
+				setLocalStorage('accessToken', accessToken);
 				setLocalStorage('kakao', 'true');
-				setLocalStorage('empiresAtAccess', expires_in);
-				setLocalStorage('empiresAtRefresh', refresh_token_expires_in);
-				Kakao.Auth.setAccessToken(access_token);
+				setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
+				setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+				setLocalStorage('kakao', 'kakao');
 
-				if (
-					// 회원가입
-					allMember.data.find((v: { email: string }) => v.email === email) ===
-					undefined
-				) {
-					await Api.post('/members/signup', {
-						nickname: displayName,
+				// 유저 정보 저장
+				dispatch(
+					UPDATE({
+						id: memberId,
+						email: 1 + getLocalStorage('email'),
+						nickname: getLocalStorage('nickname'),
 						mbti: 'INFP',
-						email,
-						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
-						img: mbtiImg,
-					});
-					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
-					});
+						img: mbtiImg.data.img,
+						badge: null,
+					}),
+				);
 
+				Swal.fire({
+					icon: 'success',
+					title: '회원가입되었습니다.',
+					text: '마이페이지에서 정보를 수정해주세요.',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						navigate('/useredit');
+					}
+				});
+			} catch (err: any) {
+				// 회원가입 이미 해서 에러인 경우 -> 로그인 후 메인페이지로 이동
+				if (err.response.status === 500) {
+					// 서버 연결 코드
+					const loginData = await Api.post('/members/signin', {
+						email: 1 + getLocalStorage('email'),
+						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+					});
 					const {
 						memberId,
 						accessToken,
 						refreshToken,
 						accessTokenExpirationTime,
 						refreshTokenExpirationTime,
-					} = loginData.data;
-
-					// 로그인 정보 전역상태 업데이트
-					dispatch(
-						UPDATE({
-							id: memberId,
-							nickname: displayName,
-							mbti: 'INFP',
-							email,
-							img: mbtiImg,
-							badge: null,
-						}),
-					);
+					} = loginData.data.data;
 					// 토큰 저장
 					setCookie('refreshToken', refreshToken, {
 						path: '/',
@@ -415,57 +474,20 @@ export const KakaoRedirectHandler = () => {
 					setLocalStorage('kakao', 'true');
 					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
 					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
+					setLocalStorage('kakao', 'kakao');
 
-					Swal.fire({
-						icon: 'success',
-						title: '회원가입되었습니다.',
-						text: '마이페이지에서 정보를 수정해주세요.',
-					}).then((result) => {
-						if (result.isConfirmed) {
-							navigate('/useredit');
-						}
-					});
-				} else {
-					// 로그인
-					const loginData = await Api.post('/members/signin', {
-						email,
-						password: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
-					});
-
-					const {
-						memberId,
-						accessToken,
-						refreshToken,
-						accessTokenExpirationTime,
-						refreshTokenExpirationTime,
-					} = loginData.data;
-
-					// 토큰 저장
-					setCookie('refreshToken', refreshToken, {
-						path: '/',
-						sameSite: 'none',
-						secure: true,
-					});
-					setLocalStorage('accessToken', accessToken);
-					setLocalStorage('kakao', 'true');
-					setLocalStorage('empiresAtAccess', accessTokenExpirationTime);
-					setLocalStorage('empiresAtRefresh', refreshTokenExpirationTime);
-
-					// 로그인하는 유저 정보 요청
-					const userInfo = await Api.get(`members/${memberId}`);
-					// eslint-disable-next-line no-shadow
-					const { nickname, mbti, img, badge } = userInfo.data;
+					const userData = await Api.get(`/members/${memberId}`);
+					// 유저 정보 저장
 					dispatch(
 						UPDATE({
 							id: memberId,
-							nickname,
-							mbti,
-							email,
-							img,
-							badge,
+							email: userData.data.email,
+							nickname: userData.data.nickname,
+							mbti: userData.data.mbti,
+							img: userData.data.img,
+							badge: userData.data.badge,
 						}),
 					);
-
 					Swal.fire({
 						icon: 'success',
 						title: '로그인되었습니다.',
@@ -475,11 +497,31 @@ export const KakaoRedirectHandler = () => {
 							navigate('/main');
 						}
 					});
+				} else {
+					navigate('/error');
 				}
-			} catch (err) {
-				navigate('/error');
 			}
-		}
+		};
 		getData();
 	}, [dispatch, navigate]);
 };
+
+export function OauthHandler() {
+	if (new URL(window.location.href).pathname === '/accounts/google/login/') {
+		const { hash } = new URL(window.location.href);
+		const googleToken = hash.split('=')[1].split('&')[0];
+		setLocalStorage('code', googleToken);
+		OauthGoogleHandler();
+	}
+	if (new URL(window.location.href).pathname === '/Api/Member/Oauth') {
+		const { hash } = new URL(window.location.href);
+		const naverToken = hash.split('=')[1].split('&')[0];
+		setLocalStorage('code', naverToken);
+		OauthNaverHandler();
+	}
+	if (new URL(window.location.href).pathname === '/oauth') {
+		const code = new URL(document.location.toString()).searchParams.get('code');
+		setLocalStorage('code', code!);
+		KakaoRedirectHandler();
+	}
+}
