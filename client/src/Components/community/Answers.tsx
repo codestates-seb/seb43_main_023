@@ -127,7 +127,6 @@ function Answers() {
 
 	// eslint-disable-next-line prefer-const
 	const [answers, setAnswers] = useState<Ianswer[]>([]);
-	const [length, setLenght] = useState<Ianswer[]>([]);
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;
 	const login = useSelector((state: RootState) => state.login) as Ilogin;
@@ -259,7 +258,6 @@ function Answers() {
 	useEffect(() => {
 		if (answerData.response) {
 			setAnswers(answerData.response);
-			setLenght(answerData.response);
 		}
 
 		if (postData) {
