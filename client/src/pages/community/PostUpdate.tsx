@@ -16,8 +16,6 @@ import { Editor } from '@toast-ui/react-editor';
 
 import { Api } from '../../apis/customAPI';
 import SearchPlace from '../../Components/community/SearchPlace';
-import SubjectDropdown from '../../Components/community/SubjectDropdown';
-import useAxios from '../../hooks/useAxios';
 import { Iuser } from '../../type/Iuser';
 import { RootState } from '../../store/Store';
 import { Ipost } from '../../type/Ipost';
@@ -128,40 +126,6 @@ const InputBox = styled.input`
 	}
 `;
 
-// const ImgContainer = styled.div`
-// 	background-color: #ababab8b;
-// 	margin-top: 15px;
-// 	width: 100%;
-
-// 	display: flex;
-// 	justify-content: space-around;
-
-// 	div {
-// 		display: flex;
-// 		justify-content: center;
-// 		align-items: center;
-// 		height: 40px;
-// 		padding-left: 10px;
-
-// 		> label {
-// 			font-size: 14px;
-// 			color: gray;
-// 			margin-right: 5px;
-// 		}
-
-// 		input[type='file'] {
-// 			position: absolute;
-// 			width: 0;
-// 			height: 0;
-// 			padding: 0;
-// 			margin: -1px;
-// 			overflow: hidden;
-// 			clip: rect(0, 0, 0, 0);
-// 			border: 0;
-// 		}
-// 	}
-// `;
-
 const ImgContainer = styled.div`
 	background-color: #ababab8b;
 	margin-top: 15px;
@@ -257,10 +221,6 @@ function PostUpdate() {
 
 	const handleImg = () => {
 		setAlert(true);
-	};
-
-	const handleSubject = (sub: string) => {
-		setSubject(sub);
 	};
 
 	const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -387,27 +347,11 @@ function PostUpdate() {
 						</TagContainer>
 
 						<ImgContainer onClick={handleImg}>
-							{/* <div>
-								<label htmlFor="img1">
-									<div className="btnStart">Image 1 첨부하기</div>
-								</label>
-							</div>
-							<div>
-								<label htmlFor="img1">
-									<div className="btnStart">Image 2 첨부하기</div>
-								</label>
-							</div>
-							<div>
-								<label htmlFor="img1">
-									<div className="btnStart">Image 3 첨부하기</div>
-								</label>
-							</div> */}
+							<div>Image 1 </div>
 
-							<div>Image 1 링크</div>
+							<div>Image 2 </div>
 
-							<div>Image 2 링크</div>
-
-							<div>Image 3 링크</div>
+							<div>Image 3 </div>
 						</ImgContainer>
 						{alert ? (
 							<Alert>

@@ -186,14 +186,6 @@ function PostDetail() {
 	// eslint-disable-next-line prefer-const
 	let [answers, setAnswers] = useState<Ianswer[]>([]);
 
-	const bucketName = 'imageupload-practice';
-
-	AWS.config.update({
-		region: process.env.REACT_APP_REGION,
-		accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-		secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY_ID,
-	});
-
 	answers = answers.filter((el) => el.postId === Number(id));
 
 	const userInfos = useSelector((state: RootState) => state.user) as Iuser;

@@ -10,7 +10,6 @@ import styled from 'styled-components';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AWS from 'aws-sdk';
-import useAxios from '../../hooks/useAxios';
 import { Ipost } from '../../type/Ipost';
 import useGet from '../../hooks/useGet';
 
@@ -111,12 +110,9 @@ function ReviewCarousel() {
 				const imageExistence = await Promise.all(imageExistsPromises);
 				const allImagesExist = imageExistence.every((exists) => exists);
 
-				console.log(allImagesExist);
-
 				if (allImagesExist) {
 					getImagesFromBucket();
 				} else {
-					console.log('aa');
 					setImageData(review[0].image);
 				}
 			};

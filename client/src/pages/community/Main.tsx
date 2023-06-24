@@ -27,7 +27,7 @@ function Main() {
 	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 	const [imageDataBucket, setImageDataBucket] = useState<string[]>([]);
-	const [imageData, setImageData] = useState<string[]>([]);
+
 	const bucketName = 'imageupload-practice';
 
 	AWS.config.update({
@@ -50,7 +50,7 @@ function Main() {
 		}
 	};
 
-	const response = useGet(`?size=8&subject=여행고민&page=1`);
+	const response = useGet(`?size=100&subject=여행고민&page=1`);
 
 	useEffect(() => {
 		if (response) {

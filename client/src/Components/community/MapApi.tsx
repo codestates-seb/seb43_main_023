@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useAxios from '../../hooks/useAxios';
 import useGet from '../../hooks/useGet';
 
 declare global {

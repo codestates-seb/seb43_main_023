@@ -71,16 +71,11 @@ interface Type {
 function SubjectDropdown({ handleSubject, from }: SubjectDropdownProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [selected, setSelected] = useState<string>('');
-	const [alert, setAlert] = useState<boolean>(false);
 
 	const { id } = useParams();
 
 	const handleDropDown = () => {
-		if (from === 'Update') {
-			setAlert(true);
-		} else {
-			setIsOpen(!isOpen);
-		}
+		setIsOpen(!isOpen);
 	};
 
 	const handleSelected = (event: React.MouseEvent<HTMLButtonElement>) => {
