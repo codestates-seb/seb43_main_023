@@ -505,3 +505,23 @@ export const KakaoRedirectHandler = () => {
 		getData();
 	}, [dispatch, navigate]);
 };
+
+export function OauthHandler() {
+	if (new URL(window.location.href).pathname === '/accounts/google/login/') {
+		const { hash } = new URL(window.location.href);
+		const googleToken = hash.split('=')[1].split('&')[0];
+		setLocalStorage('code', googleToken);
+		OauthGoogleHandler();
+	}
+	if (new URL(window.location.href).pathname === '/Api/Member/Oauth') {
+		const { hash } = new URL(window.location.href);
+		const naverToken = hash.split('=')[1].split('&')[0];
+		setLocalStorage('code', naverToken);
+		OauthNaverHandler();
+	}
+	if (new URL(window.location.href).pathname === '/oauth') {
+		const code = new URL(document.location.toString()).searchParams.get('code');
+		setLocalStorage('code', code!);
+		KakaoRedirectHandler();
+	}
+}

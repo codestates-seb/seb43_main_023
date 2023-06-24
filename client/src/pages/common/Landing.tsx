@@ -375,11 +375,11 @@ const Button = styled.div`
 			border-radius: 17px;
 			margin: 0 30px;
 		}
-		@media (max-width: 445px) {
+		@media (max-width: 460px) {
 			font-size: 15px;
 			padding: 15px 0;
 			width: 150px;
-			margin: 0 20px;
+			margin: 20px;
 		}
 		@media (max-width: 375px) {
 			margin: 20px 50px;
