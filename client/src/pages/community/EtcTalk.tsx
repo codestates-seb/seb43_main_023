@@ -26,11 +26,9 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Viewer } from '@toast-ui/react-editor';
 
 function EtcTalk() {
-	// eslint-disable-next-line prefer-const
 	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 	const [imageDataBucket, setImageDataBucket] = useState<string[]>([]);
-	const [imageData, setImageData] = useState<string[]>([]);
 	const bucketName = 'imageupload-practice';
 
 	AWS.config.update({
@@ -107,8 +105,6 @@ function EtcTalk() {
 			checkImagesFromBucket();
 		}
 	}, [posts]);
-
-	console.log(imageDataBucket);
 
 	return (
 		<div className="main">

@@ -5,8 +5,6 @@ import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-
-import Swal from 'sweetalert2';
 import { Api } from '../../apis/customAPI';
 import useAxios from '../../hooks/useAxios';
 import { RootState } from '../../store/Store';

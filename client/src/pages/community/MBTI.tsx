@@ -29,7 +29,6 @@ function MBTI() {
 	const [posts, setPosts] = useState<Ipost[]>([]);
 	const [curPage, setCurPage] = useState<number>(1);
 	const [imageDataBucket, setImageDataBucket] = useState<string[]>([]);
-	const [imageData, setImageData] = useState<string[]>([]);
 	const bucketName = 'imageupload-practice';
 
 	AWS.config.update({

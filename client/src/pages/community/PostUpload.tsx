@@ -302,7 +302,6 @@ function PostUpload() {
 	const instance = editorRef.current?.getInstance();
 	const content = instance?.getMarkdown();
 
-	const imgUploadInput = useRef<HTMLInputElement | null>(null);
 	const [tags, setTags] = useState<string[]>([]);
 	const [tag, setTag] = useState<string>('');
 	const [Images, setImages] = useState<string[]>([]);
@@ -382,13 +381,6 @@ function PostUpload() {
 	const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter') {
 			handleClick();
-		}
-	};
-
-	const onImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (event.target.value) {
-			const newImage = event.target.value;
-			setImages((prevImages) => [...prevImages, newImage]);
 		}
 	};
 
@@ -608,29 +600,6 @@ function PostUpload() {
 					)}
 
 					<ImgContainer>
-						{/* <div>
-							<input
-								type="text"
-								placeholder="Image 1 링크"
-								onChange={onImageChange}
-							/>
-						</div>
-
-						<div>
-							<input
-								type="text"
-								placeholder="Image 2 링크"
-								onChange={onImageChange}
-							/>
-						</div>
-
-						<div>
-							<input
-								type="text"
-								placeholder="Image 3 링크"
-								onChange={onImageChange}
-							/>
-						</div> */}
 						<Label htmlFor="image1">
 							<Input
 								type="file"

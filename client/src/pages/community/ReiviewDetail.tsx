@@ -217,11 +217,6 @@ function ReviewDetail() {
 
 	const postData = useGet(`/${id}`);
 
-	const mbti = useAxios({
-		method: 'get',
-		url: `/comments/${id}`,
-	});
-
 	const handleLike = () => {
 		setIsLike(!isLike);
 
@@ -271,8 +266,6 @@ function ReviewDetail() {
 			setReview([postData]);
 		}
 	}, [postData]);
-
-	console.log(postData);
 
 	return (
 		<div className="main">
