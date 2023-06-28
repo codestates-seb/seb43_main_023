@@ -148,7 +148,7 @@ const Li = styled.li`
 const Container = styled.div<ContainerProps>`
 	position: absolute;
 	z-index: 300;
-	width: 100.45%;
+	width: 1030px;
 	max-height: 300px;
 	overflow: scroll;
 	border: 3px solid #0db4f3;
