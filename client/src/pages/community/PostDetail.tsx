@@ -87,7 +87,6 @@ const Title = styled.div<activeT>`
 
 			> span {
 				margin-right: 20px;
-				border: 1px solid red;
 
 				@media screen and (max-width: 480px) {
 					display: none;
