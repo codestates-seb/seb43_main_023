@@ -14,17 +14,19 @@ import searchKeywordReducer, {
 import userInfoReducer from '../reducers/userInfoReducer';
 import { Ilogin } from '../type/Ilogin';
 import { Iuser } from '../type/Iuser';
+import searchMenuReducer, { ISearchMenu } from '../reducers/searchMenuReducer';
 
 const reducers = combineReducers({
 	user: userInfoReducer,
 	login: loginReducer,
 	search: searchKeywordReducer,
+	menu: searchMenuReducer,
 });
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['user', 'login', 'search'],
+	whitelist: ['user', 'login', 'search', 'menu'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -33,6 +35,7 @@ export type RootState = {
 	user: Iuser;
 	login: Ilogin;
 	search: IKeyword;
+	menu: ISearchMenu;
 };
 
 const store: Store<RootState> = configureStore({

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { MouseEvent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { IKeyword } from '../reducers/searchKeywordReducer';
 import { RootState } from '../store/Store';
@@ -8,6 +8,7 @@ import { Ipost } from '../type/Ipost';
 import TourResult from '../Components/search/TourResult';
 import MbtiResult from '../Components/search/MbtiResult';
 import PostResult from '../Components/search/PostResult';
+import { SEARCHMENU } from '../reducers/searchMenuReducer';
 
 const TopBarContainer = styled.div`
 	width: 90%;
@@ -65,6 +66,8 @@ function Search() {
 	const [tourResult, setTourResult] = useState([]);
 	const [menu, setMenu] = useState<string>('전체');
 
+	const dispatch = useDispatch();
+
 	const keywordE = keyword.keyword.slice(0, 1) === 'E';
 	const keywordI = keyword.keyword.slice(0, 1) === 'I';
 
@@ -74,6 +77,9 @@ function Search() {
 	const handleMenu = (e: MouseEvent<HTMLButtonElement>) => {
 		const target = e.target as HTMLButtonElement;
 		setMenu(target.textContent!);
+		if (target.textContent) {
+			dispatch(SEARCHMENU({ menu: target.textContent }));
+		}
 	};
 
 	useEffect(() => {
