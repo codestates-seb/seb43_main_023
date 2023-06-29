@@ -5,6 +5,7 @@ import axios from 'axios';
 import { RootState } from '../../store/Store';
 import { IKeyword } from '../../reducers/searchKeywordReducer';
 import notImageResult from '../../assets/notImageResult.png';
+import { ISearchMenu } from '../../reducers/searchMenuReducer';
 
 const SearchAPI = styled.div`
 	margin-top: 30px;
@@ -95,16 +96,12 @@ interface tourAPIType {
 }
 function TourResult() {
 	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
+	const menu = useSelector((state: RootState) => state.menu) as ISearchMenu;
 
 	const eventAPIKey = process.env.REACT_APP_TOURAPI_KEY;
 	const tourUrl = `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?serviceKey=${eventAPIKey}&numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=Q&keyword=${keyword.keyword}&contentTypeId=12`;
 
-	const [menu, setMenu] = useState<string>('전체');
 	const [tourResult, setTourResult] = useState([]);
-
-	const handleViewAllTour = () => {
-		setMenu('여행지 추천');
-	};
 
 	const handleResultClicked = (value: string) => {
 		window.open(
@@ -126,27 +123,26 @@ function TourResult() {
 					<span className="keyword">{keyword.keyword}</span> 추천 여행지 🏝
 				</div>
 				<span className="all">
-					{menu === '여행지 추천' ? null : (
-						<button onClick={handleViewAllTour}>전체보기</button>
-					)}
+					{menu.menu === '여행지 추천' ? null : <button>전체보기</button>}
 				</span>
 			</div>
-			{menu === '전체' ? (
+			{menu.menu === '전체' ? (
 				<APIContainerSlice>
-					{tourResult.slice(0, 4).map((el: tourAPIType) => (
-						<AdItem onClick={() => handleResultClicked(el.title)}>
-							{el.firstimage ? (
-								<img src={el.firstimage} alt="사진" className="adimg" />
-							) : (
-								<>
-									<img src={notImageResult} alt="사진" className="notimg" />
-									<div className="notresult">x 준비된 사진이 없어요</div>
-								</>
-							)}
+					{tourResult &&
+						tourResult.slice(0, 4).map((el: tourAPIType) => (
+							<AdItem onClick={() => handleResultClicked(el.title)}>
+								{el.firstimage ? (
+									<img src={el.firstimage} alt="사진" className="adimg" />
+								) : (
+									<>
+										<img src={notImageResult} alt="사진" className="notimg" />
+										<div className="notresult">x 준비된 사진이 없어요</div>
+									</>
+								)}
 
-							<div className="adtext">{el.title}</div>
-						</AdItem>
-					))}
+								<div className="adtext">{el.title}</div>
+							</AdItem>
+						))}
 				</APIContainerSlice>
 			) : (
 				<APIContainer>

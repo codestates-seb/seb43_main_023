@@ -10,6 +10,7 @@ import { IKeyword } from '../../reducers/searchKeywordReducer';
 import { Ipost } from '../../type/Ipost';
 import useGet from '../../hooks/useGet';
 import Pagination from '../community/Pagination';
+import { ISearchMenu } from '../../reducers/searchMenuReducer';
 
 const SearchResult = styled.div`
 	margin-top: 30px;
@@ -64,6 +65,7 @@ const ResultText = styled.div`
 		margin-right: 20px;
 	}
 	.content {
+		border: 1px solid red;
 		padding: 10px 30px;
 		height: 120px;
 		font-size: 15px;
@@ -75,6 +77,15 @@ const ResultText = styled.div`
 		text-align: end;
 		font-size: 17px;
 	}
+`;
+
+const ViewerContainer = styled.div`
+	padding: 0px 30px;
+	height: 120px;
+	font-size: 50px;
+	line-height: 23px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;
 
 const ResultImg = styled.img`
@@ -109,8 +120,8 @@ const CreateBtn = styled.div`
 `;
 
 function MbtiResult() {
+	const menu = useSelector((state: RootState) => state.menu) as ISearchMenu;
 	const [posts, setPosts] = useState<Ipost[]>([]);
-	const [menu, setMenu] = useState<string>('전체');
 	const [curPage, setCurPage] = useState<number>(1);
 
 	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
@@ -130,10 +141,6 @@ function MbtiResult() {
 		if (uni < 44032 || uni > 55203) return null;
 
 		return (uni - 44032) % 28 !== 0;
-	};
-
-	const handleViewAllPost = () => {
-		setMenu('게시글');
 	};
 
 	const handlePostClick = (subject: string, id: number) => {
@@ -165,12 +172,13 @@ function MbtiResult() {
 				</div>
 				<span className="all">
 					{/* 여행지 추천 메뉴이거나 결과가 없다면 전체보기 버튼 표시 x */}
-					{menu === '여행지 추천' || mbtiAuthorReview.length === 0 ? null : (
-						<button onClick={handleViewAllPost}>전체보기</button>
+					{menu.menu === '여행지 추천' ||
+					mbtiAuthorReview.length === 0 ? null : (
+						<button>전체보기</button>
 					)}
 				</span>
 			</div>
-			{menu === '전체' ? (
+			{menu.menu === '전체' ? (
 				<ResultContainer>
 					{mbtiAuthorReview.length > 0 ? (
 						mbtiAuthorReview.slice(0, 2).map((post) => (
@@ -182,7 +190,9 @@ function MbtiResult() {
 										<span className="subject">[{post.subject}]</span>
 										<span className="title">{post.title}</span>
 									</div>
-									<Viewer initialValue={post.content} />
+									<ViewerContainer>
+										<Viewer initialValue={post.content} />
+									</ViewerContainer>
 									<span className="author">{post.member.nickname}</span>
 								</ResultText>
 								{post.image.length > 0 && (
@@ -220,7 +230,9 @@ function MbtiResult() {
 										<span className="subject">[{post.subject}]</span>
 										<span className="title">{post.title}</span>
 									</div>
-									<Viewer initialValue={post.content} />
+									<ViewerContainer>
+										<Viewer initialValue={post.content} />
+									</ViewerContainer>
 									<span className="author">{post.member.nickname}</span>
 								</ResultText>
 								{post.image.length > 0 && (

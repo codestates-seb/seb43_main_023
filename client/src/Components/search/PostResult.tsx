@@ -10,6 +10,7 @@ import { IKeyword } from '../../reducers/searchKeywordReducer';
 import { Ipost } from '../../type/Ipost';
 import useGet from '../../hooks/useGet';
 import Pagination from '../community/Pagination';
+import { ISearchMenu } from '../../reducers/searchMenuReducer';
 
 const SearchResult = styled.div`
 	margin-top: 30px;
@@ -120,8 +121,8 @@ const ViewerContainer = styled.div`
 
 function PostResult() {
 	const keyword = useSelector((state: RootState) => state.search) as IKeyword;
+	const menu = useSelector((state: RootState) => state.menu) as ISearchMenu;
 	const [curPage, setCurPage] = useState<number>(1);
-	const [menu, setMenu] = useState<string>('전체');
 	const [posts, setPosts] = useState<Ipost[]>([]);
 
 	const containKeywordInInput = posts.filter(
@@ -141,10 +142,6 @@ function PostResult() {
 	const endIdx = startIdx + 5;
 
 	const response = useGet('?size=100');
-
-	const handleViewAllPost = () => {
-		setMenu('게시글');
-	};
 
 	const handlePostClick = (subject: string, id: number) => {
 		if (subject === '여행리뷰') {
@@ -183,12 +180,13 @@ function PostResult() {
 					{checkBatchimEnding(keyword.keyword) ? '이' : '가'} 포함된 게시글 💭
 				</div>
 				<span className="all">
-					{menu === '게시글' || containKeywordInPost.length === 0 ? null : (
-						<button onClick={handleViewAllPost}>전체보기</button>
+					{menu.menu === '게시글' ||
+					containKeywordInPost.length === 0 ? null : (
+						<button>전체보기</button>
 					)}
 				</span>
 			</div>
-			{menu === '전체' ? (
+			{menu.menu === '전체' ? (
 				<ResultContainer>
 					{containKeywordInInput.length > 0 ? (
 						containKeywordInInput.slice(0, 2).map((post) => (
