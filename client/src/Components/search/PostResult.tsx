@@ -267,8 +267,6 @@ function PostResult() {
 							curPage={curPage}
 							setCurPage={setCurPage}
 							totalPage={Math.ceil(containKeywordInInput.length / 5)}
-							totalCount={containKeywordInInput.length}
-							size={5}
 							pageCount={5}
 						/>
 					)}
