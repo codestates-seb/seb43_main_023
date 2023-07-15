@@ -40,7 +40,8 @@ const Li = styled.li`
 const Container = styled.div`
 	position: absolute;
 	z-index: 100;
-	width: 89.8vw;
+	width: 90vw;
+	/* width: 89.8vw; */
 	border: 1px solid rgb(214, 217, 219);
 	border-top: none;
 `;
