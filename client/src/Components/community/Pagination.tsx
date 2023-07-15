@@ -4,9 +4,7 @@ import styled, { css } from 'styled-components';
 interface PropsT {
 	setCurPage: React.Dispatch<React.SetStateAction<number>>;
 	curPage: number; // 현재페이지 번호
-	totalPage: number;
-	totalCount: number;
-	size: number; // 페이지 당 게시물 수
+	totalPage: number; // 총 페이지 수
 	pageCount: number; // 화면에 나타날 페이지 갯수
 }
 
@@ -71,14 +69,7 @@ const PgBtn = styled(Btn)<activeT>`
 			transform: revert;
 		`}
 `;
-function Pagination({
-	setCurPage,
-	curPage,
-	totalPage,
-	totalCount,
-	size,
-	pageCount,
-}: PropsT) {
+function Pagination({ setCurPage, curPage, totalPage, pageCount }: PropsT) {
 	const [pageGroup, setPageGroup] = useState(Math.ceil(curPage / pageCount)); // 몇번째 페이지그룹
 
 	let lastNum = pageGroup * pageCount;
@@ -89,11 +80,6 @@ function Pagination({
 	if (pageCount > lastNum) {
 		firstNum = 1;
 	}
-
-	// 현재 페이지에서 보여질 게시글 목록 계산
-	// const startIdx = (curPage - 1) * size;
-	// const endIdx = startIdx + size;
-	// const displayedData = data.slice(startIdx, endIdx);
 
 	const pagination = () => {
 		const arr = [];

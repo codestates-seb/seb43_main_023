@@ -191,8 +191,6 @@ function EtcTalk() {
 								curPage={curPage}
 								setCurPage={setCurPage}
 								totalPage={Math.ceil(posts.length / 8)}
-								totalCount={posts.length}
-								size={8}
 								pageCount={5}
 							/>
 						) : null}

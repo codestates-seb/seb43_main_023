@@ -111,6 +111,7 @@ const TagContainer = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	width: 100%;
 	height: 40px;
+	overflow-y: scroll;
 `;
 
 const Hash = styled.div`
@@ -192,10 +193,6 @@ const ImgContainer = styled.div`
 			background-color: #fafafa;
 			height: 42px;
 
-			@media screen and (max-width: 480px) {
-				width: 100%;
-			}
-
 			&:focus {
 				outline: none !important;
 				border-color: rgb(214, 217, 219);
@@ -223,6 +220,10 @@ const Image = styled.img`
 	height: inherit;
 	object-fit: cover;
 	transition: filter 0.3s;
+
+	@media screen and (max-width: 480px) {
+		width: 90vw;
+	}
 `;
 
 const Input = styled.input`
@@ -249,6 +250,10 @@ const Label = styled.label`
 	cursor: inherit;
 	display: block !important;
 	cursor: pointer;
+
+	@media screen and (max-width: 480px) {
+		margin-bottom: 15px;
+	}
 
 	&:hover {
 		&::after {
@@ -496,9 +501,6 @@ function PostUpload() {
 							자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
 							사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
 						</div>
-						<a href="https://ifh.cc/" target="_blank" rel="noreferrer">
-							이미지 파일 링크로 변환하기
-						</a>
 					</p>
 					<hr />
 					<DropDownContainer>
@@ -583,7 +585,7 @@ function PostUpload() {
 						))}
 
 						<InputBox
-							placeholder="태그를 입력해주세요"
+							placeholder="엔터를 이용해 태그를 입력해주세요"
 							onChange={(e) => addTag(e)}
 							onKeyPress={(e) => handleKeyPress(e)}
 							value={tag}

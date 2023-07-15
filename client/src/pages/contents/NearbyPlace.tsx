@@ -351,8 +351,6 @@ function NearbyPlace() {
 				curPage={curPage}
 				setCurPage={setCurPage}
 				totalPage={9}
-				totalCount={54}
-				size={6}
 				pageCount={3}
 			/>
 		</NearbyPlaceContainer>

@@ -245,8 +245,6 @@ function Review() {
 						curPage={curPage}
 						setCurPage={setCurPage}
 						totalPage={Math.ceil(reviews.length / 15)}
-						totalCount={reviews.length}
-						size={15}
 						pageCount={5}
 					/>
 				) : null}

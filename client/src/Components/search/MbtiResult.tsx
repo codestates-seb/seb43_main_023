@@ -261,8 +261,6 @@ function MbtiResult() {
 							curPage={curPage}
 							setCurPage={setCurPage}
 							totalPage={Math.ceil(mbtiAuthorReview.length / 5)}
-							totalCount={mbtiAuthorReview.length}
-							size={5}
 							pageCount={5}
 						/>
 					) : null}
