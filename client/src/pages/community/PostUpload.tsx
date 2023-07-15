@@ -581,7 +581,7 @@ function PostUpload() {
 						))}
 
 						<InputBox
-							placeholder="태그를 입력해주세요"
+							placeholder="엔터를 이용해 태그를 입력해주세요"
 							onChange={(e) => addTag(e)}
 							onKeyPress={(e) => handleKeyPress(e)}
 							value={tag}
