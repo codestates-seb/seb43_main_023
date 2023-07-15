@@ -497,9 +497,6 @@ function PostUpload() {
 							자유롭게 자신의 경험, 즐거운 이야기들을 나눠보세요 <br /> 단, 다른
 							사람에게 불편할 수도 있는 이야기는 지양해주세요 💙
 						</div>
-						<a href="https://ifh.cc/" target="_blank" rel="noreferrer">
-							이미지 파일 링크로 변환하기
-						</a>
 					</p>
 					<hr />
 					<DropDownContainer>
