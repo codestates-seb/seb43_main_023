@@ -193,10 +193,6 @@ const ImgContainer = styled.div`
 			background-color: #fafafa;
 			height: 42px;
 
-			@media screen and (max-width: 480px) {
-				width: 100%;
-			}
-
 			&:focus {
 				outline: none !important;
 				border-color: rgb(214, 217, 219);
@@ -224,6 +220,10 @@ const Image = styled.img`
 	height: inherit;
 	object-fit: cover;
 	transition: filter 0.3s;
+
+	@media screen and (max-width: 480px) {
+		width: 90vw;
+	}
 `;
 
 const Input = styled.input`
@@ -250,6 +250,10 @@ const Label = styled.label`
 	cursor: inherit;
 	display: block !important;
 	cursor: pointer;
+
+	@media screen and (max-width: 480px) {
+		margin-bottom: 15px;
+	}
 
 	&:hover {
 		&::after {
