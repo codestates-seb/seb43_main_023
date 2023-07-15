@@ -111,6 +111,7 @@ const TagContainer = styled.div`
 	border: 1px solid rgb(214, 217, 219);
 	width: 100%;
 	height: 40px;
+	overflow-y: scroll;
 `;
 
 const Hash = styled.div`
